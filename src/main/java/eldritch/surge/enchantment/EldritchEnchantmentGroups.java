@@ -1,9 +1,9 @@
 package eldritch.surge.enchantment;
 
 import eldritch.surge.EldritchSurge;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 
 public final class EldritchEnchantmentGroups {
     public static final TagKey<Enchantment> ADDITIONAL_DAMAGE = of("additional_damage");
@@ -19,6 +19,6 @@ public final class EldritchEnchantmentGroups {
     }
 
     private static TagKey<Enchantment> of(String path) {
-        return TagKey.of(RegistryKeys.ENCHANTMENT, EldritchSurge.id(path));
+        return TagKey.create(Registries.ENCHANTMENT, EldritchSurge.id(path));
     }
 }

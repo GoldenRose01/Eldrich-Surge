@@ -3,23 +3,19 @@
 	"id": "eldritch-surge",
 	"version": "${version}",
 	"name": "Eldritch Surge",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A data-driven overhaul of Minecraft enchantment progression and combat logic.",
 	"authors": [
-		"Me!"
+		"Golden"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Golden/Eldrich-Surge"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/eldritch-surge/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			{
-				"value": "eldritch.surge.EldritchSurge",
-				"adapter": "kotlin"
-			}
+			"eldritch.surge.EldritchSurge"
 		],
 		"client": [
 			{
@@ -35,11 +31,7 @@
 		]
 	},
 	"mixins": [
-		"eldritch-surge.mixins.json",
-		{
-			"config": "eldritch-surge.client.mixins.json",
-			"environment": "client"
-		}
+		"eldritch-surge.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.3",

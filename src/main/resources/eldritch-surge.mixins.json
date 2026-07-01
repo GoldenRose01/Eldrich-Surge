@@ -3,7 +3,7 @@
 	"package": "eldritch.surge.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ExampleMixin"
+		"LivingEntityDamageMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

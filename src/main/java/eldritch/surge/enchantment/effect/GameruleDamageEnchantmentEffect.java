@@ -3,52 +3,52 @@ package eldritch.surge.enchantment.effect;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eldritch.surge.combat.AdditionalDamageCalculator;
-import net.minecraft.enchantment.EnchantmentEffectContext;
-import net.minecraft.enchantment.EnchantmentLevelBasedValue;
-import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.item.enchantment.EnchantedItemInUse;
+import net.minecraft.world.item.enchantment.LevelBasedValue;
+import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
 public record GameruleDamageEnchantmentEffect(
-        EnchantmentLevelBasedValue amount,
+        LevelBasedValue amount,
         Optional<Identifier> entityTypeTag
 ) implements EnchantmentEntityEffect {
     public static final MapCodec<GameruleDamageEnchantmentEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            EnchantmentLevelBasedValue.CODEC.fieldOf("amount").forGetter(GameruleDamageEnchantmentEffect::amount),
+            LevelBasedValue.CODEC.fieldOf("amount").forGetter(GameruleDamageEnchantmentEffect::amount),
             Identifier.CODEC.optionalFieldOf("entity_type_tag").forGetter(GameruleDamageEnchantmentEffect::entityTypeTag)
     ).apply(instance, GameruleDamageEnchantmentEffect::new));
 
     @Override
-    public void apply(ServerWorld world, int level, EnchantmentEffectContext context, Entity target, Vec3d pos) {
+    public void apply(ServerLevel world, int level, EnchantedItemInUse context, Entity target, Vec3 pos) {
         if (!(target instanceof LivingEntity victim) || !matchesTag(victim)) {
             return;
         }
 
         Entity owner = context.owner();
-        float damage = AdditionalDamageCalculator.applyPvpModifier(world, victim, amount.getValue(level));
+        float damage = AdditionalDamageCalculator.applyPvpModifier(world, victim, amount.calculate(level));
         DamageSource source = owner == null
-                ? world.getDamageSources().magic()
-                : world.getDamageSources().indirectMagic(owner, owner);
+                ? world.damageSources().magic()
+                : world.damageSources().indirectMagic(owner, owner);
 
-        victim.damage(world, source, damage);
+        victim.hurtServer(world, source, damage);
     }
 
     @Override
-    public MapCodec<? extends EnchantmentEntityEffect> getCodec() {
+    public MapCodec<? extends EnchantmentEntityEffect> codec() {
         return CODEC;
     }
 
     private boolean matchesTag(LivingEntity victim) {
         return entityTypeTag
-                .map(id -> victim.getType().isIn(TagKey.of(RegistryKeys.ENTITY_TYPE, id)))
+                .map(id -> victim.getType().builtInRegistryHolder().is(TagKey.create(Registries.ENTITY_TYPE, id)))
                 .orElse(true);
     }
 }

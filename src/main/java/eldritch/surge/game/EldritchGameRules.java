@@ -1,9 +1,9 @@
 package eldritch.surge.game;
 
 import eldritch.surge.EldritchSurge;
-import net.fabricmc.fabric.api.gamerule.v1.GameRule;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleBuilder;
-import net.fabricmc.fabric.api.gamerule.v1.GameRuleCategory;
+import net.minecraft.world.level.gamerules.GameRule;
+import net.minecraft.world.level.gamerules.GameRuleCategory;
 
 public final class EldritchGameRules {
     public static final GameRule<Boolean> KEEP_LOYALTY_TRIDENTS = GameRuleBuilder

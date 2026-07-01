@@ -1,9 +1,10 @@
 package eldritch.surge.client
 
+import eldritch.surge.client.tooltip.EnchantmentTooltips
 import net.fabricmc.api.ClientModInitializer
 
 object EldritchSurgeClient : ClientModInitializer {
 	override fun onInitializeClient() {
-		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		EnchantmentTooltips.initialize()
 	}
 }

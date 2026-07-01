@@ -1,9 +1,9 @@
 package eldritch.surge.entity;
 
 import eldritch.surge.EldritchSurge;
-import net.minecraft.entity.EntityType;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 
 import java.util.List;
 
@@ -50,6 +50,6 @@ public final class EldritchEntityCategories {
     }
 
     private static TagKey<EntityType<?>> of(String path) {
-        return TagKey.of(RegistryKeys.ENTITY_TYPE, EldritchSurge.id(path));
+        return TagKey.create(Registries.ENTITY_TYPE, EldritchSurge.id(path));
     }
 }
