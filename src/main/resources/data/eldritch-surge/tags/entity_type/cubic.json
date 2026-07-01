@@ -1,7 +1,21 @@
 {
   "replace": false,
   "values": [
-    "minecraft:magma_cube",
-    "minecraft:slime"
+    {
+      "id": "minecraft:magma_cube",
+      "required": false
+    },
+    {
+      "id": "minecraft:shulker",
+      "required": false
+    },
+    {
+      "id": "minecraft:slime",
+      "required": false
+    },
+    {
+      "id": "minecraft:sulfur_cube",
+      "required": false
+    }
   ]
 }

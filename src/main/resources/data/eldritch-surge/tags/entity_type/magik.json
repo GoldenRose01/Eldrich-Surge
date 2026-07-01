@@ -1,10 +1,77 @@
 {
   "replace": false,
   "values": [
-    "minecraft:allay",
-    "minecraft:evoker",
-    "minecraft:illusioner",
-    "minecraft:vex",
-    "minecraft:witch"
+    {
+      "id": "minecraft:allay",
+      "required": false
+    },
+    {
+      "id": "minecraft:bat",
+      "required": false
+    },
+    {
+      "id": "minecraft:blaze",
+      "required": false
+    },
+    {
+      "id": "minecraft:breeze",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_golem",
+      "required": false
+    },
+    {
+      "id": "minecraft:elder_guardian",
+      "required": false
+    },
+    {
+      "id": "minecraft:ender_dragon",
+      "required": false
+    },
+    {
+      "id": "minecraft:evoker",
+      "required": false
+    },
+    {
+      "id": "minecraft:ghastling",
+      "required": false
+    },
+    {
+      "id": "minecraft:happy_ghast",
+      "required": false
+    },
+    {
+      "id": "minecraft:glow_squid",
+      "required": false
+    },
+    {
+      "id": "minecraft:illusioner",
+      "required": false
+    },
+    {
+      "id": "minecraft:skeleton_horse",
+      "required": false
+    },
+    {
+      "id": "minecraft:shulker",
+      "required": false
+    },
+    {
+      "id": "minecraft:vex",
+      "required": false
+    },
+    {
+      "id": "minecraft:warden",
+      "required": false
+    },
+    {
+      "id": "minecraft:witch",
+      "required": false
+    },
+    {
+      "id": "minecraft:wither",
+      "required": false
+    }
   ]
 }

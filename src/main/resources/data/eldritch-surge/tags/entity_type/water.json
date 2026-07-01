@@ -1,18 +1,57 @@
 {
   "replace": false,
   "values": [
-    "minecraft:axolotl",
-    "minecraft:cod",
-    "minecraft:dolphin",
-    "minecraft:drowned",
-    "minecraft:elder_guardian",
-    "minecraft:glow_squid",
-    "minecraft:guardian",
-    "minecraft:pufferfish",
-    "minecraft:salmon",
-    "minecraft:squid",
-    "minecraft:tadpole",
-    "minecraft:tropical_fish",
-    "minecraft:turtle"
+    {
+      "id": "minecraft:axolotl",
+      "required": false
+    },
+    {
+      "id": "minecraft:cod",
+      "required": false
+    },
+    {
+      "id": "minecraft:dolphin",
+      "required": false
+    },
+    {
+      "id": "minecraft:drowned",
+      "required": false
+    },
+    {
+      "id": "minecraft:elder_guardian",
+      "required": false
+    },
+    {
+      "id": "minecraft:glow_squid",
+      "required": false
+    },
+    {
+      "id": "minecraft:guardian",
+      "required": false
+    },
+    {
+      "id": "minecraft:pufferfish",
+      "required": false
+    },
+    {
+      "id": "minecraft:salmon",
+      "required": false
+    },
+    {
+      "id": "minecraft:squid",
+      "required": false
+    },
+    {
+      "id": "minecraft:tadpole",
+      "required": false
+    },
+    {
+      "id": "minecraft:tropical_fish",
+      "required": false
+    },
+    {
+      "id": "minecraft:turtle",
+      "required": false
+    }
   ]
 }

@@ -1,10 +1,33 @@
 {
   "replace": false,
   "values": [
-    "minecraft:pillager",
-    "minecraft:ravager",
-    "minecraft:vindicator",
-    "minecraft:evoker",
-    "minecraft:illusioner"
+    {
+      "id": "minecraft:evoker",
+      "required": false
+    },
+    {
+      "id": "minecraft:illusioner",
+      "required": false
+    },
+    {
+      "id": "minecraft:pillager",
+      "required": false
+    },
+    {
+      "id": "minecraft:ravager",
+      "required": false
+    },
+    {
+      "id": "minecraft:vex",
+      "required": false
+    },
+    {
+      "id": "minecraft:vindicator",
+      "required": false
+    },
+    {
+      "id": "minecraft:warden",
+      "required": false
+    }
   ]
 }

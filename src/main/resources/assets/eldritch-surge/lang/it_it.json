@@ -16,6 +16,7 @@
   "enchantment.eldritch-surge.bane_of_end": "Rovina dell'End",
   "enchantment.eldritch-surge.undead_slayer": "Sterminatore di Non Morti",
   "enchantment.eldritch-surge.blade_of_apocalypse": "Lama dell'Apocalisse",
+  "block.eldritch-surge.advanced_enchanting_table": "Tavolo degli Incantesimi Avanzato",
   "itemGroup.eldritch-surge.enchantments": "Enchantments",
   "commands.eldritch-surge.surge.unknown_enchantment": "Incantesimo sconosciuto: %s",
   "commands.eldritch-surge.surge.empty_hand": "Devi tenere un oggetto nella mano principale.",

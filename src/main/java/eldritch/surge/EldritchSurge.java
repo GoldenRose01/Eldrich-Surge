@@ -3,10 +3,11 @@ package eldritch.surge;
 import eldritch.surge.config.EnchantmentCapsConfig;
 import eldritch.surge.creative.EldritchCreativeTabs;
 import eldritch.surge.command.EldritchCommands;
+import eldritch.surge.block.EldritchBlocks;
 import eldritch.surge.enchantment.EldritchEnchantmentEffects;
 import eldritch.surge.enchantment.EldritchEnchantmentGroups;
 import eldritch.surge.enchantment.EnchantmentIndex;
-import eldritch.surge.entity.EldritchEntityCategories;
+import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -22,9 +23,10 @@ public final class EldritchSurge implements ModInitializer {
     @Override
     public void onInitialize() {
         EldritchGameRules.initialize();
+        EldritchBlocks.initialize();
         EldritchEnchantmentEffects.initialize();
         EldritchEnchantmentGroups.initialize();
-        EldritchEntityCategories.initialize();
+        EldritchEntityTaxonomy.initialize();
         EldritchCreativeTabs.initialize();
         EldritchCommands.initialize();
 

@@ -16,6 +16,7 @@
   "enchantment.eldritch-surge.bane_of_end": "Bane of End",
   "enchantment.eldritch-surge.undead_slayer": "Undead Slayer",
   "enchantment.eldritch-surge.blade_of_apocalypse": "Blade of Apocalypse",
+  "block.eldritch-surge.advanced_enchanting_table": "Advanced Enchanting Table",
   "itemGroup.eldritch-surge.enchantments": "Enchantments",
   "commands.eldritch-surge.surge.unknown_enchantment": "Unknown enchantment: %s",
   "commands.eldritch-surge.surge.empty_hand": "You must hold an item in your main hand.",

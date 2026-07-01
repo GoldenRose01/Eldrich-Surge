@@ -1,7 +1,7 @@
 package eldritch.surge.combat;
 
 import eldritch.surge.enchantment.EldritchEnchantments;
-import eldritch.surge.entity.EldritchEntityCategories;
+import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -49,24 +49,10 @@ public final class AdditionalDamageCalculator {
     }
 
     public static float calculateBladeBonus(LivingEntity victim, int level) {
-        int matchedCategories = 0;
-
-        if (victim.getType().builtInRegistryHolder().is(EldritchEntityCategories.ANIMALS)) {
-            matchedCategories++;
-        }
-        if (victim.getType().builtInRegistryHolder().is(EldritchEntityCategories.UNDEAD)) {
-            matchedCategories++;
-        }
-        if (victim.getType().builtInRegistryHolder().is(EldritchEntityCategories.IS_END_MOB)) {
-            matchedCategories++;
-        }
-        if (victim.getType().builtInRegistryHolder().is(EldritchEntityCategories.HELL)) {
-            matchedCategories++;
-        }
-        if (victim.getType().builtInRegistryHolder().is(EldritchEntityCategories.WATER)) {
-            matchedCategories++;
-        }
-
+        int matchedCategories = EldritchEntityTaxonomy.countMatches(
+                victim,
+                EldritchEntityTaxonomy.BLADE_OF_APOCALYPSE_DAMAGE_TAGS
+        );
         return matchedCategories * level * BLADE_DAMAGE_PER_LEVEL_PER_CATEGORY;
     }
 
