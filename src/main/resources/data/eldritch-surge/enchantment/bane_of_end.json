@@ -1,0 +1,38 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.eldritch-surge.bane_of_end"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "eldritch-surge:gamerule_damage",
+          "amount": {
+            "type": "minecraft:linear",
+            "base": 3.0,
+            "per_level_above_first": 1.5
+          },
+          "entity_type_tag": "eldritch-surge:is_end_mob"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "exclusive_set": "#eldritch-surge:additional_damage",
+  "max_cost": {
+    "base": 45,
+    "per_level_above_first": 11
+  },
+  "max_level": 7,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 8
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#minecraft:enchantable/weapon",
+  "weight": 4
+}

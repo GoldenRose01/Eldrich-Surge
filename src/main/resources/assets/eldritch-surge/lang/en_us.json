@@ -1,0 +1,19 @@
+{
+  "eldritch-surge.keep_loyalty_tridents": "Keep Loyalty Tridents",
+  "gamerule.eldritch-surge.keep_loyalty_tridents": "Tridents enchanted with Loyalty remain in the inventory when thrown and are placed on cooldown.",
+  "eldritch-surge.sweeping_requires_enchantment": "Sweeping Requires Enchantment",
+  "gamerule.eldritch-surge.sweeping_requires_enchantment": "Sword sweep attacks only occur when the weapon has Sweeping Edge.",
+  "eldritch-surge.pvp_enchantment_modifier": "PvP Enchantment Modifier",
+  "gamerule.eldritch-surge.pvp_enchantment_modifier": "Multiplier applied to Eldritch Surge enchantment bonus damage against players.",
+  "eldritch-surge.lethal_poison": "Lethal Poison",
+  "gamerule.eldritch-surge.lethal_poison": "Poison damage can kill living entities instead of stopping at half a heart.",
+  "config.eldritch-surge.title": "Eldritch Surge",
+  "config.eldritch-surge.level_caps": "Level Caps",
+  "config.eldritch-surge.level_caps.group_description": "Overrides for this enchantment. Leave values at 0 to use the datapack or vanilla cap.",
+  "config.eldritch-surge.anvil_max_level": "Anvil Max Level",
+  "config.eldritch-surge.enchanting_table_max_level": "Enchanting Table Max Level",
+  "config.eldritch-surge.zero_uses_vanilla": "0 keeps the vanilla or datapack value.",
+  "enchantment.eldritch-surge.bane_of_end": "Bane of End",
+  "enchantment.eldritch-surge.undead_slayer": "Undead Slayer",
+  "enchantment.eldritch-surge.blade_of_apocalypse": "Blade of Apocalypse"
+}

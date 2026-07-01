@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 8,
+  "description": {
+    "translate": "enchantment.eldritch-surge.blade_of_apocalypse"
+  },
+  "effects": {},
+  "exclusive_set": "#eldritch-surge:additional_damage",
+  "max_cost": {
+    "base": 80,
+    "per_level_above_first": 16
+  },
+  "max_level": 9,
+  "min_cost": {
+    "base": 30,
+    "per_level_above_first": 12
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#minecraft:enchantable/weapon",
+  "weight": 1
+}

@@ -1,0 +1,19 @@
+{
+  "eldritch-surge.keep_loyalty_tridents": "Mantieni Tridenti con Lealta",
+  "gamerule.eldritch-surge.keep_loyalty_tridents": "I tridenti con Lealta restano nell'inventario al lancio e vengono messi in cooldown.",
+  "eldritch-surge.sweeping_requires_enchantment": "Spazzata Richiede Incantesimo",
+  "gamerule.eldritch-surge.sweeping_requires_enchantment": "Gli attacchi ad area della spada avvengono solo se l'arma ha Lama Sferzante.",
+  "eldritch-surge.pvp_enchantment_modifier": "Modificatore Incantesimi PvP",
+  "gamerule.eldritch-surge.pvp_enchantment_modifier": "Moltiplicatore applicato al danno bonus degli incantesimi Eldritch Surge contro i giocatori.",
+  "eldritch-surge.lethal_poison": "Veleno Letale",
+  "gamerule.eldritch-surge.lethal_poison": "Il danno da Veleno puo uccidere le entita viventi invece di fermarsi a mezzo cuore.",
+  "config.eldritch-surge.title": "Eldritch Surge",
+  "config.eldritch-surge.level_caps": "Limiti di Livello",
+  "config.eldritch-surge.level_caps.group_description": "Override per questo incantesimo. Lascia 0 per usare il limite vanilla o datapack.",
+  "config.eldritch-surge.anvil_max_level": "Livello Massimo Incudine",
+  "config.eldritch-surge.enchanting_table_max_level": "Livello Massimo Tavolo Incantesimi",
+  "config.eldritch-surge.zero_uses_vanilla": "0 mantiene il valore vanilla o datapack.",
+  "enchantment.eldritch-surge.bane_of_end": "Rovina dell'End",
+  "enchantment.eldritch-surge.undead_slayer": "Sterminatore di Non Morti",
+  "enchantment.eldritch-surge.blade_of_apocalypse": "Lama dell'Apocalisse"
+}

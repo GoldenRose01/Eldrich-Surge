@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:mooshroom",
+    "minecraft:hoglin",
+    "minecraft:zoglin"
+  ]
+}
