@@ -15,11 +15,11 @@ public record ModEnchantmentDefinition(
         String effectDescription
 ) {
     public boolean normalTableDefault() {
-        return acquisition.equalsIgnoreCase("Normal");
+        return acquisition.toLowerCase().contains("normal");
     }
 
     public boolean advancedTableDefault() {
-        return acquisition.equalsIgnoreCase("Advanced");
+        return acquisition.toLowerCase().contains("advanced");
     }
 
     public boolean lootDefault() {

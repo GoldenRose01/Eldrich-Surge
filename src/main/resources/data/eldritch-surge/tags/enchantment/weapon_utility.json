@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
+    "eldritch-surge:gravity_well",
+    "eldritch-surge:impaler_reach",
+    "eldritch-surge:seismic_wave",
+    "eldritch-surge:vanguard_charge",
     "minecraft:sweeping_edge"
   ]
 }

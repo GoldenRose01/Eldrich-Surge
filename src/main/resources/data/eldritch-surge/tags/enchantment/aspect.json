@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "eldritch-surge:heartseeker",
     "minecraft:fire_aspect"
   ]
 }

@@ -1,12 +1,17 @@
 {
   "replace": false,
   "values": [
+    "eldritch-surge:bane_of_end",
+    "eldritch-surge:blade_of_apocalypse",
+    "eldritch-surge:comet_slam",
+    "eldritch-surge:heavy_impact",
+    "eldritch-surge:undead_slayer",
+    "minecraft:bane_of_arthropods",
+    "minecraft:breach",
+    "minecraft:density",
+    "minecraft:impaling",
     "minecraft:sharpness",
     "minecraft:smite",
-    "minecraft:bane_of_arthropods",
-    "minecraft:impaling",
-    "eldritch-surge:bane_of_end",
-    "eldritch-surge:undead_slayer",
-    "eldritch-surge:blade_of_apocalypse"
+    "minecraft:wind_burst"
   ]
 }

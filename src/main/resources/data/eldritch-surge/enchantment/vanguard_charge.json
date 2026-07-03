@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 1,
+  "description": {
+    "translate": "enchantment.eldritch-surge.vanguard_charge"
+  },
+  "effects": {},
+  "exclusive_set": "#eldritch-surge:weapon_utility",
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 10
+  },
+  "max_level": 2,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#eldritch-surge:enchantable/spear",
+  "weight": 1
+}

@@ -10,7 +10,7 @@ public final class DiggerEnchantment {
             "TOOLS (PICKAXES, SHOVELS, HOES, SHEARS)",
             1,
             "Rare",
-            "Normal",
+            "Normal, Advanced",
             List.of("#minecraft:axes", "#minecraft:pickaxes", "#minecraft:shovels"),
             List.of("hand"),
             "",

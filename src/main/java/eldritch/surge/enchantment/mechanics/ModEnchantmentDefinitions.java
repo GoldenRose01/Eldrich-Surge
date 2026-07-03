@@ -99,6 +99,14 @@ public final class ModEnchantmentDefinitions {
             DeathbreakEnchantment.DEFINITION,
             EnduringEnchantment.DEFINITION,
             SoulbondEnchantment.DEFINITION,
+            HeavyImpactEnchantment.DEFINITION,
+            GravityWellEnchantment.DEFINITION,
+            SeismicWaveEnchantment.DEFINITION,
+            CometSlamEnchantment.DEFINITION,
+            PhalanxStanceEnchantment.DEFINITION,
+            ImpalerReachEnchantment.DEFINITION,
+            VanguardChargeEnchantment.DEFINITION,
+            HeartseekerEnchantment.DEFINITION,
             WeldingEnchantment.DEFINITION
     );
 
@@ -108,4 +116,5 @@ public final class ModEnchantmentDefinitions {
     private ModEnchantmentDefinitions() {
     }
 }
+
 
