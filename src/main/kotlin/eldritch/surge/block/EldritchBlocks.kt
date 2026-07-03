@@ -1,7 +1,8 @@
 package eldritch.surge.block
 
 import eldritch.surge.EldritchSurge
-import eldritch.surge.menu.AdvancedEnchantingMenuMarker
+import eldritch.surge.menu.AdvancedEnchantmentMenu
+import net.fabricmc.fabric.api.menu.v1.ExtendedMenuProvider
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityType
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
@@ -9,18 +10,14 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.MenuProvider
-import net.minecraft.world.SimpleMenuProvider
 import net.minecraft.world.entity.player.Inventory
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.minecraft.world.inventory.ContainerLevelAccess
-import net.minecraft.world.inventory.EnchantmentMenu
-import net.minecraft.world.inventory.Slot
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
@@ -84,31 +81,14 @@ object EldritchBlocks {
         }
 
         override fun getMenuProvider(state: BlockState, level: Level, pos: BlockPos): MenuProvider {
-            return SimpleMenuProvider(
-                { syncId, inventory, _ -> AdvancedEnchantmentMenu(syncId, inventory, ContainerLevelAccess.create(level, pos)) },
-                Component.translatable("container.enchant"),
-            )
-        }
-    }
+            return object : ExtendedMenuProvider<BlockPos> {
+                override fun getDisplayName(): Component = Component.translatable("container.enchant")
 
-    private class AdvancedEnchantmentMenu(
-        syncId: Int,
-        inventory: Inventory,
-        access: ContainerLevelAccess,
-    ) : EnchantmentMenu(syncId, inventory, access), AdvancedEnchantingMenuMarker {
-        init {
-            val vanillaLapisSlot = slots[1]
-            slots[1] = object : Slot(vanillaLapisSlot.container, vanillaLapisSlot.index, vanillaLapisSlot.x, vanillaLapisSlot.y) {
-                override fun mayPlace(stack: ItemStack): Boolean {
-                    return stack.`is`(Items.AMETHYST_SHARD)
-                }
+                override fun createMenu(syncId: Int, inventory: Inventory, player: Player) =
+                    AdvancedEnchantmentMenu(syncId, inventory, ContainerLevelAccess.create(level, pos))
 
-                override fun getNoItemIcon() = vanillaLapisSlot.getNoItemIcon()
+                override fun getScreenOpeningData(player: ServerPlayer): BlockPos = pos
             }
-        }
-
-        override fun stillValid(player: Player): Boolean {
-            return true
         }
     }
 }

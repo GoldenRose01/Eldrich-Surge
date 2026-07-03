@@ -69,11 +69,12 @@ internal sealed class ConfigForm : Form
     private readonly NumericUpDown tableCap = new() { Minimum = 0, Maximum = 255, Width = 80 };
 
     private readonly ComboBox groupPicker = new() { DropDownStyle = ComboBoxStyle.DropDownList };
-    private readonly CheckedListBox groupEnchantments = new() { CheckOnClick = true };
+    private readonly ComboBox groupTarget = new() { DropDownStyle = ComboBoxStyle.DropDownList };
     private readonly ComboBox groupRarity = new() { DropDownStyle = ComboBoxStyle.DropDownList };
     private readonly CheckBox groupNormalTable = new() { Text = "Tavolo normale", AutoSize = true };
     private readonly CheckBox groupAdvancedTable = new() { Text = "Advanced table", AutoSize = true };
     private readonly CheckBox groupLoot = new() { Text = "Loot", AutoSize = true };
+    private readonly Label groupSummary = new() { AutoSize = true };
 
     private bool loading;
 
@@ -92,8 +93,8 @@ internal sealed class ConfigForm : Form
         LoadItems();
         RefreshEnchantmentList();
         RefreshItemList();
-        RefreshGroupEnchantments();
         RefreshIncompatiblePicker();
+        RefreshGroupSummary();
     }
 
     private void BuildUi()
@@ -263,7 +264,7 @@ internal sealed class ConfigForm : Form
         var save = new Button { Text = "Salva", Width = 130, Height = 34 };
         save.Click += (_, _) => SaveFile();
         var reload = new Button { Text = "Ricarica", Width = 130, Height = 34 };
-        reload.Click += (_, _) => { LoadConfig(); RefreshEnchantmentList(); RefreshGroupEnchantments(); RefreshIncompatiblePicker(); };
+        reload.Click += (_, _) => { LoadConfig(); RefreshEnchantmentList(); RefreshIncompatiblePicker(); RefreshGroupSummary(); };
         buttons.Controls.Add(save);
         buttons.Controls.Add(reload);
         return buttons;
@@ -272,9 +273,10 @@ internal sealed class ConfigForm : Form
     private TabPage BuildPerGroupTab()
     {
         var page = new TabPage("Per tool/gruppo");
-        var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 4, Padding = new Padding(12) };
+        var root = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 5, Padding = new Padding(12) };
         root.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 380));
         root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 76));
         root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -287,19 +289,33 @@ internal sealed class ConfigForm : Form
         }
         groupPicker.SelectedIndex = 0;
         groupPicker.Dock = DockStyle.Fill;
+        groupPicker.SelectedIndexChanged += (_, _) => RefreshGroupSummary();
         root.Controls.Add(Wrap("Tool o gruppo", groupPicker), 0, 0);
 
         groupRarity.Width = 310;
         groupRarity.SelectedIndex = 3;
         root.Controls.Add(Wrap("Rarita da applicare", groupRarity), 1, 0);
 
+        groupTarget.Items.AddRange(new object[]
+        {
+            "Tutti gli incantesimi",
+            "Solo minecraft/vanilla",
+            "Solo Eldritch Surge/advanced",
+            "Solo loot/altre mod"
+        });
+        groupTarget.SelectedIndex = 0;
+        groupTarget.SelectedIndexChanged += (_, _) => RefreshGroupSummary();
+        root.Controls.Add(Wrap("Ambito", groupTarget), 0, 1);
+
         var flags = new FlowLayoutPanel { Dock = DockStyle.Fill, WrapContents = false };
         flags.Controls.AddRange(new Control[] { groupNormalTable, groupAdvancedTable, groupLoot });
-        root.Controls.Add(Wrap("Disponibilita da applicare", flags), 0, 1);
-        root.SetColumnSpan(root.GetControlFromPosition(0, 1)!, 2);
+        root.Controls.Add(Wrap("Disponibilita da applicare", flags), 1, 1);
 
-        groupEnchantments.Dock = DockStyle.Fill;
-        root.Controls.Add(Wrap("Incantesimi da modificare", groupEnchantments), 0, 2);
+        var summaryPanel = new Panel { Dock = DockStyle.Fill };
+        groupSummary.Dock = DockStyle.Top;
+        groupSummary.Font = new Font(groupSummary.Font.FontFamily, 11, FontStyle.Regular);
+        summaryPanel.Controls.Add(groupSummary);
+        root.Controls.Add(Wrap("Configurazione del tool selezionato", summaryPanel), 0, 2);
         root.SetColumnSpan(root.GetControlFromPosition(0, 2)!, 2);
 
         var buttons = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, WrapContents = false };
@@ -307,15 +323,9 @@ internal sealed class ConfigForm : Form
         applyGroup.Click += (_, _) => ApplyGroupToCheckedEnchantments();
         var removeGroup = new Button { Text = "Rimuovi gruppo", Width = 150, Height = 34 };
         removeGroup.Click += (_, _) => RemoveGroupFromCheckedEnchantments();
-        var checkAll = new Button { Text = "Seleziona tutti", Width = 150, Height = 34 };
-        checkAll.Click += (_, _) => SetAllGroupChecks(true);
-        var clear = new Button { Text = "Deseleziona", Width = 150, Height = 34 };
-        clear.Click += (_, _) => SetAllGroupChecks(false);
         buttons.Controls.Add(applyGroup);
         buttons.Controls.Add(removeGroup);
-        buttons.Controls.Add(checkAll);
-        buttons.Controls.Add(clear);
-        root.Controls.Add(buttons, 0, 3);
+        root.Controls.Add(buttons, 0, 4);
         root.SetColumnSpan(buttons, 2);
         return page;
     }
@@ -550,17 +560,6 @@ internal sealed class ConfigForm : Form
         itemList.EndUpdate();
     }
 
-    private void RefreshGroupEnchantments()
-    {
-        groupEnchantments.BeginUpdate();
-        groupEnchantments.Items.Clear();
-        foreach (string id in enchantments.Keys.OrderBy(x => x))
-        {
-            groupEnchantments.Items.Add(id, false);
-        }
-        groupEnchantments.EndUpdate();
-    }
-
     private void RefreshIncompatiblePicker()
     {
         string? selectedContext = SelectedItemChoice()?.Value ?? ParseList(supportedItems.Text).FirstOrDefault();
@@ -675,7 +674,7 @@ internal sealed class ConfigForm : Form
     private void ApplyGroupToCheckedEnchantments()
     {
         if (groupPicker.SelectedItem is not ItemChoice group) return;
-        foreach (string id in CheckedGroupIds())
+        foreach (string id in GroupTargetIds())
         {
             var cfg = enchantments[id];
             if (!cfg.SupportedItems.Contains(group.Value, StringComparer.OrdinalIgnoreCase)) cfg.SupportedItems.Add(group.Value);
@@ -686,30 +685,55 @@ internal sealed class ConfigForm : Form
         }
         SaveFile();
         LoadSelected();
+        RefreshGroupSummary();
     }
 
     private void RemoveGroupFromCheckedEnchantments()
     {
         if (groupPicker.SelectedItem is not ItemChoice group) return;
-        foreach (string id in CheckedGroupIds())
+        foreach (string id in GroupTargetIds())
         {
             enchantments[id].SupportedItems.RemoveAll(x => x.Equals(group.Value, StringComparison.OrdinalIgnoreCase));
         }
         SaveFile();
         LoadSelected();
+        RefreshGroupSummary();
     }
 
-    private IEnumerable<string> CheckedGroupIds()
+    private IEnumerable<string> GroupTargetIds()
     {
-        return groupEnchantments.CheckedItems.Cast<string>().ToList();
+        int target = groupTarget.SelectedIndex;
+        return enchantments.Keys
+            .Where(id => target switch
+            {
+                1 => id.StartsWith("minecraft:", StringComparison.OrdinalIgnoreCase),
+                2 => id.StartsWith("eldritch-surge:", StringComparison.OrdinalIgnoreCase),
+                3 => !id.StartsWith("minecraft:", StringComparison.OrdinalIgnoreCase) && !id.StartsWith("eldritch-surge:", StringComparison.OrdinalIgnoreCase),
+                _ => true
+            })
+            .OrderBy(id => id)
+            .ToList();
     }
 
-    private void SetAllGroupChecks(bool value)
+    private void RefreshGroupSummary()
     {
-        for (int i = 0; i < groupEnchantments.Items.Count; i++)
+        if (groupPicker.SelectedItem is not ItemChoice group)
         {
-            groupEnchantments.SetItemChecked(i, value);
+            groupSummary.Text = "";
+            return;
         }
+
+        List<string> ids = GroupTargetIds().ToList();
+        int alreadyConfigured = ids.Count(id => enchantments[id].SupportedItems.Contains(group.Value, StringComparer.OrdinalIgnoreCase));
+        string targetName = groupTarget.SelectedItem?.ToString() ?? "Tutti gli incantesimi";
+        groupSummary.Text =
+            $"Tool/gruppo: {group.Label}{Environment.NewLine}" +
+            $"Valore nel config: {group.Value}{Environment.NewLine}" +
+            $"Ambito: {targetName}{Environment.NewLine}" +
+            $"Incantesimi coinvolti dall'azione: {ids.Count}{Environment.NewLine}" +
+            $"Gia configurati per questo tool/gruppo: {alreadyConfigured}{Environment.NewLine}{Environment.NewLine}" +
+            "Applica gruppo aggiunge questo tool/gruppo agli incantesimi dell'ambito scelto e imposta disponibilita/rarita. " +
+            "Rimuovi gruppo toglie solo questo tool/gruppo dagli stessi incantesimi.";
     }
 
     private void SaveFile()

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EldritchConfigTool")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a22f2fca55c87c3c201ce5f35e5bba37914f8661")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2fae0a0ede02eca3ed6d1e04f9002bd94449307")]
 [assembly: System.Reflection.AssemblyProductAttribute("EldritchConfigTool")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EldritchConfigTool")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
