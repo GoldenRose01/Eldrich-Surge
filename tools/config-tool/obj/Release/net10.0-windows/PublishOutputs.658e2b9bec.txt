@@ -1,0 +1,5 @@
+D:\Github\Eldrich-Surge\tools\config-tool\publish\EldritchConfigTool.exe
+D:\Github\Eldrich-Surge\tools\config-tool\publish\EldritchConfigTool.dll
+D:\Github\Eldrich-Surge\tools\config-tool\publish\EldritchConfigTool.deps.json
+D:\Github\Eldrich-Surge\tools\config-tool\publish\EldritchConfigTool.runtimeconfig.json
+D:\Github\Eldrich-Surge\tools\config-tool\publish\EldritchConfigTool.pdb

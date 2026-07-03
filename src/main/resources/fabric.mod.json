@@ -28,6 +28,9 @@
 				"value": "eldritch.surge.client.EldritchSurgeDataGenerator",
 				"adapter": "kotlin"
 			}
+		],
+		"modmenu": [
+			"eldritch.surge.client.EldritchModMenuIntegration"
 		]
 	},
 	"mixins": [

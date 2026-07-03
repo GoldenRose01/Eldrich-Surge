@@ -4,15 +4,25 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import eldritch.surge.EldritchSurge;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.core.component.DataComponents;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public final class EnchantmentCapsConfig {
@@ -29,11 +39,16 @@ public final class EnchantmentCapsConfig {
 
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
         data = readOrCreate();
+        boolean needsAvailabilityMigration = data.configVersion < 2;
 
         for (Identifier id : knownEnchantments) {
-            data.enchantments.putIfAbsent(id.toString(), new CapsOverride());
+            CapsOverride override = data.enchantments.computeIfAbsent(id.toString(), ignored -> defaultOverride(id));
+            if (needsAvailabilityMigration) {
+                copyAvailability(defaultOverride(id), override);
+            }
         }
 
+        data.configVersion = 2;
         save();
     }
 
@@ -65,6 +80,85 @@ public final class EnchantmentCapsConfig {
         data.enchantments.computeIfAbsent(enchantmentId, ignored -> new CapsOverride()).enchantingTableMaxLevel = Math.max(0, maxLevel);
     }
 
+    public static boolean isAllowedInNormalTable(Identifier enchantmentId) {
+        return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).normalTable;
+    }
+
+    public static void setAllowedInNormalTable(String enchantmentId, boolean allowed) {
+        data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).normalTable = allowed;
+    }
+
+    public static boolean isAllowedInAdvancedTable(Identifier enchantmentId) {
+        return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).advancedTable;
+    }
+
+    public static void setAllowedInAdvancedTable(String enchantmentId, boolean allowed) {
+        data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).advancedTable = allowed;
+    }
+
+    public static boolean isAllowedAsLoot(Identifier enchantmentId) {
+        return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).loot;
+    }
+
+    public static void setAllowedAsLoot(String enchantmentId, boolean allowed) {
+        data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).loot = allowed;
+    }
+
+    public static boolean isAllowedForItem(Identifier enchantmentId, ItemStack stack) {
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        if (override.supportedItems.isEmpty()) {
+            return true;
+        }
+
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        for (String entry : override.supportedItems) {
+            if (entry.startsWith("#")) {
+                Identifier tagId = Identifier.tryParse(entry.substring(1));
+                if (tagId != null && stack.is(TagKey.create(Registries.ITEM, tagId))) {
+                    return true;
+                }
+            } else if (itemId.toString().equals(entry)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isCompatibleWithExistingEnchantments(Identifier enchantmentId, ItemStack stack) {
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        Set<String> blocked = new HashSet<>(override.incompatibleEnchantments);
+        if (blocked.isEmpty()) {
+            return true;
+        }
+
+        ItemEnchantments enchantments = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+        for (var entry : enchantments.entrySet()) {
+            Identifier existing = entry.getKey().unwrapKey()
+                    .map(key -> key.identifier())
+                    .orElse(null);
+            if (existing != null && blocked.contains(existing.toString())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean passesRarity(Identifier enchantmentId, ItemStack stack, int slot, int level) {
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        int rarity = Math.max(0, Math.min(100, override.rarity));
+        if (rarity >= 100) {
+            return true;
+        }
+        if (rarity <= 0) {
+            return false;
+        }
+
+        int roll = Math.floorMod((enchantmentId + "|" + BuiltInRegistries.ITEM.getKey(stack.getItem()) + "|" + slot + "|" + level).hashCode(), 100);
+        return roll < rarity;
+    }
+
     private static int resolve(Identifier enchantmentId, int vanillaCap, CapKind kind) {
         CapsOverride override = data.enchantments.get(enchantmentId.toString());
         if (override == null) {
@@ -93,6 +187,30 @@ public final class EnchantmentCapsConfig {
         }
     }
 
+    private static CapsOverride defaultOverride(Identifier enchantmentId) {
+        CapsOverride override = new CapsOverride();
+        if (enchantmentId == null) {
+            override.loot = true;
+            return override;
+        }
+
+        if (enchantmentId.getNamespace().equals("minecraft")) {
+            override.normalTable = true;
+        } else if (enchantmentId.getNamespace().equals(EldritchSurge.MOD_ID)) {
+            override.advancedTable = true;
+        } else {
+            override.loot = true;
+        }
+
+        return override;
+    }
+
+    private static void copyAvailability(CapsOverride source, CapsOverride target) {
+        target.normalTable = source.normalTable;
+        target.advancedTable = source.advancedTable;
+        target.loot = source.loot;
+    }
+
     public static void save() {
         try {
             Files.createDirectories(CONFIG_PATH.getParent());
@@ -110,12 +228,18 @@ public final class EnchantmentCapsConfig {
     }
 
     public static final class Data {
-        public int configVersion = 1;
+        public int configVersion = 2;
         public Map<String, CapsOverride> enchantments = new TreeMap<>();
     }
 
     public static final class CapsOverride {
         public int anvilMaxLevel = 0;
         public int enchantingTableMaxLevel = 0;
+        public boolean normalTable = false;
+        public boolean advancedTable = false;
+        public boolean loot = false;
+        public int rarity = 100;
+        public List<String> supportedItems = new ArrayList<>();
+        public List<String> incompatibleEnchantments = new ArrayList<>();
     }
 }
