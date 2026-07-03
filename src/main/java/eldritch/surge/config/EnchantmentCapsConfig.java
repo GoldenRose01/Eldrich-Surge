@@ -31,6 +31,55 @@ public final class EnchantmentCapsConfig {
             .getConfigDir()
             .resolve(EldritchSurge.MOD_ID)
             .resolve("enchantment_caps.json");
+    private static final Set<String> NORMAL_TABLE_DEFAULTS = Set.of(
+            "armored",
+            "hicker",
+            "ice_speed",
+            "soil_falling",
+            "weapon_protection",
+            "backslash",
+            "bane_of_end",
+            "butcher",
+            "creeping_threat",
+            "dash",
+            "exorcist",
+            "flogging",
+            "freeze_aspect",
+            "gream_reaper",
+            "herbicide",
+            "inking",
+            "katana",
+            "leeching_aspect",
+            "midas_touch",
+            "sea_breeze",
+            "smoother",
+            "superweight",
+            "undead_slayer",
+            "witch_hunter",
+            "wrath_of_the_abyss",
+            "curse_of_target",
+            "piercing",
+            "pop",
+            "replenish",
+            "sniper",
+            "digger",
+            "pruning",
+            "sickened_of_hell",
+            "smithcrafts",
+            "refill",
+            "siphon",
+            "vacuum",
+            "curse_of_fragility"
+    );
+    private static final Set<String> LOOT_DEFAULTS = Set.of(
+            "gream_reaper",
+            "soft_falling",
+            "cocktail_spell",
+            "ragnarok",
+            "red_moon",
+            "storm_spell",
+            "trench_spell"
+    );
 
     private static Data data = new Data();
 
@@ -197,7 +246,10 @@ public final class EnchantmentCapsConfig {
         if (enchantmentId.getNamespace().equals("minecraft")) {
             override.normalTable = true;
         } else if (enchantmentId.getNamespace().equals(EldritchSurge.MOD_ID)) {
-            override.advancedTable = true;
+            String path = enchantmentId.getPath();
+            override.normalTable = NORMAL_TABLE_DEFAULTS.contains(path);
+            override.advancedTable = !override.normalTable;
+            override.loot = LOOT_DEFAULTS.contains(path);
         } else {
             override.loot = true;
         }

@@ -15,6 +15,15 @@ internal static class Program
     }
 }
 
+internal enum EnchantCategory
+{
+    Weapons,
+    Defense,
+    Archery,
+    Tools,
+    Misc
+}
+
 internal sealed class ConfigForm : Form
 {
     private static readonly RarityOption[] RarityOptions =
@@ -47,6 +56,41 @@ internal sealed class ConfigForm : Form
         new("Durability items", "#minecraft:enchantable/durability", "anvil", true)
     };
 
+    private static readonly string[] WeaponEnchantments =
+    {
+        "Backslash", "Bane of End", "Blade of Apocalypse", "Butcher", "Catapult", "Creeping Threat",
+        "Curse of Perish", "Curse of Spider", "Dash", "Dual Sweeping", "Exorcist", "Experienced",
+        "Flogging", "Freeze Aspect", "Gream Reaper", "Grim Reaper", "Herbicide", "Inking", "Katana",
+        "Launch", "Leeching Aspect", "Lunge", "Midas Touch", "Neptunes Will", "Payback", "Quick Hit",
+        "Sea Breeze", "Smoother", "Star Fate", "Superweight", "Triumph", "Undead Slayer", "Void Sweep",
+        "Witch Hunter", "Wrath of the Abyss", "Sharpness", "Smite", "Bane of Arthropods", "Knockback",
+        "Fire Aspect", "Looting", "Sweeping Edge", "Impaling", "Density", "Breach", "Wind Burst"
+    };
+
+    private static readonly string[] DefenseEnchantments =
+    {
+        "Armored", "Engine", "Blessing of the Night", "End Blessing", "Hell Blessing", "Sun Blessing",
+        "Vision Blessing", "Health Upgrade", "Heart of Depth", "Heart of Nether", "Heart of the Sea",
+        "Heart of the Sky", "End Adaptability", "Healing Aura", "Hicker", "Ice Speed", "Snowshoeing",
+        "Soft Falling", "Soil Falling", "Combustion Protection", "Dwarf Flakes", "End Flakes",
+        "Hell Flakes", "Sea Flakes", "Dwarf Forged", "End Forged", "Nether Forged", "Villager Forged",
+        "Weapon Protection", "Smithcrafts", "Protection", "Fire Protection", "Feather Falling",
+        "Blast Protection", "Projectile Protection", "Respiration", "Aqua Affinity", "Thorns",
+        "Depth Strider", "Frost Walker", "Soul Speed", "Swift Sneak"
+    };
+
+    private static readonly string[] ArcheryEnchantments =
+    {
+        "Clearmind", "Curse of Target", "Elasticity", "Nineleven", "Piercing", "Pop", "Replenish",
+        "Sniper", "Theft", "Power", "Punch", "Flame", "Infinity", "Multishot", "Quick Charge"
+    };
+
+    private static readonly string[] ToolEnchantments =
+    {
+        "Digger", "Excavator", "Pruning", "Sickened of Hell", "Smelting", "Efficiency", "Fortune",
+        "Silk Touch", "Luck of the Sea", "Lure"
+    };
+
     private readonly string rootPath;
     private readonly string configPath;
     private readonly string iconPath;
@@ -54,7 +98,8 @@ internal sealed class ConfigForm : Form
     private readonly List<ItemChoice> itemChoices = new();
     private readonly ImageList itemImages = new() { ImageSize = new Size(24, 24), ColorDepth = ColorDepth.Depth32Bit };
 
-    private readonly ListBox enchantmentList = new();
+    private readonly TabControl enchantmentCategoryTabs = new() { Dock = DockStyle.Fill };
+    private readonly Dictionary<EnchantCategory, ListBox> enchantmentLists = new();
     private readonly TextBox enchantmentSearch = new();
     private readonly CheckBox normalTable = new() { Text = "Tavolo normale", AutoSize = true };
     private readonly CheckBox advancedTable = new() { Text = "Advanced table", AutoSize = true };
@@ -77,6 +122,7 @@ internal sealed class ConfigForm : Form
     private readonly Label groupSummary = new() { AutoSize = true };
 
     private bool loading;
+    private bool switchingCategorySelection;
 
     public ConfigForm()
     {
@@ -130,14 +176,139 @@ internal sealed class ConfigForm : Form
         enchantmentSearch.TextChanged += (_, _) => RefreshEnchantmentList();
         panel.Controls.Add(enchantmentSearch, 0, 0);
 
-        enchantmentList.Dock = DockStyle.Fill;
-        enchantmentList.SelectedIndexChanged += (_, _) => LoadSelected();
-        panel.Controls.Add(enchantmentList, 0, 1);
+        enchantmentCategoryTabs.TabPages.Clear();
+        enchantmentLists.Clear();
+        foreach ((EnchantCategory category, string title) in CategoryPages())
+        {
+            var page = new TabPage(title);
+            var list = CreateEnchantmentList(category);
+            page.Controls.Add(list);
+            enchantmentCategoryTabs.TabPages.Add(page);
+        }
+        panel.Controls.Add(enchantmentCategoryTabs, 0, 1);
 
         var pathButton = new Button { Text = "Mostra file config", Dock = DockStyle.Fill };
         pathButton.Click += (_, _) => MessageBox.Show(configPath, "File config");
         panel.Controls.Add(pathButton, 0, 2);
         return panel;
+    }
+
+    private ListBox CreateEnchantmentList(EnchantCategory category)
+    {
+        var list = new ListBox { Dock = DockStyle.Fill, IntegralHeight = false };
+        list.SelectedIndexChanged += (_, _) => SelectEnchantmentFromCategory(list);
+        enchantmentLists[category] = list;
+        return list;
+    }
+
+    private void SelectEnchantmentFromCategory(ListBox source)
+    {
+        if (switchingCategorySelection || source.SelectedItem is not string id) return;
+
+        switchingCategorySelection = true;
+        foreach (ListBox list in enchantmentLists.Values)
+        {
+            if (!ReferenceEquals(list, source)) list.ClearSelected();
+        }
+        switchingCategorySelection = false;
+
+        LoadSelected(id);
+    }
+
+    private string? SelectedEnchantmentId()
+    {
+        foreach (ListBox list in enchantmentLists.Values)
+        {
+            if (list.SelectedItem is string id) return id;
+        }
+        return null;
+    }
+
+    private bool SelectEnchantmentInCategories(string id)
+    {
+        foreach ((EnchantCategory category, _) in CategoryPages())
+        {
+            ListBox list = enchantmentLists[category];
+            int index = list.Items.IndexOf(id);
+            if (index < 0) continue;
+
+            switchingCategorySelection = true;
+            foreach (ListBox other in enchantmentLists.Values) other.ClearSelected();
+            enchantmentCategoryTabs.SelectedIndex = CategoryPages().FindIndex(page => page.Category == category);
+            list.SelectedIndex = index;
+            switchingCategorySelection = false;
+            LoadSelected(id);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void SelectFirstVisibleEnchantment()
+    {
+        foreach ((EnchantCategory category, _) in CategoryPages())
+        {
+            ListBox list = enchantmentLists[category];
+            if (list.Items.Count == 0) continue;
+            SelectEnchantmentInCategories((string)list.Items[0]);
+            return;
+        }
+    }
+
+    private static List<(EnchantCategory Category, string Title)> CategoryPages() => new()
+    {
+        (EnchantCategory.Weapons, "Armi"),
+        (EnchantCategory.Defense, "Difese"),
+        (EnchantCategory.Archery, "Arch"),
+        (EnchantCategory.Tools, "Tool"),
+        (EnchantCategory.Misc, "Misc")
+    };
+
+    private static EnchantCategory CategoryForEnchantment(string id, EnchantmentConfig cfg)
+    {
+        string key = CanonicalName(id.Split(':', 2).Last());
+        List<string> supported = cfg.SupportedItems.Count > 0 ? cfg.SupportedItems : cfg.DatapackSupportedItems;
+        string context = string.Join(" ", supported).ToLowerInvariant();
+
+        if (NameMatches(key, ArcheryEnchantments) || ContextHasAny(context, "bow", "crossbow", "projectile"))
+        {
+            return EnchantCategory.Archery;
+        }
+
+        if (NameMatches(key, DefenseEnchantments) ||
+            ContextHasAny(context, "armor", "head_armor", "chest_armor", "leg_armor", "foot_armor", "helmet", "chestplate", "leggings", "boots", "elytra", "shield", "equippable"))
+        {
+            return EnchantCategory.Defense;
+        }
+
+        if (NameMatches(key, ToolEnchantments) ||
+            ContextHasAny(context, "pickaxe", "pickaxes", "shovel", "shovels", "hoe", "hoes", "shears", "mining", "fishing"))
+        {
+            return EnchantCategory.Tools;
+        }
+
+        if (NameMatches(key, WeaponEnchantments) ||
+            ContextHasAny(context, "sword", "swords", "trident", "mace", "weapon", "melee"))
+        {
+            return EnchantCategory.Weapons;
+        }
+
+        return EnchantCategory.Misc;
+    }
+
+    private static bool NameMatches(string canonicalId, IEnumerable<string> names)
+    {
+        return names.Any(name => canonicalId.Contains(CanonicalName(name), StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static bool ContextHasAny(string context, params string[] tokens)
+    {
+        return tokens.Any(token => context.Contains(token, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static string CanonicalName(string value)
+    {
+        return Regex.Replace(value.ToLowerInvariant(), @"[^a-z0-9]+", "");
     }
 
     private TabPage BuildPerEnchantmentTab()
@@ -521,20 +692,31 @@ internal sealed class ConfigForm : Form
 
     private void RefreshEnchantmentList()
     {
-        string previous = enchantmentList.SelectedItem as string ?? "";
+        string previous = SelectedEnchantmentId() ?? "";
         string filter = enchantmentSearch.Text.Trim();
-        enchantmentList.BeginUpdate();
-        enchantmentList.Items.Clear();
+
+        switchingCategorySelection = true;
+        foreach (ListBox list in enchantmentLists.Values)
+        {
+            list.BeginUpdate();
+            list.Items.Clear();
+        }
+
         foreach (string id in enchantments.Keys.OrderBy(x => x))
         {
-            if (filter.Length == 0 || id.Contains(filter, StringComparison.OrdinalIgnoreCase))
-            {
-                enchantmentList.Items.Add(id);
-            }
+            if (filter.Length > 0 && !id.Contains(filter, StringComparison.OrdinalIgnoreCase)) continue;
+            EnchantCategory category = CategoryForEnchantment(id, enchantments[id]);
+            enchantmentLists[category].Items.Add(id);
         }
-        enchantmentList.EndUpdate();
-        enchantmentList.SelectedItem = previous;
-        if (enchantmentList.SelectedIndex < 0 && enchantmentList.Items.Count > 0) enchantmentList.SelectedIndex = 0;
+
+        foreach (ListBox list in enchantmentLists.Values)
+        {
+            list.EndUpdate();
+        }
+        switchingCategorySelection = false;
+
+        if (previous.Length > 0 && SelectEnchantmentInCategories(previous)) return;
+        SelectFirstVisibleEnchantment();
     }
 
     private void RefreshItemList()
@@ -563,7 +745,7 @@ internal sealed class ConfigForm : Form
     private void RefreshIncompatiblePicker()
     {
         string? selectedContext = SelectedItemChoice()?.Value ?? ParseList(supportedItems.Text).FirstOrDefault();
-        string current = enchantmentList.SelectedItem as string ?? "";
+        string current = SelectedEnchantmentId() ?? "";
 
         incompatiblePicker.BeginUpdate();
         incompatiblePicker.Items.Clear();
@@ -602,7 +784,14 @@ internal sealed class ConfigForm : Form
 
     private void LoadSelected()
     {
-        if (enchantmentList.SelectedItem is not string id || !enchantments.TryGetValue(id, out var cfg)) return;
+        string? id = SelectedEnchantmentId();
+        if (id == null) return;
+        LoadSelected(id);
+    }
+
+    private void LoadSelected(string id)
+    {
+        if (!enchantments.TryGetValue(id, out var cfg)) return;
         loading = true;
         normalTable.Checked = cfg.NormalTable;
         advancedTable.Checked = cfg.AdvancedTable;
@@ -658,7 +847,8 @@ internal sealed class ConfigForm : Form
 
     private void SaveSelectedFromUi()
     {
-        if (loading || enchantmentList.SelectedItem is not string id) return;
+        string? id = SelectedEnchantmentId();
+        if (loading || id == null) return;
         var cfg = enchantments[id];
         cfg.NormalTable = normalTable.Checked;
         cfg.AdvancedTable = advancedTable.Checked;
