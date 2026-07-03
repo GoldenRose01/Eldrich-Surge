@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "eldritch-surge:blessing_of_the_night",
+    "eldritch-surge:end_blessing",
+    "eldritch-surge:hell_blessing",
+    "eldritch-surge:sun_blessing",
+    "eldritch-surge:vision_blessing"
+  ]
+}

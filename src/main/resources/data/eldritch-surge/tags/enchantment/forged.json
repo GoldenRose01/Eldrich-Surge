@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "eldritch-surge:dwarf_forged",
+    "eldritch-surge:end_forged",
+    "eldritch-surge:nether_forged",
+    "eldritch-surge:villager_forged"
+  ]
+}

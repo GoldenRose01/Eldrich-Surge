@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "eldritch-surge:dwarf_flakes",
+    "eldritch-surge:end_flakes",
+    "eldritch-surge:hell_flakes",
+    "eldritch-surge:sea_flakes"
+  ]
+}

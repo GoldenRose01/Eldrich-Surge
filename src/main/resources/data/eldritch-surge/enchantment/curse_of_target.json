@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 3,
+  "description": {
+    "translate": "enchantment.eldritch-surge.curse_of_target"
+  },
+  "effects": {},
+  "exclusive_set": "#eldritch-surge:positive_curses",
+  "max_cost": {
+    "base": 35,
+    "per_level_above_first": 10
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#eldritch-surge:enchantable/curse_of_target",
+  "weight": 10
+}
