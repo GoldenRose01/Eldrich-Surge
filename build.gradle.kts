@@ -1,3 +1,4 @@
+import java.io.File
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -29,15 +30,41 @@ fabricApi {
 	}
 }
 
+val externalModDir = file(providers.gradleProperty("external_mod_dir").orElse("External_mod").get())
+val externalRuntimeMods = fileTree(externalModDir) {
+	include("*.jar")
+	exclude("fabric-api-*.jar")
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
+	// Fabric API must go through Loom so its access wideners are applied in dev.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
-    implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
 
+	compileOnly(fileTree(externalModDir) {
+		include("*.jar")
+		exclude("fabric-api-*.jar")
+	})
+	runtimeOnly(externalRuntimeMods)
+
+	implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
+}
+
+tasks.withType<JavaExec>().configureEach {
+	if (name == "runClient" || name == "runServer") {
+		doFirst {
+			val mods = externalRuntimeMods.files
+				.sortedBy { it.name }
+				.joinToString(File.pathSeparator) { it.absolutePath }
+
+			if (mods.isNotBlank()) {
+				jvmArgs("-Dfabric.addMods=$mods")
+			}
+		}
+	}
 }
 
 tasks.processResources {
