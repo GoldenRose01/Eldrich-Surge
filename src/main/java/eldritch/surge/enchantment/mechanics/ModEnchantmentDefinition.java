@@ -23,7 +23,11 @@ public record ModEnchantmentDefinition(
     }
 
     public boolean lootDefault() {
-        return classification.equalsIgnoreCase("Ritual") || id.equals("gream_reaper") || id.equals("soft_falling");
+        return (classification.equalsIgnoreCase("Ritual") && !isCastSpell()) || id.equals("gream_reaper") || id.equals("soft_falling");
+    }
+
+    public boolean isCastSpell() {
+        return itemCategory.toLowerCase().contains("cast spells");
     }
 }
 

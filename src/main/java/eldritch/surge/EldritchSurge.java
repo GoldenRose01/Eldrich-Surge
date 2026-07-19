@@ -7,7 +7,7 @@ import eldritch.surge.block.EldritchBlocks;
 import eldritch.surge.enchantment.EldritchEnchantmentEffects;
 import eldritch.surge.enchantment.EldritchEnchantmentGroups;
 import eldritch.surge.enchantment.EnchantmentIndex;
-import eldritch.surge.enchantment.mechanics.DiggerMiningMechanic;
+import eldritch.surge.enchantment.mechanics.EldritchEnchantmentMechanics;
 import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
 import eldritch.surge.menu.EldritchMenus;
@@ -32,7 +32,7 @@ public final class EldritchSurge implements ModInitializer {
         EldritchEntityTaxonomy.initialize();
         EldritchCreativeTabs.initialize();
         EldritchCommands.initialize();
-        DiggerMiningMechanic.initialize();
+        EldritchEnchantmentMechanics.initialize();
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             EnchantmentIndex.refreshFromRegistry(server.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));

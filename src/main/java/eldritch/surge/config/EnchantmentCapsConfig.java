@@ -42,6 +42,8 @@ public final class EnchantmentCapsConfig {
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
         data = readOrCreate();
         boolean needsAvailabilityMigration = data.configVersion < 2;
+        boolean needsVanillaReplacementMigration = data.configVersion < 3;
+        boolean needsBaseLevelPresetMigration = data.configVersion < 4;
 
         for (Identifier id : knownEnchantments) {
             CapsOverride override = data.enchantments.computeIfAbsent(id.toString(), ignored -> defaultOverride(id));
@@ -50,7 +52,15 @@ public final class EnchantmentCapsConfig {
             }
         }
 
-        data.configVersion = 2;
+        if (needsVanillaReplacementMigration) {
+            disableReplacedVanillaEnchantments();
+        }
+
+        if (needsBaseLevelPresetMigration) {
+            applyBaseLevelPresets();
+        }
+
+        data.configVersion = 4;
         save();
     }
 
@@ -197,11 +207,13 @@ public final class EnchantmentCapsConfig {
         }
 
         if (enchantmentId.getNamespace().equals("minecraft")) {
-            override.normalTable = true;
+            override.normalTable = !isReplacedVanillaDamageEnchantment(enchantmentId);
         } else if (enchantmentId.getNamespace().equals(EldritchSurge.MOD_ID)) {
             String path = enchantmentId.getPath();
             ModEnchantmentDefinition definition = ModEnchantmentDefinitions.BY_ID.get(path);
             if (definition != null) {
+                override.anvilMaxLevel = definition.maxLevel();
+                override.enchantingTableMaxLevel = definition.maxLevel();
                 override.normalTable = definition.normalTableDefault();
                 override.advancedTable = definition.advancedTableDefault();
                 override.loot = definition.lootDefault();
@@ -222,6 +234,34 @@ public final class EnchantmentCapsConfig {
         target.loot = source.loot;
     }
 
+    private static void disableReplacedVanillaEnchantments() {
+        for (String id : List.of("minecraft:sharpness", "minecraft:smite", "minecraft:bane_of_arthropods")) {
+            CapsOverride override = data.enchantments.computeIfAbsent(id, ignored -> new CapsOverride());
+            override.normalTable = false;
+            override.advancedTable = false;
+            override.loot = false;
+        }
+    }
+
+    private static boolean isReplacedVanillaDamageEnchantment(Identifier enchantmentId) {
+        String id = enchantmentId.toString();
+        return id.equals("minecraft:sharpness")
+                || id.equals("minecraft:smite")
+                || id.equals("minecraft:bane_of_arthropods");
+    }
+
+    private static void applyBaseLevelPresets() {
+        for (ModEnchantmentDefinition definition : ModEnchantmentDefinitions.ALL) {
+            CapsOverride override = data.enchantments.computeIfAbsent(EldritchSurge.MOD_ID + ":" + definition.id(), ignored -> defaultOverride(EldritchSurge.id(definition.id())));
+            if (override.anvilMaxLevel <= 0) {
+                override.anvilMaxLevel = definition.maxLevel();
+            }
+            if (override.enchantingTableMaxLevel <= 0) {
+                override.enchantingTableMaxLevel = definition.maxLevel();
+            }
+        }
+    }
+
     public static void save() {
         try {
             Files.createDirectories(CONFIG_PATH.getParent());
@@ -239,7 +279,7 @@ public final class EnchantmentCapsConfig {
     }
 
     public static final class Data {
-        public int configVersion = 2;
+        public int configVersion = 4;
         public Map<String, CapsOverride> enchantments = new TreeMap<>();
     }
 

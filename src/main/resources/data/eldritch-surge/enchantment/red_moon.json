@@ -16,7 +16,7 @@
   "slots": [
     "hand"
   ],
-  "supported_items": "#minecraft:enchantable/durability",
+  "supported_items": "minecraft:book",
   "weight": 1,
   "exclusive_set": "#eldritch-surge:rituals"
 }

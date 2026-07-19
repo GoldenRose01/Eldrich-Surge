@@ -42,7 +42,7 @@ public final class AdvancedEnchantmentMenu extends EnchantmentMenu implements Ad
         Slot amethystSlot = new Slot(vanillaLapisSlot.container, vanillaLapisSlot.index, vanillaLapisSlot.x, vanillaLapisSlot.y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return stack.is(Items.AMETHYST_SHARD);
+                return stack.is(Items.AMETHYST_SHARD) || stack.is(Items.ECHO_SHARD);
             }
 
             @Override

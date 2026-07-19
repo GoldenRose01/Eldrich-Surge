@@ -11,7 +11,7 @@ public final class StormSpellEnchantment {
             1,
             "Ritual",
             "Advanced",
-            List.of("#minecraft:enchantable/durability"),
+            List.of("minecraft:book"),
             List.of("hand"),
             "#eldritch-surge:rituals",
             "Forzza il meteo globale in temporale elettrico ed evoca 5 fulmini casuali nel raggio ristretto di 32 blocchi."

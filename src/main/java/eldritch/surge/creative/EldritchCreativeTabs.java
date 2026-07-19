@@ -4,6 +4,7 @@ import eldritch.surge.EldritchSurge;
 import eldritch.surge.block.EldritchBlocks;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinition;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinitions;
+import eldritch.surge.enchantment.mechanics.SpellBookItems;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -110,6 +111,7 @@ public final class EldritchCreativeTabs {
     private static ItemStack createMaxLevelBook(Holder<Enchantment> enchantment) {
         ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
         book.enchant(enchantment, enchantment.value().getMaxLevel());
+        SpellBookItems.markIfSpellBook(book);
         return book;
     }
 

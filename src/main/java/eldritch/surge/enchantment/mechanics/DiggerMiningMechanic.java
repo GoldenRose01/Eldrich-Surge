@@ -1,19 +1,12 @@
 package eldritch.surge.enchantment.mechanics;
 
-import eldritch.surge.enchantment.EldritchEnchantments;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.Optional;
 
 public final class DiggerMiningMechanic {
     private static boolean breakingExtraBlocks;
@@ -28,20 +21,12 @@ public final class DiggerMiningMechanic {
             }
 
             ItemStack tool = serverPlayer.getMainHandItem();
-            if (getDiggerLevel(serverLevel, tool) <= 0) {
+            if (EnchantmentLevels.onItem(serverLevel, tool, "digger") <= 0) {
                 return;
             }
 
             breakArea(serverPlayer, pos, miningPlane(serverPlayer));
         });
-    }
-
-    private static int getDiggerLevel(ServerLevel level, ItemStack stack) {
-        Optional<Holder.Reference<Enchantment>> enchantment = level.registryAccess()
-                .lookupOrThrow(Registries.ENCHANTMENT)
-                .get(EldritchEnchantments.DIGGER);
-
-        return enchantment.map(entry -> EnchantmentHelper.getItemEnchantmentLevel(entry, stack)).orElse(0);
     }
 
     private static Direction.Axis miningPlane(ServerPlayer player) {

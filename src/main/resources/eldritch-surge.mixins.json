@@ -4,7 +4,9 @@
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
 		"EnchantmentMenuMixin",
-		"LivingEntityDamageMixin"
+		"ItemEntityMixin",
+		"LivingEntityDamageMixin",
+		"NetherPortalLightMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
