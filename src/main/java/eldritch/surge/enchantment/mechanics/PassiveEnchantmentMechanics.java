@@ -149,6 +149,70 @@ public final class PassiveEnchantmentMechanics {
         }
     }
 
+    public static boolean trySiphonPickup(ServerLevel level, ServerPlayer player, ItemEntity itemEntity) {
+        ItemStack remaining = itemEntity.getItem().copy();
+        boolean changed = false;
+
+        for (int slot = 0; slot < player.getInventory().getContainerSize() && !remaining.isEmpty(); slot++) {
+            ItemStack shulker = player.getInventory().getItem(slot);
+            if (shulker != player.getOffhandItem()
+                    && isShulker(shulker)
+                    && EnchantmentLevels.onItem(level, shulker, "siphon") > 0) {
+                ItemStack next = siphonIntoPartialStacks(shulker, remaining);
+                if (next.getCount() != remaining.getCount()) {
+                    remaining = next;
+                    changed = true;
+                }
+            }
+        }
+
+        ItemStack offhand = player.getOffhandItem();
+        if (!remaining.isEmpty() && isShulker(offhand) && EnchantmentLevels.onItem(level, offhand, "siphon") > 0) {
+            ItemStack next = siphonIntoPartialStacks(offhand, remaining);
+            if (next.getCount() != remaining.getCount()) {
+                remaining = next;
+                changed = true;
+            }
+        }
+
+        if (!changed) {
+            return false;
+        }
+
+        if (remaining.isEmpty()) {
+            itemEntity.discard();
+        } else {
+            itemEntity.setItem(remaining);
+        }
+        return true;
+    }
+
+    private static ItemStack siphonIntoPartialStacks(ItemStack shulker, ItemStack incoming) {
+        NonNullList<ItemStack> contents = shulkerContents(shulker);
+        ItemStack remaining = incoming.copy();
+        boolean changed = false;
+
+        for (ItemStack stored : contents) {
+            if (remaining.isEmpty()) {
+                break;
+            }
+
+            if (!stored.isEmpty()
+                    && ItemStack.isSameItemSameComponents(stored, remaining)
+                    && stored.getCount() < stored.getMaxStackSize()) {
+                int moved = Math.min(remaining.getCount(), stored.getMaxStackSize() - stored.getCount());
+                stored.grow(moved);
+                remaining.shrink(moved);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            saveShulkerContents(shulker, contents);
+        }
+        return remaining;
+    }
+
     private static void refillMainHand(ServerPlayer player, ItemStack shulker) {
         ItemStack held = player.getMainHandItem();
         if (held.isEmpty() || held.getCount() >= held.getMaxStackSize()) {

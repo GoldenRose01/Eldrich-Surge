@@ -14,7 +14,7 @@ public final class NeptunesWillEnchantment {
             List.of("#minecraft:enchantable/trident"),
             List.of("hand"),
             "",
-            "Aggiunge punti di attacco base diretti alle proprietà fisiche del tridente."
+            "Aggiunge 1 danno base per livello mentre il tridente è impugnato."
     );
 
     private NeptunesWillEnchantment() {

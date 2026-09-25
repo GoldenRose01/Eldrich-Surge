@@ -16,6 +16,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import eldritch.surge.item.EldritchItems;
 
 import java.util.Comparator;
 import java.util.Locale;
@@ -109,7 +110,7 @@ public final class EldritchCreativeTabs {
     }
 
     private static ItemStack createMaxLevelBook(Holder<Enchantment> enchantment) {
-        ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+        ItemStack book = new ItemStack(SpellBookItems.isCastSpell(enchantment) ? EldritchItems.SPELL_BOOK : Items.ENCHANTED_BOOK);
         book.enchant(enchantment, enchantment.value().getMaxLevel());
         SpellBookItems.markIfSpellBook(book);
         return book;

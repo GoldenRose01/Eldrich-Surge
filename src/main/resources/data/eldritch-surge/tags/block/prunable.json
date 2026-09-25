@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:leaves",
+    "#minecraft:shears_extreme_breaking_speed",
+    "#minecraft:shears_major_breaking_speed",
+    "#minecraft:shears_minor_breaking_speed",
+    "#minecraft:sword_efficient"
+  ]
+}

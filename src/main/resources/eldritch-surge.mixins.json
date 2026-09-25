@@ -3,10 +3,17 @@
 	"package": "eldritch.surge.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"AbstractArrowMixin",
 		"EnchantmentMenuMixin",
 		"ItemEntityMixin",
 		"LivingEntityDamageMixin",
-		"NetherPortalLightMixin"
+		"NetherPortalLightMixin",
+		"PruningPlayerMixin",
+		"ThrownTridentMixin",
+		"WindChargeInvoker"
+	],
+	"client": [
+		"ClearmindCameraMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

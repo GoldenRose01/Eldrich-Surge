@@ -4,9 +4,7 @@
 	"version": "${version}",
 	"name": "Eldritch Surge",
 	"description": "A data-driven overhaul of Minecraft enchantment progression and combat logic.",
-	"authors": [
-		"Golden"
-	],
+	"authors": ["Golden"],
 	"contact": {
 		"sources": "https://github.com/Golden/Eldrich-Surge"
 	},
@@ -14,31 +12,21 @@
 	"icon": "assets/eldritch-surge/icon.png",
 	"environment": "*",
 	"entrypoints": {
-		"main": [
-			"eldritch.surge.EldritchSurge"
-		],
-		"client": [
-			{
-				"value": "eldritch.surge.client.EldritchSurgeClient",
-				"adapter": "kotlin"
-			}
-		],
-		"fabric-datagen": [
-			{
-				"value": "eldritch.surge.client.EldritchSurgeDataGenerator",
-				"adapter": "kotlin"
-			}
-		],
-		"modmenu": [
-			"eldritch.surge.client.EldritchModMenuIntegration"
-		]
+		"main": ["eldritch.surge.EldritchSurge"],
+		"client": [{
+			"value": "eldritch.surge.client.EldritchSurgeClient",
+			"adapter": "kotlin"
+		}],
+		"fabric-datagen": [{
+			"value": "eldritch.surge.client.EldritchSurgeDataGenerator",
+			"adapter": "kotlin"
+		}],
+		"modmenu": ["eldritch.surge.client.EldritchModMenuIntegration"]
 	},
-	"mixins": [
-		"eldritch-surge.mixins.json"
-	],
+	"mixins": ["eldritch-surge.mixins.json"],
 	"depends": {
 		"fabricloader": ">=0.19.3",
-		"minecraft": "~26.2",
+		"minecraft": "~${minecraft_version}",
 		"java": ">=25",
 		"fabric-api": "*",
 		"fabric-language-kotlin": "*"

@@ -3,7 +3,37 @@
   "description": {
     "translate": "enchantment.eldritch-surge.curse_of_target"
   },
-  "effects": {},
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "minecraft:apply_mob_effect",
+          "to_apply": "minecraft:glowing",
+          "min_duration": {
+            "type": "minecraft:linear",
+            "base": 1.0,
+            "per_level_above_first": 1.0
+          },
+          "max_duration": {
+            "type": "minecraft:linear",
+            "base": 1.0,
+            "per_level_above_first": 1.0
+          },
+          "min_amplifier": 0,
+          "max_amplifier": 0
+        },
+        "enchanted": "attacker",
+        "requirements": {
+          "type": "minecraft:entity_properties",
+          "entity": "direct_attacker",
+          "predicate": {
+            "minecraft:entity_type": "minecraft:arrow"
+          }
+        }
+      }
+    ]
+  },
   "exclusive_set": "#eldritch-surge:positive_curses",
   "max_cost": {
     "base": 35,

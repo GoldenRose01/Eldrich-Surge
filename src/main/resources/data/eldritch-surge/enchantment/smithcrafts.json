@@ -3,7 +3,20 @@
   "description": {
     "translate": "enchantment.eldritch-surge.smithcrafts"
   },
-  "effects": {},
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1.0,
+          "per_level_above_first": 1.0
+        },
+        "attribute": "minecraft:armor",
+        "id": "eldritch-surge:smithcrafts",
+        "operation": "add_value"
+      }
+    ]
+  },
   "max_cost": {
     "base": 35,
     "per_level_above_first": 10
@@ -14,7 +27,7 @@
     "per_level_above_first": 7
   },
   "slots": [
-    "hand"
+    "offhand"
   ],
   "supported_items": "minecraft:shield",
   "weight": 10

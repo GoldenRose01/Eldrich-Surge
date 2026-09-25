@@ -47,11 +47,6 @@ public final class ToolEnchantmentMechanics {
                 return false;
             }
 
-            int excavator = EnchantmentLevels.onItem(serverLevel, serverPlayer.getMainHandItem(), "excavator");
-            if (excavator > 0) {
-                breakArea(serverPlayer, pos, miningPlane(serverPlayer), excavator >= 3 ? 2 : 1);
-            }
-
             return true;
         });
     }

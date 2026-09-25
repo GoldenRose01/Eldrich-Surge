@@ -14,7 +14,7 @@ public final class ExcavatorEnchantment {
             List.of("#minecraft:axes", "#minecraft:pickaxes", "#minecraft:shovels"),
             List.of("hand"),
             "",
-            "Estende la distanza di interazione e scavo del giocatore (Reach++) simulando l'effetto della chela di granchio."
+            "Estende la distanza di interazione con blocchi ed entità, senza allargare l'area di scavo."
     );
 
     private ExcavatorEnchantment() {

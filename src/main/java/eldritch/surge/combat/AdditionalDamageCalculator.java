@@ -84,13 +84,11 @@ public final class AdditionalDamageCalculator {
         int launch = EnchantmentLevels.onItem(world, weapon, "launch");
         if (launch > 0) {
             victim.push(0.0D, 0.25D * launch, 0.0D);
-            victim.hurtMarked = true;
         }
 
         int catapult = EnchantmentLevels.onItem(world, weapon, "catapult");
         if (catapult > 0 && livingAttacker instanceof Player player && isCriticalLike(player)) {
             victim.push(0.0D, 0.45D + 0.25D * catapult, 0.0D);
-            victim.hurtMarked = true;
         }
 
         int lunge = EnchantmentLevels.onItem(world, weapon, "lunge");
@@ -98,7 +96,6 @@ public final class AdditionalDamageCalculator {
             double dx = victim.getX() - livingAttacker.getX();
             double dz = victim.getZ() - livingAttacker.getZ();
             victim.push(dx * 0.9D, 0.2D, dz * 0.9D);
-            victim.hurtMarked = true;
         }
 
         int creeping = EnchantmentLevels.onItem(world, weapon, "creeping_threat");

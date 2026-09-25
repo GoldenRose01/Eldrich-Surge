@@ -19,17 +19,21 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.saveddata.WeatherData;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
 
 public final class SpellCastMechanics {
     private SpellCastMechanics() {
     }
 
     public static boolean castFromDroppedBook(ServerLevel level, ItemEntity itemEntity) {
-        Entity owner = itemEntity.getOwner();
-        if (!(owner instanceof LivingEntity caster) || itemEntity.getAge() > 1) {
+        if (!itemEntity.onGround()) {
             return false;
         }
+        Entity owner = itemEntity.getOwner();
+        LivingEntity caster = owner instanceof LivingEntity livingOwner ? livingOwner : null;
 
         ItemStack stack = itemEntity.getItem();
         String spell = SpellBookItems.spellId(stack).orElse(null);
@@ -39,10 +43,16 @@ public final class SpellCastMechanics {
 
         int levelValue = Math.max(1, spellLevel(stack, spell));
         switch (spell) {
-            case "cocktail_spell" -> castCocktail(level, caster, levelValue);
+            case "cocktail_spell" -> {
+                if (caster == null) return false;
+                castCocktail(level, caster, levelValue);
+            }
             case "ragnarok" -> castRagnarok(level, itemEntity.blockPosition());
             case "red_moon" -> castRedMoon(level, itemEntity.blockPosition());
-            case "storm_spell" -> castStorm(level, caster);
+            case "storm_spell" -> {
+                if (caster == null) return false;
+                castStorm(level, caster);
+            }
             case "trench_spell" -> castTrench(level, itemEntity.blockPosition(), levelValue);
             default -> {
                 return false;
@@ -89,9 +99,10 @@ public final class SpellCastMechanics {
 
     private static void castRagnarok(ServerLevel level, BlockPos origin) {
         for (int i = 0; i < 4; i++) {
-            double x = origin.getX() + 0.5D + level.getRandom().nextIntBetweenInclusive(-3, 3);
-            double z = origin.getZ() + 0.5D + level.getRandom().nextIntBetweenInclusive(-3, 3);
-            double y = origin.getY() + 0.2D;
+            Vec3 spawn = randomGroundPosition(level, origin, 8.0D);
+            double x = spawn.x;
+            double y = spawn.y;
+            double z = spawn.z;
 
             Entity horse = createEntity(level, "skeleton_horse");
             Entity rider = createEntity(level, "wither_skeleton");
@@ -113,9 +124,10 @@ public final class SpellCastMechanics {
 
     private static void castRedMoon(ServerLevel level, BlockPos origin) {
         for (int i = 0; i < 30; i++) {
-            double x = origin.getX() + 0.5D + level.getRandom().nextIntBetweenInclusive(-8, 8);
-            double z = origin.getZ() + 0.5D + level.getRandom().nextIntBetweenInclusive(-8, 8);
-            double y = origin.getY() + 0.2D;
+            Vec3 spawn = randomGroundPosition(level, origin, 16.0D);
+            double x = spawn.x;
+            double y = spawn.y;
+            double z = spawn.z;
 
             Entity zombie = createEntity(level, "zombie");
             if (zombie == null) {
@@ -145,6 +157,28 @@ public final class SpellCastMechanics {
     private static Entity createEntity(ServerLevel level, String id) {
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.withDefaultNamespace(id));
         return type == null ? null : type.create(level, EntitySpawnReason.TRIGGERED);
+    }
+
+    private static Vec3 randomGroundPosition(ServerLevel level, BlockPos origin, double radius) {
+        for (int attempt = 0; attempt < 12; attempt++) {
+            double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
+            double distance = Math.sqrt(level.getRandom().nextDouble()) * radius;
+            int x = (int) Math.floor(origin.getX() + 0.5D + Math.cos(angle) * distance);
+            int z = (int) Math.floor(origin.getZ() + 0.5D + Math.sin(angle) * distance);
+            BlockPos surface = level.getHeightmapPos(
+                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                    new BlockPos(x, origin.getY(), z)
+            );
+            BlockState floor = level.getBlockState(surface.below());
+            if (level.getBlockState(surface).isAir()
+                    && level.getBlockState(surface.above()).isAir()
+                    && !floor.isAir()
+                    && floor.getFluidState().isEmpty()) {
+                return new Vec3(surface.getX() + 0.5D, surface.getY(), surface.getZ() + 0.5D);
+            }
+        }
+
+        return new Vec3(origin.getX() + 0.5D, origin.getY(), origin.getZ() + 0.5D);
     }
 
     private static void equip(LivingEntity entity, Item mainHand, Item helmet, Item chestplate, Item leggings, Item boots) {

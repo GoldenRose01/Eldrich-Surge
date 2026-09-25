@@ -3,6 +3,7 @@ package eldritch.surge.client.tooltip;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.locale.Language;
@@ -44,7 +45,10 @@ public final class EnchantmentTooltips {
                     .filter(addedKeys::add)
                     .filter(language::has)
                     .map(key -> Component.translatable(key).withStyle(ChatFormatting.GRAY))
-                    .ifPresent(lines::add);
+                    .ifPresent(component -> Minecraft.getInstance().font
+                            .getSplitter()
+                            .splitLines(component.getString(), 210, component.getStyle())
+                            .forEach(part -> lines.add(Component.literal(part.getString()).withStyle(ChatFormatting.GRAY))));
         }
     }
 

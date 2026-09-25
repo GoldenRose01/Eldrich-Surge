@@ -5,11 +5,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomModelData;
+import eldritch.surge.item.EldritchItems;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-import java.util.List;
 import java.util.Optional;
 
 public final class SpellBookItems {
@@ -17,13 +16,13 @@ public final class SpellBookItems {
     }
 
     public static void markIfSpellBook(ItemStack stack) {
-        if (isSpellBook(stack)) {
-            stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(List.of(), List.of(true), List.of(), List.of()));
+        if (stack.is(EldritchItems.SPELL_BOOK)) {
+            stack.remove(DataComponents.CUSTOM_MODEL_DATA);
         }
     }
 
     public static boolean isSpellBook(ItemStack stack) {
-        return stack.is(Items.ENCHANTED_BOOK) && spellId(stack).isPresent();
+        return (stack.is(EldritchItems.SPELL_BOOK) || stack.is(Items.ENCHANTED_BOOK)) && spellId(stack).isPresent();
     }
 
     public static Optional<String> spellId(ItemStack stack) {

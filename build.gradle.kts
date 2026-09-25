@@ -9,6 +9,24 @@ plugins {
 
 version = providers.gradleProperty("mod_version").get()
 group = providers.gradleProperty("maven_group").get()
+val requestedMinecraftVersion = providers.gradleProperty("minecraft_version").get()
+val minecraftVersion = Regex("^(\\d+\\.\\d+)\\.\\d+$")
+	.matchEntire(requestedMinecraftVersion)
+	?.groupValues?.get(1)
+	?: requestedMinecraftVersion
+val fabricApiVersions = mapOf(
+	"26.1" to "0.145.1+26.1",
+	"26.2" to "0.154.0+26.2",
+	"26.3" to "0.161.0+26.3",
+)
+val configuredFabricApiVersion = providers.gradleProperty("fabric_api_version").get()
+val fabricApiVersion = fabricApiVersions[minecraftVersion]
+	?.takeIf { requestedMinecraftVersion != minecraftVersion && !configuredFabricApiVersion.endsWith("+$minecraftVersion") }
+	?: if (configuredFabricApiVersion.endsWith("+$minecraftVersion")) configuredFabricApiVersion else fabricApiVersions[minecraftVersion] ?: configuredFabricApiVersion
+
+base {
+	archivesName.set("eldritch-surge-$minecraftVersion+")
+}
 
 repositories {
 }
@@ -38,11 +56,11 @@ val externalRuntimeMods = fileTree(externalModDir) {
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
+	minecraft("com.mojang:minecraft:$minecraftVersion")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
 
 	// Fabric API must go through Loom so its access wideners are applied in dev.
-	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
+	implementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
 
 	compileOnly(fileTree(externalModDir) {
 		include("*.jar")
@@ -70,10 +88,15 @@ tasks.withType<JavaExec>().configureEach {
 tasks.processResources {
 	val version = version
 	inputs.property("version", version)
+	inputs.property("minecraft_version", minecraftVersion)
 
 	filesMatching("fabric.mod.json") {
-		expand("version" to version)
+		expand("version" to version, "minecraft_version" to minecraftVersion)
 	}
+}
+
+tasks.withType<Jar>().configureEach {
+	destinationDirectory.set(layout.projectDirectory.dir("Jar"))
 }
 
 tasks.withType<JavaCompile>().configureEach {

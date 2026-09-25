@@ -7,5 +7,6 @@ object EldritchSurgeClient : ClientModInitializer {
 	override fun onInitializeClient() {
 		EldritchScreens.initialize()
 		EnchantmentTooltips.initialize()
+		ClearmindZoom.initialize()
 	}
 }

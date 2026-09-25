@@ -42,9 +42,15 @@ This file tracks enchantments that currently have gameplay logic beyond registra
 - `leeching_aspect` - heals attacker on critical hits.
 - `lunge` - strong knockback/lunge effect.
 - `midas_touch` - gold drop chance on kill.
+- `neptunes_will` - adds base attack damage while the enchanted trident is held.
+- `pruning` - instantly mines tagged delicate blocks with enchanted shears.
 - `payback` - bonus damage when attacker health is low.
+- `replenish` - chance to preserve tipped and spectral arrows.
 - `refill` - enchanted shulker refills the held stack.
+- `sea_breeze` - creates a wind burst when a trident hits a block or entity.
+- `siphon` - routes picked-up items into matching partial stacks in enchanted shulker boxes.
 - `smelting` - block drops are replaced with smelted outputs.
+- `smithcrafts` - adds armor while the enchanted item is held in the offhand.
 - `smoother` - bonus damage against cubic-tagged mobs.
 - `soft_falling` - slow falling.
 - `sun_blessing` - daylight strength bonus.
@@ -78,23 +84,17 @@ This file tracks enchantments that currently have gameplay logic beyond registra
 - `heavy_impact`
 - `hell_flakes`
 - `impaler_reach`
-- `neptunes_will`
 - `nether_forged`
 - `nineleven`
 - `phalanx_stance`
 - `piercing`
 - `pop`
-- `pruning`
 - `quick_hit`
 - `ragnarok`
 - `red_moon`
-- `replenish`
-- `sea_breeze`
 - `sea_flakes`
 - `seismic_wave`
 - `sickened_of_hell`
-- `siphon`
-- `smithcrafts`
 - `sniper`
 - `snowshoeing`
 - `soil_falling`

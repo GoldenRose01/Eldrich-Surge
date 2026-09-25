@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
@@ -40,6 +41,10 @@ public final class EnchantmentLevels {
     }
 
     public static int onItem(ServerLevel level, ItemStack stack, String id) {
+        return onItem((Level) level, stack, id);
+    }
+
+    public static int onItem(Level level, ItemStack stack, String id) {
         if (stack.isEmpty()) {
             return 0;
         }

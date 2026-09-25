@@ -12,9 +12,9 @@ public final class SmithcraftsEnchantment {
             "Common",
             "Normal",
             List.of("minecraft:shield"),
-            List.of("hand"),
+            List.of("offhand"),
             "",
-            "Fornisce punti armatura extra stabili quando lo scudo viene equipaggiato stabilmente nella mano secondaria (Offhand)."
+            "Fornisce 1 punto armatura per livello mentre lo scudo è equipaggiato nella mano secondaria."
     );
 
     private SmithcraftsEnchantment() {

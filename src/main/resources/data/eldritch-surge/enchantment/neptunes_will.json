@@ -3,7 +3,20 @@
   "description": {
     "translate": "enchantment.eldritch-surge.neptunes_will"
   },
-  "effects": {},
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1.0,
+          "per_level_above_first": 1.0
+        },
+        "attribute": "minecraft:attack_damage",
+        "id": "eldritch-surge:neptunes_will",
+        "operation": "add_value"
+      }
+    ]
+  },
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10

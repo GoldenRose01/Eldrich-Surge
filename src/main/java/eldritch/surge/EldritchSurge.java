@@ -11,6 +11,7 @@ import eldritch.surge.enchantment.mechanics.EldritchEnchantmentMechanics;
 import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
 import eldritch.surge.menu.EldritchMenus;
+import eldritch.surge.item.EldritchItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.registries.Registries;
@@ -27,6 +28,7 @@ public final class EldritchSurge implements ModInitializer {
         EldritchGameRules.initialize();
         EldritchMenus.initialize();
         EldritchBlocks.initialize();
+        EldritchItems.initialize();
         EldritchEnchantmentEffects.initialize();
         EldritchEnchantmentGroups.initialize();
         EldritchEntityTaxonomy.initialize();

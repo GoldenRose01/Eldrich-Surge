@@ -8,5 +8,6 @@ public final class EldritchEnchantmentMechanics {
         DiggerMiningMechanic.initialize();
         ToolEnchantmentMechanics.initialize();
         PassiveEnchantmentMechanics.initialize();
+        ProjectileEnchantmentMechanics.initialize();
     }
 }
