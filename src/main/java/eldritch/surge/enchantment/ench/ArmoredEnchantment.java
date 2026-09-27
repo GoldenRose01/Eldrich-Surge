@@ -14,7 +14,7 @@ public final class ArmoredEnchantment {
             List.of("minecraft:elytra"),
             List.of("chest"),
             "",
-            "Fornisce punti armatura extra mentre si indossa l'elytra. Al livello 5 equivale a una piastra pettorale in Netherite."
+            "Aggiunge 2 punti armatura per livello mentre si indossa l'Elytra, fino a 10 punti al livello V."
     );
 
     private ArmoredEnchantment() {

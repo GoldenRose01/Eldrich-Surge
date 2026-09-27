@@ -66,6 +66,7 @@ public abstract class AbstractArrowMixin {
         }
 
         ProjectileEnchantmentMechanics.applyCurseOfTarget(level, arrow, hit.getEntity());
+        ProjectileEnchantmentMechanics.applyCurseOfSpider(level, arrow, hit.getEntity());
         eldritchSurge$detonatePop(level, arrow, hit.getLocation().x, hit.getLocation().y, hit.getLocation().z);
         eldritchSurge$restoreBaseDamage();
     }

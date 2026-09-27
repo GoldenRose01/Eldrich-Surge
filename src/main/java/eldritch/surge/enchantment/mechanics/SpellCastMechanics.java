@@ -98,8 +98,9 @@ public final class SpellCastMechanics {
     }
 
     private static void castRagnarok(ServerLevel level, BlockPos origin) {
+        java.util.List<BlockPos> spawnSites = new java.util.ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Vec3 spawn = randomGroundPosition(level, origin, 8.0D);
+            Vec3 spawn = randomGroundPosition(level, origin, 4.0D, 8.0D, spawnSites, 3.0D);
             double x = spawn.x;
             double y = spawn.y;
             double z = spawn.z;
@@ -123,8 +124,9 @@ public final class SpellCastMechanics {
     }
 
     private static void castRedMoon(ServerLevel level, BlockPos origin) {
+        java.util.List<BlockPos> spawnSites = new java.util.ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            Vec3 spawn = randomGroundPosition(level, origin, 16.0D);
+            Vec3 spawn = randomGroundPosition(level, origin, 5.0D, 16.0D, spawnSites, 2.0D);
             double x = spawn.x;
             double y = spawn.y;
             double z = spawn.z;
@@ -159,10 +161,11 @@ public final class SpellCastMechanics {
         return type == null ? null : type.create(level, EntitySpawnReason.TRIGGERED);
     }
 
-    private static Vec3 randomGroundPosition(ServerLevel level, BlockPos origin, double radius) {
-        for (int attempt = 0; attempt < 12; attempt++) {
+    private static Vec3 randomGroundPosition(ServerLevel level, BlockPos origin, double minRadius, double radius,
+                                             java.util.List<BlockPos> usedSites, double minSpacing) {
+        for (int attempt = 0; attempt < 48; attempt++) {
             double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
-            double distance = Math.sqrt(level.getRandom().nextDouble()) * radius;
+            double distance = minRadius + Math.sqrt(level.getRandom().nextDouble()) * (radius - minRadius);
             int x = (int) Math.floor(origin.getX() + 0.5D + Math.cos(angle) * distance);
             int z = (int) Math.floor(origin.getZ() + 0.5D + Math.sin(angle) * distance);
             BlockPos surface = level.getHeightmapPos(
@@ -174,11 +177,14 @@ public final class SpellCastMechanics {
                     && level.getBlockState(surface.above()).isAir()
                     && !floor.isAir()
                     && floor.getFluidState().isEmpty()) {
+                boolean spaced = usedSites.stream().allMatch(used -> used.distSqr(surface) >= minSpacing * minSpacing);
+                if (!spaced) continue;
+                usedSites.add(surface.immutable());
                 return new Vec3(surface.getX() + 0.5D, surface.getY(), surface.getZ() + 0.5D);
             }
         }
 
-        return new Vec3(origin.getX() + 0.5D, origin.getY(), origin.getZ() + 0.5D);
+        return new Vec3(origin.getX() + minRadius + 0.5D, origin.getY(), origin.getZ() + 0.5D);
     }
 
     private static void equip(LivingEntity entity, Item mainHand, Item helmet, Item chestplate, Item leggings, Item boots) {

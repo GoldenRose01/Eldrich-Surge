@@ -24,7 +24,8 @@ public abstract class LivingEntityDamageMixin {
                 world,
                 amount,
                 (LivingEntity) (Object) this,
-                attacker
+                attacker,
+                source
         );
     }
 
@@ -39,6 +40,6 @@ public abstract class LivingEntityDamageMixin {
             return;
         }
 
-        AdditionalDamageCalculator.afterSuccessfulHit(world, (LivingEntity) (Object) this, attacker, amount);
+        AdditionalDamageCalculator.afterSuccessfulHit(world, (LivingEntity) (Object) this, attacker, amount, source);
     }
 }

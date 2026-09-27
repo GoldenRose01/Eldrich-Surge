@@ -1,5 +1,6 @@
 package eldritch.surge.client.tooltip;
 
+import eldritch.surge.enchantment.mechanics.EnchantmentBookTags;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.ChatFormatting;
@@ -33,6 +34,13 @@ public final class EnchantmentTooltips {
         Set<String> addedKeys = new HashSet<>();
         appendFrom(stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY), lines, addedKeys);
         appendFrom(stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY), lines, addedKeys);
+        EnchantmentBookTags.mostRelevantTag(stack).ifPresent(tag -> lines.add(
+                Component.translatable("tooltip.eldritch-surge.book_tag.compatibility")
+                        .append(Component.literal(" ").append(Component.literal(tag.icon())))
+                        .append(Component.literal(" "))
+                        .append(Component.translatable("tooltip.eldritch-surge.book_tag." + tag.id()))
+                        .withStyle(ChatFormatting.GRAY)
+        ));
     }
 
     private static void appendFrom(ItemEnchantments enchantments, List<Component> lines, Set<String> addedKeys) {

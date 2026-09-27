@@ -22,7 +22,6 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.EnchantingTableBlock
-import net.minecraft.world.level.block.entity.BlockEntityTypes
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
@@ -61,7 +60,12 @@ object EldritchBlocks {
 
     @JvmStatic
     fun initialize() {
-        (BlockEntityTypes.ENCHANTING_TABLE as FabricBlockEntityType).addValidBlock(ADVANCED_ENCHANTING_TABLE)
+        val blockEntityTypeClass = sequenceOf(
+            "net.minecraft.world.level.block.entity.BlockEntityTypes",
+            "net.minecraft.world.level.block.entity.BlockEntityType",
+        ).mapNotNull { className -> runCatching { Class.forName(className) }.getOrNull() }.first()
+        (blockEntityTypeClass.getField("ENCHANTING_TABLE").get(null) as FabricBlockEntityType)
+            .addValidBlock(ADVANCED_ENCHANTING_TABLE)
         EldritchSurge.LOGGER.debug("Registered Eldritch Surge blocks.")
     }
 

@@ -1,7 +1,6 @@
 package eldritch.surge.enchantment.mechanics;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -16,9 +15,7 @@ public final class SpellBookItems {
     }
 
     public static void markIfSpellBook(ItemStack stack) {
-        if (stack.is(EldritchItems.SPELL_BOOK)) {
-            stack.remove(DataComponents.CUSTOM_MODEL_DATA);
-        }
+        EnchantmentBookTags.updateBookModelTag(stack);
     }
 
     public static boolean isSpellBook(ItemStack stack) {

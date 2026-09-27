@@ -9,5 +9,7 @@ public final class EldritchEnchantmentMechanics {
         ToolEnchantmentMechanics.initialize();
         PassiveEnchantmentMechanics.initialize();
         ProjectileEnchantmentMechanics.initialize();
+        ArmorRepairMechanics.initialize();
+        VanguardChargeMechanics.initialize();
     }
 }

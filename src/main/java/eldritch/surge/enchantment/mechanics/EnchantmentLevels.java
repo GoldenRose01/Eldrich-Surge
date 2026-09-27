@@ -4,6 +4,7 @@ import eldritch.surge.EldritchSurge;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,6 +53,18 @@ public final class EnchantmentLevels {
         Optional<Holder.Reference<Enchantment>> enchantment = level.registryAccess()
                 .lookupOrThrow(Registries.ENCHANTMENT)
                 .get(ResourceKey.create(Registries.ENCHANTMENT, EldritchSurge.id(id)));
+
+        return enchantment.map(entry -> EnchantmentHelper.getItemEnchantmentLevel(entry, stack)).orElse(0);
+    }
+
+    public static int onMinecraftItem(Level level, ItemStack stack, String id) {
+        if (stack.isEmpty()) {
+            return 0;
+        }
+
+        Optional<Holder.Reference<Enchantment>> enchantment = level.registryAccess()
+                .lookupOrThrow(Registries.ENCHANTMENT)
+                .get(ResourceKey.create(Registries.ENCHANTMENT, Identifier.withDefaultNamespace(id)));
 
         return enchantment.map(entry -> EnchantmentHelper.getItemEnchantmentLevel(entry, stack)).orElse(0);
     }

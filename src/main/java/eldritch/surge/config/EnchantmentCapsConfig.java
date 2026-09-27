@@ -39,6 +39,11 @@ public final class EnchantmentCapsConfig {
     private EnchantmentCapsConfig() {
     }
 
+    /** Reads saved presets early so EnchLib's optional menu can seed table defaults before a world is opened. */
+    public static void prepareForIntegration() {
+        data = readOrCreate();
+    }
+
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
         data = readOrCreate();
         boolean needsAvailabilityMigration = data.configVersion < 2;
@@ -93,19 +98,25 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean isAllowedInNormalTable(Identifier enchantmentId) {
+        Boolean configured = enchLibBoolean("getTableEnabled", enchantmentId.toString(), "minecraft:enchanting_table");
+        if (configured != null) return configured;
         return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).normalTable;
     }
 
     public static void setAllowedInNormalTable(String enchantmentId, boolean allowed) {
         data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).normalTable = allowed;
+        callEnchLib("setTableEnabled", new Class<?>[]{String.class, String.class, boolean.class}, enchantmentId, "minecraft:enchanting_table", allowed);
     }
 
     public static boolean isAllowedInAdvancedTable(Identifier enchantmentId) {
+        Boolean configured = enchLibBoolean("getTableEnabled", enchantmentId.toString(), "eldritch-surge:advanced_enchanting_table");
+        if (configured != null) return configured;
         return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).advancedTable;
     }
 
     public static void setAllowedInAdvancedTable(String enchantmentId, boolean allowed) {
         data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).advancedTable = allowed;
+        callEnchLib("setTableEnabled", new Class<?>[]{String.class, String.class, boolean.class}, enchantmentId, "eldritch-surge:advanced_enchanting_table", allowed);
     }
 
     public static boolean isAllowedAsLoot(Identifier enchantmentId) {
@@ -118,6 +129,9 @@ public final class EnchantmentCapsConfig {
 
     public static boolean isAllowedForItem(Identifier enchantmentId, ItemStack stack) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        @SuppressWarnings("unchecked")
+        List<String> editedRules = (List<String>) callEnchLib("getItemCategories", new Class<?>[]{String.class}, enchantmentId.toString());
+        if (editedRules != null && !editedRules.isEmpty()) return matchesEnchLibRules(editedRules, stack);
         if (override.supportedItems.isEmpty()) {
             return true;
         }
@@ -140,6 +154,9 @@ public final class EnchantmentCapsConfig {
     public static boolean isCompatibleWithExistingEnchantments(Identifier enchantmentId, ItemStack stack) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
         Set<String> blocked = new HashSet<>(override.incompatibleEnchantments);
+        @SuppressWarnings("unchecked")
+        List<String> enchLibBlocked = (List<String>) callEnchLib("getIncompatibleEnchantments", new Class<?>[]{String.class}, enchantmentId.toString());
+        if (enchLibBlocked != null) blocked.addAll(enchLibBlocked);
         if (blocked.isEmpty()) {
             return true;
         }
@@ -158,8 +175,21 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean passesRarity(Identifier enchantmentId, ItemStack stack, int slot, int level) {
+        return passesRarity(enchantmentId, "eldritch-surge:advanced_enchanting_table", stack, slot, level);
+    }
+
+    public static boolean passesRarity(Identifier enchantmentId, String tableId, ItemStack stack, int slot, int level) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
-        int rarity = Math.max(0, Math.min(100, override.rarity));
+        Integer editedChance = (Integer) callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, enchantmentId.toString(), tableId);
+        String rarityClass = (String) callEnchLib("getRarity", new Class<?>[]{String.class}, enchantmentId.toString());
+        int classWeight = switch (rarityClass == null ? "common" : rarityClass) {
+            case "uncommon" -> 60;
+            case "rare" -> 30;
+            case "very_rare" -> 5;
+            default -> 100;
+        };
+        int rarity = Math.max(0, Math.min(100, editedChance == null ? override.rarity : editedChance));
+        rarity = rarity * classWeight / 100;
         if (rarity >= 100) {
             return true;
         }
@@ -167,11 +197,18 @@ public final class EnchantmentCapsConfig {
             return false;
         }
 
-        int roll = Math.floorMod((enchantmentId + "|" + BuiltInRegistries.ITEM.getKey(stack.getItem()) + "|" + slot + "|" + level).hashCode(), 100);
+        int roll = java.util.concurrent.ThreadLocalRandom.current().nextInt(100);
         return roll < rarity;
     }
 
+    public static boolean isAvailableInEnchLib(Identifier enchantmentId) {
+        Object enabled = callEnchLib("isEnabled", new Class<?>[]{String.class}, enchantmentId.toString());
+        return !(enabled instanceof Boolean value) || value;
+    }
+
     private static int resolve(Identifier enchantmentId, int vanillaCap, CapKind kind) {
+        Integer sharedMaximum = (Integer) callEnchLib("getMaxLevel", new Class<?>[]{String.class}, enchantmentId.toString());
+        if (sharedMaximum != null && sharedMaximum > 0) return sharedMaximum;
         CapsOverride override = data.enchantments.get(enchantmentId.toString());
         if (override == null) {
             return vanillaCap;
@@ -183,6 +220,72 @@ public final class EnchantmentCapsConfig {
         };
 
         return configured > 0 ? configured : vanillaCap;
+    }
+
+    private static boolean matchesEnchLibRules(List<String> rules, ItemStack stack) {
+        boolean booksOnly = rules.stream().anyMatch(rule -> rule.equalsIgnoreCase("!all"));
+        boolean positiveAll = rules.stream().anyMatch(rule -> rule.equalsIgnoreCase("all") || rule.equalsIgnoreCase("all_items"));
+        boolean positiveMatch = positiveAll || rules.stream().filter(rule -> !rule.startsWith("!")).anyMatch(rule -> matchesItemRule(rule, stack));
+        if (booksOnly) positiveMatch = stack.is(net.minecraft.world.item.Items.BOOK) || stack.is(net.minecraft.world.item.Items.ENCHANTED_BOOK);
+        boolean excluded = rules.stream().filter(rule -> rule.startsWith("!") && !rule.equalsIgnoreCase("!all"))
+                .anyMatch(rule -> matchesItemRule(rule.substring(1), stack));
+        return positiveMatch && !excluded;
+    }
+
+    private static boolean matchesItemRule(String rawRule, ItemStack stack) {
+        String rule = rawRule.toLowerCase(java.util.Locale.ROOT);
+        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        if (rule.startsWith("item:")) return itemId.toString().equals(rule.substring(5));
+        if (rule.startsWith("#")) {
+            Identifier tag = Identifier.tryParse(rule.substring(1));
+            return tag != null && stack.is(TagKey.create(Registries.ITEM, tag));
+        }
+        if (rule.contains(":")) return itemId.toString().equals(rule);
+        if (rule.equals("wooded")) return itemId.getPath().startsWith("wooden_");
+        String tagName = switch (rule) {
+            case "sword", "swords" -> "sword";
+            case "axe", "axes" -> "axe";
+            case "pickaxe", "pickaxes" -> "pickaxe";
+            case "shovel", "shovels" -> "shovel";
+            case "hoe", "hoes" -> "hoe";
+            case "armor" -> "armor";
+            case "weapon", "weapons" -> "weapon";
+            case "bow", "bows" -> "bow";
+            case "crossbow", "crossbows" -> "crossbow";
+            case "trident", "tridents" -> "trident";
+            case "mace", "maces" -> "mace";
+            case "fishing_rod", "fishing_rods" -> "fishing";
+            default -> null;
+        };
+        if (tagName != null) {
+            Identifier tagId = Identifier.tryParse("minecraft:enchantable/" + tagName);
+            if (tagId != null && stack.is(TagKey.create(Registries.ITEM, tagId))) return true;
+            if (tagName.equals("armor")) return itemId.getPath().matches(".*_(helmet|chestplate|leggings|boots)$") || itemId.getPath().equals("turtle_helmet");
+        }
+        if (rule.equals("head_armor")) return itemId.getPath().endsWith("_helmet") || itemId.getPath().equals("turtle_helmet");
+        if (rule.equals("turtle_shell")) return itemId.getPath().equals("turtle_helmet");
+        if (rule.equals("chest_armor")) return itemId.getPath().endsWith("_chestplate");
+        if (rule.equals("leg_armor")) return itemId.getPath().endsWith("_leggings");
+        if (rule.equals("foot_armor")) return itemId.getPath().endsWith("_boots");
+        if (rule.equals("tools")) return matchesItemRule("pickaxes", stack) || matchesItemRule("axes", stack) || matchesItemRule("shovels", stack) || matchesItemRule("hoes", stack);
+        if (rule.equals("all")) return true;
+        if (rule.equals("books")) return stack.is(net.minecraft.world.item.Items.BOOK) || stack.is(net.minecraft.world.item.Items.ENCHANTED_BOOK);
+        if (List.of("wooden", "wood", "stone", "iron", "gold", "diamond", "netherite").contains(rule)) return itemId.getPath().startsWith(rule + "_");
+        return itemId.getPath().equals(rule);
+    }
+
+    private static Boolean enchLibBoolean(String method, String enchantmentId, String tableId) {
+        return (Boolean) callEnchLib(method, new Class<?>[]{String.class, String.class}, enchantmentId, tableId);
+    }
+
+    private static Object callEnchLib(String method, Class<?>[] parameterTypes, Object... args) {
+        if (!FabricLoader.getInstance().isModLoaded("enchlib")) return null;
+        try {
+            Class<?> api = Class.forName("goldenrose01.enchlib.api.EnchantLibAPI");
+            return api.getMethod(method, parameterTypes).invoke(null, args);
+        } catch (ReflectiveOperationException | LinkageError ignored) {
+            return null;
+        }
     }
 
     private static Data readOrCreate() {

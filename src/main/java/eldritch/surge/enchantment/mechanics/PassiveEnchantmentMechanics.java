@@ -3,12 +3,19 @@ package eldritch.surge.enchantment.mechanics;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
@@ -18,6 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class PassiveEnchantmentMechanics {
+    private static final Identifier ARMORED_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "armored_armor");
+    private static final Identifier EXCAVATOR_BLOCK_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_block_range");
+    private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_entity_range");
+
     private PassiveEnchantmentMechanics() {
     }
 
@@ -25,6 +36,8 @@ public final class PassiveEnchantmentMechanics {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 applyPlayerPassives((ServerLevel) player.level(), player);
+                applyArmored(player);
+                applyExcavator(player);
             }
         });
     }
@@ -39,11 +52,6 @@ public final class PassiveEnchantmentMechanics {
         int vision = EnchantmentLevels.onArmor(level, player, "vision_blessing");
         if (vision > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 260, 0, true, false, true));
-        }
-
-        int armored = EnchantmentLevels.onArmor(level, player, "armored");
-        if (armored > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 40, Math.min(2, armored - 1), true, false, true));
         }
 
         int health = EnchantmentLevels.onArmor(level, player, "health_upgrade");
@@ -69,8 +77,8 @@ public final class PassiveEnchantmentMechanics {
 
         int night = EnchantmentLevels.onArmor(level, player, "blessing_of_the_night");
         long dayTime = level.getOverworldClockTime() % 24000L;
-        if (night > 0 && (dayTime >= 13000L && dayTime <= 23000L)) {
-            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 60, Math.min(1, night - 1), true, false, true));
+        if (night > 0 && dayTime >= 13000L && dayTime <= 23000L && player.tickCount % 1200 == 0) {
+            ExperienceOrb.award(level, player.position(), night * 10);
         }
 
         int sun = EnchantmentLevels.onArmor(level, player, "sun_blessing");
@@ -146,6 +154,45 @@ public final class PassiveEnchantmentMechanics {
             if (EnchantmentLevels.onItem(level, shulker, "vacuum") > 0) {
                 vacuumNearbyItems(level, player, shulker);
             }
+        }
+    }
+
+    private static void applyArmored(ServerPlayer player) {
+        int level = player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
+                ? EnchantmentLevels.onArmor(player.level(), player, "armored")
+                : 0;
+        AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
+        if (armor == null) return;
+        AttributeModifier current = armor.getModifier(ARMORED_ARMOR);
+        if (level <= 0) {
+            if (current != null) armor.removeModifier(ARMORED_ARMOR);
+        } else {
+            double points = level * 2.0D;
+            if (current == null || current.amount() != points) {
+                armor.addOrUpdateTransientModifier(new AttributeModifier(
+                        ARMORED_ARMOR, points, AttributeModifier.Operation.ADD_VALUE));
+            }
+        }
+    }
+
+    private static void applyExcavator(ServerPlayer player) {
+        int level = EnchantmentLevels.onItem(player.level(), player.getMainHandItem(), "excavator")
+                + EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "excavator");
+        updateModifier(player, Attributes.BLOCK_INTERACTION_RANGE, EXCAVATOR_BLOCK_RANGE, level);
+        updateModifier(player, Attributes.ENTITY_INTERACTION_RANGE, EXCAVATOR_ENTITY_RANGE, level);
+    }
+
+    private static void updateModifier(ServerPlayer player, net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey, Identifier id, int level) {
+        var attribute = player.getAttribute(attributeKey);
+        if (attribute == null) return;
+        AttributeModifier current = attribute.getModifier(id);
+        if (level <= 0) {
+            if (current != null) attribute.removeModifier(id);
+            return;
+        }
+        double amount = level;
+        if (current == null || current.amount() != amount) {
+            attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
         }
     }
 

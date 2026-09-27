@@ -3,7 +3,30 @@
   "description": {
     "translate": "enchantment.eldritch-surge.impaler_reach"
   },
-  "effects": {},
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1.0,
+          "per_level_above_first": 1.0
+        },
+        "attribute": "minecraft:block_interaction_range",
+        "id": "eldritch-surge:impaler_block_reach",
+        "operation": "add_value"
+      },
+      {
+        "amount": {
+          "type": "minecraft:linear",
+          "base": 1.0,
+          "per_level_above_first": 1.0
+        },
+        "attribute": "minecraft:entity_interaction_range",
+        "id": "eldritch-surge:impaler_entity_reach",
+        "operation": "add_value"
+      }
+    ]
+  },
   "exclusive_set": "#eldritch-surge:weapon_utility",
   "max_cost": {
     "base": 50,

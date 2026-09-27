@@ -3,17 +3,30 @@
 	"package": "eldritch.surge.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"mixins": [
+		"AnvilEnchantmentsMixin",
 		"AbstractArrowMixin",
 		"EnchantmentMenuMixin",
+		"EngineRocketMixin",
+		"EnchantmentBookTagMixin",
+		"ForgedUnbreakingMixin",
+		"HeartseekerMixin",
 		"ItemEntityMixin",
 		"LivingEntityDamageMixin",
 		"NetherPortalLightMixin",
 		"PruningPlayerMixin",
+		"QuickHitMixin",
+		"SnowshoeingMixin",
+		"SnowshoeingFreezeMixin",
+		"SoulbondPlayerMixin",
+		"SoilFallingMixin",
+		"SweepAttackMixin",
+		"VanguardChargeMixin",
 		"ThrownTridentMixin",
 		"WindChargeInvoker"
 	],
 	"client": [
-		"ClearmindCameraMixin"
+		"ClearmindCameraMixin",
+		"AdvancedEnchantingParticlesMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

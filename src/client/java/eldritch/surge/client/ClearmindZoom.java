@@ -31,11 +31,14 @@ public final class ClearmindZoom {
         }
 
         var player = client.player;
-        var weapon = player.getUseItem();
-        boolean aiming = player.isUsingItem()
-                && (weapon.is(Items.BOW) || weapon.is(Items.CROSSBOW))
-                && EnchantmentLevels.onItem(player.level(), weapon, "clearmind") > 0;
-        if (!aiming) {
+        var weapon = player.getMainHandItem();
+        var offhand = player.getOffhandItem();
+        boolean holdingAimedWeapon = (weapon.is(Items.BOW) || weapon.is(Items.CROSSBOW))
+                && EnchantmentLevels.onItem(player.level(), weapon, "clearmind") > 0
+                || (offhand.is(Items.BOW) || offhand.is(Items.CROSSBOW))
+                && EnchantmentLevels.onItem(player.level(), offhand, "clearmind") > 0;
+        boolean holdingAim = client.options.keyUse.isDown();
+        if (!holdingAimedWeapon || !holdingAim) {
             active = false;
             stillTicks = 0;
             return;

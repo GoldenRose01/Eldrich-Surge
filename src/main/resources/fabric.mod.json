@@ -30,5 +30,8 @@
 		"java": ">=25",
 		"fabric-api": "*",
 		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"enchlib": "*"
 	}
 }

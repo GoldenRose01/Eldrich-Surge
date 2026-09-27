@@ -5,11 +5,13 @@ import eldritch.surge.config.EnchantmentCapsConfig;
 import eldritch.surge.EldritchSurge;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinition;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinitions;
+import eldritch.surge.enchantment.mechanics.AdvancedEnchantingFormation;
 import eldritch.surge.enchantment.mechanics.SpellBookItems;
 import eldritch.surge.menu.AdvancedEnchantingMenuMarker;
 import eldritch.surge.menu.EnchantingReagentStorage;
 import eldritch.surge.item.EldritchItems;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.RandomSource;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.Level;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.Final;
@@ -57,6 +60,33 @@ public abstract class EnchantmentMenuMixin {
     @Shadow
     @Final
     private Container enchantSlots;
+
+    @WrapOperation(
+            method = "lambda$slotsChanged$0",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;getEnchantmentCost(Lnet/minecraft/util/RandomSource;IILnet/minecraft/world/item/ItemStack;)I")
+    )
+    private int eldritchSurge$useQuartzFormationForAdvancedOffers(
+            RandomSource random, int slot, int bookshelfCount, ItemStack stack, Operation<Integer> original
+    ) {
+        boolean advancedTable = access.evaluate(
+                (level, pos) -> level.getBlockState(pos).is(EldritchBlocks.ADVANCED_ENCHANTING_TABLE),
+                false
+        );
+        if (!advancedTable) {
+            return original.call(random, slot, bookshelfCount, stack);
+        }
+
+        if (slot == 0) {
+            return original.call(random, slot, 0, stack);
+        }
+
+        boolean hasFormation = access.evaluate(AdvancedEnchantingFormation::isValid, false);
+        if (!hasFormation) {
+            return 0;
+        }
+
+        return slot == 1 ? 15 : slot == 2 ? 30 : 0;
+    }
 
     @Shadow
     public abstract void slotsChanged(Container container);
@@ -92,9 +122,7 @@ public abstract class EnchantmentMenuMixin {
     )
     private void eldritchSurge$markSpellBooks(ItemStack stack, Holder<Enchantment> enchantment, int level, Operation<Void> original) {
         original.call(stack, enchantment, level);
-        if (SpellBookItems.isCastSpell(enchantment)) {
-            SpellBookItems.markIfSpellBook(stack);
-        }
+        SpellBookItems.markIfSpellBook(stack);
     }
 
     @WrapOperation(
@@ -204,6 +232,10 @@ public abstract class EnchantmentMenuMixin {
     }
 
     private static boolean isAllowed(Identifier enchantmentId, boolean advancedTable, boolean echoShardMode, ItemStack stack, int slot, int level) {
+        if (isLootOnlyEnchantment(enchantmentId)) {
+            return false;
+        }
+
         boolean castSpell = SpellBookItems.isCastSpell(enchantmentId);
         if (castSpell && (!advancedTable || !echoShardMode || !stack.is(Items.BOOK))) {
             return false;
@@ -212,8 +244,9 @@ public abstract class EnchantmentMenuMixin {
             return false;
         }
         if (castSpell) {
-            return EnchantmentCapsConfig.isAllowedInAdvancedTable(enchantmentId)
-                    && EnchantmentCapsConfig.passesRarity(enchantmentId, stack, slot, level);
+            return EnchantmentCapsConfig.isAvailableInEnchLib(enchantmentId)
+                    && EnchantmentCapsConfig.isAllowedInAdvancedTable(enchantmentId)
+                    && EnchantmentCapsConfig.passesRarity(enchantmentId, "eldritch-surge:advanced_enchanting_table", stack, slot, level);
         }
 
         boolean tableAllowed = advancedTable
@@ -221,9 +254,17 @@ public abstract class EnchantmentMenuMixin {
                 : EnchantmentCapsConfig.isAllowedInNormalTable(enchantmentId);
 
         return tableAllowed
+                && EnchantmentCapsConfig.isAvailableInEnchLib(enchantmentId)
                 && EnchantmentCapsConfig.isAllowedForItem(enchantmentId, stack)
                 && EnchantmentCapsConfig.isCompatibleWithExistingEnchantments(enchantmentId, stack)
-                && EnchantmentCapsConfig.passesRarity(enchantmentId, stack, slot, level);
+                && EnchantmentCapsConfig.passesRarity(enchantmentId, advancedTable ? "eldritch-surge:advanced_enchanting_table" : "minecraft:enchanting_table", stack, slot, level);
+    }
+
+    private static boolean isLootOnlyEnchantment(Identifier enchantmentId) {
+        return enchantmentId.equals(EldritchSurge.id("deathbreak"))
+                || enchantmentId.equals(EldritchSurge.id("blade_of_apocalypse"))
+                || enchantmentId.equals(EldritchSurge.id("star_fate"))
+                || enchantmentId.equals(EldritchSurge.id("gream_reaper"));
     }
 
     private static boolean isValidStoredReagent(ItemStack stack, boolean advancedTable) {

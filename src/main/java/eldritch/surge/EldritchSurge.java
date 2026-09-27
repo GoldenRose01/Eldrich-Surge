@@ -8,6 +8,7 @@ import eldritch.surge.enchantment.EldritchEnchantmentEffects;
 import eldritch.surge.enchantment.EldritchEnchantmentGroups;
 import eldritch.surge.enchantment.EnchantmentIndex;
 import eldritch.surge.enchantment.mechanics.EldritchEnchantmentMechanics;
+import eldritch.surge.enchantment.mechanics.EnchLibIntegration;
 import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
 import eldritch.surge.menu.EldritchMenus;
@@ -35,10 +36,13 @@ public final class EldritchSurge implements ModInitializer {
         EldritchCreativeTabs.initialize();
         EldritchCommands.initialize();
         EldritchEnchantmentMechanics.initialize();
+        EnchantmentCapsConfig.prepareForIntegration();
+        EnchLibIntegration.synchronizeEnchantments();
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             EnchantmentIndex.refreshFromRegistry(server.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
             EnchantmentCapsConfig.loadAndSyncWithRegistry(EnchantmentIndex.snapshot().keySet());
+            EnchLibIntegration.synchronizeTablePresets();
 
             LOGGER.info("Eldritch Surge synchronized {} enchantments from the dynamic registry.",
                     EnchantmentIndex.snapshot().size());

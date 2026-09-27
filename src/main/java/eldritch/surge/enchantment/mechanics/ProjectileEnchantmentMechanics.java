@@ -6,11 +6,15 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.util.context.ContextKey;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +24,17 @@ public final class ProjectileEnchantmentMechanics {
 
     public static void initialize() {
         LootTableEvents.MODIFY_DROPS.register((table, context, drops) -> {
-            Entity directAttacker = context.getOptional(LootContextParams.DIRECT_ATTACKING_ENTITY);
-            Entity attackingEntity = context.getOptional(LootContextParams.ATTACKING_ENTITY);
+            Entity directAttacker = optionalEntity(context, LootContextParams.DIRECT_ATTACKING_ENTITY);
+            Entity attackingEntity = optionalEntity(context, LootContextParams.ATTACKING_ENTITY);
             AbstractArrow arrow = directAttacker instanceof AbstractArrow directArrow
                     ? directArrow
                     : attackingEntity instanceof AbstractArrow attackingArrow ? attackingArrow : null;
-            if (arrow == null) {
-                return;
-            }
-
-            int level = EnchantmentLevels.onItem(context.getLevel(), arrow.getWeaponItem(), "theft");
+            int level = arrow != null
+                    ? projectileLevel(context.getLevel(), arrow, "theft")
+                    : attackingEntity instanceof LivingEntity shooter
+                    ? Math.max(EnchantmentLevels.onItem(context.getLevel(), shooter.getMainHandItem(), "theft"),
+                            EnchantmentLevels.onItem(context.getLevel(), shooter.getOffhandItem(), "theft"))
+                    : 0;
             if (level <= 0 || drops.isEmpty()) {
                 return;
             }
@@ -47,13 +52,32 @@ public final class ProjectileEnchantmentMechanics {
         });
     }
 
+    private static Entity optionalEntity(LootContext context, ContextKey<Entity> key) {
+        if (!context.hasParameter(key)) {
+            return null;
+        }
+
+        for (String methodName : List.of("getOptional", "getOptionalParameter", "getParameter")) {
+            try {
+                Method method = context.getClass().getMethod(methodName, ContextKey.class);
+                return (Entity) method.invoke(context, key);
+            } catch (NoSuchMethodException ignored) {
+                // This Minecraft version uses another name for the same optional lookup.
+            } catch (ReflectiveOperationException exception) {
+                throw new IllegalStateException("Could not read optional loot context entity", exception);
+            }
+        }
+
+        throw new IllegalStateException("No optional loot parameter lookup method is available");
+    }
+
     public static float scaleArrowVelocity(ServerLevel level, AbstractArrow arrow, float velocity) {
-        int elasticity = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), "elasticity");
+        int elasticity = projectileLevel(level, arrow, "elasticity");
         return elasticity > 0 ? velocity * (1.0F + 0.25F * elasticity) : velocity;
     }
 
     public static double sniperBonus(ServerLevel level, AbstractArrow arrow) {
-        int sniper = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), "sniper");
+        int sniper = projectileLevel(level, arrow, "sniper");
         Entity owner = arrow.getOwner();
         if (sniper <= 0 || owner == null) {
             return 0.0D;
@@ -63,13 +87,13 @@ public final class ProjectileEnchantmentMechanics {
     }
 
     public static boolean isNinelevenTarget(ServerLevel level, AbstractArrow arrow, Entity target) {
-        int nineleven = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), "nineleven");
+        int nineleven = projectileLevel(level, arrow, "nineleven");
         String targetId = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getPath();
         return nineleven > 0 && (targetId.equals("phantom") || targetId.equals("bat"));
     }
 
     public static void applyCurseOfTarget(ServerLevel level, AbstractArrow arrow, Entity target) {
-        int curseLevel = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), "curse_of_target");
+        int curseLevel = projectileLevel(level, arrow, "curse_of_target");
         if (curseLevel > 0 && target instanceof net.minecraft.world.entity.LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20 * curseLevel, 0));
         }
@@ -86,6 +110,27 @@ public final class ProjectileEnchantmentMechanics {
     }
 
     public static int popLevel(ServerLevel level, AbstractArrow arrow) {
-        return EnchantmentLevels.onItem(level, arrow.getWeaponItem(), "pop");
+        return projectileLevel(level, arrow, "pop");
+    }
+
+    public static void applyCurseOfSpider(ServerLevel level, AbstractArrow arrow, Entity target) {
+        int curseLevel = projectileLevel(level, arrow, "curse_of_spider");
+        if (curseLevel > 0 && target instanceof LivingEntity living) {
+            living.addEffect(new MobEffectInstance(MobEffects.POISON, 100 + curseLevel * 20, Math.min(2, curseLevel - 1)));
+        }
+    }
+
+    private static int projectileLevel(ServerLevel level, AbstractArrow arrow, String enchantment) {
+        int levelOnArrow = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), enchantment);
+        if (levelOnArrow > 0) return levelOnArrow;
+
+        Entity owner = arrow.getOwner();
+        if (owner instanceof LivingEntity living) {
+            return Math.max(
+                    EnchantmentLevels.onItem(level, living.getMainHandItem(), enchantment),
+                    EnchantmentLevels.onItem(level, living.getOffhandItem(), enchantment)
+            );
+        }
+        return 0;
     }
 }

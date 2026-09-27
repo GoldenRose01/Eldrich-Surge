@@ -1,6 +1,104 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "eldritch-surge:item/spellbook"
+    "type": "minecraft:select",
+    "property": "minecraft:custom_model_data",
+    "index": 0,
+    "cases": [
+      {
+        "when": "archery",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_archery"
+        }
+      },
+      {
+        "when": "trident",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_trident"
+        }
+      },
+      {
+        "when": "spear",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_spear"
+        }
+      },
+      {
+        "when": "weapon",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_weapon"
+        }
+      },
+      {
+        "when": "mace",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_mace"
+        }
+      },
+      {
+        "when": "tool",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_tool"
+        }
+      },
+      {
+        "when": "farming",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_farming"
+        }
+      },
+      {
+        "when": "armor",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_armor"
+        }
+      },
+      {
+        "when": "shield",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_shield"
+        }
+      },
+      {
+        "when": "fishing",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_fishing"
+        }
+      },
+      {
+        "when": "storage",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_storage"
+        }
+      },
+      {
+        "when": "spell",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_spell"
+        }
+      },
+      {
+        "when": "universal",
+        "model": {
+          "type": "minecraft:model",
+          "model": "eldritch-surge:item/book_tags/spell_universal"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "eldritch-surge:item/spellbook"
+    }
   }
 }

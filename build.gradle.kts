@@ -53,6 +53,9 @@ val externalRuntimeMods = fileTree(externalModDir) {
 	include("*.jar")
 	exclude("fabric-api-*.jar")
 }
+val enchlibProjectDir = file(providers.gradleProperty("enchlib_project_dir").orElse("../enchlib").get())
+val enchlibVersion = providers.gradleProperty("enchlib_version").orElse("1.3.0").get()
+val enchlibJar = enchlibProjectDir.resolve("jar/enchlib-mc${requestedMinecraftVersion}-$enchlibVersion.jar")
 
 dependencies {
 	// To change the versions see the gradle.properties file
@@ -75,6 +78,7 @@ tasks.withType<JavaExec>().configureEach {
 	if (name == "runClient" || name == "runServer") {
 		doFirst {
 			val mods = externalRuntimeMods.files
+				.plus(enchlibJar.takeIf { it.isFile }?.let(::setOf).orEmpty())
 				.sortedBy { it.name }
 				.joinToString(File.pathSeparator) { it.absolutePath }
 
