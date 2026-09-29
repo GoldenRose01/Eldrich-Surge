@@ -1,11 +1,12 @@
 {
   "replace": false,
   "values": [
-    "eldritch-surge:bane_of_end",
     "eldritch-surge:blade_of_apocalypse",
     "eldritch-surge:comet_slam",
+    "eldritch-surge:gream_reaper",
     "eldritch-surge:heavy_impact",
-    "eldritch-surge:undead_slayer",
+    "eldritch-surge:katana",
+    "eldritch-surge:star_fate",
     "minecraft:breach",
     "minecraft:density",
     "minecraft:impaling",

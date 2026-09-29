@@ -54,7 +54,7 @@ val externalRuntimeMods = fileTree(externalModDir) {
 	exclude("fabric-api-*.jar")
 }
 val enchlibProjectDir = file(providers.gradleProperty("enchlib_project_dir").orElse("../enchlib").get())
-val enchlibVersion = providers.gradleProperty("enchlib_version").orElse("1.3.0").get()
+val enchlibVersion = providers.gradleProperty("enchlib_version").orElse("1.4.0").get()
 val enchlibJar = enchlibProjectDir.resolve("jar/enchlib-mc${requestedMinecraftVersion}-$enchlibVersion.jar")
 
 dependencies {

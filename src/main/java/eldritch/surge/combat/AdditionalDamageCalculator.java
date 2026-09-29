@@ -3,6 +3,8 @@ package eldritch.surge.combat;
 import eldritch.surge.enchantment.EldritchEnchantments;
 import eldritch.surge.enchantment.mechanics.EnchantmentLevels;
 import eldritch.surge.enchantment.mechanics.EnchLibMobCategories;
+import eldritch.surge.enchantment.mechanics.MobCategoryDamageMechanics;
+import eldritch.surge.enchantment.mechanics.SpiritCastMechanics;
 import eldritch.surge.game.EldritchGameRules;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +22,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 
 public final class AdditionalDamageCalculator {
-    private static final float BLADE_DAMAGE_PER_LEVEL_PER_CATEGORY = 2.0F;
     private static final TagKey<EntityType<?>> VANILLA_SMITE_TARGETS = TagKey.create(
             Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("sensitive_to_smite"));
 
@@ -40,7 +41,7 @@ public final class AdditionalDamageCalculator {
     }
 
     public static float addBladeOfApocalypseDamage(ServerLevel world, float originalDamage, LivingEntity victim, Entity attacker, net.minecraft.world.damagesource.DamageSource source) {
-        float damage = reduceIncomingDamage(world, originalDamage, victim, attacker);
+        float damage = reduceIncomingDamage(world, originalDamage, victim, attacker, source);
         if (!(attacker instanceof LivingEntity livingAttacker)) {
             return damage;
         }
@@ -73,9 +74,7 @@ public final class AdditionalDamageCalculator {
 
     public static float calculateBladeBonus(LivingEntity victim, int level) {
         if (!(victim.level() instanceof ServerLevel world)) return 0.0F;
-        int matchedCategories = EnchLibMobCategories.count(world, victim,
-                java.util.List.of("animals", "undead", "void", "hell", "water"));
-        return matchedCategories * level * BLADE_DAMAGE_PER_LEVEL_PER_CATEGORY;
+        return MobCategoryDamageMechanics.bladeOfApocalypseBonus(world, victim, level);
     }
 
     public static float applyPvpModifier(ServerLevel world, LivingEntity victim, float bonusDamage) {
@@ -119,7 +118,7 @@ public final class AdditionalDamageCalculator {
         int catapult = EnchantmentLevels.onItem(world, weapon, "catapult");
         if (catapult > 0 && livingAttacker instanceof Player player && isCriticalLike(player)) {
             var velocity = victim.getDeltaMovement();
-            victim.setDeltaMovement(velocity.x, Math.sqrt(0.48D * catapult), velocity.z);
+            victim.setDeltaMovement(velocity.x, 0.45D * catapult * 3.5D, velocity.z);
         }
 
         int lunge = EnchantmentLevels.onItem(world, weapon, "lunge");
@@ -133,13 +132,15 @@ public final class AdditionalDamageCalculator {
         if (creeping > 0) {
             victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, Math.min(2, creeping - 1)));
             if (EnchLibMobCategories.has(world, victim, "arthropods")) {
-                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, Math.min(3, creeping - 1)));
+                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 + 15 * creeping, 3));
             }
         }
 
         int backslash = EnchantmentLevels.onItem(world, weapon, "backslash");
         if (backslash > 0) {
-            victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, Math.min(3, backslash - 1)));
+            victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40 * backslash, backslash - 1));
+            var look = livingAttacker.getLookAngle();
+            victim.push(-look.x * 0.35D * backslash, 0.1D, -look.z * 0.35D * backslash);
         }
 
         int inking = EnchantmentLevels.onItem(world, weapon, "inking");
@@ -151,12 +152,12 @@ public final class AdditionalDamageCalculator {
 
         int spider = EnchantmentLevels.onItem(world, weapon, "curse_of_spider");
         if (spider > 0) {
-            victim.addEffect(new MobEffectInstance(MobEffects.POISON, 80 + spider * 20, Math.min(2, spider - 1)));
+            victim.addEffect(new MobEffectInstance(MobEffects.POISON, 30 * spider, spider - 1));
         }
 
         int perish = EnchantmentLevels.onItem(world, weapon, "curse_of_perish");
         if (perish > 0) {
-            victim.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, Math.min(4, perish - 1)));
+            victim.addEffect(new MobEffectInstance(MobEffects.WITHER, 30 * perish, perish - 1));
         }
 
         int gravityWell = EnchantmentLevels.onItem(world, weapon, "gravity_well");
@@ -210,41 +211,33 @@ public final class AdditionalDamageCalculator {
         float bonus = 0.0F;
         bonus += EnchantmentLevels.onItem(world, weapon, "katana") * 1.25F;
         bonus += EnchantmentLevels.onItem(world, weapon, "gream_reaper") * 1.5F;
+        bonus += EnchantmentLevels.onItem(world, weapon, "neptunes_will") * 2.0F;
         bonus += EnchantmentLevels.onItem(world, weapon, "superweight") * 2.0F;
         bonus += paybackBonus(world, weapon, attacker);
         if (attacker instanceof Player player && isCriticalLike(player)) {
             bonus += EnchantmentLevels.onItem(world, weapon, "experienced") * 4.0F;
         }
-        bonus += tagBonus(world, weapon, "bane_of_end", victim, "void", 2.5F);
-        bonus += tagBonus(world, weapon, "undead_slayer", victim, "undead", 3.0F);
-        bonus += tagBonus(world, weapon, "exorcist", victim, "hell", 2.5F);
-        bonus += tagBonus(world, weapon, "butcher", victim, "animals", 2.0F);
-        bonus += tagBonus(world, weapon, "herbicide", victim, "fungi", 2.5F);
-        bonus += tagBonus(world, weapon, "witch_hunter", victim, "magik", 2.5F);
-        bonus += tagBonus(world, weapon, "wrath_of_the_abyss", victim, "water", 2.5F);
-        bonus += tagBonus(world, weapon, "creeping_threat", victim, "arthropods", 2.75F);
-        bonus += tagBonus(world, weapon, "smoother", victim, "cubic", 2.5F);
-        bonus += tagBonus(world, weapon, "flogging", victim, "rebel", 2.5F);
-        int starFate = EnchantmentLevels.onItem(world, weapon, "star_fate");
-        if (starFate > 0) {
-            bonus += starFate * (
-                    categoryBonus(world, victim, "magik", 2.5F)
-                            + categoryBonus(world, victim, "arthropods", 2.75F)
-                            + categoryBonus(world, victim, "rebel", 2.5F)
-                            + categoryBonus(world, victim, "fungi", 2.5F)
-                            + categoryBonus(world, victim, "cubic", 2.5F)
-            );
-        }
+        bonus += MobCategoryDamageMechanics.bonusForHit(world, weapon, victim);
         bonus += customSmiteBonus(world, weapon, victim);
 
         return applyPvpModifier(world, victim, bonus);
     }
 
-    private static float reduceIncomingDamage(ServerLevel world, float originalDamage, LivingEntity victim, Entity attacker) {
+    private static float reduceIncomingDamage(ServerLevel world, float originalDamage, LivingEntity victim, Entity attacker,
+                                              net.minecraft.world.damagesource.DamageSource source) {
         float multiplier = 1.0F;
+        int combustion = EnchantmentLevels.onArmor(world, victim, "combustion_protection");
+        if (combustion > 0 && source != null
+                && (source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypeTags.IS_EXPLOSION))) {
+            multiplier -= Math.min(0.40F, combustion * 0.08F);
+        }
         int weaponProtection = EnchantmentLevels.onArmor(world, victim, "weapon_protection");
         if (weaponProtection > 0 && attacker instanceof LivingEntity livingAttacker && !livingAttacker.getMainHandItem().isEmpty()) {
             multiplier -= Math.min(0.5F, weaponProtection * 0.07F);
+        }
+
+        if (EnchantmentLevels.onEquipment(world, victim, "god_protection") > 0) {
+            multiplier *= 0.40F;
         }
 
         int superweight = attacker instanceof LivingEntity livingAttacker
@@ -268,31 +261,23 @@ public final class AdditionalDamageCalculator {
     }
 
     private static void applyKillRewards(ServerLevel world, LivingEntity victim, LivingEntity attacker, ItemStack weapon) {
+        int spiritCast = EnchantmentLevels.onItem(world, weapon, "spirti_cast");
+        if (spiritCast > 0 && attacker instanceof net.minecraft.server.level.ServerPlayer player) {
+            SpiritCastMechanics.recordKill(world, player, spiritCast);
+        }
+
         int triumph = EnchantmentLevels.onItem(world, weapon, "triumph");
         if (triumph > 0) {
             attacker.heal(2.0F * triumph);
         }
 
         int midas = EnchantmentLevels.onItem(world, weapon, "midas_touch");
-        if (midas > 0 && world.getRandom().nextFloat() < 0.15F * midas) {
+        if (midas > 0 && world.getRandom().nextFloat() < 0.08F * midas) {
             ItemStack gold = world.getRandom().nextFloat() < 0.15F
                     ? new ItemStack(Items.GOLD_INGOT)
-                    : new ItemStack(Items.GOLD_NUGGET, 1 + world.getRandom().nextInt(Math.max(1, midas)));
+                    : new ItemStack(Items.GOLD_NUGGET, midas);
             world.addFreshEntity(new ItemEntity(world, victim.getX(), victim.getY(), victim.getZ(), gold));
         }
-    }
-
-    private static float tagBonus(ServerLevel world, ItemStack weapon, String enchantment, LivingEntity victim, String category, float perLevel) {
-        int level = EnchantmentLevels.onItem(world, weapon, enchantment);
-        if (level <= 0 || !EnchLibMobCategories.has(world, victim, category)) {
-            return 0.0F;
-        }
-
-        return level * perLevel;
-    }
-
-    private static float categoryBonus(ServerLevel world, LivingEntity victim, String category, float amount) {
-        return EnchLibMobCategories.has(world, victim, category) ? amount : 0.0F;
     }
 
     private static float customSmiteBonus(ServerLevel world, ItemStack weapon, LivingEntity victim) {

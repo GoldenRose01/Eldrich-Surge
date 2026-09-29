@@ -1,6 +1,6 @@
 # Piano di test in gioco
 
-La checklist completa è nel [foglio Excel spuntabile](gameplay-test-plan.xlsx). Contiene tutti i 100 incantesimi definiti nei dati, con quattro colonne: nome, funzionamento/stato implementazione, esito e problemi da correggere. La colonna dell’esito ha una tendina `SI / NO / DA TESTARE`; filtri e intestazione bloccata aiutano a procedere per gruppi.
+La checklist completa è nel [foglio Excel spuntabile](gameplay-test-plan.xlsx). Contiene tutti i 100 incantesimi definiti nei dati, più i 5 aggiunti in Eldritch Surge 1.2.1, con cinque colonne: nome, funzionamento/stato implementazione, esito, problemi da correggere e oggetto da usare nel test. La colonna dell’esito ha una tendina `SI / NO / DA TESTARE`; filtri e intestazione bloccata aiutano a procedere per gruppi.
 
 ## Come compilarlo
 

@@ -7,6 +7,7 @@ import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinition;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinitions;
 import eldritch.surge.enchantment.mechanics.AdvancedEnchantingFormation;
 import eldritch.surge.enchantment.mechanics.SpellBookItems;
+import eldritch.surge.enchantment.mechanics.MobCategoryDamageMechanics;
 import eldritch.surge.menu.AdvancedEnchantingMenuMarker;
 import eldritch.surge.menu.EnchantingReagentStorage;
 import eldritch.surge.item.EldritchItems;
@@ -165,12 +166,21 @@ public abstract class EnchantmentMenuMixin {
         );
         boolean echoShardMode = advancedTable && enchantSlots.getItem(1).is(Items.ECHO_SHARD);
 
-        List<EnchantmentInstance> filtered = cir.getReturnValue().stream()
-                .map(instance -> replaceVanillaDamageEnchantments(registryAccess, instance))
-                .filter(instance -> instance.enchantment().unwrapKey()
-                        .map(key -> isAllowed(key.identifier(), advancedTable, echoShardMode, stack, slot, level))
-                        .orElse(true))
-                .toList();
+        int categoryEnchantments = MobCategoryDamageMechanics.categoryComponentCount(stack);
+        List<EnchantmentInstance> filtered = new java.util.ArrayList<>();
+        for (EnchantmentInstance original : cir.getReturnValue()) {
+            EnchantmentInstance instance = replaceVanillaDamageEnchantments(registryAccess, original);
+            boolean allowed = instance.enchantment().unwrapKey()
+                    .map(key -> isAllowed(key.identifier(), advancedTable, echoShardMode, stack, slot, level))
+                    .orElse(true);
+            if (!allowed) continue;
+            String enchantmentId = instance.enchantment().unwrapKey().map(key -> key.identifier().toString()).orElse("");
+            if (MobCategoryDamageMechanics.isCategoryComponent(enchantmentId)) {
+                if (categoryEnchantments >= 3) continue;
+                categoryEnchantments++;
+            }
+            filtered.add(instance);
+        }
 
         if (advancedTable && filtered.isEmpty()) {
             filtered = advancedTablePreset(registryAccess, stack, slot, level);
@@ -233,6 +243,10 @@ public abstract class EnchantmentMenuMixin {
 
     private static boolean isAllowed(Identifier enchantmentId, boolean advancedTable, boolean echoShardMode, ItemStack stack, int slot, int level) {
         if (isLootOnlyEnchantment(enchantmentId)) {
+            return false;
+        }
+        if (MobCategoryDamageMechanics.isCategoryComponent(enchantmentId.toString())
+                && MobCategoryDamageMechanics.categoryComponentCount(stack) >= 3) {
             return false;
         }
 

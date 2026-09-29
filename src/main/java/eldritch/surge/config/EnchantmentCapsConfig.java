@@ -13,6 +13,8 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.storage.LevelResource;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -35,6 +37,8 @@ public final class EnchantmentCapsConfig {
             .resolve("enchantment_caps.json");
 
     private static Data data = new Data();
+    private static Path worldConfigPath;
+    private static MinecraftServer activeServer;
 
     private EnchantmentCapsConfig() {
     }
@@ -45,7 +49,7 @@ public final class EnchantmentCapsConfig {
     }
 
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
-        data = readOrCreate();
+        data = readGlobalOrCreate();
         boolean needsAvailabilityMigration = data.configVersion < 2;
         boolean needsVanillaReplacementMigration = data.configVersion < 3;
         boolean needsBaseLevelPresetMigration = data.configVersion < 4;
@@ -66,7 +70,45 @@ public final class EnchantmentCapsConfig {
         }
 
         data.configVersion = 4;
+        saveGlobal();
+    }
+
+    /** Loads the saved world's overrides on top of the global defaults and persists any newly registered IDs. */
+    public static void activateWorld(MinecraftServer server, Collection<Identifier> knownEnchantments) {
+        activeServer = server;
+        Path worldRoot = server.getWorldPath(LevelResource.ROOT);
+        worldConfigPath = worldRoot.resolve("eldritch-surge").resolve("enchantment_caps.json");
+
+        Data defaults = readGlobalOrCreate();
+        Data world = readWorldOrDefaults(defaults);
+        for (Identifier id : knownEnchantments) {
+            world.enchantments.putIfAbsent(id.toString(), copyOverride(defaultOverride(id)));
+        }
+        world.configVersion = Math.max(world.configVersion, defaults.configVersion);
+        data = world;
+        captureEnchLibWorldValues();
         save();
+    }
+
+    /** Stops treating a previous save's settings as active after its server shuts down. */
+    public static void deactivateWorld() {
+        activeServer = null;
+        worldConfigPath = null;
+        data = readGlobalOrCreate();
+    }
+
+    public static String serializeForSync() {
+        return GSON.toJson(data);
+    }
+
+    /** Applies only server-sent settings on the client. Client state is never written to disk. */
+    public static void applySynchronizedData(String json) {
+        try {
+            Data synchronizedData = GSON.fromJson(json, Data.class);
+            if (synchronizedData != null && synchronizedData.enchantments != null) data = synchronizedData;
+        } catch (RuntimeException exception) {
+            EldritchSurge.LOGGER.warn("Received invalid world enchantment settings; keeping the current snapshot.", exception);
+        }
     }
 
     public static int resolveAnvilCap(Identifier enchantmentId, int vanillaCap) {
@@ -98,8 +140,6 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean isAllowedInNormalTable(Identifier enchantmentId) {
-        Boolean configured = enchLibBoolean("getTableEnabled", enchantmentId.toString(), "minecraft:enchanting_table");
-        if (configured != null) return configured;
         return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).normalTable;
     }
 
@@ -109,8 +149,6 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean isAllowedInAdvancedTable(Identifier enchantmentId) {
-        Boolean configured = enchLibBoolean("getTableEnabled", enchantmentId.toString(), "eldritch-surge:advanced_enchanting_table");
-        if (configured != null) return configured;
         return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).advancedTable;
     }
 
@@ -129,9 +167,6 @@ public final class EnchantmentCapsConfig {
 
     public static boolean isAllowedForItem(Identifier enchantmentId, ItemStack stack) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
-        @SuppressWarnings("unchecked")
-        List<String> editedRules = (List<String>) callEnchLib("getItemCategories", new Class<?>[]{String.class}, enchantmentId.toString());
-        if (editedRules != null && !editedRules.isEmpty()) return matchesEnchLibRules(editedRules, stack);
         if (override.supportedItems.isEmpty()) {
             return true;
         }
@@ -154,9 +189,6 @@ public final class EnchantmentCapsConfig {
     public static boolean isCompatibleWithExistingEnchantments(Identifier enchantmentId, ItemStack stack) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
         Set<String> blocked = new HashSet<>(override.incompatibleEnchantments);
-        @SuppressWarnings("unchecked")
-        List<String> enchLibBlocked = (List<String>) callEnchLib("getIncompatibleEnchantments", new Class<?>[]{String.class}, enchantmentId.toString());
-        if (enchLibBlocked != null) blocked.addAll(enchLibBlocked);
         if (blocked.isEmpty()) {
             return true;
         }
@@ -180,16 +212,15 @@ public final class EnchantmentCapsConfig {
 
     public static boolean passesRarity(Identifier enchantmentId, String tableId, ItemStack stack, int slot, int level) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
-        Integer editedChance = (Integer) callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, enchantmentId.toString(), tableId);
-        String rarityClass = (String) callEnchLib("getRarity", new Class<?>[]{String.class}, enchantmentId.toString());
-        int classWeight = switch (rarityClass == null ? "common" : rarityClass) {
+        int tableChance = tableId.equals("minecraft:enchanting_table")
+                ? override.normalTableChance : override.advancedTableChance;
+        int classWeight = switch (override.rarityClass) {
             case "uncommon" -> 60;
             case "rare" -> 30;
             case "very_rare" -> 5;
             default -> 100;
         };
-        int rarity = Math.max(0, Math.min(100, editedChance == null ? override.rarity : editedChance));
-        rarity = rarity * classWeight / 100;
+        int rarity = Math.max(0, Math.min(100, tableChance)) * classWeight / 100;
         if (rarity >= 100) {
             return true;
         }
@@ -202,13 +233,10 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean isAvailableInEnchLib(Identifier enchantmentId) {
-        Object enabled = callEnchLib("isEnabled", new Class<?>[]{String.class}, enchantmentId.toString());
-        return !(enabled instanceof Boolean value) || value;
+        return data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId)).enabled;
     }
 
     private static int resolve(Identifier enchantmentId, int vanillaCap, CapKind kind) {
-        Integer sharedMaximum = (Integer) callEnchLib("getMaxLevel", new Class<?>[]{String.class}, enchantmentId.toString());
-        if (sharedMaximum != null && sharedMaximum > 0) return sharedMaximum;
         CapsOverride override = data.enchantments.get(enchantmentId.toString());
         if (override == null) {
             return vanillaCap;
@@ -274,10 +302,6 @@ public final class EnchantmentCapsConfig {
         return itemId.getPath().equals(rule);
     }
 
-    private static Boolean enchLibBoolean(String method, String enchantmentId, String tableId) {
-        return (Boolean) callEnchLib(method, new Class<?>[]{String.class, String.class}, enchantmentId, tableId);
-    }
-
     private static Object callEnchLib(String method, Class<?>[] parameterTypes, Object... args) {
         if (!FabricLoader.getInstance().isModLoaded("enchlib")) return null;
         try {
@@ -288,7 +312,7 @@ public final class EnchantmentCapsConfig {
         }
     }
 
-    private static Data readOrCreate() {
+    private static Data readGlobalOrCreate() {
         if (!Files.exists(CONFIG_PATH)) {
             return new Data();
         }
@@ -299,6 +323,60 @@ public final class EnchantmentCapsConfig {
         } catch (IOException | RuntimeException exception) {
             EldritchSurge.LOGGER.warn("Could not read {}, using defaults.", CONFIG_PATH, exception);
             return new Data();
+        }
+    }
+
+    private static Data readWorldOrDefaults(Data defaults) {
+        if (worldConfigPath == null || !Files.exists(worldConfigPath)) return copyData(defaults);
+        try (Reader reader = Files.newBufferedReader(worldConfigPath)) {
+            Data loaded = GSON.fromJson(reader, Data.class);
+            if (loaded == null) return copyData(defaults);
+            if (loaded.enchantments == null) loaded.enchantments = new TreeMap<>();
+            defaults.enchantments.forEach((id, value) -> loaded.enchantments.putIfAbsent(id, copyOverride(value)));
+            return loaded;
+        } catch (IOException | RuntimeException exception) {
+            EldritchSurge.LOGGER.warn("Could not read world settings at {}; using global defaults.", worldConfigPath, exception);
+            return copyData(defaults);
+        }
+    }
+
+    private static Data copyData(Data source) {
+        Data copy = GSON.fromJson(GSON.toJson(source), Data.class);
+        return copy == null ? new Data() : copy;
+    }
+
+    private static CapsOverride copyOverride(CapsOverride source) {
+        CapsOverride copy = GSON.fromJson(GSON.toJson(source), CapsOverride.class);
+        return copy == null ? new CapsOverride() : copy;
+    }
+
+    /** Reads EnchLib's effective world view once on the logical server, then the resulting snapshot is synced. */
+    private static void captureEnchLibWorldValues() {
+        if (!FabricLoader.getInstance().isModLoaded("enchlib")) return;
+        for (Map.Entry<String, CapsOverride> entry : data.enchantments.entrySet()) {
+            String id = entry.getKey();
+            CapsOverride value = entry.getValue();
+            Object enabled = callEnchLib("isEnabled", new Class<?>[]{String.class}, id);
+            if (enabled instanceof Boolean configured) value.enabled = configured;
+            Object maxLevel = callEnchLib("getMaxLevel", new Class<?>[]{String.class}, id);
+            if (maxLevel instanceof Integer configured && configured > 0) {
+                value.anvilMaxLevel = configured;
+                value.enchantingTableMaxLevel = configured;
+            }
+            Object normalEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "minecraft:enchanting_table");
+            if (normalEnabled instanceof Boolean configured) value.normalTable = configured;
+            Object advancedEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "eldritch-surge:advanced_enchanting_table");
+            if (advancedEnabled instanceof Boolean configured) value.advancedTable = configured;
+            Object normalChance = callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, id, "minecraft:enchanting_table");
+            if (normalChance instanceof Integer configured) value.normalTableChance = configured;
+            Object advancedChance = callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, id, "eldritch-surge:advanced_enchanting_table");
+            if (advancedChance instanceof Integer configured) value.advancedTableChance = configured;
+            Object rarity = callEnchLib("getRarity", new Class<?>[]{String.class}, id);
+            if (rarity instanceof String configured && List.of("common", "uncommon", "rare", "very_rare").contains(configured)) value.rarityClass = configured;
+            Object categories = callEnchLib("getItemCategories", new Class<?>[]{String.class}, id);
+            if (categories instanceof List<?> configured) value.supportedItems = configured.stream().filter(String.class::isInstance).map(String.class::cast).toList();
+            Object incompatible = callEnchLib("getIncompatibleEnchantments", new Class<?>[]{String.class}, id);
+            if (incompatible instanceof List<?> configured) value.incompatibleEnchantments = configured.stream().filter(String.class::isInstance).map(String.class::cast).toList();
         }
     }
 
@@ -366,14 +444,23 @@ public final class EnchantmentCapsConfig {
     }
 
     public static void save() {
+        Path target = worldConfigPath == null ? CONFIG_PATH : worldConfigPath;
         try {
-            Files.createDirectories(CONFIG_PATH.getParent());
-            try (Writer writer = Files.newBufferedWriter(CONFIG_PATH)) {
+            Files.createDirectories(target.getParent());
+            try (Writer writer = Files.newBufferedWriter(target)) {
                 GSON.toJson(data, writer);
             }
+            if (worldConfigPath != null) eldritch.surge.network.WorldEnchantConfigSync.broadcast(activeServer);
         } catch (IOException exception) {
-            EldritchSurge.LOGGER.error("Could not save {}.", CONFIG_PATH, exception);
+            EldritchSurge.LOGGER.error("Could not save {}.", target, exception);
         }
+    }
+
+    private static void saveGlobal() {
+        Path previous = worldConfigPath;
+        worldConfigPath = null;
+        save();
+        worldConfigPath = previous;
     }
 
     private enum CapKind {
@@ -387,12 +474,16 @@ public final class EnchantmentCapsConfig {
     }
 
     public static final class CapsOverride {
+        public boolean enabled = true;
         public int anvilMaxLevel = 0;
         public int enchantingTableMaxLevel = 0;
         public boolean normalTable = false;
         public boolean advancedTable = false;
         public boolean loot = false;
         public int rarity = 100;
+        public String rarityClass = "common";
+        public int normalTableChance = 100;
+        public int advancedTableChance = 100;
         public List<String> supportedItems = new ArrayList<>();
         public List<String> incompatibleEnchantments = new ArrayList<>();
     }

@@ -3,6 +3,7 @@
   "description": {
     "translate": "enchantment.eldritch-surge.gream_reaper"
   },
+  "exclusive_set": "#eldritch-surge:additional_damage",
   "effects": {},
   "max_cost": {
     "base": 35,

@@ -14,7 +14,7 @@ public final class SmithcraftsEnchantment {
             List.of("minecraft:shield"),
             List.of("offhand"),
             "",
-            "Fornisce 1 punto armatura per livello mentre lo scudo è equipaggiato nella mano secondaria."
+            "Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano secondaria."
     );
 
     private SmithcraftsEnchantment() {

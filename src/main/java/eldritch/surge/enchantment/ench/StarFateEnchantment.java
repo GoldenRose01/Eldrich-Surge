@@ -14,7 +14,7 @@ public final class StarFateEnchantment {
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
             "#eldritch-surge:additional_damage",
-            "Super incantesimo AIO che unisce Witch Hunter + Bane of Arthropods + Flogging + Herbicide + Smoother."
+            "Incantesimo composito: Witch Hunter + Creeping Threat + Flogging + Herbicide + Smoother."
     );
 
     private StarFateEnchantment() {

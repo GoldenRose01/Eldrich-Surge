@@ -10,6 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.util.context.ContextKey;
@@ -24,6 +26,38 @@ public final class ProjectileEnchantmentMechanics {
 
     public static void initialize() {
         LootTableEvents.MODIFY_DROPS.register((table, context, drops) -> {
+            applyButcherDrops(context, drops);
+            BlockState brokenState = optionalParameter(context, LootContextParams.BLOCK_STATE);
+            if (brokenState != null && brokenState.is(BlockTags.CROPS)) {
+                Entity breaker = optionalEntity(context, LootContextParams.ATTACKING_ENTITY);
+                ItemStack mainHand = breaker instanceof LivingEntity living ? living.getMainHandItem() : ItemStack.EMPTY;
+                ItemStack offHand = breaker instanceof LivingEntity living ? living.getOffhandItem() : ItemStack.EMPTY;
+                int drainLooting = Math.max(EnchantmentLevels.onItem(context.getLevel(), mainHand, "drain_looting"),
+                        EnchantmentLevels.onItem(context.getLevel(), offHand, "drain_looting"));
+                if (drainLooting > 0) {
+                    List<ItemStack> cropBonus = new ArrayList<>();
+                    for (ItemStack drop : List.copyOf(drops)) {
+                        int extra = drop.getCount() * 5 * drainLooting;
+                        while (extra > 0) {
+                            int count = Math.min(extra, drop.getMaxStackSize());
+                            cropBonus.add(drop.copyWithCount(count));
+                            extra -= count;
+                        }
+                    }
+                    drops.addAll(cropBonus);
+                }
+                if (Math.max(EnchantmentLevels.onItem(context.getLevel(), mainHand, "sickened_of_hell"),
+                        EnchantmentLevels.onItem(context.getLevel(), offHand, "sickened_of_hell")) > 0) {
+                    for (int index = 0; index < drops.size(); index++) {
+                        ItemStack drop = drops.get(index);
+                        if (drop.is(net.minecraft.world.item.Items.POTATO)) {
+                            drops.set(index, new ItemStack(net.minecraft.world.item.Items.BAKED_POTATO, drop.getCount()));
+                        } else if (drop.is(net.minecraft.world.item.Items.KELP)) {
+                            drops.set(index, new ItemStack(net.minecraft.world.item.Items.DRIED_KELP, drop.getCount()));
+                        }
+                    }
+                }
+            }
             Entity directAttacker = optionalEntity(context, LootContextParams.DIRECT_ATTACKING_ENTITY);
             Entity attackingEntity = optionalEntity(context, LootContextParams.ATTACKING_ENTITY);
             AbstractArrow arrow = directAttacker instanceof AbstractArrow directArrow
@@ -52,7 +86,39 @@ public final class ProjectileEnchantmentMechanics {
         });
     }
 
+    private static void applyButcherDrops(LootContext context, List<ItemStack> drops) {
+        Entity target = optionalEntity(context, LootContextParams.THIS_ENTITY);
+        Entity attacker = optionalEntity(context, LootContextParams.ATTACKING_ENTITY);
+        if (!(target instanceof LivingEntity victim) || !(attacker instanceof LivingEntity killer)
+                || !EnchLibMobCategories.has(context.getLevel(), victim, "animals")) {
+            return;
+        }
+
+        int butcher = Math.max(EnchantmentLevels.onItem(context.getLevel(), killer.getMainHandItem(), "butcher"),
+                EnchantmentLevels.onItem(context.getLevel(), killer.getOffhandItem(), "butcher"));
+        if (butcher <= 0) return;
+
+        List<ItemStack> doubledMeat = new ArrayList<>();
+        for (ItemStack drop : List.copyOf(drops)) {
+            if (isAnimalMeat(drop)) doubledMeat.add(drop.copy());
+        }
+        drops.addAll(doubledMeat);
+    }
+
+    private static boolean isAnimalMeat(ItemStack stack) {
+        return stack.is(net.minecraft.world.item.Items.BEEF)
+                || stack.is(net.minecraft.world.item.Items.PORKCHOP)
+                || stack.is(net.minecraft.world.item.Items.CHICKEN)
+                || stack.is(net.minecraft.world.item.Items.MUTTON)
+                || stack.is(net.minecraft.world.item.Items.RABBIT);
+    }
+
     private static Entity optionalEntity(LootContext context, ContextKey<Entity> key) {
+        return optionalParameter(context, key);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> T optionalParameter(LootContext context, ContextKey<T> key) {
         if (!context.hasParameter(key)) {
             return null;
         }
@@ -60,7 +126,7 @@ public final class ProjectileEnchantmentMechanics {
         for (String methodName : List.of("getOptional", "getOptionalParameter", "getParameter")) {
             try {
                 Method method = context.getClass().getMethod(methodName, ContextKey.class);
-                return (Entity) method.invoke(context, key);
+                return (T) method.invoke(context, key);
             } catch (NoSuchMethodException ignored) {
                 // This Minecraft version uses another name for the same optional lookup.
             } catch (ReflectiveOperationException exception) {
@@ -76,6 +142,22 @@ public final class ProjectileEnchantmentMechanics {
         return elasticity > 0 ? velocity * (1.0F + 0.25F * elasticity) : velocity;
     }
 
+    /** Refunds one projectile after a successful Replenish roll. */
+    public static void tryReplenish(ServerLevel level, ItemStack weapon, ItemStack shotAmmo, LivingEntity shooter) {
+        int enchantmentLevel = EnchantmentLevels.onItem(level, weapon, "replenish");
+        if (enchantmentLevel <= 0 || shotAmmo.isEmpty()
+                || shotAmmo.has(net.minecraft.core.component.DataComponents.INTANGIBLE_PROJECTILE)
+                || level.getRandom().nextInt(100) >= Math.min(100, 33 * enchantmentLevel)) {
+            return;
+        }
+
+        ItemStack refunded = shotAmmo.copyWithCount(1);
+        if (shooter instanceof net.minecraft.world.entity.player.Player player
+                && !player.getInventory().add(refunded)) {
+            player.drop(refunded, false, net.minecraft.util.Prediction.PREDICTED);
+        }
+    }
+
     public static double sniperBonus(ServerLevel level, AbstractArrow arrow) {
         int sniper = projectileLevel(level, arrow, "sniper");
         Entity owner = arrow.getOwner();
@@ -83,7 +165,7 @@ public final class ProjectileEnchantmentMechanics {
             return 0.0D;
         }
 
-        return owner.distanceTo(arrow) * 0.1D * sniper;
+        return Math.min(owner.distanceTo(arrow) * 0.4D, 25.0D);
     }
 
     public static boolean isNinelevenTarget(ServerLevel level, AbstractArrow arrow, Entity target) {
@@ -95,7 +177,7 @@ public final class ProjectileEnchantmentMechanics {
     public static void applyCurseOfTarget(ServerLevel level, AbstractArrow arrow, Entity target) {
         int curseLevel = projectileLevel(level, arrow, "curse_of_target");
         if (curseLevel > 0 && target instanceof net.minecraft.world.entity.LivingEntity living) {
-            living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20 * curseLevel, 0));
+            living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 40 * curseLevel, 0));
         }
     }
 
@@ -116,7 +198,7 @@ public final class ProjectileEnchantmentMechanics {
     public static void applyCurseOfSpider(ServerLevel level, AbstractArrow arrow, Entity target) {
         int curseLevel = projectileLevel(level, arrow, "curse_of_spider");
         if (curseLevel > 0 && target instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(MobEffects.POISON, 100 + curseLevel * 20, Math.min(2, curseLevel - 1)));
+            living.addEffect(new MobEffectInstance(MobEffects.POISON, 30 * curseLevel, curseLevel - 1));
         }
     }
 

@@ -22,12 +22,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.ShulkerBoxBlock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public final class PassiveEnchantmentMechanics {
     private static final Identifier ARMORED_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "armored_armor");
     private static final Identifier EXCAVATOR_BLOCK_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_block_range");
     private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_entity_range");
+    private static final Identifier SMITHCRAFTS_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "smithcrafts_armor");
+    private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldritch-surge", "rabbit_foot_luck");
+    private static final Map<UUID, Set<UUID>> SEEKER_TARGETS = new HashMap<>();
+    private static final Map<UUID, ItemEntity> SEEKER_ITEMS = new HashMap<>();
 
     private PassiveEnchantmentMechanics() {
     }
@@ -38,6 +47,8 @@ public final class PassiveEnchantmentMechanics {
                 applyPlayerPassives((ServerLevel) player.level(), player);
                 applyArmored(player);
                 applyExcavator(player);
+                applyOffhandAndLuckModifiers(player);
+                updateSeekerGlow((ServerLevel) player.level(), player);
             }
         });
     }
@@ -59,49 +70,32 @@ public final class PassiveEnchantmentMechanics {
             player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 80, Math.min(4, health - 1), true, false, true));
         }
 
-        int sea = Math.max(
-                EnchantmentLevels.onArmor(level, player, "heart_of_the_sea"),
-                EnchantmentLevels.onArmor(level, player, "heart_of_depth")
-        );
+        int sea = EnchantmentLevels.onArmor(level, player, "heart_of_the_sea");
         if (sea > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 80, 0, true, false, true));
-            if (player.isInWater()) {
-                player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 60, Math.min(1, sea - 1), true, false, true));
-            }
+            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 80, Math.min(1, sea - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 80, Math.min(1, sea - 1), true, false, true));
         }
 
-        int sky = EnchantmentLevels.onArmor(level, player, "heart_of_the_sky");
-        if (sky > 0 || EnchantmentLevels.onArmor(level, player, "soft_falling") > 0) {
+        int softFalling = EnchantmentLevels.onArmor(level, player, "soft_falling");
+        if (softFalling > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 40, 0, true, false, true));
         }
 
         int night = EnchantmentLevels.onArmor(level, player, "blessing_of_the_night");
         long dayTime = level.getOverworldClockTime() % 24000L;
         if (night > 0 && dayTime >= 13000L && dayTime <= 23000L && player.tickCount % 1200 == 0) {
-            ExperienceOrb.award(level, player.position(), night * 10);
+            ExperienceOrb.award(level, player.position(), night * 5);
         }
 
         int sun = EnchantmentLevels.onArmor(level, player, "sun_blessing");
-        if (sun > 0 && dayTime < 12000L && level.canSeeSkyFromBelowWater(player.blockPosition())) {
-            player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, Math.min(1, sun - 1), true, false, true));
+        if (sun > 0 && level.dimension() == Level.OVERWORLD && dayTime < 12000L
+                && level.canSeeSkyFromBelowWater(player.blockPosition()) && player.tickCount % 1200 == 0) {
+            ExperienceOrb.award(level, player.position(), sun * 10);
         }
 
-        int hell = Math.max(
-                EnchantmentLevels.onArmor(level, player, "hell_blessing"),
-                EnchantmentLevels.onArmor(level, player, "heart_of_nether")
-        );
-        if (hell > 0 && level.dimension() == Level.NETHER) {
-            player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 80, 0, true, false, true));
-            player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 80, Math.min(1, hell - 1), true, false, true));
-        }
-
-        int end = Math.max(
-                EnchantmentLevels.onArmor(level, player, "end_blessing"),
-                EnchantmentLevels.onArmor(level, player, "end_adaptability")
-        );
-        if (end > 0 && level.dimension() == Level.END) {
-            player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 80, Math.min(1, end - 1), true, false, true));
-            player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 80, 0, true, false, true));
+        int hell = EnchantmentLevels.onArmor(level, player, "hell_blessing");
+        if (hell > 0 && (player.isInLava() || player.isOnFire()) && player.tickCount % 20 == 0) {
+            ExperienceOrb.award(level, player.position(), hell * 10);
         }
 
         int hicker = EnchantmentLevels.onArmor(level, player, "hicker");
@@ -124,6 +118,15 @@ public final class PassiveEnchantmentMechanics {
             player.removeEffect(MobEffects.BLINDNESS);
             player.removeEffect(MobEffects.NAUSEA);
             player.removeEffect(MobEffects.DARKNESS);
+        }
+
+        int swiftness = EnchantmentLevels.onEquipment(level, player, "swiftness");
+        if (swiftness > 0 && player.onGround()) {
+            var look = player.getLookAngle();
+            var direction = new net.minecraft.world.phys.Vec3(look.x, 0.0D, look.z);
+            if (direction.lengthSqr() > 1.0E-6D) {
+                player.setDeltaMovement(player.getDeltaMovement().add(direction.normalize().scale(0.03D * swiftness)));
+            }
         }
 
         int healingAura = EnchantmentLevels.onArmor(level, player, "healing_aura");
@@ -167,7 +170,7 @@ public final class PassiveEnchantmentMechanics {
         if (level <= 0) {
             if (current != null) armor.removeModifier(ARMORED_ARMOR);
         } else {
-            double points = level * 2.0D;
+            double points = level * 4.0D;
             if (current == null || current.amount() != points) {
                 armor.addOrUpdateTransientModifier(new AttributeModifier(
                         ARMORED_ARMOR, points, AttributeModifier.Operation.ADD_VALUE));
@@ -180,6 +183,35 @@ public final class PassiveEnchantmentMechanics {
                 + EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "excavator");
         updateModifier(player, Attributes.BLOCK_INTERACTION_RANGE, EXCAVATOR_BLOCK_RANGE, level);
         updateModifier(player, Attributes.ENTITY_INTERACTION_RANGE, EXCAVATOR_ENTITY_RANGE, level);
+    }
+
+    private static void applyOffhandAndLuckModifiers(ServerPlayer player) {
+        int smithcrafts = EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "smithcrafts");
+        updateModifier(player, Attributes.ARMOR, SMITHCRAFTS_ARMOR, smithcrafts * 2);
+        int rabbitFoot = EnchantmentLevels.onArmor(player.level(), player, "rabbit_foot");
+        updateModifier(player, Attributes.LUCK, RABBIT_FOOT_LUCK, rabbitFoot);
+    }
+
+    private static void updateSeekerGlow(ServerLevel level, ServerPlayer player) {
+        int seeker = EnchantmentLevels.onArmor(level, player, "seeker_blessing");
+        Set<UUID> current = new HashSet<>();
+        if (seeker > 0) {
+            for (ItemEntity item : level.getEntitiesOfClass(ItemEntity.class,
+                    player.getBoundingBox().inflate(2.0D * seeker))) {
+                item.setGlowingTag(true);
+                current.add(item.getUUID());
+                SEEKER_ITEMS.put(item.getUUID(), item);
+            }
+        }
+        Set<UUID> previous = SEEKER_TARGETS.put(player.getUUID(), current);
+        if (previous != null) {
+            for (UUID id : previous) {
+                if (!current.contains(id) && SEEKER_TARGETS.values().stream().noneMatch(items -> items.contains(id))) {
+                    ItemEntity item = SEEKER_ITEMS.remove(id);
+                    if (item != null && item.isAlive()) item.setGlowingTag(false);
+                }
+            }
+        }
     }
 
     private static void updateModifier(ServerPlayer player, net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey, Identifier id, int level) {

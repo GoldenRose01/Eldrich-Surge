@@ -14,7 +14,7 @@ public final class GreamReaperEnchantment {
             List.of("minecraft:netherite_hoe"),
             List.of("hand"),
             "",
-            "Sbloccabile unendo Blade of Apocalypse + Star Fate. Aggiunge un bonus di livello cumulativo."
+            "Sbloccabile fondendo Blade of Apocalypse + Star Fate oppure potenziando Katana con una Nether Star. Aggiunge un bonus di livello cumulativo."
     );
 
     private GreamReaperEnchantment() {

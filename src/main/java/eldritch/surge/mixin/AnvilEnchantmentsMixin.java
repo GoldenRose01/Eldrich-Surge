@@ -2,6 +2,8 @@ package eldritch.surge.mixin;
 
 import eldritch.surge.EldritchSurge;
 import eldritch.surge.enchantment.mechanics.EnchantmentLevels;
+import eldritch.surge.enchantment.mechanics.SpecialAnvilRecipes;
+import eldritch.surge.enchantment.mechanics.MobCategoryDamageMechanics;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -46,6 +48,9 @@ public abstract class AnvilEnchantmentsMixin {
     private void eldritchSurge$applyCustomAnvilEnchantments(CallbackInfo ci) {
         ItemStack left = inputSlots.getItem(AnvilMenu.INPUT_SLOT);
         ItemStack right = inputSlots.getItem(AnvilMenu.ADDITIONAL_SLOT);
+        if (SpecialAnvilRecipes.createOutput(access, inputSlots, resultSlots, cost)) {
+            return;
+        }
         if (isMaxUnbreakingBook(left) && isMaxUnbreakingBook(right)) {
             access.evaluate((level, pos) -> {
                 var registry = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
@@ -61,6 +66,15 @@ public abstract class AnvilEnchantmentsMixin {
 
         ItemStack output = resultSlots.getItem(AnvilMenu.RESULT_SLOT);
         if (output.isEmpty() || output.is(Items.ENCHANTED_BOOK)) {
+            return;
+        }
+
+        int leftComponents = MobCategoryDamageMechanics.categoryComponentCount(left);
+        int rightComponents = MobCategoryDamageMechanics.categoryComponentCount(right);
+        int outputComponents = MobCategoryDamageMechanics.categoryComponentCount(output);
+        if (rightComponents > 0 && outputComponents > 3 && outputComponents > leftComponents) {
+            resultSlots.setItem(AnvilMenu.RESULT_SLOT, ItemStack.EMPTY);
+            cost.set(0);
             return;
         }
 
