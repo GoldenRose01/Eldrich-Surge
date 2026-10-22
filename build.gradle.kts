@@ -148,3 +148,24 @@ publishing {
 		// retrieving dependencies.
 	}
 }
+
+val verifyWorldConfigCodec = tasks.register<JavaExec>("verifyWorldConfigCodec") {
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("eldritch.surge.network.WorldEnchantConfigPayloadTest")
+}
+tasks.check {
+    dependsOn(verifyWorldConfigCodec)
+}
+
+// Codec regression checks run through JavaExec without a test-framework dependency.
+tasks.test {
+    failOnNoDiscoveredTests = false
+}
+
+val verifyBloodyMaryLoot = tasks.register<JavaExec>("verifyBloodyMaryLoot") {
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("eldritch.surge.network.BloodyMaryLootTest")
+}
+tasks.check { dependsOn(verifyBloodyMaryLoot) }

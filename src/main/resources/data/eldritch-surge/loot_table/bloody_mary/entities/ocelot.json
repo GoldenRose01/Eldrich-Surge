@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:player_head",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "set_components",
+              "components": {
+                "minecraft:note_block_sound": "minecraft:entity.ocelot.ambient",
+                "minecraft:profile": {
+                  "properties": [
+                    {
+                      "name": "textures",
+                      "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTE3NWNjNDNlYThhZTIwMTY4YTFmMTcwODEwYjRkYTRkOWI0ZWJkM2M5OTc2ZTlmYzIyZTlmOTk1YzNjYmMzYyJ9fX0="
+                    }
+                  ],
+                  "id": [
+                    -1684463735,
+                    -1439041866,
+                    791256834,
+                    -1652813972
+                  ],
+                  "name": "BloodyMary"
+                },
+                "minecraft:item_name": "Ocelot Head"
+              }
+            }
+          ]
+        }
+      ],
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "killed_by_player"
+          },
+          {
+            "type": "minecraft:all_of",
+            "terms": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 package eldritch.surge.enchantment.mechanics;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -37,11 +38,13 @@ public final class PassiveEnchantmentMechanics {
     private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldritch-surge", "rabbit_foot_luck");
     private static final Map<UUID, Set<UUID>> SEEKER_TARGETS = new HashMap<>();
     private static final Map<UUID, ItemEntity> SEEKER_ITEMS = new HashMap<>();
+    private static final Map<UUID, Integer> SEEKER_ITEM_REFERENCES = new HashMap<>();
 
     private PassiveEnchantmentMechanics() {
     }
 
     public static void initialize() {
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> releaseSeekerTargets(handler.player.getUUID()));
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 applyPlayerPassives((ServerLevel) player.level(), player);
@@ -205,12 +208,30 @@ public final class PassiveEnchantmentMechanics {
         }
         Set<UUID> previous = SEEKER_TARGETS.put(player.getUUID(), current);
         if (previous != null) {
-            for (UUID id : previous) {
-                if (!current.contains(id) && SEEKER_TARGETS.values().stream().noneMatch(items -> items.contains(id))) {
-                    ItemEntity item = SEEKER_ITEMS.remove(id);
-                    if (item != null && item.isAlive()) item.setGlowingTag(false);
-                }
+            for (UUID id : previous) if (!current.contains(id)) releaseSeekerItem(id);
+        }
+        if (previous == null) {
+            for (UUID id : current) SEEKER_ITEM_REFERENCES.merge(id, 1, Integer::sum);
+        } else {
+            for (UUID id : current) {
+                if (!previous.contains(id)) SEEKER_ITEM_REFERENCES.merge(id, 1, Integer::sum);
             }
+        }
+    }
+
+    private static void releaseSeekerTargets(UUID playerId) {
+        Set<UUID> previous = SEEKER_TARGETS.remove(playerId);
+        if (previous != null) for (UUID itemId : previous) releaseSeekerItem(itemId);
+    }
+
+    private static void releaseSeekerItem(UUID itemId) {
+        Integer references = SEEKER_ITEM_REFERENCES.get(itemId);
+        if (references == null || references <= 1) {
+            SEEKER_ITEM_REFERENCES.remove(itemId);
+            ItemEntity item = SEEKER_ITEMS.remove(itemId);
+            if (item != null && item.isAlive()) item.setGlowingTag(false);
+        } else {
+            SEEKER_ITEM_REFERENCES.put(itemId, references - 1);
         }
     }
 

@@ -5,6 +5,7 @@
 	"mixins": [
 		"AnvilEnchantmentsMixin",
 		"AbstractArrowMixin",
+		"DiggerMiningTimeMixin",
 		"EnchantmentMenuMixin",
 		"EngineRocketMixin",
 		"EnchantmentBookTagMixin",

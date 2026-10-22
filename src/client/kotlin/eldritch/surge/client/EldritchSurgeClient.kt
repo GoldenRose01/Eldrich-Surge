@@ -5,6 +5,7 @@ import net.fabricmc.api.ClientModInitializer
 import eldritch.surge.config.EnchantmentCapsConfig
 import eldritch.surge.network.WorldEnchantConfigPayload
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 
 object EldritchSurgeClient : ClientModInitializer {
 	override fun onInitializeClient() {
@@ -12,7 +13,10 @@ object EldritchSurgeClient : ClientModInitializer {
 		EnchantmentTooltips.initialize()
 		ClearmindZoom.initialize()
 		ClientPlayNetworking.registerGlobalReceiver(WorldEnchantConfigPayload.TYPE) { payload, _ ->
-			EnchantmentCapsConfig.applySynchronizedData(payload.json())
+			EnchantmentCapsConfig.applyClientWorldSnapshot(payload.json(), payload.editable())
+		}
+		ClientPlayConnectionEvents.DISCONNECT.register { _, _ ->
+			EnchantmentCapsConfig.clearClientWorldSnapshot()
 		}
 	}
 }

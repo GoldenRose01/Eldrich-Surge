@@ -1,0 +1,48 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:player_head",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "set_components",
+              "components": {
+                "minecraft:note_block_sound": "minecraft:entity.sheep.shear",
+                "minecraft:profile": {
+                  "properties": [
+                    {
+                      "name": "textures",
+                      "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2ViZjFiNjc2MTgyOWQ4MDNlYjQ3ZWYwZTZlZGFiMjU1ZDI0OTg2MTRhYWNlMWM3YzAyNzQ3MGZiOWJiNmViNyJ9fX0="
+                    }
+                  ],
+                  "id": [
+                    421522562,
+                    -385892729,
+                    1920549595,
+                    708501623
+                  ],
+                  "name": "BloodyMary"
+                },
+                "minecraft:item_name": "jeb_ Sheep Head"
+              }
+            }
+          ]
+        }
+      ],
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:all_of",
+            "terms": []
+          }
+        ]
+      }
+    }
+  ]
+}

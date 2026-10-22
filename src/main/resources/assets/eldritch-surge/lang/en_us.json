@@ -1,4 +1,13 @@
 {
+  "tooltip.eldritch-surge.book_tag.swords_axes_hoes": "Swords, axes and hoes",
+  "enchantment.eldritch-surge.bloody_mary": "Bloody Mary",
+  "tooltip.eldritch-surge.enchantment.eldritch-surge.bloody_mary": "10% chance to drop the head of a mob or player killed with this weapon.",
+  "tooltip.eldritch-surge.head.killed_by": "Killed by %s",
+
+  "config.eldritch-surge.category.eldritch": "Eldritch Surge",
+  "config.eldritch-surge.category.minecraft": "Minecraft",
+  "config.eldritch-surge.world_editable": "Changes apply to the current world and are synchronized with its server.",
+  "config.eldritch-surge.world_read_only": "Read only: join a world with operator permission level 2 or higher to edit its settings.",
   "block.eldritch-surge.advanced_enchanting_table": "Advanced Enchanting Table",
   "item.eldritch-surge.spell_book": "Spell Book",
   "tooltip.eldritch-surge.book_tag.compatibility": "Compatibility:",

@@ -77,6 +77,7 @@ public final class EnchantmentBookTags {
         ModEnchantmentDefinition definition = namespace.equals("eldritch-surge")
                 ? ModEnchantmentDefinitions.BY_ID.get(path)
                 : null;
+        if (definition != null && definition.id().equals("bloody_mary")) return BookTag.SWORDS_AXES_HOES;
         if (definition != null) {
             BookTag fromCategory = fromCategory(definition.itemCategory());
             if (fromCategory != null) return fromCategory;
@@ -134,6 +135,7 @@ public final class EnchantmentBookTags {
     }
 
     public enum BookTag {
+        SWORDS_AXES_HOES("swords_axes_hoes", "⚔", "Spade, asce e zappe"),
         ARCHERY("archery", "🏹", "Arco e balestra"),
         TRIDENT("trident", "🔱", "Tridente"),
         SPEAR("spear", "🔱", "Lancia"),

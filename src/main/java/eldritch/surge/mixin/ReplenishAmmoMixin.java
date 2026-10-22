@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ProjectileWeaponItem.class)
@@ -19,7 +19,7 @@ public abstract class ReplenishAmmoMixin {
 
     @Inject(method = "useAmmo", at = @At("HEAD"))
     private static void eldritchSurge$captureAmmoCount(ItemStack weapon, ItemStack ammo, LivingEntity shooter,
-                                                       boolean creative, CallbackInfo ci) {
+                                                       boolean creative, CallbackInfoReturnable<ItemStack> cir) {
         eldritchSurge$ammoCount.set(ammo.getCount());
     }
 

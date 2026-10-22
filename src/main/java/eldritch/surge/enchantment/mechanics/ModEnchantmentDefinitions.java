@@ -46,6 +46,7 @@ public final class ModEnchantmentDefinitions {
             BaneOfEndEnchantment.DEFINITION,
             BladeOfApocalypseEnchantment.DEFINITION,
             ButcherEnchantment.DEFINITION,
+            BloodyMaryEnchantment.DEFINITION,
             CatapultEnchantment.DEFINITION,
             ClearmindEnchantment.DEFINITION,
             CreepingThreatEnchantment.DEFINITION,

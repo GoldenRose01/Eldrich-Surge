@@ -5,6 +5,7 @@ public final class EldritchEnchantmentMechanics {
     }
 
     public static void initialize() {
+        BloodyMaryMechanics.initialize();
         DiggerMiningMechanic.initialize();
         ToolEnchantmentMechanics.initialize();
         PassiveEnchantmentMechanics.initialize();

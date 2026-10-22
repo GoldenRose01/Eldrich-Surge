@@ -39,13 +39,15 @@ public final class EnchantmentCapsConfig {
     private static Data data = new Data();
     private static Path worldConfigPath;
     private static MinecraftServer activeServer;
+    private static boolean clientWorldSnapshot;
+    private static boolean clientCanEditWorld;
 
     private EnchantmentCapsConfig() {
     }
 
     /** Reads saved presets early so EnchLib's optional menu can seed table defaults before a world is opened. */
     public static void prepareForIntegration() {
-        data = readOrCreate();
+        data = readGlobalOrCreate();
     }
 
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
@@ -80,13 +82,14 @@ public final class EnchantmentCapsConfig {
         worldConfigPath = worldRoot.resolve("eldritch-surge").resolve("enchantment_caps.json");
 
         Data defaults = readGlobalOrCreate();
+        boolean hasWorldConfig = Files.exists(worldConfigPath);
         Data world = readWorldOrDefaults(defaults);
         for (Identifier id : knownEnchantments) {
             world.enchantments.putIfAbsent(id.toString(), copyOverride(defaultOverride(id)));
         }
         world.configVersion = Math.max(world.configVersion, defaults.configVersion);
         data = world;
-        captureEnchLibWorldValues();
+        if (!hasWorldConfig) captureEnchLibWorldValues();
         save();
     }
 
@@ -94,6 +97,8 @@ public final class EnchantmentCapsConfig {
     public static void deactivateWorld() {
         activeServer = null;
         worldConfigPath = null;
+        clientWorldSnapshot = false;
+        clientCanEditWorld = false;
         data = readGlobalOrCreate();
     }
 
@@ -109,6 +114,22 @@ public final class EnchantmentCapsConfig {
         } catch (RuntimeException exception) {
             EldritchSurge.LOGGER.warn("Received invalid world enchantment settings; keeping the current snapshot.", exception);
         }
+    }
+
+    public static void applyClientWorldSnapshot(String json, boolean canEdit) {
+        applySynchronizedData(json);
+        clientWorldSnapshot = true;
+        clientCanEditWorld = canEdit;
+    }
+
+    public static boolean canEditWorldRules() {
+        return clientWorldSnapshot && clientCanEditWorld;
+    }
+
+    public static void clearClientWorldSnapshot() {
+        clientWorldSnapshot = false;
+        clientCanEditWorld = false;
+        data = readGlobalOrCreate();
     }
 
     public static int resolveAnvilCap(Identifier enchantmentId, int vanillaCap) {
@@ -145,7 +166,6 @@ public final class EnchantmentCapsConfig {
 
     public static void setAllowedInNormalTable(String enchantmentId, boolean allowed) {
         data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).normalTable = allowed;
-        callEnchLib("setTableEnabled", new Class<?>[]{String.class, String.class, boolean.class}, enchantmentId, "minecraft:enchanting_table", allowed);
     }
 
     public static boolean isAllowedInAdvancedTable(Identifier enchantmentId) {
@@ -154,7 +174,6 @@ public final class EnchantmentCapsConfig {
 
     public static void setAllowedInAdvancedTable(String enchantmentId, boolean allowed) {
         data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).advancedTable = allowed;
-        callEnchLib("setTableEnabled", new Class<?>[]{String.class, String.class, boolean.class}, enchantmentId, "eldritch-surge:advanced_enchanting_table", allowed);
     }
 
     public static boolean isAllowedAsLoot(Identifier enchantmentId) {
@@ -444,6 +463,11 @@ public final class EnchantmentCapsConfig {
     }
 
     public static void save() {
+        if (FabricLoader.getInstance().getEnvironmentType() == net.fabricmc.api.EnvType.CLIENT && !clientWorldSnapshot) return;
+        if (clientWorldSnapshot) {
+            if (clientCanEditWorld) eldritch.surge.network.WorldEnchantConfigSync.submit(serializeForSync());
+            return;
+        }
         Path target = worldConfigPath == null ? CONFIG_PATH : worldConfigPath;
         try {
             Files.createDirectories(target.getParent());

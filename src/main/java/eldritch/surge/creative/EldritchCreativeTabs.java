@@ -2,6 +2,7 @@ package eldritch.surge.creative;
 
 import eldritch.surge.EldritchSurge;
 import eldritch.surge.block.EldritchBlocks;
+import eldritch.surge.config.EnchantmentCapsConfig;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinition;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinitions;
 import eldritch.surge.enchantment.mechanics.SpellBookItems;
@@ -10,12 +11,15 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import eldritch.surge.item.EldritchItems;
 
 import java.util.Comparator;
@@ -91,7 +95,13 @@ public final class EldritchCreativeTabs {
                 key,
                 FabricCreativeModeTab.builder()
                         .title(Component.translatable(titleKey))
-                        .icon(() -> new ItemStack(icon))
+                        .icon(() -> {
+                            ItemStack iconStack = new ItemStack(icon);
+                            if (category == CreativeCategory.TOOLS) {
+                                iconStack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+                            }
+                            return iconStack;
+                        })
                         .displayItems((parameters, output) -> {
                             if (category == CreativeCategory.EXTRA) {
                                 output.accept(EldritchBlocks.ADVANCED_ENCHANTING_TABLE_ITEM);
@@ -102,18 +112,68 @@ public final class EldritchCreativeTabs {
                                     .listElements()
                                     .filter(enchantment -> belongsTo(enchantment, category))
                                     .sorted(Comparator.comparing(EldritchCreativeTabs::sortKey))
-                                    .map(EldritchCreativeTabs::createMaxLevelBook)
-                                    .forEach(output::accept);
+                                    .forEach(enchantment -> {
+                                        output.accept(createMaxLevelBook(enchantment), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                                        if (category == CreativeCategory.TOOLS) {
+                                            ItemStack representativeTool = createRepresentativeTool(enchantment);
+                                            if (!representativeTool.isEmpty()) {
+                                                output.accept(representativeTool, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                                            }
+                                        }
+                                    });
                         })
                         .build()
         );
     }
 
     private static ItemStack createMaxLevelBook(Holder<Enchantment> enchantment) {
-        ItemStack book = new ItemStack(SpellBookItems.isCastSpell(enchantment) ? EldritchItems.SPELL_BOOK : Items.ENCHANTED_BOOK);
-        book.enchant(enchantment, enchantment.value().getMaxLevel());
+        int maxLevel = maxCreativeLevel(enchantment);
+        ItemStack book;
+        if (SpellBookItems.isCastSpell(enchantment)) {
+            book = new ItemStack(EldritchItems.SPELL_BOOK);
+            book.enchant(enchantment, maxLevel);
+        } else {
+            book = EnchantmentHelper.createBook(new EnchantmentInstance(enchantment, maxLevel));
+        }
         SpellBookItems.markIfSpellBook(book);
         return book;
+    }
+
+    private static ItemStack createRepresentativeTool(Holder<Enchantment> enchantment) {
+        for (var item : representativeToolCandidates()) {
+            ItemStack candidate = new ItemStack(item);
+            if (enchantment.value().isSupportedItem(candidate)) {
+                candidate.enchant(enchantment, maxCreativeLevel(enchantment));
+                return candidate;
+            }
+        }
+
+        return BuiltInRegistries.ITEM.stream()
+                .map(ItemStack::new)
+                .filter(enchantment.value()::isSupportedItem)
+                .findFirst()
+                .map(candidate -> {
+                    candidate.enchant(enchantment, maxCreativeLevel(enchantment));
+                    return candidate;
+                })
+                .orElse(ItemStack.EMPTY);
+    }
+
+    private static int maxCreativeLevel(Holder<Enchantment> enchantment) {
+        int registeredMaximum = Math.max(1, enchantment.value().getMaxLevel());
+        return enchantment.unwrapKey()
+                .map(key -> Math.max(1, EnchantmentCapsConfig.resolveAnvilCap(key.identifier(), registeredMaximum)))
+                .orElse(registeredMaximum);
+    }
+
+    private static java.util.List<net.minecraft.world.item.Item> representativeToolCandidates() {
+        return java.util.List.of(
+                Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE, Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.STONE_PICKAXE, Items.WOODEN_PICKAXE,
+                Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL, Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.STONE_SHOVEL, Items.WOODEN_SHOVEL,
+                Items.DIAMOND_AXE, Items.NETHERITE_AXE, Items.IRON_AXE, Items.GOLDEN_AXE, Items.STONE_AXE, Items.WOODEN_AXE,
+                Items.DIAMOND_HOE, Items.NETHERITE_HOE, Items.IRON_HOE, Items.GOLDEN_HOE, Items.STONE_HOE, Items.WOODEN_HOE,
+                Items.SHEARS, Items.FISHING_ROD
+        );
     }
 
     private static String sortKey(Holder.Reference<Enchantment> enchantment) {

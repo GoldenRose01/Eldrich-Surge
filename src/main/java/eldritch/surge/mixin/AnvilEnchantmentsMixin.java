@@ -9,11 +9,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
-import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -27,22 +29,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AnvilMenu.class)
-public abstract class AnvilEnchantmentsMixin {
-    @Shadow
-    @Final
-    protected ContainerLevelAccess access;
+public abstract class AnvilEnchantmentsMixin extends ItemCombinerMenu {
 
     @Shadow
     @Final
     private DataSlot cost;
 
-    @Shadow
-    @Final
-    protected Container inputSlots;
-
-    @Shadow
-    @Final
-    protected ResultContainer resultSlots;
+    protected AnvilEnchantmentsMixin(MenuType<?> type, int containerId, Inventory inventory,
+                                     ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slots) {
+        super(type, containerId, inventory, access, slots);
+    }
 
     @Inject(method = "createResult", at = @At("TAIL"))
     private void eldritchSurge$applyCustomAnvilEnchantments(CallbackInfo ci) {

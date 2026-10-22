@@ -1,0 +1,1021 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "alternatives",
+          "children": [
+            {
+              "type": "group",
+              "condition": {
+                "type": "minecraft:all_of",
+                "terms": [
+                  {
+                    "type": "killed_by_player"
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzIzODRjNWNmMTg5NDhiODNhODk1NDhkYmE1YTk5NDVlZGVlZmM1ZTk2NTRjNWQ2ZDM4YWUxMGE1ZDUwMmU3NSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1191107937,
+                                1759441373,
+                                1375754600,
+                                1230741482
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Ashen Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:ashen"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2NiYzMwNjZkMzFjNDM5MDM1MDM4ZmQ2ODc1ZDVkYmVlYzM5NjhjMWI4MDA2ZmZiZmI1ZjY3NGQ3NmM4OWNkZSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -337998388,
+                                328127585,
+                                1394500716,
+                                -2129882788
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Ashen Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:ashen"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzVhNjZhNDJiMjVmODIyYTdlMTZhMjE4NzUyOGQxYTJlMjk0YTAxZDlmODUwNjcxYjk0Yzk1NzQyYmI0OTE2ZSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                1681663613,
+                                626789186,
+                                1681712877,
+                                1592734749
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Black Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:black"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTVlZDQ3ZGVkMjcwOGIxM2Q5MmViNTBmYjY4ZThjMWUxMWIzOWEwY2Q0NWIzOTM3MmVlYWQ4NzJjNDllZWFlYiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1852918257,
+                                301332085,
+                                600078862,
+                                324034375
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Black Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:black"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2I5YjBkNDg0NDIyMDRmZjZmZDM5ZmEwNzQxNjcxMThlOWMwNjZjZGUzODg4OTc3ZDBmNjAzNmUxZDhhNjllZSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                2072373629,
+                                1624427286,
+                                1586669157,
+                                1662171723
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Chestnut Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:chestnut"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjg0YjI4ZjIzMmIxNGE1OWI2Y2I3NzU3MzIzOTc0ZWE1MDJiMWJjYjk4NGRlYTMwMDkzZWMyMWVkMmFkZTMxMiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -808975955,
+                                1175173138,
+                                157263202,
+                                -627272680
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Chestnut Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:chestnut"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVlMzNjMmRjMDdkNzZiNGYwM2U2NjQyN2EwOGNiYTJlODE3OWQwNzVhZTY0YjljZTE1MGFhNDIwOWM1YWYzOSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                67609659,
+                                172021856,
+                                -1084151103,
+                                1037550079
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Pale Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:pale"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjg4N2E0Mjc4NzkwMGU2NzE2ZmE0NjJmYmFkOGRlYjU1MjZiOTQzOTg3OTc0MTRmMDNmNjAxM2VmODg1YTFkYiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1936010394,
+                                312859,
+                                720366059,
+                                854817944
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Pale Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:pale"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjM0NTVmNjA0OGE2ODA5OGNkMjc2MzRlMzE0NmM4MWM4MjY5YWVlZmNmMGFmZjkxY2M5NzZlZmEwYmFhMTE0NiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1485315222,
+                                1843955628,
+                                913844119,
+                                -1369578790
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Rusty Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:rusty"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDFmMWMzMmU1MjU4ZjNkOGY4ZDE4MWZiMzBkZjYxZTA2OTNlNTVkNTM4YTEzZWVhYmRmNjMwMGYzODA4M2FkYyJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1695369597,
+                                694135523,
+                                -1529975766,
+                                11806593
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Rusty Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:rusty"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGVjYWRhYjUwYWE4ZDQxZmE5YjM2OWEyZjg0Zjk3NDU2YmU3OTAwYjIyMGVjZTNiOTVlOGEwMDk2ODY2MGQ1In19fQ=="
+                                }
+                              ],
+                              "id": [
+                                -66359153,
+                                195664649,
+                                1364700842,
+                                849982392
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Snowy Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:snowy"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTJiN2MyODZjMjMwODI2YjI5ZTdmZDM3ZjI1NzNiOTAxNWM0MjJiYzM4ZmViMTRkOWEzMTdjNjg1NWFkYTNmNiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1542562994,
+                                1081476403,
+                                46151650,
+                                1489219617
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Snowy Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:snowy"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTczYjlhNjQzMWFmMjZiY2IzMTgyNmViNmZkOWY0YjM1Yjk0N2JhNTg4MmM2ZTRhYTkzNTg4NjMzZjdiOGQ5ZCJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                198937689,
+                                -904787887,
+                                -154673161,
+                                -168516546
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Spotted Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:spotted"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc4NmI3MzkzNDhhYTg1MDJlYTE4NWRmYjE0YmY1YWIwMWUyOWUwODJkMWZlYjg2MTNiM2ZlOTNlMGRlYmQ4ZSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                2037674536,
+                                -328871625,
+                                108228777,
+                                1342354345
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Spotted Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:spotted"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZjNTJmYjNjZGZjNmFlYjAwZTY3YzFiN2E1OWQ4ZDMyMGRmNDQ2NTZjN2FmNjgyNGIxM2NhNjA3OTJhYTdkNyJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                1805068411,
+                                91435784,
+                                2058893238,
+                                -334731765
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Striped Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:striped"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQ2MGMyNTQ4OGIwNjcyNzY2OWE2OTE1ZDFkYWRhYTlhN2QyODMxYjQ2MGJlZTMwZTVkYTQwNzg3NDcwNTAwMSJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -740998927,
+                                1158098176,
+                                574704757,
+                                -425595258
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Striped Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:striped"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "alternatives",
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "minecraft:all_of",
+                        "terms": []
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGQxMmFiMTc2NDdiNjljOTQyMTc2OTU3MmFjNjc0ZGUxOTkxMjRjMjg0YjllZDFmNjVhMjg1YzM4Y2QyYTUwNCJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                1432461165,
+                                -1449703683,
+                                -749454137,
+                                -774059849
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Woods Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "nbt": "{anger_end_time:-1L}",
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:woods"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "item",
+                      "name": "minecraft:player_head",
+                      "weight": 1,
+                      "modifier": [
+                        {
+                          "type": "set_components",
+                          "components": {
+                            "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                            "minecraft:profile": {
+                              "properties": [
+                                {
+                                  "name": "textures",
+                                  "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMwNTgzZGJhOGVhNjE0MzA1ZGIwMTBiYWJkYzViYjQ0ZTlhMjAwMzMxMWIzOTlkODk2NWU3NzJkZDAxOTFmYiJ9fX0="
+                                }
+                              ],
+                              "id": [
+                                -1898425097,
+                                -1852389962,
+                                -344705490,
+                                46085827
+                              ],
+                              "name": "BloodyMary"
+                            },
+                            "minecraft:item_name": "Angry Woods Wolf Head"
+                          }
+                        }
+                      ],
+                      "condition": {
+                        "type": "minecraft:all_of",
+                        "terms": [
+                          {
+                            "type": "entity_properties",
+                            "predicate": {
+                              "components": {
+                                "minecraft:wolf/variant": "minecraft:woods"
+                              }
+                            },
+                            "entity": "this"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "alternatives",
+              "condition": {
+                "type": "minecraft:all_of",
+                "terms": [
+                  {
+                    "type": "minecraft:all_of",
+                    "terms": []
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "type": "item",
+                  "name": "minecraft:player_head",
+                  "weight": 1,
+                  "modifier": [
+                    {
+                      "type": "set_components",
+                      "components": {
+                        "minecraft:note_block_sound": "minecraft:entity.wolf.ambient",
+                        "minecraft:profile": {
+                          "properties": [
+                            {
+                              "name": "textures",
+                              "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWVlMzNjMmRjMDdkNzZiNGYwM2U2NjQyN2EwOGNiYTJlODE3OWQwNzVhZTY0YjljZTE1MGFhNDIwOWM1YWYzOSJ9fX0="
+                            }
+                          ],
+                          "id": [
+                            67609659,
+                            172021856,
+                            -1084151103,
+                            1037550079
+                          ],
+                          "name": "BloodyMary"
+                        },
+                        "minecraft:item_name": "Pale Wolf Head"
+                      }
+                    }
+                  ],
+                  "condition": {
+                    "type": "minecraft:all_of",
+                    "terms": [
+                      {
+                        "type": "entity_properties",
+                        "predicate": {
+                          "nbt": "{anger_end_time:-1L}"
+                        },
+                        "entity": "this"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "item",
+                  "name": "minecraft:player_head",
+                  "weight": 1,
+                  "modifier": [
+                    {
+                      "type": "set_components",
+                      "components": {
+                        "minecraft:note_block_sound": "minecraft:entity.wolf.growl",
+                        "minecraft:profile": {
+                          "properties": [
+                            {
+                              "name": "textures",
+                              "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjg4N2E0Mjc4NzkwMGU2NzE2ZmE0NjJmYmFkOGRlYjU1MjZiOTQzOTg3OTc0MTRmMDNmNjAxM2VmODg1YTFkYiJ9fX0="
+                            }
+                          ],
+                          "id": [
+                            -1936010394,
+                            312859,
+                            720366059,
+                            854817944
+                          ],
+                          "name": "BloodyMary"
+                        },
+                        "minecraft:item_name": "Angry Pale Wolf Head"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

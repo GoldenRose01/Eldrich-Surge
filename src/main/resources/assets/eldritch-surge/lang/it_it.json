@@ -1,4 +1,13 @@
 {
+  "tooltip.eldritch-surge.book_tag.swords_axes_hoes": "Spade, asce e zappe",
+  "enchantment.eldritch-surge.bloody_mary": "Bloody Mary",
+  "tooltip.eldritch-surge.enchantment.eldritch-surge.bloody_mary": "10% di probabilità di ottenere la testa di un mob o giocatore ucciso con questa arma.",
+  "tooltip.eldritch-surge.head.killed_by": "Ucciso da %s",
+
+  "config.eldritch-surge.category.eldritch": "Eldritch Surge",
+  "config.eldritch-surge.category.minecraft": "Minecraft",
+  "config.eldritch-surge.world_editable": "Le modifiche si applicano al mondo attuale e vengono sincronizzate con il server.",
+  "config.eldritch-surge.world_read_only": "Sola lettura: entra in un mondo con permessi operatore di livello 2 o superiore per modificare le impostazioni.",
   "block.eldritch-surge.advanced_enchanting_table": "Tavolo degli Incantesimi Avanzato",
   "item.eldritch-surge.spell_book": "Libro degli Incantesimi",
   "tooltip.eldritch-surge.book_tag.compatibility": "Compatibilità:",

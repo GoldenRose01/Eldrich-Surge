@@ -11,6 +11,7 @@ import eldritch.surge.enchantment.mechanics.EldritchEnchantmentMechanics;
 import eldritch.surge.enchantment.mechanics.EnchLibIntegration;
 import eldritch.surge.entity.EldritchEntityTaxonomy;
 import eldritch.surge.game.EldritchGameRules;
+import eldritch.surge.network.WorldEnchantConfigSync;
 import eldritch.surge.menu.EldritchMenus;
 import eldritch.surge.item.EldritchItems;
 import net.fabricmc.api.ModInitializer;
@@ -35,6 +36,7 @@ public final class EldritchSurge implements ModInitializer {
         EldritchEntityTaxonomy.initialize();
         EldritchCreativeTabs.initialize();
         EldritchCommands.initialize();
+        WorldEnchantConfigSync.initialize();
         EldritchEnchantmentMechanics.initialize();
         EnchantmentCapsConfig.prepareForIntegration();
         EnchLibIntegration.synchronizeEnchantments();
@@ -42,11 +44,13 @@ public final class EldritchSurge implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             EnchantmentIndex.refreshFromRegistry(server.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
             EnchantmentCapsConfig.loadAndSyncWithRegistry(EnchantmentIndex.snapshot().keySet());
+            EnchantmentCapsConfig.activateWorld(server, EnchantmentIndex.snapshot().keySet());
             EnchLibIntegration.synchronizeTablePresets();
 
             LOGGER.info("Eldritch Surge synchronized {} enchantments from the dynamic registry.",
                     EnchantmentIndex.snapshot().size());
         });
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> EnchantmentCapsConfig.deactivateWorld());
 
         LOGGER.info("Eldritch Surge initialized.");
     }

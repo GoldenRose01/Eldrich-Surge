@@ -7,11 +7,14 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 /** Complete server-authoritative enchantment configuration for the active world. */
-public record WorldEnchantConfigPayload(String json) implements CustomPacketPayload {
+public record WorldEnchantConfigPayload(String json, boolean editable) implements CustomPacketPayload {
     public static final Type<WorldEnchantConfigPayload> TYPE =
             new Type<>(EldritchSurge.id("world_enchant_config"));
     public static final StreamCodec<RegistryFriendlyByteBuf, WorldEnchantConfigPayload> CODEC =
-            StreamCodec.composite(ByteBufCodecs.STRING_UTF8, WorldEnchantConfigPayload::json, WorldEnchantConfigPayload::new);
+            StreamCodec.composite(ByteBufCodecs.byteArray(ConfigSnapshotCompression.MAX_COMPRESSED_BYTES)
+                            .map(ConfigSnapshotCompression::decode, ConfigSnapshotCompression::encode),
+                    WorldEnchantConfigPayload::json,
+                    ByteBufCodecs.BOOL, WorldEnchantConfigPayload::editable, WorldEnchantConfigPayload::new);
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
