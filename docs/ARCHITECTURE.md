@@ -1,5 +1,14 @@
 # Eldritch Surge Architecture
 
+## Module boundaries
+
+- `external_tools/` owns external utilities, their source, assets and build scripts. See its README for the configurator layout. The mod build does not depend on these tools.
+- `gradle/verification.gradle.kts` registers standalone regression checks from one task-to-entry-point map.
+- `EnchantmentLevels` owns cached registry lookup for enchantment levels.
+- `MobCategoryDamageMechanics` owns category damage rules; its component membership and integration defaults derive from those rules.
+- `TransientAttributeModifiers` owns application and removal of additive transient modifiers. Individual mechanics select amounts and activation conditions.
+- `EldritchEnchantmentMechanics` remains the entry point that initializes the mechanic modules.
+
 ## Data-driven enchantments
 
 Minecraft 1.21+ enchantments are datapack registry entries. Eldritch Surge does

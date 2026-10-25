@@ -28,9 +28,6 @@ base {
 	archivesName.set("eldrich-surge-$minecraftVersion+")
 }
 
-repositories {
-}
-
 loom {
 	splitEnvironmentSourceSets()
 
@@ -111,9 +108,7 @@ kotlin {
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
+	// Include sources in the build artifacts.
 	withSourcesJar()
 
 	sourceCompatibility = JavaVersion.VERSION_25
@@ -129,7 +124,6 @@ tasks.jar {
 	}
 }
 
-// configure the maven publication
 publishing {
 	publications {
 		register<MavenPublication>("mavenJava") {
@@ -137,13 +131,6 @@ publishing {
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
-	}
 }
 
 apply(from = "gradle/verification.gradle.kts")

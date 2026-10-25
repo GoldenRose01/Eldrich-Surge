@@ -1,148 +1,172 @@
-# Enchantment index
+# 📖 Catalogo degli incantamenti
 
-**Eldritch Surge 1.3.0 · Minecraft 26.3**
+**104 incantamenti · valori del sorgente corrente · Minecraft 26.3**
 
-This index is generated from the enchantment definitions shipped by the mod. It lists the registered level cap, rarity/classification, declared item category, acquisition route and exclusive group. “Max level” is the definition default; a world operator can override it in the world configuration.
+[Home](Home) · [Per oggetto](Per-oggetto) · [Compatibilità](Compatibilita) · [Ottenimento](Ottenimento)
 
-> Compatibility lists show the declared default groups. EnchLib settings may add or change item rules, incompatibilities, rarity and availability for a world. A blank group means no exclusive set is declared here; it does not guarantee compatibility with every other mod.
+Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e riferimenti al codice. I nomi restano quelli inglesi del gioco; le spiegazioni sono in italiano.
 
-## Enchantments
+> I livelli sono massimi di definizione, modificabili dal mondo. Le categorie riportano le regole degli oggetti effettive, non soltanto l’etichetta descrittiva della classe Java. I valori non equivalgono a una garanzia di funzionamento oltre il massimo previsto.
 
-| Enchantment | ID | Max | Rarity | Applies to | Default source | Exclusive set |
-|---|---|---:|---|---|---|---|
-| Armored | `eldrich-surge:armored` | 5 | Common | ELYTRA (`minecraft:elytra`) | Normal | — |
-| Backslash | `eldrich-surge:backslash` | 5 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:axes`) | Normal | — |
-| Bane of End | `eldrich-surge:bane_of_end` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Blade of Apocalypse | `eldrich-surge:blade_of_apocalypse` | 9 | Legendary | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Advanced | Additional damage |
-| Blessing of the Night | `eldrich-surge:blessing_of_the_night` | 5 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings |
-| Butcher | `eldrich-surge:butcher` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Catapult | `eldrich-surge:catapult` | 2 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:axes`) | Advanced | — |
-| Clearmind | `eldrich-surge:clearmind` | 5 | Ultra | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/crossbow`, `#minecraft:enchantable/bow`) | Advanced | — |
-| Cocktail Spell | `eldrich-surge:cocktail_spell` | 1 | Ritual | CAST SPELLS (RITUALI AUTOMATICI) (`minecraft:book`) | Advanced | Rituals |
-| Combustion Protection | `eldrich-surge:combustion_protection` | 5 | Epic | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | — |
-| Comet Slam | `eldrich-surge:comet_slam` | 1 | Legendary | MACE (NATIVO VANILLA) (`#minecraft:enchantable/mace`) | Advanced | Additional damage |
-| Creeping Threat | `eldrich-surge:creeping_threat` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Curse of Fragility | `eldrich-surge:curse_of_fragility` | 3 | Common | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Normal | Negative curses |
-| Curse of Perish | `eldrich-surge:curse_of_perish` | 3 | Ultra | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Advanced | Positive curses |
-| Curse of Spider | `eldrich-surge:curse_of_spider` | 5 | Ultra | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Advanced | Positive curses |
-| Curse of Target | `eldrich-surge:curse_of_target` | 5 | Uncommon | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Normal | Positive curses |
-| Curse of the Forest | `eldrich-surge:curse_of_the_forest` | 2 | Epic | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Advanced | Negative curses |
-| Dash | `eldrich-surge:dash` | 5 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`) | Normal | — |
-| DeathBreak | `eldrich-surge:deathbreak` | 1 | Ultra | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Advanced | — |
-| Digger | `eldrich-surge:digger` | 1 | Rare | TOOLS (PICKAXES, SHOVELS, HOES, SHEARS) (`#minecraft:axes`, `#minecraft:pickaxes`, `#minecraft:shovels`) | Normal, Advanced | — |
-| Dual Sweeping | `eldrich-surge:dual_sweeping` | 2 | Legendary | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`) | Advanced | — |
-| Dwarf Flakes | `eldrich-surge:dwarf_flakes` | 3 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Flakes |
-| Dwarf Forged | `eldrich-surge:dwarf_forged` | 5 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Forged |
-| Elasticity | `eldrich-surge:elasticity` | 3 | Legendary | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Advanced | — |
-| End Adaptability | `eldrich-surge:end_adaptability` | 1 | Ultra | LEGGINGS (`#minecraft:leg_armor`) | Advanced | — |
-| End Blessing | `eldrich-surge:end_blessing` | 1 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings |
-| End Flakes | `eldrich-surge:end_flakes` | 3 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Flakes |
-| End Forged | `eldrich-surge:end_forged` | 5 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Forged |
-| Enduring | `eldrich-surge:enduring` | 1 | Ultra | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Advanced | — |
-| Engine | `eldrich-surge:engine` | 10 | Epic | ELYTRA (`minecraft:elytra`) | Advanced | — |
-| Excavator | `eldrich-surge:excavator` | 3 | Rare | TOOLS (PICKAXES, SHOVELS, HOES, SHEARS) (`#minecraft:axes`, `#minecraft:pickaxes`, `#minecraft:shovels`) | Advanced | — |
-| Exorcist | `eldrich-surge:exorcist` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Experienced | `eldrich-surge:experienced` | 1 | Ultra | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:axes`) | Advanced | — |
-| Flogging | `eldrich-surge:flogging` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Freeze Aspect | `eldrich-surge:freeze_aspect` | 5 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:axes`) | Normal | — |
-| God's Protection | `eldrich-surge:god_protection` | 1 | Unique | ARMOR AND TRIDENT (`#minecraft:enchantable/armor`, `#minecraft:enchantable/trident`) | Loot | Protection (EnchLib set) |
-| Gravity Well | `eldrich-surge:gravity_well` | 2 | Epic | MACE (NATIVO VANILLA) (`#minecraft:enchantable/mace`) | Advanced | Weapon utility |
-| Gream Reaper | `eldrich-surge:gream_reaper` | 10 | Unique | NETHERITE HOE (`minecraft:netherite_hoe`) | Normal | — |
-| Healing Aura | `eldrich-surge:healing_aura` | 3 | Epic | LEGGINGS (`#minecraft:leg_armor`) | Advanced | — |
-| Health Upgrade | `eldrich-surge:health_upgrade` | 5 | Epic | CHESTPLATE (`#minecraft:chest_armor`) | Advanced | — |
-| Heart of Depth | `eldrich-surge:heart_of_depth` | 1 | Legendary | CHESTPLATE (`#minecraft:chest_armor`) | Advanced | Hearts |
-| Heart of Nether | `eldrich-surge:heart_of_nether` | 1 | Legendary | CHESTPLATE (`#minecraft:chest_armor`) | Advanced | Hearts |
-| Heart of the Sea | `eldrich-surge:heart_of_the_sea` | 1 | Legendary | CHESTPLATE (`#minecraft:chest_armor`) | Advanced | Hearts |
-| Heart of the Sky | `eldrich-surge:heart_of_the_sky` | 1 | Legendary | CHESTPLATE (`#minecraft:chest_armor`) | Advanced | Hearts |
-| Heartseeker | `eldrich-surge:heartseeker` | 1 | Legendary | SPEAR (NATIVA VANILLA) (`#eldrich-surge:enchantable/spear`) | Advanced | Aspect |
-| Heavy Impact | `eldrich-surge:heavy_impact` | 5 | Rare | MACE (NATIVO VANILLA) (`#minecraft:enchantable/mace`) | Advanced | Additional damage |
-| Hell Blessing | `eldrich-surge:hell_blessing` | 5 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings |
-| Hell Flakes | `eldrich-surge:hell_flakes` | 3 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Flakes |
-| Herbicide | `eldrich-surge:herbicide` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Hicker | `eldrich-surge:hicker` | 5 | Epic | LEGGINGS (`#minecraft:leg_armor`) | Normal | — |
-| Ice Speed | `eldrich-surge:ice_speed` | 5 | Epic | BOOTS (`#minecraft:foot_armor`) | Normal | — |
-| Impaler Reach | `eldrich-surge:impaler_reach` | 3 | Epic | SPEAR (NATIVA VANILLA) (`#eldrich-surge:enchantable/spear`) | Advanced | Weapon utility |
-| Inking | `eldrich-surge:inking` | 5 | Common | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/trident`) | Normal | — |
-| Katana | `eldrich-surge:katana` | 10 | Common | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Launch | `eldrich-surge:launch` | 5 | Epic | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/trident`) | Advanced | — |
-| Leeching Aspect | `eldrich-surge:leeching_aspect` | 2 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:axes`) | Normal | — |
-| Lunge | `eldrich-surge:lunge` | 1 | Ultra | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`) | Advanced | — |
-| Mida's Touch | `eldrich-surge:midas_touch` | 5 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:hoes`, `minecraft:netherite_hoe`) | Normal | — |
-| Neptune's Will | `eldrich-surge:neptunes_will` | 3 | Legendary | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/trident`) | Advanced | — |
-| Nether Forged | `eldrich-surge:nether_forged` | 5 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Forged |
-| Nineleven | `eldrich-surge:nineleven` | 1 | Ultra | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Advanced | — |
-| Payback | `eldrich-surge:payback` | 5 | Epic | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:axes`) | Advanced | — |
-| Phalanx Stance | `eldrich-surge:phalanx_stance` | 3 | Rare | SPEAR (NATIVA VANILLA) (`#eldrich-surge:enchantable/spear`) | Advanced | Offhand |
-| Piercing | `eldrich-surge:piercing` | 10 | Epic | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Normal | — |
-| Pop | `eldrich-surge:pop` | 5 | Epic | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Normal | — |
-| Pruning | `eldrich-surge:pruning` | 1 | Uncommon | TOOLS (PICKAXES, SHOVELS, HOES, SHEARS) (`minecraft:shears`) | Normal | — |
-| Quick Hit | `eldrich-surge:quick_hit` | 5 | Epic | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`, `#minecraft:axes`) | Advanced | — |
-| Rabbit Foot | `eldrich-surge:rabbit_foot` | 5 | Ultra | ARMOR (`#minecraft:head_armor`, `#minecraft:foot_armor`) | Advanced | — |
-| Ragnarok | `eldrich-surge:ragnarok` | 1 | Ritual | CAST SPELLS (RITUALI AUTOMATICI) (`minecraft:book`) | Advanced | Rituals |
-| Red Moon | `eldrich-surge:red_moon` | 1 | Ritual | CAST SPELLS (RITUALI AUTOMATICI) (`minecraft:book`) | Advanced | Rituals |
-| Refill | `eldrich-surge:refill` | 1 | Legendary | SHULKER BOXES (AUTOMAZIONE INVENTARIO) (`minecraft:shulker_box`, `minecraft:white_shulker_box`, `minecraft:orange_shulker_box`, `minecraft:magenta_shulker_box`, `minecraft:light_blue_shulker_box`, `minecraft:yellow_shulker_box`, `minecraft:lime_shulker_box`, `minecraft:pink_shulker_box`, `minecraft:gray_shulker_box`, `minecraft:light_gray_shulker_box`, `minecraft:cyan_shulker_box`, `minecraft:purple_shulker_box`, `minecraft:blue_shulker_box`, `minecraft:brown_shulker_box`, `minecraft:green_shulker_box`, `minecraft:red_shulker_box`, `minecraft:black_shulker_box`) | Normal | — |
-| Replenish | `eldrich-surge:replenish` | 3 | Rare | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Normal | — |
-| Sea Breeze | `eldrich-surge:sea_breeze` | 3 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/trident`) | Normal | — |
-| Sea Flakes | `eldrich-surge:sea_flakes` | 3 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Flakes |
-| Seeker Blessing | `eldrich-surge:seeker_blessing` | 5 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings (EnchLib set) |
-| Seismic Wave | `eldrich-surge:seismic_wave` | 3 | Ultra | MACE (NATIVO VANILLA) (`#minecraft:enchantable/mace`) | Advanced | Weapon utility |
-| Sickened of Hell | `eldrich-surge:sickened_of_hell` | 1 | Uncommon | TOOLS (PICKAXES, SHOVELS, HOES, SHEARS) (`#minecraft:hoes`) | Normal | — |
-| Siphon | `eldrich-surge:siphon` | 1 | Epic | SHULKER BOXES (AUTOMAZIONE INVENTARIO) (`minecraft:shulker_box`, `minecraft:white_shulker_box`, `minecraft:orange_shulker_box`, `minecraft:magenta_shulker_box`, `minecraft:light_blue_shulker_box`, `minecraft:yellow_shulker_box`, `minecraft:lime_shulker_box`, `minecraft:pink_shulker_box`, `minecraft:gray_shulker_box`, `minecraft:light_gray_shulker_box`, `minecraft:cyan_shulker_box`, `minecraft:purple_shulker_box`, `minecraft:blue_shulker_box`, `minecraft:brown_shulker_box`, `minecraft:green_shulker_box`, `minecraft:red_shulker_box`, `minecraft:black_shulker_box`) | Normal | — |
-| Smelting | `eldrich-surge:smelting` | 1 | Legendary | TOOLS (PICKAXES, SHOVELS, HOES, SHEARS) (`#minecraft:axes`, `#minecraft:pickaxes`) | Advanced | — |
-| Smithcrafts | `eldrich-surge:smithcrafts` | 3 | Common | SHIELDS (`minecraft:shield`) | Normal | — |
-| Smoother | `eldrich-surge:smoother` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Sniper | `eldrich-surge:sniper` | 1 | Uncommon | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Normal | — |
-| Snowshoeing | `eldrich-surge:snowshoeing` | 1 | Legendary | BOOTS (`#minecraft:foot_armor`) | Advanced | — |
-| Soft Falling | `eldrich-surge:soft_falling` | 1 | Unique | BOOTS (`#minecraft:foot_armor`) | Advanced | Falling |
-| Soil Falling | `eldrich-surge:soil_falling` | 1 | Rare | BOOTS (`#minecraft:foot_armor`) | Normal | Falling |
-| Soulbond | `eldrich-surge:soulbond` | 1 | Ultra | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Advanced | — |
-| Spirit Cast | `eldrich-surge:spirti_cast` | 10 | Uncommon | WEAPONS (`#minecraft:enchantable/weapon`, `minecraft:netherite_hoe`) | Normal | Power-up (EnchLib set) |
-| Star Fate | `eldrich-surge:star_fate` | 9 | Legendary | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Advanced | Additional damage |
-| Storm Spell | `eldrich-surge:storm_spell` | 1 | Ritual | CAST SPELLS (RITUALI AUTOMATICI) (`minecraft:book`) | Advanced | Rituals |
-| Sun Blessing | `eldrich-surge:sun_blessing` | 5 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings |
-| Superweight | `eldrich-surge:superweight` | 5 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`) | Normal | — |
-| Swiftness | `eldrich-surge:swiftness` | 5 | Legendary | BOOTS, BOW, CROSSBOW (`#minecraft:foot_armor`, `#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Advanced | — |
-| Theft | `eldrich-surge:theft` | 5 | Legendary | BOWS & CROSSBOWS (`#minecraft:enchantable/bow`, `#minecraft:enchantable/crossbow`) | Advanced | — |
-| Trench Spell | `eldrich-surge:trench_spell` | 10 | Ritual | CAST SPELLS (RITUALI AUTOMATICI) (`minecraft:book`) | Advanced | Rituals |
-| Triumph | `eldrich-surge:triumph` | 3 | Legendary | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:swords`) | Advanced | — |
-| Undead Slayer | `eldrich-surge:undead_slayer` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Vacuum | `eldrich-surge:vacuum` | 1 | Rare | SHULKER BOXES (AUTOMAZIONE INVENTARIO) (`minecraft:shulker_box`, `minecraft:white_shulker_box`, `minecraft:orange_shulker_box`, `minecraft:magenta_shulker_box`, `minecraft:light_blue_shulker_box`, `minecraft:yellow_shulker_box`, `minecraft:lime_shulker_box`, `minecraft:pink_shulker_box`, `minecraft:gray_shulker_box`, `minecraft:light_gray_shulker_box`, `minecraft:cyan_shulker_box`, `minecraft:purple_shulker_box`, `minecraft:blue_shulker_box`, `minecraft:brown_shulker_box`, `minecraft:green_shulker_box`, `minecraft:red_shulker_box`, `minecraft:black_shulker_box`) | Normal | — |
-| Vanguard Charge | `eldrich-surge:vanguard_charge` | 2 | Ultra | SPEAR (NATIVA VANILLA) (`#eldrich-surge:enchantable/spear`) | Advanced | Weapon utility |
-| Villager Forged | `eldrich-surge:villager_forged` | 5 | Ultra | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Advanced | Forged |
-| Vision Blessing | `eldrich-surge:vision_blessing` | 1 | Legendary | HELMET (`#minecraft:head_armor`) | Advanced | Blessings |
-| Void Sweep | `eldrich-surge:void_sweep` | 5 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:hoes`, `minecraft:netherite_hoe`) | Advanced | — |
-| Weapon Protection | `eldrich-surge:weapon_protection` | 5 | Rare | ARMOR (PEZZI GENERICI MULTIPLI) (`#minecraft:enchantable/armor`) | Normal | — |
-| Welding | `eldrich-surge:welding` | 5 | Ultra | ALL (APPLICABILI A QUALSIASI OGGETTO) (`#minecraft:enchantable/durability`) | Advanced | — |
-| Witch Hunter | `eldrich-surge:witch_hunter` | 7 | Uncommon | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
-| Wrath of the Abyss | `eldrich-surge:wrath_of_the_abyss` | 7 | Rare | WEAPONS (SWORDS, AXES, TRIDENTS) (`#minecraft:enchantable/weapon`) | Normal | Additional damage |
+## Indice delle famiglie
 
-## Compatibility rules
+- [Armatura e mobilità](#armatura-e-mobilita) — 32
+- [Combattimento](#combattimento) — 46
+- [Rituali](#rituali) — 5
+- [Durabilità](#durabilita) — 6
+- [Tiro e proiettili](#tiro-e-proiettili) — 8
+- [Scavo e strumenti](#scavo-e-strumenti) — 4
+- [Inventario](#inventario) — 3
 
-Enchantments that share one of the exclusive sets above are configured as mutually incompatible in EnchLib’s defaults. Worlds can override those choices. The special combinations below are project rules and should be checked against the active world settings:
+<a name="armatura-e-mobilita"></a>
 
-- **Butcher, Death Slayer, Exorcist, Bane of End, Wrath of the Abyss:** compatible as components; no more than three components may be placed on a tool. A book plus a Nether Star in an anvil combines the five into **Blade of Apocalypse**.
-- **Witch Hunter, Flogging, Herbicide, Creeping Threat, Smoother:** compatible as components; a book plus a Nether Star combines these five into **Star Fate**.
-- **Katana + Nether Star in an anvil:** produces **Gream Reaper**.
-- **Blade of Apocalypse, Star Fate, Gream Reaper:** treasure-only; never offered by either enchanting table and not compatible with their component enchantments.
+## Armatura e mobilità
 
-Vanilla substitutions declared by the project: **Katana** replaces Sharpness; **Creeping Threat** replaces Bane of Arthropods; **Smite** remains available and also uses EnchLib’s Undead category when EnchLib is installed.
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Armored](Incantamento-armored) | Aggiunge armatura mentre indossi l’Elytra. | 5 | Common | Normal |
+| [Blessing of the Night](Incantamento-blessing-of-the-night) | Genera esperienza durante la notte. | 5 | Legendary | Advanced |
+| [Combustion Protection](Incantamento-combustion-protection) | Riduce il danno da fuoco ed esplosioni e rinnova Resistenza al Fuoco. | 5 | Epic | Advanced |
+| [Dwarf Flakes](Incantamento-dwarf-flakes) | Quando il livello di luce ambientale è inferiore a 8, ripara 1 punto di durabilità dell'armatura ogni 4/livello minuti. | 3 | Ultra | Advanced |
+| [Dwarf Forged](Incantamento-dwarf-forged) | Può evitare il consumo di durabilità nei biomi sotterranei riconosciuti. | 5 | Ultra | Advanced |
+| [End Adaptability](Incantamento-end-adaptability) | Tenta di salvarti dal danno del vuoto cercando una superficie sicura. | 1 | Ultra | Advanced |
+| [End Blessing](Incantamento-end-blessing) | La barra della saturazione del giocatore non diminuisce mentre ci si trova nella dimensione dell'End. | 1 | Legendary | Advanced |
+| [End Flakes](Incantamento-end-flakes) | Quando non si tocca il terreno, rigenera livello/100 durabilità al secondo. | 3 | Ultra | Advanced |
+| [End Forged](Incantamento-end-forged) | Può evitare il consumo di durabilità nell’End. | 5 | Ultra | Advanced |
+| [Engine](Incantamento-engine) | Ha una probabilità del 10% * livello di restituire il razzo pirotecnico quando viene utilizzato per accelerare in volo. | 10 | Epic | Advanced |
+| [God's Protection](Incantamento-god-protection) | Applica una riduzione del 60% nel calcolatore dei danni della mod. | 1 | Unique | Loot |
+| [Healing Aura](Incantamento-healing-aura) | Cura i giocatori vicini mentre resti accovacciato. | 3 | Epic | Advanced |
+| [Health Upgrade](Incantamento-health-upgrade) | Aumenta la salute massima tramite Health Boost. | 5 | Epic | Advanced |
+| [Heart of Depth](Incantamento-heart-of-depth) | Quando si subisce danno, applica l'effetto di stato Oscurità (Darkness) all'attaccante. | 1 | Legendary | Advanced |
+| [Heart of Nether](Incantamento-heart-of-nether) | Dà fuoco automaticamente a qualsiasi entità che attacca il giocatore in mischia. | 1 | Legendary | Advanced |
+| [Heart of the Sea](Incantamento-heart-of-the-sea) | Fornisce gli effetti di stato Conduit Power e Dolphin's Grace permanenti al giocatore. | 1 | Legendary | Advanced |
+| [Heart of the Sky](Incantamento-heart-of-the-sky) | Quando colpito, congela l'attaccante applicandogli l'effetto Frost (rallentamento e danno da freddo). | 1 | Legendary | Advanced |
+| [Hell Blessing](Incantamento-hell-blessing) | Genera esperienza mentre sei nella lava o stai bruciando. | 5 | Legendary | Advanced |
+| [Hell Flakes](Incantamento-hell-flakes) | Quando il giocatore va a fuoco o subisce calore, rigenera livello punti di durabilità al secondo. | 3 | Ultra | Advanced |
+| [Hicker](Incantamento-hicker) | Conferisce Salto Potenziato mentre indossi l’armatura incantata. | 5 | Epic | Normal |
+| [Ice Speed](Incantamento-ice-speed) | Conferisce Velocità mentre sei a terra. | 5 | Epic | Normal |
+| [Nether Forged](Incantamento-nether-forged) | Può evitare il consumo di durabilità nel Nether. | 5 | Ultra | Advanced |
+| [Rabbit Foot](Incantamento-rabbit-foot) | Aumenta la fortuna dell'utilizzatore di 1 punto per livello. | 5 | Ultra | Advanced |
+| [Sea Flakes](Incantamento-sea-flakes) | Rigenera 1 punto di durabilità ogni 4/livello minuti quando ci si trova sotto la pioggia o immersi in acqua. | 3 | Ultra | Advanced |
+| [Seeker Blessing](Incantamento-seeker-blessing) | Rende luminosi gli oggetti a terra entro 2 blocchi per livello. | 5 | Legendary | Advanced |
+| [Snowshoeing](Incantamento-snowshoeing) | Permette al giocatore di camminare sopra la neve polverosa senza sprofondare e senza subire congelamento. | 1 | Legendary | Advanced |
+| [Soft Falling](Incantamento-soft-falling) | Premere Salto in aria attiva Caduta Lenta; gli stivali prevengono il danno da caduta. | 1 | Unique | Advanced |
+| [Soil Falling](Incantamento-soil-falling) | Impedisce la distruzione dei blocchi di terreno zappato (farmland/crops) quando ci si salta sopra. | 1 | Rare | Normal |
+| [Sun Blessing](Incantamento-sun-blessing) | Genera esperienza di giorno nell’Overworld con cielo visibile. | 5 | Legendary | Advanced |
+| [Villager Forged](Incantamento-villager-forged) | Può evitare il consumo di durabilità nell’Overworld. | 5 | Ultra | Advanced |
+| [Vision Blessing](Incantamento-vision-blessing) | Fornisce l'effetto di stato Visione Notturna permanente. | 1 | Legendary | Advanced |
+| [Weapon Protection](Incantamento-weapon-protection) | Riduce il danno da un attaccante che impugna un oggetto. | 5 | Rare | Normal |
 
-## Books and tables
+<a name="combattimento"></a>
 
-- Cast spells are represented by **Spell Books**, separate from vanilla Enchanted Books. They are for the Advanced Enchanting Table workflow.
-- The Advanced Enchanting Table uses its own block formation and offers its 15/30-level slots only while the required formation is valid.
-- Table availability and loot eligibility are separate settings. Treasure-only enchantments stay excluded from both tables by code.
+## Combattimento
 
-## Notes
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Backslash](Incantamento-backslash) | Respingerà il nemico applicando l'effetto di stato Debolezza (Weakness) proporzionale al livello. | 5 | Rare | Normal |
+| [Bane of End](Incantamento-bane-of-end) | Aggiunge 2,5 danni per livello contro la categoria void. | 7 | Uncommon | Normal |
+| [Blade of Apocalypse](Incantamento-blade-of-apocalypse) | Aggiunge danno per ciascuna categoria bersaglio corrispondente. | 9 | Legendary | Fusione |
+| [Bloody Mary](Incantamento-bloody-mary) | Può far ottenere la testa della vittima di un’uccisione in mischia. | 1 | Rare | Advanced |
+| [Butcher](Incantamento-butcher) | Aggiunge danno contro gli animali e raddoppia specifici drop di carne. | 7 | Uncommon | Normal |
+| [Catapult](Incantamento-catapult) | Un attacco critico andato a segno scaraventa il target colpito in aria. | 2 | Uncommon | Advanced |
+| [Comet Slam](Incantamento-comet-slam) | Se lo Smash Attack viene eseguito da piu di 12 blocchi d'altezza, genera un'esplosione magica che incendia l'area e applica Knockback X. | 1 | Legendary | Advanced |
+| [Creeping Threat](Incantamento-creeping-threat) | Aggiunge danno contro gli artropodi e applica debolezza e rallentamento. | 7 | Uncommon | Normal |
+| [Curse of Perish](Incantamento-curse-of-perish) | Infligge l'effetto di stato Wither al target con intensità pari al livello dell'incanto. | 3 | Ultra | Advanced |
+| [Curse of Spider](Incantamento-curse-of-spider) | Applica Veleno al bersaglio colpito. | 5 | Ultra | Advanced |
+| [Dash](Incantamento-dash) | Aumenta il danno del colpo di 1 + livello/2 se la stessa arma con lo stesso incantesimo è impugnata contemporaneamente in entrambe le mani. | 5 | Uncommon | Normal |
+| [Dual Sweeping](Incantamento-dual-sweeping) | Raddoppia il danno del fendente quando nell’altra mano c’è una spada. | 2 | Legendary | Advanced |
+| [Exorcist](Incantamento-exorcist) | Aggiunge 2,5 danni per livello contro la categoria hell. | 7 | Uncommon | Normal |
+| [Experienced](Incantamento-experienced) | Aggiunge 4 danni per livello ai colpi considerati critici dalla mod. | 1 | Ultra | Advanced |
+| [Flogging](Incantamento-flogging) | Aggiunge 2,5 danni per livello contro la categoria rebel. | 7 | Uncommon | Normal |
+| [Freeze Aspect](Incantamento-freeze-aspect) | Applica l'effetto rallentamento e congelamento progressivo sul bersaglio. | 5 | Rare | Normal |
+| [Gravity Well](Incantamento-gravity-well) | Durante un attacco dall'alto, attira lentamente i mob nel raggio di 5 blocchi verso il punto d'impatto. | 2 | Epic | Advanced |
+| [Gream Reaper](Incantamento-gream-reaper) | Aggiunge 2,5 danni per livello senza richiedere una categoria mob. | 10 | Unique | Fusione |
+| [Heartseeker](Incantamento-heartseeker) | Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato. | 1 | Legendary | Advanced |
+| [Heavy Impact](Incantamento-heavy-impact) | Aggiunge danno agli schianti della mazza. | 5 | Rare | Advanced |
+| [Herbicide](Incantamento-herbicide) | Aggiunge 3 danni per livello contro la categoria fungi. | 7 | Uncommon | Normal |
+| [Impaler Reach](Incantamento-impaler-reach) | Aggiunge un blocco di portata per livello a interazioni ed entità. | 3 | Epic | Advanced |
+| [Inking](Incantamento-inking) | Acceca il bersaglio (Darkness) evidenziando la sua sagoma (Glowing) e debilitandolo (Weakness). | 5 | Common | Normal |
+| [Katana](Incantamento-katana) | Aggiunge 1,25 danni d’attacco per livello. | 10 | Common | Normal |
+| [Launch](Incantamento-launch) | Spinge verticalmente il bersaglio colpito. | 5 | Epic | Advanced |
+| [Leeching Aspect](Incantamento-leeching-aspect) | Cura l’attaccante dopo un colpo critico. | 2 | Rare | Normal |
+| [Lunge](Incantamento-lunge) | Spinge il bersaglio lontano dall’attaccante. | 1 | Ultra | Advanced |
+| [Mida's Touch](Incantamento-midas-touch) | Le uccisioni possono generare pepite o un lingotto d’oro. | 5 | Rare | Normal |
+| [Neptune's Will](Incantamento-neptunes-will) | Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle altre armi se il tridente incantato è nella mano secondaria. | 3 | Legendary | Advanced |
+| [Payback](Incantamento-payback) | Aumenta il danno al diminuire della salute. | 5 | Epic | Advanced |
+| [Phalanx Stance](Incantamento-phalanx-stance) | Scudo nella mano principale e lancia nella secondaria conferiscono difesa. | 3 | Rare | Advanced |
+| [Quick Hit](Incantamento-quick-hit) | Accorcia il tempo di recupero degli attacchi. | 5 | Epic | Advanced |
+| [Sea Breeze](Incantamento-sea-breeze) | Il tridente lanciato rilascia una carica di vento (Wind Charge) che scaraventa via i nemici vicini all'impatto. | 3 | Uncommon | Normal |
+| [Seismic Wave](Incantamento-seismic-wave) | Gli attacchi in caduta (Smash) generano un'onda d'urto che infligge il 20% * livello del danno totale ai mob nel raggio di 4 blocchi. | 3 | Ultra | Advanced |
+| [Sickened of Hell](Incantamento-sickened-of-hell) | Converte patate e kelp raccolti nei corrispondenti prodotti cotti. | 1 | Uncommon | Normal |
+| [Smithcrafts](Incantamento-smithcrafts) | Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano secondaria. | 3 | Common | Normal |
+| [Smoother](Incantamento-smoother) | Aggiunge 3 danni per livello contro la categoria cubic. | 7 | Uncommon | Normal |
+| [Spirit Cast](Incantamento-spirit-cast) | Ogni 15 meno livello uccisioni assegna casualmente Forza, Velocità o Resistenza per 10 secondi. | 10 | Uncommon | Normal |
+| [Star Fate](Incantamento-star-fate) | Combina i bersagli magici, artropodi, ribelli, fungini e cubici. | 9 | Legendary | Fusione |
+| [Superweight](Incantamento-superweight) | Aggiunge danno nel calcolatore dei colpi. | 5 | Rare | Normal |
+| [Triumph](Incantamento-triumph) | Cura dopo aver ucciso il bersaglio. | 3 | Legendary | Advanced |
+| [Undead Slayer](Incantamento-undead-slayer) | Aggiunge 2,5 danni per livello contro la categoria undead. | 7 | Uncommon | Normal |
+| [Vanguard Charge](Incantamento-vanguard-charge) | Doppia pressione dello scatto esegue un affondo aereo che trascina i mob colpiti fino al primo blocco solido, infliggendo danno da impatto. | 2 | Ultra | Advanced |
+| [Void Sweep](Incantamento-void-sweep) | Con qualsiasi zappa, il colpo diretto e il fendente infliggono almeno 10 + livello danni; aumenta il raggio e applica Knockback II. | 5 | Rare | Advanced |
+| [Witch Hunter](Incantamento-witch-hunter) | Aggiunge 2,5 danni per livello contro la categoria magik. | 7 | Uncommon | Normal |
+| [Wrath of the Abyss](Incantamento-wrath-of-the-abyss) | Aggiunge 3 danni per livello contro la categoria water. | 7 | Rare | Normal |
 
-- The descriptions in the Java definitions are concise design summaries; some detailed mechanics are still being validated in game.
-- The complete behavior checklist is [`docs/gameplay-test-plan.xlsx`](../gameplay-test-plan.xlsx).
-- Source definitions: [`ModEnchantmentDefinitions.java`](../../src/main/java/eldritch/surge/enchantment/mechanics/ModEnchantmentDefinitions.java).
+<a name="rituali"></a>
 
-## Bloody Mary
+## Rituali
 
-Bloody Mary is a single-level Rare enchantment for swords, axes and hoes, available through the Advanced Enchanting Table by default. A direct melee kill with the enchanted weapon has a fixed 10% chance to drop one head. Looting does not change this chance; keeping an enchanted item in the offhand or switching to it after shooting does not qualify.
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Cocktail Spell](Incantamento-cocktail-spell) | Condivide gli effetti di stato del lanciatore con i giocatori vicini. | 1 | Ritual | Advanced |
+| [Ragnarok](Incantamento-ragnarok) | Evoca sul posto 4 Wither Skeleton dotati di scheletro equino come cavalcatura e armatura completa in Netherite. | 1 | Ritual | Advanced |
+| [Red Moon](Incantamento-red-moon) | Evoca un'ondata di 30 Zombie dotati di equipaggiamento in diamante e varianti zombie horse. | 1 | Ritual | Advanced |
+| [Storm Spell](Incantamento-storm-spell) | Forzza il meteo globale in temporale elettrico ed evoca 5 fulmini casuali nel raggio ristretto di 32 blocchi. | 1 | Ritual | Advanced |
+| [Trench Spell](Incantamento-trench-spell) | Scava una voragine quadrata partendo dalla coordinata Y d'impatto scendendo in verticale fino a Y=-55. L'area d'aria ripulita segue la formula geometrica da -(2+livello) a +(2+livello). | 10 | Ritual | Advanced |
 
-Players drop their own profile head, with a localized “Killed by” lore line. Vanilla mobs use native skulls where available and the supplied More Mob Heads textures and variant predicates otherwise. Mod-added mobs need additional head tables and are not covered by the supplied vanilla catalog. The effect respects the mob-drops game rule.
+<a name="durabilita"></a>
 
-The implementation uses isolated loot tables under `eldrich-surge:bloody_mary/entities/`, without replacing vanilla entity or player loot tables. The supplied head datapacks do not need to be installed separately. Installing them separately may also generate their own independent head drops.
+## Durabilità
+
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Curse of Fragility](Incantamento-curse-of-fragility) | L'esatto opposto di Unbreaking; aumenta sensibilmente il consumo di durabilità dell'oggetto ad ogni utilizzo. | 3 | Common | Normal |
+| [Curse of the Forest](Incantamento-curse-of-the-forest) | Alla morte del giocatore, l'oggetto genera un'esplosione controllata (Lvl 1 = Esplosione Creeper, Lvl 2 = Creeper Caricato). | 2 | Epic | Advanced |
+| [DeathBreak](Incantamento-deathbreak) | Blocca il consumo di durabilità e sostituisce Unbreaking. | 1 | Ultra | Speciale |
+| [Enduring](Incantamento-enduring) | Gli oggetti incantati rimangono persistenti a terra all'infinito quando vengono droppati, prevenendo il despawn dei 5 minuti. | 1 | Ultra | Advanced |
+| [Soulbond](Incantamento-soulbond) | Mantiene l'oggetto nell'inventario del giocatore dopo la morte anche se la gamerule keepInventory è impostata su false. | 1 | Ultra | Advanced |
+| [Welding](Incantamento-welding) | Riduce il costo in XP delle riparazioni all’incudine. | 5 | Ultra | Advanced |
+
+<a name="tiro-e-proiettili"></a>
+
+## Tiro e proiettili
+
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Curse of Target](Incantamento-curse-of-target) | Le frecce evidenziano il bersaglio colpito. | 5 | Uncommon | Normal |
+| [Elasticity](Incantamento-elasticity) | Aumenta la velocità delle frecce del 25% per livello. | 3 | Legendary | Advanced |
+| [Nineleven](Incantamento-nineleven) | Abbate all'istante (Instakill) Phantom e Pipistrelli colpiti dal dardo. | 1 | Ultra | Advanced |
+| [Pop](Incantamento-pop) | Le frecce producono un’esplosione all’impatto. | 5 | Epic | Normal |
+| [Replenish](Incantamento-replenish) | Può rimborsare un proiettile dopo il tiro. | 3 | Rare | Normal |
+| [Sniper](Incantamento-sniper) | Aggiunge danno in funzione della distanza dal tiratore. | 1 | Uncommon | Normal |
+| [Swiftness](Incantamento-swiftness) | Aumenta la velocità di movimento durante la carica di arco o lancia. | 5 | Legendary | Advanced |
+| [Theft](Incantamento-theft) | Aggiunge copie casuali dei drop nelle uccisioni gestite dalla meccanica. | 5 | Legendary | Advanced |
+
+<a name="scavo-e-strumenti"></a>
+
+## Scavo e strumenti
+
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Digger](Incantamento-digger) | Rompe un piano di blocchi 3×3 attorno al blocco estratto. | 1 | Rare | Normal, Advanced |
+| [Excavator](Incantamento-excavator) | Aumenta la portata di interazione con blocchi ed entità. | 3 | Rare | Advanced |
+| [Pruning](Incantamento-pruning) | Distrugge istantaneamente (Instamine) blocchi di foglie, erba e altri blocchi delicati gestiti dalle cesoie. | 1 | Uncommon | Normal |
+| [Smelting](Incantamento-smelting) | Sostituisce determinati blocchi con drop trasformati. | 1 | Legendary | Advanced |
+
+<a name="inventario"></a>
+
+## Inventario
+
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Refill](Incantamento-refill) | Rifornisce lo stack nella mano principale dalla Shulker Box. | 1 | Legendary | Normal |
+| [Siphon](Incantamento-siphon) | Instrada gli oggetti raccolti negli stack incompleti di una Shulker Box. | 1 | Epic | Normal |
+| [Vacuum](Incantamento-vacuum) | Raccoglie gli oggetti vicini dentro una Shulker Box incantata. | 1 | Rare | Normal |

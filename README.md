@@ -1,5 +1,7 @@
 # Eldritch Surge
 
+📚 **[Wiki completa](https://github.com/GoldenRose01/Eldrich-Surge/wiki)** — catalogo degli incantamenti, regole, tavolo avanzato, fusioni e configurazione.
+
 **A Fabric enchantment overhaul for Minecraft 26.3**
 
 Eldritch Surge expands enchantment progression and combat with **106 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes and world-specific configuration.

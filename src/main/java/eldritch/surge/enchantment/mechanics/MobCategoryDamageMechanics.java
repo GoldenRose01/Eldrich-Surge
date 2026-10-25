@@ -1,5 +1,6 @@
 package eldritch.surge.enchantment.mechanics;
 
+import eldritch.surge.EldritchSurge;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -8,6 +9,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Damage rules driven by EnchLib's editable world mob categories. */
 public final class MobCategoryDamageMechanics {
@@ -32,11 +35,9 @@ public final class MobCategoryDamageMechanics {
             new CategoryBonus("star_fate", "cubic", 2.5F)
     );
     private static final List<String> BLADE_CATEGORIES = List.of("animals", "undead", "void", "hell", "water");
-    private static final java.util.Set<String> CATEGORY_COMPONENTS = java.util.Set.of(
-            "eldrich-surge:butcher", "eldrich-surge:undead_slayer", "eldrich-surge:bane_of_end",
-            "eldrich-surge:exorcist", "eldrich-surge:wrath_of_the_abyss", "eldrich-surge:witch_hunter",
-            "eldrich-surge:creeping_threat", "eldrich-surge:flogging", "eldrich-surge:herbicide",
-            "eldrich-surge:smoother");
+    private static final Set<String> CATEGORY_COMPONENTS = INDIVIDUAL_ENCHANTMENTS.stream()
+            .map(rule -> EldritchSurge.id(rule.enchantmentId()).toString())
+            .collect(Collectors.toUnmodifiableSet());
 
     private MobCategoryDamageMechanics() {
     }
@@ -67,7 +68,7 @@ public final class MobCategoryDamageMechanics {
     public static Map<String, List<String>> enchantmentCategoryDefaults() {
         Map<String, List<String>> categories = new LinkedHashMap<>();
         for (CategoryBonus bonus : INDIVIDUAL_ENCHANTMENTS) {
-            categories.put("eldrich-surge:" + bonus.enchantmentId(), List.of(bonus.category()));
+            categories.put(EldritchSurge.id(bonus.enchantmentId()).toString(), List.of(bonus.category()));
         }
         categories.put("eldrich-surge:star_fate", STAR_FATE_CATEGORIES.stream()
                 .map(CategoryBonus::category).distinct().toList());

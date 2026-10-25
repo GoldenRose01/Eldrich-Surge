@@ -11,8 +11,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -152,18 +150,7 @@ public final class PassiveEnchantmentMechanics {
         int level = player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
                 ? EnchantmentLevels.onArmor(player.level(), player, "armored")
                 : 0;
-        AttributeInstance armor = player.getAttribute(Attributes.ARMOR);
-        if (armor == null) return;
-        AttributeModifier current = armor.getModifier(ARMORED_ARMOR);
-        if (level <= 0) {
-            if (current != null) armor.removeModifier(ARMORED_ARMOR);
-        } else {
-            double points = level * 4.0D;
-            if (current == null || current.amount() != points) {
-                armor.addOrUpdateTransientModifier(new AttributeModifier(
-                        ARMORED_ARMOR, points, AttributeModifier.Operation.ADD_VALUE));
-            }
-        }
+        updateModifierAmount(player, Attributes.ARMOR, ARMORED_ARMOR, level * 4.0D);
     }
 
     private static void applyExcavator(ServerPlayer player) {
@@ -221,17 +208,7 @@ public final class PassiveEnchantmentMechanics {
     }
 
     private static void updateModifier(ServerPlayer player, net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey, Identifier id, int level) {
-        var attribute = player.getAttribute(attributeKey);
-        if (attribute == null) return;
-        AttributeModifier current = attribute.getModifier(id);
-        if (level <= 0) {
-            if (current != null) attribute.removeModifier(id);
-            return;
-        }
-        double amount = level;
-        if (current == null || current.amount() != amount) {
-            attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-        }
+        updateModifierAmount(player, attributeKey, id, level);
     }
 
     private static int swiftnessOnChargingWeapon(ServerLevel level, ItemStack stack) {
@@ -242,16 +219,7 @@ public final class PassiveEnchantmentMechanics {
     private static void updateModifierAmount(ServerPlayer player,
             net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey,
             Identifier id, double amount) {
-        var attribute = player.getAttribute(attributeKey);
-        if (attribute == null) return;
-        AttributeModifier current = attribute.getModifier(id);
-        if (amount <= 0.0D) {
-            if (current != null) attribute.removeModifier(id);
-            return;
-        }
-        if (current == null || current.amount() != amount) {
-            attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-        }
+        TransientAttributeModifiers.set(player.getAttribute(attributeKey), id, amount <= 0.0D ? 0.0D : amount);
     }
 
     public static boolean trySiphonPickup(ServerLevel level, ServerPlayer player, ItemEntity itemEntity) {

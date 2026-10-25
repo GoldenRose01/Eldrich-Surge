@@ -1,5 +1,9 @@
 # External tools
 
+## Wiki authoring
+
+[`wiki/`](wiki/README.md) builds and validates the source-backed catalogs and original diagrams for the Eldrich Surge and EnchLib wikis. Editable guides are kept in each project's `docs/wiki/`.
+
 Each tool owns its code, assets, launch files and build instructions in a separate folder. Tools are independent of the mod's Gradle build.
 
 ## Configurator
@@ -14,7 +18,7 @@ Rebuild with the .NET 10 SDK:
 ./external_tools/config-tool/build.ps1
 ```
 
-Source responsibilities:
+Source responsibilities (`config-tool/src/`):
 
 - `Program.cs`: application entry point and categories.
 - `ConfigForm.cs`: state and editing interactions.
@@ -22,9 +26,10 @@ Source responsibilities:
 - `ConfigForm.Catalog.cs`: item groups, rarity options and classification names.
 - `ConfigForm.Data.cs`: loading configuration, resources, icons and Minecraft items.
 - `ConfigModels.cs`: configuration models and JSON conversion.
+- `ToolPaths.cs`: repository, config and cache paths without fixed Minecraft versions.
 
-`bin/`, `obj/` and `publish/` are generated and excluded from Git.
+`bin/`, `obj/` and `publish/` are generated and excluded from Git. Previous generated files are retained under `config-tool/bin/previous-output/`.
 
 ## Bloody Mary import
 
-Run `import-bloody-mary-heads.ps1 -ZipPath <archive.zip>` with PowerShell 7 to import loot tables into the mod resources. The destination is resolved relative to the script, independently of the current directory.
+Run `./external_tools/bloody-mary-import/import-bloody-mary-heads.ps1 -ZipPath <archive.zip>` with PowerShell 7 to import loot tables into the mod resources. The destination is resolved relative to the script, independently of the current directory.

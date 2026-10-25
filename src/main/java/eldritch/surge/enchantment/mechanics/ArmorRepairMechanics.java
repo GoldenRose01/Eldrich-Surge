@@ -3,8 +3,6 @@ package eldritch.surge.enchantment.mechanics;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
@@ -64,19 +62,9 @@ public final class ArmorRepairMechanics {
                 && player.getOffhandItem().is(ItemTags.SPEARS)
                 ? EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "phalanx_stance")
                 : 0;
-        setModifier(player.getAttribute(Attributes.ARMOR), PHALANX_ARMOR, level * 2.0D);
-        setModifier(player.getAttribute(Attributes.ARMOR_TOUGHNESS), PHALANX_TOUGHNESS, level);
-        setModifier(player.getAttribute(Attributes.MOVEMENT_SPEED), PHALANX_SPEED, -0.1D * level);
-    }
-
-    private static void setModifier(AttributeInstance attribute, Identifier id, double amount) {
-        if (attribute == null) return;
-        AttributeModifier current = attribute.getModifier(id);
-        if (amount == 0.0D) {
-            if (current != null) attribute.removeModifier(id);
-        } else if (current == null || current.amount() != amount) {
-            attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-        }
+        TransientAttributeModifiers.set(player.getAttribute(Attributes.ARMOR), PHALANX_ARMOR, level * 2.0D);
+        TransientAttributeModifiers.set(player.getAttribute(Attributes.ARMOR_TOUGHNESS), PHALANX_TOUGHNESS, level);
+        TransientAttributeModifiers.set(player.getAttribute(Attributes.MOVEMENT_SPEED), PHALANX_SPEED, -0.1D * level);
     }
 
     private static void repair(ItemStack stack, int points) {

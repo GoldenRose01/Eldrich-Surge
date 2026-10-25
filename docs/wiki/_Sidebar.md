@@ -1,3 +1,15 @@
-* [Home](Home)
-* [Enchantments](Enchantments)
-* [Configuration](Configuration)
+### Eldrich Surge
+
+- [🏠 Home](Home)
+- [📖 Catalogo](Enchantments)
+- [🧰 Per oggetto](Per-oggetto)
+- [✨ Ottenimento](Ottenimento)
+- [🔮 Tavolo avanzato](Tavolo-avanzato)
+- [⚒️ Incudine e fusioni](Incudine)
+- [⚖️ Compatibilità](Compatibilita)
+- [📜 Rituali](Rituali)
+- [⛏️ Vanilla](Vanilla)
+- [⚙️ Configurazione](Configuration)
+- [⌨️ Comandi e gamerule](Comandi-e-gamerule)
+- [🔗 EnchLib](Integrazione-EnchLib)
+- [📚 Fonti](Fonti)

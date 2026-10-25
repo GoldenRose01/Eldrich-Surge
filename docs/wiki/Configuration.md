@@ -1,30 +1,40 @@
-# World configuration
+# ⚙️ Configurazione del mondo
 
-## Where settings are stored
+[Home](Home) · [Comandi](Comandi-e-gamerule) · [Integrazione EnchLib](Integrazione-EnchLib)
 
-The default preset remains in the game configuration directory at `config/eldrich-surge/enchantment_caps.json`. When a world starts, Eldritch Surge loads its override file from the world save at `eldrich-surge/enchantment_caps.json`. Missing entries inherit the global defaults. Each world therefore keeps its own choices.
+## Dove vengono salvati i valori
 
-The world server sends the active configuration snapshot to each joining client. Client settings are read-only unless that player is authorized to edit the world. Changes submitted by a client are validated again on the server, saved to that world's file, and broadcast back to connected clients.
+| Ambito | Percorso |
+|---|---|
+| Preset globale dell’istanza | `config/eldrich-surge/enchantment_caps.json` |
+| Mondo attivo | `<mondo>/eldrich-surge/enchantment_caps.json` |
+| EnchLib, se installata | `<mondo>/config/enchlib/` |
 
-## Permissions
+Il server carica le impostazioni del salvataggio e invia il valore attivo ai client. Non confondere i due percorsi del mondo: Eldrich Surge e EnchLib conservano i propri file.
 
-Changing rules requires **operator permission level 2 or higher** (Minecraft `COMMANDS_GAMEMASTER` and above). The Mod Menu controls are disabled for users below that level, and the server rejects unauthorized update packets.
+## Proprietà configurabili
 
-## Rules currently exposed in Eldritch Surge
+- Disponibilità nei tavoli normale e avanzato.
+- Idoneità al loot, nei percorsi che consultano la proprietà.
+- Massimo per incudine e massimo per tavolo; zero indica il valore registrato nei percorsi dei cap.
+- Stato abilitato, probabilità dei tavoli, classe di rarità, regole degli oggetti e incompatibilità ricevute dal ponte EnchLib compatibile.
 
-- Enable or disable an enchantment in the normal or Advanced Enchanting Table.
-- Enable or disable its treasure/loot eligibility.
-- Set independent anvil and enchanting-table maximum levels; `0` uses the registered vanilla/data-pack value.
-- EnchLib-provided enabled state, max level, table chance, rarity class, item categories and incompatibilities are included in the server snapshot when available through its API.
+La configurazione globale prepara i predefiniti; il file del mondo conserva le scelte del salvataggio. Per sapere se un valore cambia un particolare sistema, verifica che quel sistema lo consulti: abilitare «loot» non aggiunge automaticamente una tabella di bottino.
 
-Eldritch Surge and EnchLib are separate projects and jars. EnchLib is optional. Compatibility with a new EnchLib API is detected at runtime; unsupported calls fall back to Eldritch Surge's world values.
+## Permessi
 
-## Current integration note
+Le richieste di modifica delle impostazioni del mondo richiedono `COMMANDS_GAMEMASTER`, normalmente **operatore di livello 2 o superiore**. Il server controlla i permessi anche se il client invia direttamente una richiesta. Il comando `/surge` ha un registrar distinto: vedi la sua pagina per il comportamento attuale.
 
-The checked-out EnchLib project currently reports version 1.4.1. Its announced 1.5.0 world-configuration API is not present in this checkout yet, so the server-authoritative world storage and client synchronization described above are implemented by Eldritch Surge itself. The EnchLib 1.5.0-specific API handshake still needs to be verified when that version is available.
+## Editor in gioco
 
-## In-game configuration screen
+Installa Mod Menu e un provider supportato, Cloth Config oppure YACL. Se entrambi sono presenti, puoi scegliere la schermata. Le due interfacce usano le stesse impostazioni e gli stessi controlli del server.
 
-Install Mod Menu and either Cloth Config or YACL. The installed provider is detected automatically. When both are installed, the configuration button opens a choice between them. Neither library is required to load the mod. Additional configuration libraries require a dedicated screen adapter; there is no universal configuration-screen API.
+## Configuratore esterno
 
-The Cloth Config screen groups enchantments by namespace into tabs, with collapsible sections and non-negative level fields. Both providers use the same world settings and permission checks.
+Nel checkout di sviluppo il configuratore Windows è in `external_tools/config-tool/config.exe`, insieme alle sue dipendenze e icone. Modifica il file `run/config/eldrich-surge/enchantment_caps.json` e legge le risorse del progetto: non è un editor universale di qualsiasi salvataggio installato altrove.
+
+## EnchLib
+
+La wiki corrente documenta EnchLib 1.6.1. Le vecchie note che indicavano un’API 1.5.0 ancora da pubblicare non descrivono il checkout attuale. Il ponte registra e legge soltanto le API disponibili, mantenendo le due mod separate.
+
+Fonti: [EnchantmentCapsConfig](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/config/EnchantmentCapsConfig.java), [WorldEnchantConfigSync](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/network/WorldEnchantConfigSync.java).
