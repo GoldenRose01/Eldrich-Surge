@@ -13,7 +13,7 @@ public final class HeartOfDepthEnchantment {
             "Advanced",
             List.of("#minecraft:chest_armor"),
             List.of("chest"),
-            "#eldritch-surge:hearts",
+            "#eldrich-surge:hearts",
             "Quando si subisce danno, applica l'effetto di stato Oscurità (Darkness) all'attaccante."
     );
 

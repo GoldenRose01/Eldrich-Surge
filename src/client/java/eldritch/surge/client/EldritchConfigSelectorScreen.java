@@ -9,7 +9,7 @@ final class EldritchConfigSelectorScreen extends Screen {
     private final Screen parent;
 
     EldritchConfigSelectorScreen(Screen parent) {
-        super(Component.translatable("config.eldritch-surge.title"));
+        super(Component.translatable("config.eldrich-surge.title"));
         this.parent = parent;
     }
 

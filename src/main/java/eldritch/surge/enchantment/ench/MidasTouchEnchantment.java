@@ -14,7 +14,7 @@ public final class MidasTouchEnchantment {
             List.of("#minecraft:swords", "#minecraft:hoes", "minecraft:netherite_hoe"),
             List.of("hand"),
             "",
-            "Funziona come Looting, ma aggiunge la possibilità che i mob uccisi rilascino pepite o lingotti d'oro."
+            "Ogni livello aggiunge il 20% di possibilità che una creatura uccisa lasci pepite o un lingotto d'oro."
     );
 
     private MidasTouchEnchantment() {

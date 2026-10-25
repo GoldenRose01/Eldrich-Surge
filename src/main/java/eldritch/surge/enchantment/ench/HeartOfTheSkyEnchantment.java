@@ -13,7 +13,7 @@ public final class HeartOfTheSkyEnchantment {
             "Advanced",
             List.of("#minecraft:chest_armor"),
             List.of("chest"),
-            "#eldritch-surge:hearts",
+            "#eldrich-surge:hearts",
             "Quando colpito, congela l'attaccante applicandogli l'effetto Frost (rallentamento e danno da freddo)."
     );
 

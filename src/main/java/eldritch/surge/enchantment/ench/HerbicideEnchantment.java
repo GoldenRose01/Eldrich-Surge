@@ -13,7 +13,7 @@ public final class HerbicideEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Danno incrementato contro i mob di tipo fungo (Fungi)."
     );
 

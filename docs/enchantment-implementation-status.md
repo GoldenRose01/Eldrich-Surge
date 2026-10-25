@@ -110,8 +110,8 @@ This file tracks enchantments that currently have gameplay logic beyond registra
 
 ## Vanilla Replacements
 
-- `minecraft:sharpness` is replaced by `eldritch-surge:katana`.
-- `minecraft:smite` is replaced by `eldritch-surge:undead_slayer`.
-- `minecraft:bane_of_arthropods` is replaced by `eldritch-surge:creeping_threat`.
+- `minecraft:sharpness` is replaced by `eldrich-surge:katana`.
+- `minecraft:smite` is replaced by `eldrich-surge:undead_slayer`.
+- `minecraft:bane_of_arthropods` is replaced by `eldrich-surge:creeping_threat`.
 
 The replaced vanilla enchantments are disabled by default in the Eldritch Surge config.

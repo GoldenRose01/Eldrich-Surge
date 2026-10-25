@@ -32,7 +32,7 @@ final class EldritchConfigScreen {
                 });
         ConfigEntryBuilder entries = builder.entryBuilder();
         Map<String, ConfigCategory> categories = new LinkedHashMap<>();
-        categories.put("eldritch-surge", builder.getOrCreateCategory(text("category.eldritch")));
+        categories.put("eldrich-surge", builder.getOrCreateCategory(text("category.eldritch")));
         categories.put("minecraft", builder.getOrCreateCategory(text("category.minecraft")));
 
         for (String enchantmentId : new TreeMap<>(EnchantmentCapsConfig.enchantmentOverrides()).keySet()) {
@@ -82,6 +82,6 @@ final class EldritchConfigScreen {
     }
 
     private static Component text(String key) {
-        return Component.translatable("config.eldritch-surge." + key);
+        return Component.translatable("config.eldrich-surge." + key);
     }
 }

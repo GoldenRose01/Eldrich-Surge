@@ -13,7 +13,7 @@ public final class SoilFallingEnchantment {
             "Normal",
             List.of("#minecraft:foot_armor"),
             List.of("feet"),
-            "#eldritch-surge:falling",
+            "#eldrich-surge:falling",
             "Impedisce la distruzione dei blocchi di terreno zappato (farmland/crops) quando ci si salta sopra."
     );
 

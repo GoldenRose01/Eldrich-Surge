@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:blade_of_apocalypse",
+    "eldrich-surge:comet_slam",
+    "eldrich-surge:gream_reaper",
+    "eldrich-surge:heavy_impact",
+    "eldrich-surge:katana",
+    "eldrich-surge:star_fate",
+    "minecraft:breach",
+    "minecraft:density",
+    "minecraft:impaling",
+    "minecraft:wind_burst"
+  ]
+}

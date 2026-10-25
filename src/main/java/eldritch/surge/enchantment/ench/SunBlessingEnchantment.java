@@ -13,7 +13,7 @@ public final class SunBlessingEnchantment {
             "Advanced",
             List.of("#minecraft:head_armor"),
             List.of("head"),
-            "#eldritch-surge:blessings",
+            "#eldrich-surge:blessings",
             "Genera livello * 10 sfere di XP ogni minuto se esposto direttamente alla luce solare diretta."
     );
 

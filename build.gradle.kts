@@ -25,7 +25,7 @@ val fabricApiVersion = fabricApiVersions[minecraftVersion]
 	?: if (configuredFabricApiVersion.endsWith("+$minecraftVersion")) configuredFabricApiVersion else fabricApiVersions[minecraftVersion] ?: configuredFabricApiVersion
 
 base {
-	archivesName.set("eldritch-surge-$minecraftVersion+")
+	archivesName.set("eldrich-surge-$minecraftVersion+")
 }
 
 repositories {
@@ -35,7 +35,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		register("eldritch-surge") {
+		register("eldrich-surge") {
 			sourceSet(sourceSets.main.get())
 			sourceSet(sourceSets.getByName("client"))
 		}
@@ -65,10 +65,7 @@ dependencies {
 	// Fabric API must go through Loom so its access wideners are applied in dev.
 	implementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
 
-	compileOnly(fileTree(externalModDir) {
-		include("*.jar")
-		exclude("fabric-api-*.jar")
-	})
+	compileOnly(externalRuntimeMods)
 	runtimeOnly(externalRuntimeMods)
 
 	implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
@@ -149,23 +146,4 @@ publishing {
 	}
 }
 
-val verifyWorldConfigCodec = tasks.register<JavaExec>("verifyWorldConfigCodec") {
-    dependsOn(tasks.testClasses)
-    classpath = sourceSets.test.get().runtimeClasspath
-    mainClass.set("eldritch.surge.network.WorldEnchantConfigPayloadTest")
-}
-tasks.check {
-    dependsOn(verifyWorldConfigCodec)
-}
-
-// Codec regression checks run through JavaExec without a test-framework dependency.
-tasks.test {
-    failOnNoDiscoveredTests = false
-}
-
-val verifyBloodyMaryLoot = tasks.register<JavaExec>("verifyBloodyMaryLoot") {
-    dependsOn(tasks.testClasses)
-    classpath = sourceSets.test.get().runtimeClasspath
-    mainClass.set("eldritch.surge.network.BloodyMaryLootTest")
-}
-tasks.check { dependsOn(verifyBloodyMaryLoot) }
+apply(from = "gradle/verification.gradle.kts")

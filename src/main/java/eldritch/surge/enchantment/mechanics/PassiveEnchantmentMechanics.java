@@ -7,6 +7,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -31,11 +32,12 @@ import java.util.Set;
 import java.util.UUID;
 
 public final class PassiveEnchantmentMechanics {
-    private static final Identifier ARMORED_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "armored_armor");
-    private static final Identifier EXCAVATOR_BLOCK_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_block_range");
-    private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldritch-surge", "excavator_entity_range");
-    private static final Identifier SMITHCRAFTS_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "smithcrafts_armor");
-    private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldritch-surge", "rabbit_foot_luck");
+    private static final Identifier ARMORED_ARMOR = Identifier.fromNamespaceAndPath("eldrich-surge", "armored_armor");
+    private static final Identifier EXCAVATOR_BLOCK_RANGE = Identifier.fromNamespaceAndPath("eldrich-surge", "excavator_block_range");
+    private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldrich-surge", "excavator_entity_range");
+    private static final Identifier SMITHCRAFTS_ARMOR = Identifier.fromNamespaceAndPath("eldrich-surge", "smithcrafts_armor");
+    private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldrich-surge", "rabbit_foot_luck");
+    private static final Identifier SWIFTNESS_SPEED = Identifier.fromNamespaceAndPath("eldrich-surge", "swiftness_speed");
     private static final Map<UUID, Set<UUID>> SEEKER_TARGETS = new HashMap<>();
     private static final Map<UUID, ItemEntity> SEEKER_ITEMS = new HashMap<>();
     private static final Map<UUID, Integer> SEEKER_ITEM_REFERENCES = new HashMap<>();
@@ -79,11 +81,6 @@ public final class PassiveEnchantmentMechanics {
             player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 80, Math.min(1, sea - 1), true, false, true));
         }
 
-        int softFalling = EnchantmentLevels.onArmor(level, player, "soft_falling");
-        if (softFalling > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 40, 0, true, false, true));
-        }
-
         int night = EnchantmentLevels.onArmor(level, player, "blessing_of_the_night");
         long dayTime = level.getOverworldClockTime() % 24000L;
         if (night > 0 && dayTime >= 13000L && dayTime <= 23000L && player.tickCount % 1200 == 0) {
@@ -116,21 +113,9 @@ public final class PassiveEnchantmentMechanics {
             player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, Math.min(1, iceSpeed - 1), true, false, true));
         }
 
-        int clearmind = EnchantmentLevels.onArmor(level, player, "clearmind");
-        if (clearmind > 0) {
-            player.removeEffect(MobEffects.BLINDNESS);
-            player.removeEffect(MobEffects.NAUSEA);
-            player.removeEffect(MobEffects.DARKNESS);
-        }
-
-        int swiftness = EnchantmentLevels.onEquipment(level, player, "swiftness");
-        if (swiftness > 0 && player.onGround()) {
-            var look = player.getLookAngle();
-            var direction = new net.minecraft.world.phys.Vec3(look.x, 0.0D, look.z);
-            if (direction.lengthSqr() > 1.0E-6D) {
-                player.setDeltaMovement(player.getDeltaMovement().add(direction.normalize().scale(0.03D * swiftness)));
-            }
-        }
+        ItemStack chargingItem = player.isUsingItem() ? player.getUseItem() : ItemStack.EMPTY;
+        int swiftness = swiftnessOnChargingWeapon(level, chargingItem);
+        updateModifierAmount(player, Attributes.MOVEMENT_SPEED, SWIFTNESS_SPEED, 0.1D * swiftness);
 
         int healingAura = EnchantmentLevels.onArmor(level, player, "healing_aura");
         if (healingAura > 0 && player.isShiftKeyDown() && player.tickCount % 40 == 0) {
@@ -244,6 +229,26 @@ public final class PassiveEnchantmentMechanics {
             return;
         }
         double amount = level;
+        if (current == null || current.amount() != amount) {
+            attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
+        }
+    }
+
+    private static int swiftnessOnChargingWeapon(ServerLevel level, ItemStack stack) {
+        if (!stack.is(ItemTags.BOW_ENCHANTABLE) && !stack.is(ItemTags.SPEARS)) return 0;
+        return EnchantmentLevels.onItem(level, stack, "swiftness");
+    }
+
+    private static void updateModifierAmount(ServerPlayer player,
+            net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey,
+            Identifier id, double amount) {
+        var attribute = player.getAttribute(attributeKey);
+        if (attribute == null) return;
+        AttributeModifier current = attribute.getModifier(id);
+        if (amount <= 0.0D) {
+            if (current != null) attribute.removeModifier(id);
+            return;
+        }
         if (current == null || current.amount() != amount) {
             attribute.addOrUpdateTransientModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
         }

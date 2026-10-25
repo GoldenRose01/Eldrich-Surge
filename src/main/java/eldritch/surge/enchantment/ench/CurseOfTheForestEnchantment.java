@@ -13,7 +13,7 @@ public final class CurseOfTheForestEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/durability"),
             List.of("hand"),
-            "#eldritch-surge:negative_curses",
+            "#eldrich-surge:negative_curses",
             "Alla morte del giocatore, l'oggetto genera un'esplosione controllata (Lvl 1 = Esplosione Creeper, Lvl 2 = Creeper Caricato)."
     );
 

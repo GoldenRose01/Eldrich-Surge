@@ -13,7 +13,7 @@ public final class BladeOfApocalypseEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Incantesimo definitivo AIO. Combina Butcher + Undead Slayer + Bane of End + Exorcist + Wrath of the Abyss."
     );
 

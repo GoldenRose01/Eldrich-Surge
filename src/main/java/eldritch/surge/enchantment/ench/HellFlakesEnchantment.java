@@ -13,7 +13,7 @@ public final class HellFlakesEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:flakes",
+            "#eldrich-surge:flakes",
             "Quando il giocatore va a fuoco o subisce calore, rigenera livello punti di durabilità al secondo."
     );
 

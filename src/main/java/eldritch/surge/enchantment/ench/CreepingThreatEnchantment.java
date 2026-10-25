@@ -13,7 +13,7 @@ public final class CreepingThreatEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Variante potenziata di Bane of Arthropods estesa a tutte le classi di artropodi custom."
     );
 

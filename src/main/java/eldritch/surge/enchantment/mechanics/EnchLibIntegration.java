@@ -44,6 +44,8 @@ public final class EnchLibIntegration {
         maxLevels.put("minecraft:smite", 5);
         categories.put("minecraft:smite", List.of("#minecraft:enchantable/weapon"));
         mobCategories.put("minecraft:smite", List.of("undead"));
+        maxLevels.put("minecraft:piercing", 10);
+        categories.put("minecraft:piercing", List.of("#minecraft:enchantable/crossbow"));
 
         Map<String, Boolean> normalDefaults = new TreeMap<>();
         Map<String, Boolean> advancedDefaults = new TreeMap<>();
@@ -61,10 +63,10 @@ public final class EnchLibIntegration {
             api.getMethod("registerEnchantingTable", String.class, String.class)
                     .invoke(null, "minecraft:enchanting_table", "Enchanting Table");
             api.getMethod("registerEnchantingTable", String.class, String.class)
-                    .invoke(null, "eldritch-surge:advanced_enchanting_table", "Advanced Enchanting Table");
+                    .invoke(null, "eldrich-surge:advanced_enchanting_table", "Advanced Enchanting Table");
             var registerDefaults = api.getMethod("registerEnchantingTableDefaults", String.class, String.class, Map.class, Map.class);
             registerDefaults.invoke(null, "minecraft:enchanting_table", "Enchanting Table", normalDefaults, chanceDefaults);
-            registerDefaults.invoke(null, "eldritch-surge:advanced_enchanting_table", "Advanced Enchanting Table", advancedDefaults, chanceDefaults);
+            registerDefaults.invoke(null, "eldrich-surge:advanced_enchanting_table", "Advanced Enchanting Table", advancedDefaults, chanceDefaults);
             try {
                 Method register = api.getMethod("registerEnchantments", Map.class, Map.class, Map.class);
                 Object count = register.invoke(null, maxLevels, categories, mobCategories);
@@ -98,7 +100,7 @@ public final class EnchLibIntegration {
         Map<String, List<String>> result = new TreeMap<>();
         for (String category : List.of("animals", "arthropods", "cubic", "fungi", "hell", "magik",
                 "rebel", "undead", "void", "water")) {
-            String resource = "data/eldritch-surge/tags/entity_type/" + category + ".json";
+            String resource = "data/eldrich-surge/tags/entity_type/" + category + ".json";
             try (var input = EnchLibIntegration.class.getClassLoader().getResourceAsStream(resource)) {
                 if (input == null) continue;
                 var root = JsonParser.parseReader(new java.io.InputStreamReader(input, java.nio.charset.StandardCharsets.UTF_8));
@@ -140,16 +142,16 @@ public final class EnchLibIntegration {
                             .addAll(members.stream().filter(other -> !other.equals(id)).toList());
                 }
             }
-            addIncompatibility(defaults, "minecraft:sharpness", "eldritch-surge:katana");
-            addIncompatibility(defaults, "minecraft:bane_of_arthropods", "eldritch-surge:creeping_threat");
-            addIncompatibility(defaults, "eldritch-surge:star_fate", "eldritch-surge:witch_hunter",
-                    "eldritch-surge:creeping_threat", "eldritch-surge:flogging", "eldritch-surge:herbicide",
-                    "eldritch-surge:smoother");
-            addIncompatibility(defaults, "eldritch-surge:blade_of_apocalypse", "eldritch-surge:butcher",
-                    "eldritch-surge:undead_slayer", "eldritch-surge:bane_of_end", "eldritch-surge:exorcist",
-                    "eldritch-surge:wrath_of_the_abyss");
-            addIncompatibility(defaults, "eldritch-surge:gream_reaper", "eldritch-surge:star_fate",
-                    "eldritch-surge:blade_of_apocalypse", "eldritch-surge:katana");
+            addIncompatibility(defaults, "minecraft:sharpness", "eldrich-surge:katana");
+            addIncompatibility(defaults, "minecraft:bane_of_arthropods", "eldrich-surge:creeping_threat");
+            addIncompatibility(defaults, "eldrich-surge:star_fate", "eldrich-surge:witch_hunter",
+                    "eldrich-surge:creeping_threat", "eldrich-surge:flogging", "eldrich-surge:herbicide",
+                    "eldrich-surge:smoother");
+            addIncompatibility(defaults, "eldrich-surge:blade_of_apocalypse", "eldrich-surge:butcher",
+                    "eldrich-surge:undead_slayer", "eldrich-surge:bane_of_end", "eldrich-surge:exorcist",
+                    "eldrich-surge:wrath_of_the_abyss");
+            addIncompatibility(defaults, "eldrich-surge:gream_reaper", "eldrich-surge:star_fate",
+                    "eldrich-surge:blade_of_apocalypse", "eldrich-surge:katana");
             for (Map.Entry<String, java.util.Set<String>> entry : defaults.entrySet()) {
                 Object configured = getter.invoke(null, entry.getKey());
                 if (configured instanceof List<?> current && current.isEmpty()) {
@@ -203,7 +205,7 @@ public final class EnchLibIntegration {
             Class<?> api = Class.forName("goldenrose01.enchlib.api.EnchantLibAPI");
             var register = api.getMethod("registerEnchantingTableDefaults", String.class, String.class, Map.class, Map.class);
             register.invoke(null, "minecraft:enchanting_table", "Enchanting Table", normal, chances);
-            register.invoke(null, "eldritch-surge:advanced_enchanting_table", "Advanced Enchanting Table", advanced, chances);
+            register.invoke(null, "eldrich-surge:advanced_enchanting_table", "Advanced Enchanting Table", advanced, chances);
         } catch (ReflectiveOperationException | LinkageError exception) {
             EldritchSurge.LOGGER.error("Could not synchronize EnchLib table presets.", exception);
         }

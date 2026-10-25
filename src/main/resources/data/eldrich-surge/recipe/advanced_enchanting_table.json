@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [" A ", "ATA", " A "],
+  "key": {
+    "A": "minecraft:amethyst_shard",
+    "T": "minecraft:enchanting_table"
+  },
+  "result": { "id": "eldrich-surge:advanced_enchanting_table", "count": 1 }
+}

@@ -7,14 +7,14 @@ public final class DiggerEnchantment {
     public static final ModEnchantmentDefinition DEFINITION = new ModEnchantmentDefinition(
             "digger",
             "Digger",
-            "TOOLS (PICKAXES, SHOVELS, HOES, SHEARS)",
+            "TOOLS (AXES, PICKAXES, SHOVELS)",
             1,
             "Rare",
             "Normal, Advanced",
             List.of("#minecraft:axes", "#minecraft:pickaxes", "#minecraft:shovels"),
             List.of("hand"),
             "",
-            "Rompe i blocchi in un'area quadrata allargata di 3x3 incentrata sul blocco mirato."
+            "Scaviamo un po' più largo."
     );
 
     private DiggerEnchantment() {

@@ -1,0 +1,22 @@
+{
+  "anvil_cost": 5,
+  "description": {
+    "translate": "enchantment.eldrich-surge.gream_reaper"
+  },
+  "exclusive_set": "#eldrich-surge:additional_damage",
+  "effects": {},
+  "max_cost": {
+    "base": 35,
+    "per_level_above_first": 10
+  },
+  "max_level": 10,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#eldrich-surge:enchantable/gream_reaper",
+  "weight": 1
+}

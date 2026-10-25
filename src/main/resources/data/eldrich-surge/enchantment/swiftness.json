@@ -1,0 +1,11 @@
+{
+  "anvil_cost": 3,
+  "description": { "translate": "enchantment.eldrich-surge.swiftness" },
+  "effects": {},
+  "max_cost": { "base": 50, "per_level_above_first": 10 },
+  "max_level": 5,
+  "min_cost": { "base": 20, "per_level_above_first": 7 },
+  "slots": ["hand", "offhand"],
+  "supported_items": "#eldrich-surge:enchantable/swiftness",
+  "weight": 1
+}

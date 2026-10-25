@@ -49,9 +49,9 @@ public abstract class EnchantmentMenuMixin {
     @Unique
     private boolean eldritchSurge$spellBookOutput;
     private static final Map<String, Identifier> VANILLA_REPLACEMENTS = Map.of(
-            "minecraft:sharpness", Identifier.fromNamespaceAndPath("eldritch-surge", "katana"),
-            "minecraft:smite", Identifier.fromNamespaceAndPath("eldritch-surge", "undead_slayer"),
-            "minecraft:bane_of_arthropods", Identifier.fromNamespaceAndPath("eldritch-surge", "creeping_threat")
+            "minecraft:sharpness", Identifier.fromNamespaceAndPath("eldrich-surge", "katana"),
+            "minecraft:smite", Identifier.fromNamespaceAndPath("eldrich-surge", "undead_slayer"),
+            "minecraft:bane_of_arthropods", Identifier.fromNamespaceAndPath("eldrich-surge", "creeping_threat")
     );
 
     @Shadow
@@ -260,7 +260,7 @@ public abstract class EnchantmentMenuMixin {
         if (castSpell) {
             return EnchantmentCapsConfig.isAvailableInEnchLib(enchantmentId)
                     && EnchantmentCapsConfig.isAllowedInAdvancedTable(enchantmentId)
-                    && EnchantmentCapsConfig.passesRarity(enchantmentId, "eldritch-surge:advanced_enchanting_table", stack, slot, level);
+                    && EnchantmentCapsConfig.passesRarity(enchantmentId, "eldrich-surge:advanced_enchanting_table", stack, slot, level);
         }
 
         boolean tableAllowed = advancedTable
@@ -271,7 +271,7 @@ public abstract class EnchantmentMenuMixin {
                 && EnchantmentCapsConfig.isAvailableInEnchLib(enchantmentId)
                 && EnchantmentCapsConfig.isAllowedForItem(enchantmentId, stack)
                 && EnchantmentCapsConfig.isCompatibleWithExistingEnchantments(enchantmentId, stack)
-                && EnchantmentCapsConfig.passesRarity(enchantmentId, advancedTable ? "eldritch-surge:advanced_enchanting_table" : "minecraft:enchanting_table", stack, slot, level);
+                && EnchantmentCapsConfig.passesRarity(enchantmentId, advancedTable ? "eldrich-surge:advanced_enchanting_table" : "minecraft:enchanting_table", stack, slot, level);
     }
 
     private static boolean isLootOnlyEnchantment(Identifier enchantmentId) {

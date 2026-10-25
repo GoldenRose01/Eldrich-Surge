@@ -5,9 +5,9 @@ import java.util.List;
 
 public final class SwiftnessEnchantment {
     public static final ModEnchantmentDefinition DEFINITION = new ModEnchantmentDefinition(
-            "swiftness", "Swiftness", "BOOTS, BOW, CROSSBOW", 5, "Legendary", "Advanced",
-            List.of("#minecraft:foot_armor", "#minecraft:enchantable/bow", "#minecraft:enchantable/crossbow"),
-            List.of("feet", "hand", "offhand"), "",
-            "Aumenta di 0,03 per livello la velocità di movimento a terra.");
+            "swiftness", "Swiftness", "BOW, SPEAR", 5, "Legendary", "Advanced",
+            List.of("#minecraft:enchantable/bow", "#minecraft:spears"),
+            List.of("hand", "offhand"), "",
+            "Aumenta la velocità di movimento di 0,1 per livello durante la carica di arco o lancia.");
     private SwiftnessEnchantment() {}
 }

@@ -13,8 +13,8 @@ public final class SoftFallingEnchantment {
             "Advanced",
             List.of("#minecraft:foot_armor"),
             List.of("feet"),
-            "#eldritch-surge:falling",
-            "Si sblocca fondendo l'incanto Feather Falling al livello 5: annulla del tutto i danni da caduta e rimuove l'effetto di caduta rallentata."
+            "#eldrich-surge:falling",
+            "Premi Salto mentre sei in aria per attivare Caduta Lenta per alcuni secondi."
     );
 
     private SoftFallingEnchantment() {

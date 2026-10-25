@@ -2,7 +2,7 @@
 
 ## Where settings are stored
 
-The default preset remains in the game configuration directory at `config/eldritch-surge/enchantment_caps.json`. When a world starts, Eldritch Surge loads its override file from the world save at `eldritch-surge/enchantment_caps.json`. Missing entries inherit the global defaults. Each world therefore keeps its own choices.
+The default preset remains in the game configuration directory at `config/eldrich-surge/enchantment_caps.json`. When a world starts, Eldritch Surge loads its override file from the world save at `eldrich-surge/enchantment_caps.json`. Missing entries inherit the global defaults. Each world therefore keeps its own choices.
 
 The world server sends the active configuration snapshot to each joining client. Client settings are read-only unless that player is authorized to edit the world. Changes submitted by a client are validated again on the server, saved to that world's file, and broadcast back to connected clients.
 

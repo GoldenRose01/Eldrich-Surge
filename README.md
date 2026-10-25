@@ -31,7 +31,7 @@ Eldritch Surge expands enchantment progression and combat with **106 custom ench
 2. Add Fabric API, Fabric Language Kotlin and the Eldritch Surge jar to the `mods` folder.
 3. Add EnchLib separately if you want its mob-category and enchantment configuration integration.
 
-The development build jar is stored under [`Jar/`](Jar/). Its filename follows `eldritch-surge-26.3+-1.6.0.jar`.
+The development build jar is stored under [`Jar/`](Jar/). Its filename follows `eldrich-surge-26.3+-1.6.0.jar`.
 
 ## Enchantment list and compatibility
 
@@ -41,9 +41,13 @@ The [wiki home](docs/wiki/Home.md) links to configuration and gameplay documenta
 
 ## World configuration
 
-Global defaults are stored in `config/eldritch-surge/enchantment_caps.json`. Each save stores its overrides in `eldritch-surge/enchantment_caps.json` within the world directory. The server sends the active snapshot to clients and accepts changes only from operators at permission level 2 or above. See [World configuration](docs/wiki/Configuration.md).
+Global defaults are stored in `config/eldrich-surge/enchantment_caps.json`. Each save stores its overrides in `eldrich-surge/enchantment_caps.json` within the world directory. The server sends the active snapshot to clients and accepts changes only from operators at permission level 2 or above. See [World configuration](docs/wiki/Configuration.md).
 
 ## Development
+
+External utilities and their assets live in [`external_tools/`](external_tools/README.md). The configurator starts from `external_tools/config-tool/config.exe`.
+
+Standalone regression checks are registered centrally in `gradle/verification.gradle.kts`; add a task name and entry point there to include a new check in `gradlew check`.
 
 Build with `gradlew build`. EnchLib is loaded as an optional separate runtime dependency when its jar is available in the configured sibling project; it is never shaded into Eldritch Surge.
 

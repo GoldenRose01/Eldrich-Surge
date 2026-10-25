@@ -13,7 +13,7 @@ public final class EndBlessingEnchantment {
             "Advanced",
             List.of("#minecraft:head_armor"),
             List.of("head"),
-            "#eldritch-surge:blessings",
+            "#eldrich-surge:blessings",
             "La barra della saturazione del giocatore non diminuisce mentre ci si trova nella dimensione dell'End."
     );
 

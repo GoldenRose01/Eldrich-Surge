@@ -13,7 +13,7 @@ public final class BaneOfEndEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Variante di Smite focalizzata esclusivamente sui mob dell'End."
     );
 

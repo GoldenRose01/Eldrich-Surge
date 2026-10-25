@@ -11,9 +11,9 @@ public final class ImpalerReachEnchantment {
             3,
             "Epic",
             "Advanced",
-            List.of("#eldritch-surge:enchantable/spear"),
+            List.of("#eldrich-surge:enchantable/spear"),
             List.of("hand"),
-            "#eldritch-surge:weapon_utility",
+            "#eldrich-surge:weapon_utility",
             "Incrementa l'attributo nativo generic.player.reach_distance di +1 blocco per livello. Incompatibile con Sweeping Edge."
     );
 

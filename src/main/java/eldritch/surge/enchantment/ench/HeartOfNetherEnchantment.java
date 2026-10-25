@@ -13,7 +13,7 @@ public final class HeartOfNetherEnchantment {
             "Advanced",
             List.of("#minecraft:chest_armor"),
             List.of("chest"),
-            "#eldritch-surge:hearts",
+            "#eldrich-surge:hearts",
             "Dà fuoco automaticamente a qualsiasi entità che attacca il giocatore in mischia."
     );
 

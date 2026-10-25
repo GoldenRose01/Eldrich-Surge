@@ -13,7 +13,7 @@ public final class TrenchSpellEnchantment {
             "Advanced",
             List.of("minecraft:book"),
             List.of("hand"),
-            "#eldritch-surge:rituals",
+            "#eldrich-surge:rituals",
             "Scava una voragine quadrata partendo dalla coordinata Y d'impatto scendendo in verticale fino a Y=-55. L'area d'aria ripulita segue la formula geometrica da -(2+livello) a +(2+livello)."
     );
 

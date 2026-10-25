@@ -20,6 +20,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.tags.ItemTags;
 
 public final class AdditionalDamageCalculator {
     private static final TagKey<EntityType<?>> VANILLA_SMITE_TARGETS = TagKey.create(
@@ -48,14 +49,23 @@ public final class AdditionalDamageCalculator {
 
         float finalDamage = damage;
         ItemStack weapon = livingAttacker.getMainHandItem();
-        int dash = EnchantmentLevels.onItem(world, weapon, "dash");
+        int neptuneLevel = weapon.is(Items.TRIDENT)
+                ? EnchantmentLevels.onItem(world, weapon, "neptunes_will") : 0;
         ItemStack offhand = livingAttacker.getOffhandItem();
+        if (offhand.is(Items.TRIDENT)) {
+            neptuneLevel += EnchantmentLevels.onItem(world, offhand, "neptunes_will");
+        }
+        if (neptuneLevel > 0) {
+            finalDamage += 5.0F * neptuneLevel;
+        }
+        int dash = EnchantmentLevels.onItem(world, weapon, "dash");
         if (dash > 0 && ItemStack.isSameItemSameComponents(weapon, offhand)
                 && EnchantmentLevels.onItem(world, offhand, "dash") > 0) {
             finalDamage += 1.0F + dash / 2.0F;
         }
 
         int bladeLevel = EnchantmentLevels.onItem(world, weapon, EldritchEnchantments.BLADE_OF_APOCALYPSE.identifier().getPath());
+        finalDamage += independentWeaponDamage(world, victim, livingAttacker);
         if (bladeLevel <= 0) {
             finalDamage += categoryDamage(world, victim, livingAttacker);
         } else {
@@ -63,6 +73,13 @@ public final class AdditionalDamageCalculator {
             if (bonus > 0.0F) {
                 finalDamage += applyPvpModifier(world, victim, bonus);
             }
+        }
+
+        int voidSweep = EnchantmentLevels.onItem(world, weapon, "void_sweep");
+        if (voidSweep > 0 && weapon.is(ItemTags.HOES)) {
+            float targetDamage = 10.0F + voidSweep;
+            finalDamage = Math.max(finalDamage,
+                    damage + applyPvpModifier(world, victim, Math.max(0.0F, targetDamage - damage)));
         }
 
         if (source != null && source.is(DamageTypeTags.IS_MACE_SMASH)) {
@@ -209,17 +226,20 @@ public final class AdditionalDamageCalculator {
     private static float categoryDamage(ServerLevel world, LivingEntity victim, LivingEntity attacker) {
         ItemStack weapon = attacker.getMainHandItem();
         float bonus = 0.0F;
-        bonus += EnchantmentLevels.onItem(world, weapon, "katana") * 1.25F;
-        bonus += EnchantmentLevels.onItem(world, weapon, "gream_reaper") * 1.5F;
-        bonus += EnchantmentLevels.onItem(world, weapon, "neptunes_will") * 2.0F;
-        bonus += EnchantmentLevels.onItem(world, weapon, "superweight") * 2.0F;
+        bonus += MobCategoryDamageMechanics.bonusForHit(world, weapon, victim);
+
+        return applyPvpModifier(world, victim, bonus);
+    }
+
+    private static float independentWeaponDamage(ServerLevel world, LivingEntity victim, LivingEntity attacker) {
+        ItemStack weapon = attacker.getMainHandItem();
+        float bonus = EnchantmentLevels.onItem(world, weapon, "superweight") * 2.0F;
         bonus += paybackBonus(world, weapon, attacker);
         if (attacker instanceof Player player && isCriticalLike(player)) {
             bonus += EnchantmentLevels.onItem(world, weapon, "experienced") * 4.0F;
         }
-        bonus += MobCategoryDamageMechanics.bonusForHit(world, weapon, victim);
         bonus += customSmiteBonus(world, weapon, victim);
-
+        bonus += greamReaperBonus(EnchantmentLevels.onItem(world, weapon, "gream_reaper"));
         return applyPvpModifier(world, victim, bonus);
     }
 
@@ -261,7 +281,7 @@ public final class AdditionalDamageCalculator {
     }
 
     private static void applyKillRewards(ServerLevel world, LivingEntity victim, LivingEntity attacker, ItemStack weapon) {
-        int spiritCast = EnchantmentLevels.onItem(world, weapon, "spirti_cast");
+        int spiritCast = EnchantmentLevels.onItem(world, weapon, "spirit_cast");
         if (spiritCast > 0 && attacker instanceof net.minecraft.server.level.ServerPlayer player) {
             SpiritCastMechanics.recordKill(world, player, spiritCast);
         }
@@ -271,13 +291,6 @@ public final class AdditionalDamageCalculator {
             attacker.heal(2.0F * triumph);
         }
 
-        int midas = EnchantmentLevels.onItem(world, weapon, "midas_touch");
-        if (midas > 0 && world.getRandom().nextFloat() < 0.08F * midas) {
-            ItemStack gold = world.getRandom().nextFloat() < 0.15F
-                    ? new ItemStack(Items.GOLD_INGOT)
-                    : new ItemStack(Items.GOLD_NUGGET, midas);
-            world.addFreshEntity(new ItemEntity(world, victim.getX(), victim.getY(), victim.getZ(), gold));
-        }
     }
 
     private static float customSmiteBonus(ServerLevel world, ItemStack weapon, LivingEntity victim) {
@@ -289,6 +302,10 @@ public final class AdditionalDamageCalculator {
 
         // Vanilla already handles its own tag; this extends Smite to modded mobs categorized by EnchLib.
         return level * 2.5F;
+    }
+
+    static float greamReaperBonus(int level) {
+        return Math.max(0, level) * 2.5F;
     }
 
     private static boolean isCriticalLike(Player player) {

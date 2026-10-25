@@ -13,7 +13,7 @@ public final class EndForgedEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:forged",
+            "#eldrich-surge:forged",
             "Garantisce Unbreaking++ permanente sull'armatura finché ci si trova nella dimensione dell'End."
     );
 

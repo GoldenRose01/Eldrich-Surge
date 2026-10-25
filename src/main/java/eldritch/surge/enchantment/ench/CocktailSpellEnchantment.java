@@ -13,7 +13,7 @@ public final class CocktailSpellEnchantment {
             "Advanced",
             List.of("minecraft:book"),
             List.of("hand"),
-            "#eldritch-surge:rituals",
+            "#eldrich-surge:rituals",
             "Propaga istantaneamente tutti gli effetti di stato attivi sull'utilizzatore a tutti i player nel raggio d'azione con intensità X."
     );
 

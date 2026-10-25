@@ -68,7 +68,7 @@ public final class SpecialAnvilRecipes {
     private static boolean isExactBook(ItemStack stack, Set<String> expected) {
         if (!stack.is(Items.ENCHANTED_BOOK)) return false;
         return enchantmentIds(stack).equals(expected.stream()
-                .map(id -> "eldritch-surge:" + id).collect(Collectors.toSet()));
+                .map(id -> "eldrich-surge:" + id).collect(Collectors.toSet()));
     }
 
     private static Set<String> enchantmentIds(ItemStack stack) {

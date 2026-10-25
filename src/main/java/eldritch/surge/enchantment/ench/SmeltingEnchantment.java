@@ -7,14 +7,14 @@ public final class SmeltingEnchantment {
     public static final ModEnchantmentDefinition DEFINITION = new ModEnchantmentDefinition(
             "smelting",
             "Smelting",
-            "TOOLS (PICKAXES, SHOVELS, HOES, SHEARS)",
+            "TOOLS (AXES, PICKAXES, SHOVELS)",
             1,
             "Legendary",
             "Advanced",
-            List.of("#minecraft:axes", "#minecraft:pickaxes"),
+            List.of("#minecraft:axes", "#minecraft:pickaxes", "#minecraft:shovels"),
             List.of("hand"),
             "",
-            "Cuoce automaticamente i blocchi minerali estratti facendoli droppare sotto forma di lingotto/prodotto finito."
+            "Fonde i drop dei blocchi come in una fornace; funziona anche con le pale e trasforma le polveri di calcestruzzo in vetro colorato."
     );
 
     private SmeltingEnchantment() {

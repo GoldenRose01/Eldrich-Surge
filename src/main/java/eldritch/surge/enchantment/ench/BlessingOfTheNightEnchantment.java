@@ -13,7 +13,7 @@ public final class BlessingOfTheNightEnchantment {
             "Advanced",
             List.of("#minecraft:head_armor"),
             List.of("head"),
-            "#eldritch-surge:blessings",
+            "#eldrich-surge:blessings",
             "Funziona come l'incanto del sole, ma genera XP solo durante la notte senza necessità di esposizione diretta al cielo."
     );
 

@@ -13,7 +13,7 @@ public final class SmootherEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Modificatore di danno aumentato contro tutti i mob di forma cubica (es. Slime, Magma Cube)."
     );
 

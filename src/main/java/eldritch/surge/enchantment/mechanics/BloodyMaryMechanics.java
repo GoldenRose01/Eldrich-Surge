@@ -22,6 +22,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 public final class BloodyMaryMechanics {
+    private static final float BASE_DROP_CHANCE = 0.10F;
+    private static final float LOOTING_BONUS_PER_LEVEL = 0.10F;
+
     private BloodyMaryMechanics() {}
 
     public static void initialize() {
@@ -36,11 +39,18 @@ public final class BloodyMaryMechanics {
         ItemStack weapon = source.getWeaponItem();
         if (weapon == null || weapon.isEmpty()
                 || !weapon.is(net.minecraft.tags.TagKey.create(Registries.ITEM, EldritchSurge.id("enchantable/bloody_mary")))
-                || EnchantmentLevels.onItem(level, weapon, "bloody_mary") <= 0
-                || level.getRandom().nextFloat() >= 0.10F) return;
+                || EnchantmentLevels.onItem(level, weapon, "bloody_mary") <= 0) return;
+
+        int lootingLevel = EnchantmentLevels.onMinecraftItem(level, weapon, "looting");
+        if (level.getRandom().nextFloat() >= dropChance(lootingLevel)) return;
 
         ItemStack head = createHead(level, victim, killer, source);
         if (!head.isEmpty()) victim.spawnAtLocation(level, head.copyWithCount(1));
+    }
+
+    static float dropChance(int lootingLevel) {
+        int effectiveLooting = Math.max(0, lootingLevel);
+        return Math.min(1.0F, BASE_DROP_CHANCE + LOOTING_BONUS_PER_LEVEL * effectiveLooting);
     }
 
     private static ItemStack createHead(ServerLevel level, LivingEntity victim, ServerPlayer killer, DamageSource source) {
@@ -48,7 +58,7 @@ public final class BloodyMaryMechanics {
             ItemStack head = new ItemStack(Items.PLAYER_HEAD);
             head.set(DataComponents.PROFILE, ResolvableProfile.createResolved(player.getGameProfile()));
             head.set(DataComponents.LORE, new ItemLore(java.util.List.of(
-                    Component.translatable("tooltip.eldritch-surge.head.killed_by", killer.getName())
+                    Component.translatable("tooltip.eldrich-surge.head.killed_by", killer.getName())
                             .withStyle(ChatFormatting.GOLD))));
             return head;
         }
@@ -63,7 +73,14 @@ public final class BloodyMaryMechanics {
             case "minecraft:ender_dragon" -> new ItemStack(Items.DRAGON_HEAD);
             default -> ItemStack.EMPTY;
         };
-        if (!nativeHead.isEmpty()) return nativeHead;
+        if (!nativeHead.isEmpty()) {
+            String displayName = java.util.Arrays.stream(id.substring(id.indexOf(':') + 1).split("_"))
+                    .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+                    .collect(java.util.stream.Collectors.joining(" "));
+            nativeHead.set(DataComponents.ITEM_NAME,
+                    Component.literal(displayName + "'s Head"));
+            return nativeHead;
+        }
         if (!id.startsWith("minecraft:")) return ItemStack.EMPTY;
 
         var key = ResourceKey.create(Registries.LOOT_TABLE,

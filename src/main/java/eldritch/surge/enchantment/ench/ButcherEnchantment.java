@@ -13,7 +13,7 @@ public final class ButcherEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Aumento del danno specifico contro gli animali della fattoria."
     );
 

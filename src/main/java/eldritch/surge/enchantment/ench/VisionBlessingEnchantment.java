@@ -13,7 +13,7 @@ public final class VisionBlessingEnchantment {
             "Advanced",
             List.of("#minecraft:head_armor"),
             List.of("head"),
-            "#eldritch-surge:blessings",
+            "#eldrich-surge:blessings",
             "Fornisce l'effetto di stato Visione Notturna permanente."
     );
 

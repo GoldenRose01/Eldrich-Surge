@@ -6,6 +6,8 @@ import eldritch.surge.config.EnchantmentCapsConfig;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinition;
 import eldritch.surge.enchantment.mechanics.ModEnchantmentDefinitions;
 import eldritch.surge.enchantment.mechanics.SpellBookItems;
+import eldritch.surge.item.EldritchItems;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -13,117 +15,119 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import eldritch.surge.item.EldritchItems;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public final class EldritchCreativeTabs {
     private static final Map<String, ModEnchantmentDefinition> DEFINITIONS = ModEnchantmentDefinitions.BY_ID;
+    private static final Set<Identifier> UNIVERSAL_VANILLA_ENCHANTMENTS = Set.of(
+            Identifier.withDefaultNamespace("vanishing"),
+            Identifier.withDefaultNamespace("binding_curse"),
+            Identifier.withDefaultNamespace("mending"),
+            Identifier.withDefaultNamespace("unbreaking")
+    );
+    private static final List<ToolPage> TOOL_PAGES = List.of(
+            page("swords", "swords", Items.NETHERITE_SWORD),
+            page("axes", "axes", Items.NETHERITE_AXE),
+            page("pickaxes", "pickaxes", Items.NETHERITE_PICKAXE),
+            page("shovels", "shovels", Items.NETHERITE_SHOVEL),
+            page("hoes", "hoes", Items.NETHERITE_HOE),
+            page("bows", "bows", Items.BOW),
+            page("crossbows", "crossbows", Items.CROSSBOW),
+            page("spears", "spears", Items.NETHERITE_SPEAR),
+            page("tridents", "tridents", Items.TRIDENT),
+            page("maces", "maces", Items.MACE),
+            page("fishing_rods", "fishing_rods", Items.FISHING_ROD),
+            page("helmets", "helmets", Items.NETHERITE_HELMET),
+            page("chestplates", "chestplates", Items.NETHERITE_CHESTPLATE),
+            page("leggings", "leggings", Items.NETHERITE_LEGGINGS),
+            page("boots", "boots", Items.NETHERITE_BOOTS),
+            page("elytra", "elytra", Items.ELYTRA),
+            page("shields", "shields", Items.SHIELD)
+    );
+    private static final ResourceKey<CreativeModeTab> EXTRA_KEY = key("extra");
+    private static final List<CreativeModeTab> TOOL_TABS = TOOL_PAGES.stream()
+            .map(EldritchCreativeTabs::registerToolPage).toList();
+    public static final CreativeModeTab EXTRA = registerExtra();
 
-    public static final ResourceKey<CreativeModeTab> MELEE_WEAPONS_KEY = key("melee_weapons");
-    public static final ResourceKey<CreativeModeTab> TOOLS_KEY = key("tools");
-    public static final ResourceKey<CreativeModeTab> RANGED_WEAPONS_KEY = key("ranged_weapons");
-    public static final ResourceKey<CreativeModeTab> BOWS_KEY = key("bows");
-    public static final ResourceKey<CreativeModeTab> ARMOR_KEY = key("armor");
-    public static final ResourceKey<CreativeModeTab> EXTRA_KEY = key("extra");
-
-    public static final CreativeModeTab MELEE_WEAPONS = register(
-            MELEE_WEAPONS_KEY,
-            "itemGroup.eldritch-surge.melee_weapons",
-            Items.DIAMOND_SWORD,
-            CreativeCategory.MELEE_WEAPONS
-    );
-    public static final CreativeModeTab TOOLS = register(
-            TOOLS_KEY,
-            "itemGroup.eldritch-surge.tools",
-            Items.DIAMOND_PICKAXE,
-            CreativeCategory.TOOLS
-    );
-    public static final CreativeModeTab RANGED_WEAPONS = register(
-            RANGED_WEAPONS_KEY,
-            "itemGroup.eldritch-surge.ranged_weapons",
-            Items.TRIDENT,
-            CreativeCategory.RANGED_WEAPONS
-    );
-    public static final CreativeModeTab BOWS = register(
-            BOWS_KEY,
-            "itemGroup.eldritch-surge.bows",
-            Items.BOW,
-            CreativeCategory.BOWS
-    );
-    public static final CreativeModeTab ARMOR = register(
-            ARMOR_KEY,
-            "itemGroup.eldritch-surge.armor",
-            Items.DIAMOND_CHESTPLATE,
-            CreativeCategory.ARMOR
-    );
-    public static final CreativeModeTab EXTRA = register(
-            EXTRA_KEY,
-            "itemGroup.eldritch-surge.extra",
-            Items.ENCHANTED_BOOK,
-            CreativeCategory.EXTRA
-    );
-
-    private EldritchCreativeTabs() {
-    }
+    private EldritchCreativeTabs() {}
 
     public static void initialize() {
-        EldritchSurge.LOGGER.debug("Registered Eldritch Surge creative tabs.");
+        CreativeModeTabEvents.MODIFY_OUTPUT_ALL.register((tab, output) -> {
+            Identifier id = BuiltInRegistries.CREATIVE_MODE_TAB.getKey(tab);
+            if (id == null || !"minecraft".equals(id.getNamespace())) return;
+            output.getDisplayStacks().removeIf(stack -> stack.is(Items.ENCHANTED_BOOK));
+            output.getSearchTabStacks().removeIf(stack -> stack.is(Items.ENCHANTED_BOOK));
+        });
+        EldritchSurge.LOGGER.debug("Registered per-item Eldritch Surge creative tabs.");
+    }
+
+    private static ToolPage page(String id, String title, Item icon) {
+        return new ToolPage(key(id), "itemGroup.eldrich-surge." + title, icon);
     }
 
     private static ResourceKey<CreativeModeTab> key(String path) {
         return ResourceKey.create(Registries.CREATIVE_MODE_TAB, EldritchSurge.id(path));
     }
 
-    private static CreativeModeTab register(
-            ResourceKey<CreativeModeTab> key,
-            String titleKey,
-            net.minecraft.world.item.Item icon,
-            CreativeCategory category
-    ) {
-        return Registry.register(
-                BuiltInRegistries.CREATIVE_MODE_TAB,
-                key,
+    private static CreativeModeTab registerToolPage(ToolPage page) {
+        return Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, page.key(),
                 FabricCreativeModeTab.builder()
-                        .title(Component.translatable(titleKey))
-                        .icon(() -> {
-                            ItemStack iconStack = new ItemStack(icon);
-                            if (category == CreativeCategory.TOOLS) {
-                                iconStack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
-                            }
-                            return iconStack;
-                        })
+                        .title(Component.translatable(page.titleKey()))
+                        .icon(() -> enchantedIcon(page.icon()))
                         .displayItems((parameters, output) -> {
-                            if (category == CreativeCategory.EXTRA) {
-                                output.accept(EldritchBlocks.ADVANCED_ENCHANTING_TABLE_ITEM);
-                            }
-
-                            parameters.holders()
-                                    .lookupOrThrow(Registries.ENCHANTMENT)
+                            ItemStack reference = new ItemStack(page.icon());
+                            parameters.holders().lookupOrThrow(Registries.ENCHANTMENT)
                                     .listElements()
-                                    .filter(enchantment -> belongsTo(enchantment, category))
-                                    .sorted(Comparator.comparing(EldritchCreativeTabs::sortKey))
-                                    .forEach(enchantment -> {
-                                        output.accept(createMaxLevelBook(enchantment), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                                        if (category == CreativeCategory.TOOLS) {
-                                            ItemStack representativeTool = createRepresentativeTool(enchantment);
-                                            if (!representativeTool.isEmpty()) {
-                                                output.accept(representativeTool, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-                                            }
-                                        }
-                                    });
+                                    .filter(enchantment -> belongsOnToolPage(enchantment, reference))
+                                    .sorted(Comparator.comparing(EldritchCreativeTabs::sortKey)
+                                            .thenComparing(EldritchCreativeTabs::idSortKey))
+                                    .forEach(enchantment -> output.accept(createMaxLevelBook(enchantment),
+                                            CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
                         })
-                        .build()
-        );
+                        .build());
+    }
+
+    private static CreativeModeTab registerExtra() {
+        return Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, EXTRA_KEY,
+                FabricCreativeModeTab.builder()
+                        .title(Component.translatable("itemGroup.eldrich-surge.extra"))
+                        .icon(() -> new ItemStack(Items.ENCHANTED_BOOK))
+                        .displayItems((parameters, output) -> {
+                            output.accept(EldritchBlocks.ADVANCED_ENCHANTING_TABLE_ITEM);
+                            List<Holder.Reference<Enchantment>> enchantments = parameters.holders()
+                                    .lookupOrThrow(Registries.ENCHANTMENT).listElements()
+                                    .filter(EldritchCreativeTabs::belongsInExtra)
+                                    .sorted(Comparator.comparing(EldritchCreativeTabs::sortKey)
+                                            .thenComparing(EldritchCreativeTabs::idSortKey))
+                                    .toList();
+                            enchantments.stream().filter(SpellBookItems::isCastSpell)
+                                    .forEach(enchantment -> output.accept(createMaxLevelBook(enchantment),
+                                            CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
+                            enchantments.stream().filter(enchantment -> !SpellBookItems.isCastSpell(enchantment))
+                                    .forEach(enchantment -> output.accept(createMaxLevelBook(enchantment),
+                                            CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS));
+                        })
+                        .build());
+    }
+
+    private static ItemStack enchantedIcon(Item item) {
+        ItemStack stack = new ItemStack(item);
+        stack.set(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true);
+        return stack;
     }
 
     private static ItemStack createMaxLevelBook(Holder<Enchantment> enchantment) {
@@ -139,26 +143,6 @@ public final class EldritchCreativeTabs {
         return book;
     }
 
-    private static ItemStack createRepresentativeTool(Holder<Enchantment> enchantment) {
-        for (var item : representativeToolCandidates()) {
-            ItemStack candidate = new ItemStack(item);
-            if (enchantment.value().isSupportedItem(candidate)) {
-                candidate.enchant(enchantment, maxCreativeLevel(enchantment));
-                return candidate;
-            }
-        }
-
-        return BuiltInRegistries.ITEM.stream()
-                .map(ItemStack::new)
-                .filter(enchantment.value()::isSupportedItem)
-                .findFirst()
-                .map(candidate -> {
-                    candidate.enchant(enchantment, maxCreativeLevel(enchantment));
-                    return candidate;
-                })
-                .orElse(ItemStack.EMPTY);
-    }
-
     private static int maxCreativeLevel(Holder<Enchantment> enchantment) {
         int registeredMaximum = Math.max(1, enchantment.value().getMaxLevel());
         return enchantment.unwrapKey()
@@ -166,86 +150,37 @@ public final class EldritchCreativeTabs {
                 .orElse(registeredMaximum);
     }
 
-    private static java.util.List<net.minecraft.world.item.Item> representativeToolCandidates() {
-        return java.util.List.of(
-                Items.DIAMOND_PICKAXE, Items.NETHERITE_PICKAXE, Items.IRON_PICKAXE, Items.GOLDEN_PICKAXE, Items.STONE_PICKAXE, Items.WOODEN_PICKAXE,
-                Items.DIAMOND_SHOVEL, Items.NETHERITE_SHOVEL, Items.IRON_SHOVEL, Items.GOLDEN_SHOVEL, Items.STONE_SHOVEL, Items.WOODEN_SHOVEL,
-                Items.DIAMOND_AXE, Items.NETHERITE_AXE, Items.IRON_AXE, Items.GOLDEN_AXE, Items.STONE_AXE, Items.WOODEN_AXE,
-                Items.DIAMOND_HOE, Items.NETHERITE_HOE, Items.IRON_HOE, Items.GOLDEN_HOE, Items.STONE_HOE, Items.WOODEN_HOE,
-                Items.SHEARS, Items.FISHING_ROD
-        );
+    private static boolean belongsOnToolPage(Holder.Reference<Enchantment> enchantment, ItemStack reference) {
+        if (!enchantment.value().isSupportedItem(reference)) return false;
+        return enchantment.unwrapKey().map(key -> {
+            if (!EldritchSurge.MOD_ID.equals(key.identifier().getNamespace())) {
+                return !UNIVERSAL_VANILLA_ENCHANTMENTS.contains(key.identifier());
+            }
+            ModEnchantmentDefinition definition = DEFINITIONS.get(key.identifier().getPath());
+            return definition != null && !definition.isCastSpell()
+                    && CreativeEnchantmentClassifier.categoryOf(definition) != CreativeCategory.EXTRA;
+        }).orElse(false);
     }
 
-    private static String sortKey(Holder.Reference<Enchantment> enchantment) {
-        return enchantment.unwrapKey()
-                .map(key -> key.identifier().toString())
+    private static boolean belongsInExtra(Holder.Reference<Enchantment> enchantment) {
+        return enchantment.unwrapKey().map(key -> {
+            if (!EldritchSurge.MOD_ID.equals(key.identifier().getNamespace())) {
+                return UNIVERSAL_VANILLA_ENCHANTMENTS.contains(key.identifier());
+            }
+            ModEnchantmentDefinition definition = DEFINITIONS.get(key.identifier().getPath());
+            return definition != null && (definition.isCastSpell()
+                    || CreativeEnchantmentClassifier.categoryOf(definition) == CreativeCategory.EXTRA);
+        }).orElse(false);
+    }
+
+    private static String sortKey(Holder<Enchantment> enchantment) {
+        return enchantment.value().description().getString().toLowerCase(Locale.ROOT);
+    }
+
+    private static String idSortKey(Holder<Enchantment> enchantment) {
+        return enchantment.unwrapKey().map(key -> key.identifier().toString())
                 .orElseGet(() -> enchantment.value().description().getString());
     }
 
-    private static boolean belongsTo(Holder.Reference<Enchantment> enchantment, CreativeCategory category) {
-        return enchantment.unwrapKey()
-                .map(key -> {
-                    if (!key.identifier().getNamespace().equals(EldritchSurge.MOD_ID)) {
-                        return false;
-                    }
-
-                    ModEnchantmentDefinition definition = DEFINITIONS.get(key.identifier().getPath());
-                    return definition != null && categoryOf(definition) == category;
-                })
-                .orElse(false);
-    }
-
-    private static CreativeCategory categoryOf(ModEnchantmentDefinition definition) {
-        String itemCategory = normalized(definition.itemCategory());
-        String supportedItems = normalized(String.join(" ", definition.supportedItems()));
-
-        if (containsAny(itemCategory, "helmet", "chestplate", "leggings", "boots", "armor", "elytra", "shield") ||
-                containsAny(supportedItems, "armor", "head_armor", "chest_armor", "leg_armor", "foot_armor", "elytra", "shield")) {
-            return CreativeCategory.ARMOR;
-        }
-
-        if (containsAny(itemCategory, "bows", "crossbows") || containsAny(supportedItems, "bow", "crossbow")) {
-            return CreativeCategory.BOWS;
-        }
-
-        if (containsAny(itemCategory, "mace", "spear") ||
-                containsAny(supportedItems, "mace", "spear", "trident") ||
-                containsAny(definition.id(), "launch", "inking", "neptunes_will", "sea_breeze")) {
-            return CreativeCategory.RANGED_WEAPONS;
-        }
-
-        if (containsAny(itemCategory, "tools") ||
-                containsAny(supportedItems, "pickaxe", "pickaxes", "shovel", "shovels", "hoe", "hoes", "mining", "shears")) {
-            return CreativeCategory.TOOLS;
-        }
-
-        if (containsAny(itemCategory, "weapons") ||
-                containsAny(supportedItems, "sword", "swords", "axe", "axes", "weapon", "melee")) {
-            return CreativeCategory.MELEE_WEAPONS;
-        }
-
-        return CreativeCategory.EXTRA;
-    }
-
-    private static boolean containsAny(String value, String... tokens) {
-        for (String token : tokens) {
-            if (value.contains(token)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static String normalized(String value) {
-        return value.toLowerCase(Locale.ROOT);
-    }
-
-    private enum CreativeCategory {
-        MELEE_WEAPONS,
-        TOOLS,
-        RANGED_WEAPONS,
-        BOWS,
-        ARMOR,
-        EXTRA
-    }
+    private record ToolPage(ResourceKey<CreativeModeTab> key, String titleKey, Item icon) {}
 }

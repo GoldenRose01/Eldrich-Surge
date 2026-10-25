@@ -13,7 +13,7 @@ public final class CurseOfFragilityEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/durability"),
             List.of("hand"),
-            "#eldritch-surge:negative_curses",
+            "#eldrich-surge:negative_curses",
             "L'esatto opposto di Unbreaking; aumenta sensibilmente il consumo di durabilità dell'oggetto ad ogni utilizzo."
     );
 

@@ -13,7 +13,7 @@ public final class DwarfForgedEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:forged",
+            "#eldrich-surge:forged",
             "Applica un livello massiccio di Unbreaking (Unbreaking++) esclusivamente all'interno del bioma delle Caverne."
     );
 

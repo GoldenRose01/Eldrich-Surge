@@ -11,9 +11,9 @@ public final class VanguardChargeEnchantment {
             2,
             "Ultra",
             "Advanced",
-            List.of("#eldritch-surge:enchantable/spear"),
+            List.of("#eldrich-surge:enchantable/spear"),
             List.of("hand"),
-            "#eldritch-surge:weapon_utility",
+            "#eldrich-surge:weapon_utility",
             "Doppia pressione dello scatto esegue un affondo aereo che trascina i mob colpiti fino al primo blocco solido, infliggendo danno da impatto."
     );
 

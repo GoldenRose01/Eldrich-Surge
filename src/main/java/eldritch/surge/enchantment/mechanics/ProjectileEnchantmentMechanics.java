@@ -32,8 +32,11 @@ public final class ProjectileEnchantmentMechanics {
                 Entity breaker = optionalEntity(context, LootContextParams.ATTACKING_ENTITY);
                 ItemStack mainHand = breaker instanceof LivingEntity living ? living.getMainHandItem() : ItemStack.EMPTY;
                 ItemStack offHand = breaker instanceof LivingEntity living ? living.getOffhandItem() : ItemStack.EMPTY;
+                net.minecraft.world.item.ItemInstance contextTool = optionalParameter(context, LootContextParams.TOOL);
+                ItemStack tool = contextTool instanceof ItemStack stack ? stack : ItemStack.EMPTY;
                 int drainLooting = Math.max(EnchantmentLevels.onItem(context.getLevel(), mainHand, "drain_looting"),
                         EnchantmentLevels.onItem(context.getLevel(), offHand, "drain_looting"));
+                drainLooting = Math.max(drainLooting, EnchantmentLevels.onItem(context.getLevel(), tool, "drain_looting"));
                 if (drainLooting > 0) {
                     List<ItemStack> cropBonus = new ArrayList<>();
                     for (ItemStack drop : List.copyOf(drops)) {
@@ -46,8 +49,9 @@ public final class ProjectileEnchantmentMechanics {
                     }
                     drops.addAll(cropBonus);
                 }
-                if (Math.max(EnchantmentLevels.onItem(context.getLevel(), mainHand, "sickened_of_hell"),
-                        EnchantmentLevels.onItem(context.getLevel(), offHand, "sickened_of_hell")) > 0) {
+                if (Math.max(EnchantmentLevels.onItem(context.getLevel(), tool, "sickened_of_hell"),
+                        Math.max(EnchantmentLevels.onItem(context.getLevel(), mainHand, "sickened_of_hell"),
+                                EnchantmentLevels.onItem(context.getLevel(), offHand, "sickened_of_hell"))) > 0) {
                     for (int index = 0; index < drops.size(); index++) {
                         ItemStack drop = drops.get(index);
                         if (drop.is(net.minecraft.world.item.Items.POTATO)) {

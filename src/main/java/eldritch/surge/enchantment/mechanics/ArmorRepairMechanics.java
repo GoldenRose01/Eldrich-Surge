@@ -12,9 +12,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 
 public final class ArmorRepairMechanics {
-    private static final Identifier PHALANX_ARMOR = Identifier.fromNamespaceAndPath("eldritch-surge", "phalanx_armor");
-    private static final Identifier PHALANX_TOUGHNESS = Identifier.fromNamespaceAndPath("eldritch-surge", "phalanx_toughness");
-    private static final Identifier PHALANX_SPEED = Identifier.fromNamespaceAndPath("eldritch-surge", "phalanx_speed");
+    private static final Identifier PHALANX_ARMOR = Identifier.fromNamespaceAndPath("eldrich-surge", "phalanx_armor");
+    private static final Identifier PHALANX_TOUGHNESS = Identifier.fromNamespaceAndPath("eldrich-surge", "phalanx_toughness");
+    private static final Identifier PHALANX_SPEED = Identifier.fromNamespaceAndPath("eldrich-surge", "phalanx_speed");
     private ArmorRepairMechanics() {
     }
 

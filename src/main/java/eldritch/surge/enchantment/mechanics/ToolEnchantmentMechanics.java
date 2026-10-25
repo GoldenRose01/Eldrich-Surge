@@ -3,8 +3,11 @@ package eldritch.surge.enchantment.mechanics;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -13,26 +16,47 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public final class ToolEnchantmentMechanics {
-    private static final Map<Block, ItemLike> SMELTED_DROPS = Map.ofEntries(
-            Map.entry(Blocks.IRON_ORE, Items.IRON_INGOT),
-            Map.entry(Blocks.DEEPSLATE_IRON_ORE, Items.IRON_INGOT),
-            Map.entry(Blocks.GOLD_ORE, Items.GOLD_INGOT),
-            Map.entry(Blocks.DEEPSLATE_GOLD_ORE, Items.GOLD_INGOT),
-            Map.entry(Blocks.COPPER_ORE, Items.COPPER_INGOT),
-            Map.entry(Blocks.DEEPSLATE_COPPER_ORE, Items.COPPER_INGOT),
-            Map.entry(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_SCRAP),
-            Map.entry(Blocks.SAND, Items.GLASS),
-            Map.entry(Blocks.RED_SAND, Items.GLASS),
-            Map.entry(Blocks.COBBLESTONE, Items.STONE),
-            Map.entry(Blocks.COBBLED_DEEPSLATE, Items.DEEPSLATE)
-    );
+    private static final Map<Block, ItemLike> SMELTED_DROPS = createSmeltedDrops();
 
     private static boolean breakingExtraBlocks;
 
     private ToolEnchantmentMechanics() {
+    }
+
+    private static Map<Block, ItemLike> createSmeltedDrops() {
+        Map<Block, ItemLike> drops = new HashMap<>();
+        drops.put(Blocks.IRON_ORE, Items.IRON_INGOT);
+        drops.put(Blocks.DEEPSLATE_IRON_ORE, Items.IRON_INGOT);
+        drops.put(Blocks.GOLD_ORE, Items.GOLD_INGOT);
+        drops.put(Blocks.DEEPSLATE_GOLD_ORE, Items.GOLD_INGOT);
+        drops.put(Blocks.NETHER_GOLD_ORE, Items.GOLD_INGOT);
+        drops.put(Blocks.COPPER_ORE, Items.COPPER_INGOT);
+        drops.put(Blocks.DEEPSLATE_COPPER_ORE, Items.COPPER_INGOT);
+        drops.put(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_SCRAP);
+        drops.put(Blocks.SAND, Items.GLASS);
+        drops.put(Blocks.RED_SAND, Items.GLASS);
+        drops.put(Blocks.COBBLESTONE, Items.STONE);
+        drops.put(Blocks.COBBLED_DEEPSLATE, Items.DEEPSLATE);
+        drops.put(Blocks.DEEPSLATE, Items.COBBLED_DEEPSLATE);
+        drops.put(Blocks.NETHERRACK, Items.NETHER_BRICK);
+        drops.put(Blocks.WET_SPONGE, Items.SPONGE);
+        drops.put(Blocks.CLAY, Blocks.TERRACOTTA);
+        drops.put(Blocks.STONE, Blocks.SMOOTH_STONE);
+        drops.put(Blocks.SANDSTONE, Blocks.SMOOTH_SANDSTONE);
+        drops.put(Blocks.RED_SANDSTONE, Blocks.SMOOTH_RED_SANDSTONE);
+
+        for (DyeColor color : DyeColor.values()) {
+            Block powder = BuiltInRegistries.BLOCK.getValue(
+                    Identifier.withDefaultNamespace(color.getName() + "_concrete_powder"));
+            Block glass = BuiltInRegistries.BLOCK.getValue(
+                    Identifier.withDefaultNamespace(color.getName() + "_stained_glass"));
+            if (powder != Blocks.AIR && glass != Blocks.AIR) drops.put(powder, glass);
+        }
+        return Map.copyOf(drops);
     }
 
     public static void initialize() {

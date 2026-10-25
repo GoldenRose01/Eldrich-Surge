@@ -9,7 +9,7 @@ public final class BloodyMaryEnchantment {
             1, "Rare", "Advanced",
             List.of("#minecraft:swords", "#minecraft:axes", "#minecraft:hoes"),
             List.of("mainhand"), "",
-            "10% di probabilità di far cadere la testa del mob o giocatore ucciso."
+            "10% di probabilità base, aumentata del 10% per ogni livello di Saccheggio."
     );
     private BloodyMaryEnchantment() {}
 }

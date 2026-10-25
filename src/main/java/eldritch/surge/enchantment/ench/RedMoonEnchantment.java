@@ -13,7 +13,7 @@ public final class RedMoonEnchantment {
             "Advanced",
             List.of("minecraft:book"),
             List.of("hand"),
-            "#eldritch-surge:rituals",
+            "#eldrich-surge:rituals",
             "Evoca un'ondata di 30 Zombie dotati di equipaggiamento in diamante e varianti zombie horse."
     );
 

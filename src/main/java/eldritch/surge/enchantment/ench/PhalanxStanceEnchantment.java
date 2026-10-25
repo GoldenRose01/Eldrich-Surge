@@ -11,9 +11,9 @@ public final class PhalanxStanceEnchantment {
             3,
             "Rare",
             "Advanced",
-            List.of("#eldritch-surge:enchantable/spear"),
+            List.of("#eldrich-surge:enchantable/spear"),
             List.of("hand"),
-            "#eldritch-surge:offhand",
+            "#eldrich-surge:offhand",
             "Se tenuta nell'offhand con uno scudo nella principale, conferisce +2 Armor e +1 Armor Toughness per livello (riduce la velocita del 10%)."
     );
 

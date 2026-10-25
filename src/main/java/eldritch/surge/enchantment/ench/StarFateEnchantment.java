@@ -13,7 +13,7 @@ public final class StarFateEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Incantesimo composito: Witch Hunter + Creeping Threat + Flogging + Herbicide + Smoother."
     );
 

@@ -1,6 +1,7 @@
 # gradle
 
 .gradle/
+.kotlin/
 build/
 out/
 classes/
@@ -31,6 +32,13 @@ bin/
 # fabric
 
 run/
+/logs/
+
+# config tool generated files
+
+/external_tools/**/obj/
+/external_tools/**/bin/
+/external_tools/**/publish/
 
 # java
 

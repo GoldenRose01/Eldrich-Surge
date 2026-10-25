@@ -1,0 +1,52 @@
+{
+  "anvil_cost": 2,
+  "description": {
+    "translate": "enchantment.eldrich-surge.replenish"
+  },
+  "effects": {
+    "minecraft:ammo_use": [
+      {
+        "effect": {
+          "type": "minecraft:set",
+          "value": 0.0
+        },
+        "requirements": {
+              "type": "minecraft:all_of",
+          "terms": [
+            {
+              "chance": {
+                "type": "minecraft:enchantment_level",
+                "amount": {
+                  "type": "minecraft:linear",
+                  "base": 0.33,
+                  "per_level_above_first": 0.33
+                }
+              },
+              "type": "minecraft:random_chance"
+            },
+            {
+              "type": "minecraft:match_tool",
+              "predicate": {
+                "items": "#eldrich-surge:special_arrows"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 35,
+    "per_level_above_first": 10
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#eldrich-surge:enchantable/replenish",
+  "weight": 4
+}

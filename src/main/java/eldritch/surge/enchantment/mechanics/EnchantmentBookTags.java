@@ -74,7 +74,7 @@ public final class EnchantmentBookTags {
     private static BookTag tagFor(Holder<Enchantment> enchantment) {
         String namespace = enchantment.unwrapKey().map(key -> key.identifier().getNamespace()).orElse("");
         String path = enchantment.unwrapKey().map(key -> key.identifier().getPath()).orElse("");
-        ModEnchantmentDefinition definition = namespace.equals("eldritch-surge")
+        ModEnchantmentDefinition definition = namespace.equals("eldrich-surge")
                 ? ModEnchantmentDefinitions.BY_ID.get(path)
                 : null;
         if (definition != null && definition.id().equals("bloody_mary")) return BookTag.SWORDS_AXES_HOES;

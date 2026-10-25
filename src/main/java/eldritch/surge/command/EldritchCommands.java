@@ -31,10 +31,10 @@ import java.util.concurrent.CompletableFuture;
 
 public final class EldritchCommands {
     private static final DynamicCommandExceptionType UNKNOWN_ENCHANTMENT = new DynamicCommandExceptionType(
-            id -> Component.translatable("commands.eldritch-surge.surge.unknown_enchantment", id)
+            id -> Component.translatable("commands.eldrich-surge.surge.unknown_enchantment", id)
     );
     private static final SimpleCommandExceptionType EMPTY_HAND = new SimpleCommandExceptionType(
-            Component.translatable("commands.eldritch-surge.surge.empty_hand")
+            Component.translatable("commands.eldrich-surge.surge.empty_hand")
     );
 
     private EldritchCommands() {
@@ -71,7 +71,7 @@ public final class EldritchCommands {
 
         context.getSource().sendSuccess(
                 () -> Component.translatable(
-                        "commands.eldritch-surge.surge.success",
+                        "commands.eldrich-surge.surge.success",
                         Enchantment.getFullname(enchantment, level),
                         stack.getDisplayName()
                 ),

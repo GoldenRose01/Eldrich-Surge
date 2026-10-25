@@ -14,7 +14,7 @@ public final class VoidSweepEnchantment {
             List.of("#minecraft:hoes", "minecraft:netherite_hoe"),
             List.of("hand"),
             "",
-            "L'attacco ad area della zappa esegue un fendente esteso che applica 10 + livello danni fissi e Knockback II."
+            "Con qualsiasi zappa, il colpo diretto e il fendente infliggono almeno 10 + livello danni; aumenta il raggio e applica Knockback II."
     );
 
     private VoidSweepEnchantment() {

@@ -13,7 +13,7 @@ public final class CurseOfSpiderEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:positive_curses",
+            "#eldrich-surge:positive_curses",
             "Avvelena il bersaglio colpito. Sinergizza con la Gamerule lethalPoison."
     );
 

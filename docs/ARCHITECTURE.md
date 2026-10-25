@@ -7,7 +7,7 @@ not create Java `Enchantment` subclasses for normal enchantment definitions.
 New enchantments belong under:
 
 ```text
-src/main/resources/data/eldritch-surge/enchantment/<name>.json
+src/main/resources/data/eldrich-surge/enchantment/<name>.json
 ```
 
 Code should keep `RegistryKey<Enchantment>` or `Identifier` handles and resolve
@@ -41,10 +41,10 @@ point where vanilla compares or clamps levels.
 Groups are tag-driven:
 
 ```text
-data/eldritch-surge/tags/enchantment/additional_damage.json
-data/eldritch-surge/tags/enchantment/weapon_utility.json
-data/eldritch-surge/tags/enchantment/aspect.json
-data/eldritch-surge/tags/enchantment/offhand.json
+data/eldrich-surge/tags/enchantment/additional_damage.json
+data/eldrich-surge/tags/enchantment/weapon_utility.json
+data/eldrich-surge/tags/enchantment/aspect.json
+data/eldrich-surge/tags/enchantment/offhand.json
 ```
 
 The compatibility mixin should reject multiple enchantments inside the same

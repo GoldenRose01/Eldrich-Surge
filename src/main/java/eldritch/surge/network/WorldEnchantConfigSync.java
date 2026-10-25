@@ -15,6 +15,7 @@ public final class WorldEnchantConfigSync {
     public static void initialize() {
         PayloadTypeRegistry.clientboundPlay().register(WorldEnchantConfigPayload.TYPE, WorldEnchantConfigPayload.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(WorldEnchantConfigPayload.TYPE, WorldEnchantConfigPayload.CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(SoftFallingJumpPayload.TYPE, SoftFallingJumpPayload.CODEC);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> send(handler.player));
         ServerPlayNetworking.registerGlobalReceiver(WorldEnchantConfigPayload.TYPE, (payload, context) ->
                 context.server().execute(() -> {

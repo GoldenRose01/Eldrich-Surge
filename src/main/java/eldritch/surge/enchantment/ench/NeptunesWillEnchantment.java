@@ -14,7 +14,7 @@ public final class NeptunesWillEnchantment {
             List.of("#minecraft:enchantable/trident"),
             List.of("hand"),
             "",
-            "Aggiunge 1 danno base per livello mentre il tridente è impugnato."
+            "Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle altre armi se il tridente incantato è nella mano secondaria."
     );
 
     private NeptunesWillEnchantment() {

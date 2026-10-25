@@ -13,7 +13,7 @@ public final class CometSlamEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/mace"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Se lo Smash Attack viene eseguito da piu di 12 blocchi d'altezza, genera un'esplosione magica che incendia l'area e applica Knockback X."
     );
 

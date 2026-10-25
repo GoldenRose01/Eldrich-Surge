@@ -13,7 +13,7 @@ public final class FloggingEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Danno maggiorato contro le entità contrassegnate nel tag della categoria 'Rebel'."
     );
 

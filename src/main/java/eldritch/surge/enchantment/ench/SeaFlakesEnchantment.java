@@ -13,7 +13,7 @@ public final class SeaFlakesEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:flakes",
+            "#eldrich-surge:flakes",
             "Rigenera 1 punto di durabilità ogni 4/livello minuti quando ci si trova sotto la pioggia o immersi in acqua."
     );
 

@@ -13,7 +13,7 @@ public final class CurseOfPerishEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:positive_curses",
+            "#eldrich-surge:positive_curses",
             "Infligge l'effetto di stato Wither al target con intensità pari al livello dell'incanto."
     );
 

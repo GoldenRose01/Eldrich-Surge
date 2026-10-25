@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:blessing_of_the_night",
+    "eldrich-surge:end_blessing",
+    "eldrich-surge:hell_blessing",
+    "eldrich-surge:sun_blessing",
+    "eldrich-surge:vision_blessing",
+    "eldrich-surge:seeker_blessing"
+  ]
+}

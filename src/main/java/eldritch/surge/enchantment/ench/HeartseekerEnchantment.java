@@ -11,9 +11,9 @@ public final class HeartseekerEnchantment {
             1,
             "Legendary",
             "Advanced",
-            List.of("#eldritch-surge:enchantable/spear"),
+            List.of("#eldrich-surge:enchantable/spear"),
             List.of("hand"),
-            "#eldritch-surge:aspect",
+            "#eldrich-surge:aspect",
             "Colpo alle spalle. Attaccare un'entita non voltata verso il player garantisce un colpo critico automatico che ignora il 50% dell'armatura."
     );
 

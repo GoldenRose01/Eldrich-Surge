@@ -13,7 +13,7 @@ public final class HellBlessingEnchantment {
             "Advanced",
             List.of("#minecraft:head_armor"),
             List.of("head"),
-            "#eldritch-surge:blessings",
+            "#eldrich-surge:blessings",
             "Trovarsi nella lava o nel fuoco genera livello * 10 sfere di XP al secondo."
     );
 

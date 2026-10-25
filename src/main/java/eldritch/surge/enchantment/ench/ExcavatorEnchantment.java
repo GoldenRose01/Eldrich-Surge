@@ -7,7 +7,7 @@ public final class ExcavatorEnchantment {
     public static final ModEnchantmentDefinition DEFINITION = new ModEnchantmentDefinition(
             "excavator",
             "Excavator",
-            "TOOLS (PICKAXES, SHOVELS, HOES, SHEARS)",
+            "TOOLS (AXES, PICKAXES, SHOVELS)",
             3,
             "Rare",
             "Advanced",

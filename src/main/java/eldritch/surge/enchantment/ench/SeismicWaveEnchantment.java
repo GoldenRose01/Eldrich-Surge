@@ -13,7 +13,7 @@ public final class SeismicWaveEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/mace"),
             List.of("hand"),
-            "#eldritch-surge:weapon_utility",
+            "#eldrich-surge:weapon_utility",
             "Gli attacchi in caduta (Smash) generano un'onda d'urto che infligge il 20% * livello del danno totale ai mob nel raggio di 4 blocchi."
     );
 

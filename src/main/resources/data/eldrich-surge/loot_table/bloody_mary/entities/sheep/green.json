@@ -1,0 +1,47 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "minecraft:player_head",
+          "weight": 1,
+          "modifier": [
+            {
+              "type": "set_components",
+              "components": {
+                "minecraft:note_block_sound": "minecraft:entity.sheep.ambient",
+                "minecraft:profile": {
+                  "properties": [
+                    {
+                      "name": "textures",
+                      "value": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThjOWNmNjA1ZWZkMDdkMzgzMzJhZWZkYmE0NWJkZDlmZTA0YjQ3MDI5MTBiMGEzMDc0NmM2ZmM5YTIxOTYwNCJ9fX0="
+                    }
+                  ],
+                  "id": [
+                    685242124,
+                    -944730290,
+                    1396971500,
+                    1682069367
+                  ]
+                },
+                "minecraft:item_name": "Green Sheep's Head"
+              }
+            }
+          ]
+        }
+      ],
+      "condition": {
+        "type": "minecraft:all_of",
+        "terms": [
+          {
+            "type": "minecraft:all_of",
+            "terms": []
+          }
+        ]
+      }
+    }
+  ]
+}

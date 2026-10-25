@@ -13,7 +13,7 @@ public final class WrathOfTheAbyssEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Incrementa il danno in modo analogo a Impaling, ma esteso a tutte le entità acquatiche del gioco."
     );
 

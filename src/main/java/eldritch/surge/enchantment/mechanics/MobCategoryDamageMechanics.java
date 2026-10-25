@@ -33,10 +33,10 @@ public final class MobCategoryDamageMechanics {
     );
     private static final List<String> BLADE_CATEGORIES = List.of("animals", "undead", "void", "hell", "water");
     private static final java.util.Set<String> CATEGORY_COMPONENTS = java.util.Set.of(
-            "eldritch-surge:butcher", "eldritch-surge:undead_slayer", "eldritch-surge:bane_of_end",
-            "eldritch-surge:exorcist", "eldritch-surge:wrath_of_the_abyss", "eldritch-surge:witch_hunter",
-            "eldritch-surge:creeping_threat", "eldritch-surge:flogging", "eldritch-surge:herbicide",
-            "eldritch-surge:smoother");
+            "eldrich-surge:butcher", "eldrich-surge:undead_slayer", "eldrich-surge:bane_of_end",
+            "eldrich-surge:exorcist", "eldrich-surge:wrath_of_the_abyss", "eldrich-surge:witch_hunter",
+            "eldrich-surge:creeping_threat", "eldrich-surge:flogging", "eldrich-surge:herbicide",
+            "eldrich-surge:smoother");
 
     private MobCategoryDamageMechanics() {
     }
@@ -67,11 +67,11 @@ public final class MobCategoryDamageMechanics {
     public static Map<String, List<String>> enchantmentCategoryDefaults() {
         Map<String, List<String>> categories = new LinkedHashMap<>();
         for (CategoryBonus bonus : INDIVIDUAL_ENCHANTMENTS) {
-            categories.put("eldritch-surge:" + bonus.enchantmentId(), List.of(bonus.category()));
+            categories.put("eldrich-surge:" + bonus.enchantmentId(), List.of(bonus.category()));
         }
-        categories.put("eldritch-surge:star_fate", STAR_FATE_CATEGORIES.stream()
+        categories.put("eldrich-surge:star_fate", STAR_FATE_CATEGORIES.stream()
                 .map(CategoryBonus::category).distinct().toList());
-        categories.put("eldritch-surge:blade_of_apocalypse", BLADE_CATEGORIES);
+        categories.put("eldrich-surge:blade_of_apocalypse", BLADE_CATEGORIES);
         return Map.copyOf(categories);
     }
 

@@ -13,7 +13,7 @@ public final class HeartOfTheSeaEnchantment {
             "Advanced",
             List.of("#minecraft:chest_armor"),
             List.of("chest"),
-            "#eldritch-surge:hearts",
+            "#eldrich-surge:hearts",
             "Fornisce gli effetti di stato Conduit Power e Dolphin's Grace permanenti al giocatore."
     );
 

@@ -13,7 +13,7 @@ public final class ExorcistEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Modificatore di danno puro applicato contro i mob nativi del Nether."
     );
 

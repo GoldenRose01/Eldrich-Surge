@@ -198,7 +198,7 @@ public final class SpellCastMechanics {
     private static int spellLevel(ItemStack stack, String spell) {
         return EnchantmentHelper.getEnchantmentsForCrafting(stack).entrySet().stream()
                 .filter(entry -> entry.getKey().unwrapKey()
-                        .map(key -> key.identifier().equals(Identifier.fromNamespaceAndPath("eldritch-surge", spell)))
+                        .map(key -> key.identifier().equals(Identifier.fromNamespaceAndPath("eldrich-surge", spell)))
                         .orElse(false))
                 .mapToInt(entry -> entry.getIntValue())
                 .findFirst()

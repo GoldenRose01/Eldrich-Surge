@@ -13,7 +13,7 @@ public final class CurseOfTargetEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/bow", "#minecraft:enchantable/crossbow"),
             List.of("hand"),
-            "#eldritch-surge:positive_curses",
+            "#eldrich-surge:positive_curses",
             "Le frecce andate a segno applicano lo stato Splendente (Glowing) al bersaglio per un numero di secondi pari a livello."
     );
 

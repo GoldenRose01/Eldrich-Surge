@@ -13,7 +13,7 @@ public final class HeavyImpactEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/mace"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Incrementa il danno base d'impatto standard della mazza a terra. Incompatibile con i danni vanilla."
     );
 

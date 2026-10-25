@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:cocktail_spell",
+    "eldrich-surge:ragnarok",
+    "eldrich-surge:red_moon",
+    "eldrich-surge:storm_spell",
+    "eldrich-surge:trench_spell"
+  ]
+}

@@ -13,7 +13,7 @@ public final class WitchHunterEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
+            "#eldrich-surge:additional_damage",
             "Incrementa i danni inflitti contro tutte le creature magiche (Streghe, Evocatori, Illusionisti)."
     );
 

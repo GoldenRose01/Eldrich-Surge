@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:gravity_well",
+    "eldrich-surge:impaler_reach",
+    "eldrich-surge:seismic_wave",
+    "eldrich-surge:vanguard_charge",
+    "minecraft:sweeping_edge"
+  ]
+}

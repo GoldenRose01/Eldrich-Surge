@@ -13,7 +13,7 @@ public final class DwarfFlakesEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:flakes",
+            "#eldrich-surge:flakes",
             "Quando il livello di luce ambientale è inferiore a 8, ripara 1 punto di durabilità dell'armatura ogni 4/livello minuti."
     );
 

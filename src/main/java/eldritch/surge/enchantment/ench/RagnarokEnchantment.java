@@ -13,7 +13,7 @@ public final class RagnarokEnchantment {
             "Advanced",
             List.of("minecraft:book"),
             List.of("hand"),
-            "#eldritch-surge:rituals",
+            "#eldrich-surge:rituals",
             "Evoca sul posto 4 Wither Skeleton dotati di scheletro equino come cavalcatura e armatura completa in Netherite."
     );
 

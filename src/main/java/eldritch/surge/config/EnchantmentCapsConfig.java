@@ -79,7 +79,7 @@ public final class EnchantmentCapsConfig {
     public static void activateWorld(MinecraftServer server, Collection<Identifier> knownEnchantments) {
         activeServer = server;
         Path worldRoot = server.getWorldPath(LevelResource.ROOT);
-        worldConfigPath = worldRoot.resolve("eldritch-surge").resolve("enchantment_caps.json");
+        worldConfigPath = worldRoot.resolve("eldrich-surge").resolve("enchantment_caps.json");
 
         Data defaults = readGlobalOrCreate();
         boolean hasWorldConfig = Files.exists(worldConfigPath);
@@ -185,24 +185,17 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean isAllowedForItem(Identifier enchantmentId, ItemStack stack) {
-        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
-        if (override.supportedItems.isEmpty()) {
+        List<String> rules = supportedItemRules(enchantmentId);
+        if (rules.isEmpty()) {
             return true;
         }
+        return matchesEnchLibRules(rules, stack);
+    }
 
-        Identifier itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-        for (String entry : override.supportedItems) {
-            if (entry.startsWith("#")) {
-                Identifier tagId = Identifier.tryParse(entry.substring(1));
-                if (tagId != null && stack.is(TagKey.create(Registries.ITEM, tagId))) {
-                    return true;
-                }
-            } else if (itemId.toString().equals(entry)) {
-                return true;
-            }
-        }
-
-        return false;
+    /** Effective compatibility rules, including the active world's EnchLib overrides. */
+    public static List<String> supportedItemRules(Identifier enchantmentId) {
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        return List.copyOf(override.supportedItems);
     }
 
     public static boolean isCompatibleWithExistingEnchantments(Identifier enchantmentId, ItemStack stack) {
@@ -226,7 +219,7 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean passesRarity(Identifier enchantmentId, ItemStack stack, int slot, int level) {
-        return passesRarity(enchantmentId, "eldritch-surge:advanced_enchanting_table", stack, slot, level);
+        return passesRarity(enchantmentId, "eldrich-surge:advanced_enchanting_table", stack, slot, level);
     }
 
     public static boolean passesRarity(Identifier enchantmentId, String tableId, ItemStack stack, int slot, int level) {
@@ -384,11 +377,11 @@ public final class EnchantmentCapsConfig {
             }
             Object normalEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "minecraft:enchanting_table");
             if (normalEnabled instanceof Boolean configured) value.normalTable = configured;
-            Object advancedEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "eldritch-surge:advanced_enchanting_table");
+            Object advancedEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "eldrich-surge:advanced_enchanting_table");
             if (advancedEnabled instanceof Boolean configured) value.advancedTable = configured;
             Object normalChance = callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, id, "minecraft:enchanting_table");
             if (normalChance instanceof Integer configured) value.normalTableChance = configured;
-            Object advancedChance = callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, id, "eldritch-surge:advanced_enchanting_table");
+            Object advancedChance = callEnchLib("getTableChance", new Class<?>[]{String.class, String.class}, id, "eldrich-surge:advanced_enchanting_table");
             if (advancedChance instanceof Integer configured) value.advancedTableChance = configured;
             Object rarity = callEnchLib("getRarity", new Class<?>[]{String.class}, id);
             if (rarity instanceof String configured && List.of("common", "uncommon", "rare", "very_rare").contains(configured)) value.rarityClass = configured;

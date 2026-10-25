@@ -37,7 +37,7 @@ public final class SpellBookItems {
     }
 
     public static boolean isCastSpell(Identifier id) {
-        if (!id.getNamespace().equals("eldritch-surge")) {
+        if (!id.getNamespace().equals("eldrich-surge")) {
             return false;
         }
 

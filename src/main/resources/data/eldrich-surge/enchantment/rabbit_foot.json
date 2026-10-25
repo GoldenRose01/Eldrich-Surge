@@ -1,0 +1,11 @@
+{
+  "anvil_cost": 3,
+  "description": { "translate": "enchantment.eldrich-surge.rabbit_foot" },
+  "effects": {},
+  "max_cost": { "base": 50, "per_level_above_first": 10 },
+  "max_level": 5,
+  "min_cost": { "base": 20, "per_level_above_first": 7 },
+  "slots": ["head", "feet"],
+  "supported_items": "#eldrich-surge:enchantable/rabbit_foot",
+  "weight": 1
+}

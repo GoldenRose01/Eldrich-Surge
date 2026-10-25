@@ -13,7 +13,7 @@ public final class EndFlakesEnchantment {
             "Advanced",
             List.of("#minecraft:enchantable/armor"),
             List.of("armor"),
-            "#eldritch-surge:flakes",
+            "#eldrich-surge:flakes",
             "Quando non si tocca il terreno, rigenera livello/100 durabilità al secondo."
     );
 

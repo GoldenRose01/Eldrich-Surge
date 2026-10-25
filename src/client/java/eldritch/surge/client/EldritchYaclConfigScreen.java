@@ -15,7 +15,7 @@ import java.util.Map;
 final class EldritchYaclConfigScreen {
     static net.minecraft.client.gui.screens.Screen create(net.minecraft.client.gui.screens.Screen parent) {
         ConfigCategory.Builder category = ConfigCategory.createBuilder()
-                .name(Component.translatable("config.eldritch-surge.level_caps"));
+                .name(Component.translatable("config.eldrich-surge.level_caps"));
 
         for (Map.Entry<String, ?> entry : new java.util.TreeMap<>(EnchantmentCapsConfig.enchantmentOverrides()).entrySet()) {
             String enchantmentId = entry.getKey();
@@ -23,10 +23,10 @@ final class EldritchYaclConfigScreen {
 
             category.group(OptionGroup.createBuilder()
                     .name(enchantmentName)
-                    .description(OptionDescription.of(Component.translatable("config.eldritch-surge.level_caps.group_description")))
+                    .description(OptionDescription.of(Component.translatable("config.eldrich-surge.level_caps.group_description")))
                     .option(Option.<Boolean>createBuilder()
-                            .name(Component.translatable("config.eldritch-surge.normal_table"))
-                            .description(OptionDescription.of(Component.translatable("config.eldritch-surge.normal_table.description")))
+                            .name(Component.translatable("config.eldrich-surge.normal_table"))
+                            .description(OptionDescription.of(Component.translatable("config.eldrich-surge.normal_table.description")))
                             .binding(
                                     false,
                                     () -> EnchantmentCapsConfig.isAllowedInNormalTable(net.minecraft.resources.Identifier.tryParse(enchantmentId)),
@@ -36,8 +36,8 @@ final class EldritchYaclConfigScreen {
                             .controller(BooleanControllerBuilder::create)
                             .build())
                     .option(Option.<Boolean>createBuilder()
-                            .name(Component.translatable("config.eldritch-surge.advanced_table"))
-                            .description(OptionDescription.of(Component.translatable("config.eldritch-surge.advanced_table.description")))
+                            .name(Component.translatable("config.eldrich-surge.advanced_table"))
+                            .description(OptionDescription.of(Component.translatable("config.eldrich-surge.advanced_table.description")))
                             .binding(
                                     false,
                                     () -> EnchantmentCapsConfig.isAllowedInAdvancedTable(net.minecraft.resources.Identifier.tryParse(enchantmentId)),
@@ -47,8 +47,8 @@ final class EldritchYaclConfigScreen {
                             .controller(BooleanControllerBuilder::create)
                             .build())
                     .option(Option.<Boolean>createBuilder()
-                            .name(Component.translatable("config.eldritch-surge.loot"))
-                            .description(OptionDescription.of(Component.translatable("config.eldritch-surge.loot.description")))
+                            .name(Component.translatable("config.eldrich-surge.loot"))
+                            .description(OptionDescription.of(Component.translatable("config.eldrich-surge.loot.description")))
                             .binding(
                                     false,
                                     () -> EnchantmentCapsConfig.isAllowedAsLoot(net.minecraft.resources.Identifier.tryParse(enchantmentId)),
@@ -58,8 +58,8 @@ final class EldritchYaclConfigScreen {
                             .controller(BooleanControllerBuilder::create)
                             .build())
                     .option(Option.<Integer>createBuilder()
-                            .name(Component.translatable("config.eldritch-surge.anvil_max_level"))
-                            .description(OptionDescription.of(Component.translatable("config.eldritch-surge.zero_uses_vanilla")))
+                            .name(Component.translatable("config.eldrich-surge.anvil_max_level"))
+                            .description(OptionDescription.of(Component.translatable("config.eldrich-surge.zero_uses_vanilla")))
                             .binding(
                                     0,
                                     () -> EnchantmentCapsConfig.getAnvilCap(enchantmentId),
@@ -69,8 +69,8 @@ final class EldritchYaclConfigScreen {
                             .controller(IntegerFieldControllerBuilder::create)
                             .build())
                     .option(Option.<Integer>createBuilder()
-                            .name(Component.translatable("config.eldritch-surge.enchanting_table_max_level"))
-                            .description(OptionDescription.of(Component.translatable("config.eldritch-surge.zero_uses_vanilla")))
+                            .name(Component.translatable("config.eldrich-surge.enchanting_table_max_level"))
+                            .description(OptionDescription.of(Component.translatable("config.eldrich-surge.zero_uses_vanilla")))
                             .binding(
                                     0,
                                     () -> EnchantmentCapsConfig.getEnchantingTableCap(enchantmentId),
@@ -83,7 +83,7 @@ final class EldritchYaclConfigScreen {
         }
 
         return YetAnotherConfigLib.createBuilder()
-                .title(Component.translatable("config.eldritch-surge.title"))
+                .title(Component.translatable("config.eldrich-surge.title"))
                 .category(category.build())
                 .save(EnchantmentCapsConfig::save)
                 .build()

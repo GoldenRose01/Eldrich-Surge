@@ -8,7 +8,9 @@ import net.minecraft.tags.ItemTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -27,8 +29,8 @@ public abstract class SweepAttackMixin {
 
     @ModifyArg(
             method = "doSweepAttack",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;getEnchantedDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)F"),
-            index = 1
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"),
+            index = 2
     )
     private float eldritchSurge$modifySweepDamage(float amount) {
         Player player = (Player) (Object) this;
@@ -62,5 +64,38 @@ public abstract class SweepAttackMixin {
         Player player = (Player) (Object) this;
         ItemStack held = player.getMainHandItem();
         return held.is(ItemTags.HOES) && EnchantmentLevels.onItem(player.level(), held, "void_sweep") > 0 ? 2.0F : amount;
+    }
+
+    @ModifyArg(
+            method = "doSweepAttack",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;inflate(DDD)Lnet/minecraft/world/phys/AABB;"),
+            index = 0
+    )
+    private double eldrichSurge$extendHoeSweepX(double amount) {
+        return eldritchSurge$extendHoeSweep(amount);
+    }
+
+    @ModifyArg(
+            method = "doSweepAttack",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;inflate(DDD)Lnet/minecraft/world/phys/AABB;"),
+            index = 2
+    )
+    private double eldrichSurge$extendHoeSweepZ(double amount) {
+        return eldritchSurge$extendHoeSweep(amount);
+    }
+
+    @ModifyConstant(method = "doSweepAttack", constant = @Constant(doubleValue = 9.0D))
+    private double eldrichSurge$extendHoeSweepDistance(double amount) {
+        Player player = (Player) (Object) this;
+        ItemStack held = player.getMainHandItem();
+        return held.is(ItemTags.HOES) && EnchantmentLevels.onItem(player.level(), held, "void_sweep") > 0
+                ? 25.0D : amount;
+    }
+
+    private double eldritchSurge$extendHoeSweep(double amount) {
+        Player player = (Player) (Object) this;
+        ItemStack held = player.getMainHandItem();
+        return held.is(ItemTags.HOES) && EnchantmentLevels.onItem(player.level(), held, "void_sweep") > 0
+                ? amount + 2.0D : amount;
     }
 }

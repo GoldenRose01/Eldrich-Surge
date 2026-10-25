@@ -15,7 +15,7 @@ public final class WorldEnchantConfigPayloadTest {
         String largeJson = "{\"enchantments\":\"" + "enchanted-è-魔法".repeat(8_000) + "\"}";
         roundTrip(largeJson, true);
         roundTrip(largeJson, false);
-        Path preset = Path.of("run/config/eldritch-surge/enchantment_caps.json");
+        Path preset = Path.of("run/config/eldrich-surge/enchantment_caps.json");
         if (Files.exists(preset)) roundTrip(Files.readString(preset), true);
         try {
             ConfigSnapshotCompression.decode(new byte[]{1, 2, 3});

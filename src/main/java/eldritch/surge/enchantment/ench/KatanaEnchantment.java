@@ -13,8 +13,8 @@ public final class KatanaEnchantment {
             "Normal",
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
-            "#eldritch-surge:additional_damage",
-            "Funziona come Sharpness ma applica uno scaling di danno base per livello superiore."
+            "#eldrich-surge:additional_damage",
+            "Rende la lama ultratagliente."
     );
 
     private KatanaEnchantment() {
