@@ -26,7 +26,15 @@
 		"SweepAttackMixin",
 		"VanguardChargeMixin",
 		"ThrownTridentMixin",
-		"WindChargeInvoker"
+		"WindChargeInvoker",
+		"SurvivalLivingEntityMixin",
+		"FatiguePlayerMixin",
+		"FuseCutterExplosionMixin",
+		"CurseCompatibilityMixin",
+		"FanaticFishingMixin",
+		"AccuracyShotArrowMixin",
+		"FearCreeperMixin",
+		"FlightEnchantmentMixin"
 	],
 	"client": [
 		"EnchantmentNameColorMixin",

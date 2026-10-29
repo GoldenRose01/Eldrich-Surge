@@ -4,7 +4,7 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle altre armi se il tridente incantato è nella mano secondaria.
+Aggiunge 5 danni per livello al tridente in mischia e al lancio.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
@@ -19,9 +19,7 @@ Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle alt
 
 ## Effetto e utilizzo
 
-La definizione del progetto descrive questo effetto: Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle altre armi se il tridente incantato è nella mano secondaria.
-
-Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
+Ai livelli I/II/III aggiunge **5 / 10 / 15 punti danno**. Il tridente lanciato usa il livello salvato sul proiettile: cambiare arma dopo il lancio non lo altera e un secondo tridente impugnato non raddoppia il bonus del proiettile. In mischia resta valido il bonus alle altre armi quando un tridente incantato è nella mano secondaria.
 
 ## Ottenimento
 
@@ -66,5 +64,6 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 - [AdditionalDamageCalculator.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/combat/AdditionalDamageCalculator.java)
 - [CreativeEnchantmentClassifier.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/creative/CreativeEnchantmentClassifier.java)
+- [ThrownTridentMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/ThrownTridentMixin.java)
 
 </details>

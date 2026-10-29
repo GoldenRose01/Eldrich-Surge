@@ -85,10 +85,10 @@ public final class EnchantmentResourceCatalogTest {
         var swiftnessItems = swiftness.getAsJsonArray("values").asList().stream()
                 .map(element -> element.getAsString()).collect(Collectors.toSet());
         if (!swiftnessItems.contains("#minecraft:enchantable/bow")
-                || !swiftnessItems.contains("#minecraft:enchantable/crossbow")
+                || swiftnessItems.contains("#minecraft:enchantable/crossbow")
                 || !swiftnessItems.contains("#minecraft:spears")
                 || swiftnessItems.stream().anyMatch(value -> value.contains("armor"))) {
-            throw new AssertionError("Swiftness must only support bows, crossbows and spears.");
+            throw new AssertionError("Swiftness must only support bows and spears.");
         }
         System.out.println("Validated " + declared.size() + " enchantment declarations, resources and translations.");
     }

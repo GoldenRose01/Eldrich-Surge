@@ -64,6 +64,12 @@ public final class EnchantmentTooltips {
         Set<String> addedKeys = new HashSet<>();
         ItemEnchantments direct = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
         ItemEnchantments stored = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+        if (stack.is(Items.FISHING_ROD) && direct.keySet().stream().anyMatch(holder -> holder.unwrapKey()
+                .map(key -> key.identifier().toString().equals("eldrich-surge:fanatic")).orElse(false))) {
+            lines.add(Component.translatable("tooltip.eldrich-surge.fanatic_score",
+                    eldritch.surge.enchantment.mechanics.SurvivalEnchantmentMechanics.fishingScore(stack))
+                    .withStyle(ChatFormatting.AQUA));
+        }
         appendFrom(direct, lines, addedKeys);
         appendFrom(stored, lines, addedKeys);
         if (stack.is(Items.ENCHANTED_BOOK) || stack.is(EldritchItems.SPELL_BOOK)) {

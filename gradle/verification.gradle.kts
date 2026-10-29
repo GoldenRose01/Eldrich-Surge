@@ -5,6 +5,9 @@ import org.gradle.api.tasks.testing.Test
 // Standalone regression programs share the test runtime without a test framework.
 val testSources = extensions.getByType<SourceSetContainer>().named("test")
 val verificationPrograms = mapOf(
+    "verifySurvivalEnchantmentMath" to "eldritch.surge.enchantment.mechanics.SurvivalEnchantmentMathTest",
+    "verifySurvivalEnchantmentResources" to "eldritch.surge.enchantment.mechanics.SurvivalEnchantmentResourcesTest",
+    "verifyAdvancedInfusingCosts" to "eldritch.surge.menu.AdvancedInfusingCostsTest",
     "verifyWorldConfigCodec" to "eldritch.surge.network.WorldEnchantConfigPayloadTest",
     "verifyBloodyMaryLoot" to "eldritch.surge.network.BloodyMaryLootTest",
     "verifyBloodyMaryLootingChance" to "eldritch.surge.enchantment.mechanics.BloodyMaryLootingChanceTest",

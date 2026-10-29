@@ -8,6 +8,20 @@ import java.util.stream.Collectors;
 
 public final class ModEnchantmentDefinitions {
     public static final List<ModEnchantmentDefinition> ALL = List.of(
+            AccuracyShotEnchantment.DEFINITION,
+            FearEnchantment.DEFINITION,
+            KineticProtectionEnchantment.DEFINITION,
+            HappyBoostEnchantment.DEFINITION,
+            StepAssistEnchantment.DEFINITION,
+            FanaticEnchantment.DEFINITION,
+            DodgeEnchantment.DEFINITION,
+            FuseCutterEnchantment.DEFINITION,
+            ImmortalityEnchantment.DEFINITION,
+            CurseOfSlipperyEnchantment.DEFINITION,
+            CurseOfIncompatibilityEnchantment.DEFINITION,
+            CurseOfFatigueEnchantment.DEFINITION,
+            CurseOfCorrosionEnchantment.DEFINITION,
+            BlessingOfTheSeaEnchantment.DEFINITION,
             ArmoredEnchantment.DEFINITION,
             EngineEnchantment.DEFINITION,
             BlessingOfTheNightEnchantment.DEFINITION,

@@ -63,6 +63,7 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 <details>
 <summary>Meccaniche che consultano questo ID</summary>
 
+- [AdvancedEnchantmentMenu.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/menu/AdvancedEnchantmentMenu.java)
 - [AnvilEnchantmentsMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/AnvilEnchantmentsMixin.java)
 - [EnchantmentMenuMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/EnchantmentMenuMixin.java)
 - [ForgedUnbreakingMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/ForgedUnbreakingMixin.java)

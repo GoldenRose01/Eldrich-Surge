@@ -38,16 +38,22 @@ G · Q · G
 
 Le Q sono a due blocchi di distanza sui punti cardinali; le G occupano gli angoli esterni. Le otto posizioni immediatamente adiacenti al tavolo devono restare vuote.
 
-## Slot e reagenti
+## Interfaccia e reagenti
 
-| Slot | Formazione | Livello dell’offerta |
-|---|---|---|
-| Primo | Non richiesta dal controllo speciale | Calcolo vanilla senza contributo delle librerie |
-| Secondo | Richiesta | 15 |
-| Terzo | Richiesta | 30 |
+Inserisci l'oggetto nello slot superiore a sinistra e il reagente in quello inferiore. Cerca un incantesimo nell'elenco, selezionalo, scegli il livello con **− / +**, poi premi **Incanta**. Le frecce e la rotella scorrono l'elenco. Il tooltip mostra il nome completo e il livello; quello del pulsante Incanta mostra il costo completo.
 
-Il numero dell’offerta è il requisito di livello; non equivale a un consumo fisso di 15 o 30 livelli per operazione.
+**Ametista** seleziona gli incantamenti ordinari avanzati. **Frammenti dell'eco** selezionano i rituali su un libro normale. Lapislazzuli non è un reagente del tavolo avanzato.
 
-**Ametista** seleziona gli incantamenti ordinari avanzati. **Frammenti di eco** selezionano i rituali su un libro normale; in questa modalità gli incantamenti non rituali vengono esclusi. Lapislazzuli non è il reagente del tavolo avanzato.
+Senza formazione puoi scegliere soltanto il livello I. Con la formazione 5×5 completa puoi scegliere fino al limite configurato. Gli incantesimi incompatibili, disabilitati, riservati al bottino o già al limite non compaiono. Gli incantesimi sono scelti direttamente: non si effettuano estrazioni casuali.
+
+Un incantesimo completo costa **30 livelli XP e 3 frammenti**. I livelli aggiunti costano in proporzione al limite completo, arrotondando per eccesso, con un minimo di 1 livello XP e 1 frammento. Esempio per un limite V: da zero a I costa 6 livelli XP e 1 frammento; da III a V costa 12 livelli XP e 2 frammenti. La modalità creativa non consuma XP né reagenti.
+
+Chiudendo l'interfaccia, l'oggetto torna al giocatore e il reagente resta conservato nel tavolo secondo il sistema della mod.
+
+## EMI, REI e ricettario vanilla
+
+La **ricetta di costruzione** della tavola usa `minecraft:crafting_shaped`, quindi i visualizzatori EMI e REI la possono leggere come normale ricetta di crafting, senza dipendenze obbligatorie. Il ricettario vanilla la sblocca quando ottieni un frammento di ametista **oppure** un tavolo degli incantamenti.
+
+Questo supporto riguarda la costruzione della tavola: non aggiunge categorie EMI/REI per ogni operazione di incantamento e non inserisce un ricettario di crafting nell'interfaccia di incantamento. Usa sempre una versione del visualizzatore compatibile con Minecraft 26.3; l'EMI ufficiale e le sue versioni portate dalla community hanno disponibilità diversa.
 
 Fonti: [formazione](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/AdvancedEnchantingFormation.java), [menu](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/menu/AdvancedEnchantmentMenu.java), [ricetta](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/recipe/advanced_enchanting_table.json).

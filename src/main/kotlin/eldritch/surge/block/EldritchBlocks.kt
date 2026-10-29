@@ -86,7 +86,7 @@ object EldritchBlocks {
 
         override fun getMenuProvider(state: BlockState, level: Level, pos: BlockPos): MenuProvider {
             return object : ExtendedMenuProvider<BlockPos> {
-                override fun getDisplayName(): Component = Component.translatable("container.enchant")
+                override fun getDisplayName(): Component = Component.translatable("block.eldrich-surge.advanced_enchanting_table")
 
                 override fun createMenu(syncId: Int, inventory: Inventory, player: Player) =
                     AdvancedEnchantmentMenu(syncId, inventory, ContainerLevelAccess.create(level, pos))

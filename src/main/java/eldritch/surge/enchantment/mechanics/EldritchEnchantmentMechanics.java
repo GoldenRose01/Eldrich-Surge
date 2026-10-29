@@ -5,6 +5,7 @@ public final class EldritchEnchantmentMechanics {
     }
 
     public static void initialize() {
+        SurvivalEnchantmentMechanics.initialize();
         BloodyMaryMechanics.initialize();
         MidasTouchMechanics.initialize();
         SoftFallingMechanics.initialize();

@@ -6,6 +6,10 @@
 
 Il datapack dichiara `exclusive_set`; le impostazioni del mondo aggiungono regole esplicite per coppie di incantamenti. Il risultato dipende dal sistema che consulta tali regole. Un’etichetta di gruppo non autorizza a ignorare le eccezioni delle fusioni.
 
+## Maledizioni con regole runtime
+
+[Curse of Incompatibility](Incantamento-curse-of-incompatibility) blocca ogni altro incantesimo. [Curse of Fatigue](Incantamento-curse-of-fatigue) è incompatibile con Efficiency. Entrambe le regole sono simmetriche e si applicano anche al tavolo avanzato.
+
 ## Gruppi dichiarati nei tag del progetto
 
 | Tag | Componenti |

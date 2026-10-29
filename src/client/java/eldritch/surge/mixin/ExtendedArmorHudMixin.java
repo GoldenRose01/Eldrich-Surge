@@ -22,23 +22,23 @@ public abstract class ExtendedArmorHudMixin {
     private static void eldrichSurge$drawArmorOverflow(
             GuiGraphicsExtractor graphics,
             Player player,
-            int screenWidth,
-            int rowCount,
-            int spacing,
-            int y,
+            int yLineBase,
+            int numHealthRows,
+            int healthRowHeight,
+            int xLeft,
             CallbackInfo ci
     ) {
         int overflow = Math.min(20, player.getArmorValue() - 20);
         if (overflow <= 0) return;
 
-        int left = screenWidth - (rowCount - 1) * spacing - 10;
-        int overflowY = y - 10;
+        // These are the vanilla health baseline and left edge, not screen dimensions.
+        int overflowY = yLineBase - (numHealthRows - 1) * healthRowHeight - 20;
         for (int icon = 0; icon < 10; icon++) {
             int points = overflow - icon * 2;
             Identifier sprite = points >= 2 ? ARMOR_FULL_SPRITE
                     : points == 1 ? ARMOR_HALF_SPRITE : ARMOR_EMPTY_SPRITE;
             graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite,
-                    left + icon * spacing, overflowY, 9, 9);
+                    xLeft + icon * 8, overflowY, 9, 9);
         }
     }
 }

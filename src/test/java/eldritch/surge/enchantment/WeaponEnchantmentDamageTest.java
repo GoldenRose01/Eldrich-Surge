@@ -10,10 +10,20 @@ import java.nio.file.Path;
 public final class WeaponEnchantmentDamageTest {
     public static void main(String[] args) throws Exception {
         assertAttackDamagePerLevel("katana", 1.25);
-        assertAttackDamagePerLevel("neptunes_will", 1.0);
+        // Neptune is a runtime bonus, shared by melee and the thrown trident's impact.
+        for (int level = 0; level <= 3; level++) {
+            float bonus = eldritch.surge.enchantment.ench.NeptunesWillEnchantment.bonusDamage(level);
+            if (bonus != new float[]{0, 5, 10, 15}[level]) throw new AssertionError("Neptune damage scaling");
+        }
+        JsonObject neptune = JsonParser.parseString(Files.readString(Path.of(
+                "src/main/resources/data/eldrich-surge/enchantment/neptunes_will.json"))).getAsJsonObject();
+        if (neptune.get("max_level").getAsInt() != 3
+                || !neptune.get("supported_items").getAsString().equals("#minecraft:enchantable/trident")) {
+            throw new AssertionError("Neptune must remain trident-only, I-III");
+        }
         assertTooltip("it_it", "Rende la lama ultratagliente.");
         assertTooltip("en_us", "Makes the blade razor-sharp.");
-        System.out.println("Validated Katana and Neptune's Will attack damage attributes and tooltips.");
+        System.out.println("Validated Katana attributes, Neptune's Will runtime bonus, levels and item rules.");
     }
 
     private static void assertAttackDamagePerLevel(String enchantment, double expected) throws Exception {

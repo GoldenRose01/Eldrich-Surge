@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:curse_of_slippery",
+    "eldrich-surge:curse_of_incompatibility",
+    "eldrich-surge:curse_of_fatigue",
+    "eldrich-surge:curse_of_corrosion"
+  ]
+}

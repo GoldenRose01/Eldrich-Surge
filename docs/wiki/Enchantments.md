@@ -1,6 +1,6 @@
 # 📖 Catalogo degli incantamenti
 
-**104 incantamenti · valori del sorgente corrente · Minecraft 26.3**
+**118 incantamenti · valori del sorgente corrente · Minecraft 26.3**
 
 [Home](Home) · [Per oggetto](Per-oggetto) · [Compatibilità](Compatibilita) · [Ottenimento](Ottenimento)
 
@@ -10,13 +10,29 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 
 ## Indice delle famiglie
 
-- [Armatura e mobilità](#armatura-e-mobilita) — 32
-- [Combattimento](#combattimento) — 46
+- [Tiro e proiettili](#tiro-e-proiettili) — 9
+- [Armatura e mobilità](#armatura-e-mobilita) — 38
+- [Combattimento](#combattimento) — 51
 - [Rituali](#rituali) — 5
-- [Durabilità](#durabilita) — 6
-- [Tiro e proiettili](#tiro-e-proiettili) — 8
+- [Durabilità](#durabilita) — 8
 - [Scavo e strumenti](#scavo-e-strumenti) — 4
 - [Inventario](#inventario) — 3
+
+<a name="tiro-e-proiettili"></a>
+
+## Tiro e proiettili
+
+| Incantamento | Effetto | Max | Classe | Ottenimento |
+| --- | --- | --- | --- | --- |
+| [Accuracy Shot](Incantamento-accuracy-shot) | Le frecce seguono la mira senza gravità e scompaiono dopo 30 secondi. | 1 | Rare | Normal Advanced |
+| [Curse of Target](Incantamento-curse-of-target) | Le frecce evidenziano il bersaglio colpito. | 5 | Uncommon | Normal |
+| [Elasticity](Incantamento-elasticity) | Aumenta la velocità delle frecce del 25% per livello. | 3 | Legendary | Advanced |
+| [Nineleven](Incantamento-nineleven) | Abbate all'istante (Instakill) Phantom e Pipistrelli colpiti dal dardo. | 1 | Ultra | Advanced |
+| [Pop](Incantamento-pop) | Le frecce producono un’esplosione all’impatto. | 5 | Epic | Normal |
+| [Replenish](Incantamento-replenish) | Può rimborsare un proiettile dopo il tiro. | 3 | Rare | Normal |
+| [Sniper](Incantamento-sniper) | Aggiunge danno in funzione della distanza dal tiratore. | 1 | Uncommon | Normal |
+| [Swiftness](Incantamento-swiftness) | Aumenta la velocità di movimento durante la carica di arco o lancia. | 5 | Legendary | Advanced |
+| [Theft](Incantamento-theft) | Aggiunge copie casuali dei drop nelle uccisioni gestite dalla meccanica. | 5 | Legendary | Advanced |
 
 <a name="armatura-e-mobilita"></a>
 
@@ -26,7 +42,10 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | --- | --- | --- | --- | --- |
 | [Armored](Incantamento-armored) | Aggiunge armatura mentre indossi l’Elytra. | 5 | Common | Normal |
 | [Blessing of the Night](Incantamento-blessing-of-the-night) | Genera esperienza durante la notte. | 5 | Legendary | Advanced |
+| [Blessing of the Sea](Incantamento-blessing-of-the-sea) | Cura il giocatore e ripara l’armatura incantata quando sei bagnato. | 1 | Rare | Advanced |
 | [Combustion Protection](Incantamento-combustion-protection) | Riduce il danno da fuoco ed esplosioni e rinnova Resistenza al Fuoco. | 5 | Epic | Advanced |
+| [Curse of Corrosion](Incantamento-curse-of-corrosion) | L’armatura maledetta infligge danno quando sei bagnato. | 1 | Common | Normal |
+| [Dodge](Incantamento-dodge) | Può evitare completamente un evento di danno con i gambali equipaggiati. | 3 | Rare | Advanced |
 | [Dwarf Flakes](Incantamento-dwarf-flakes) | Quando il livello di luce ambientale è inferiore a 8, ripara 1 punto di durabilità dell'armatura ogni 4/livello minuti. | 3 | Ultra | Advanced |
 | [Dwarf Forged](Incantamento-dwarf-forged) | Può evitare il consumo di durabilità nei biomi sotterranei riconosciuti. | 5 | Ultra | Advanced |
 | [End Adaptability](Incantamento-end-adaptability) | Tenta di salvarti dal danno del vuoto cercando una superficie sicura. | 1 | Ultra | Advanced |
@@ -35,6 +54,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [End Forged](Incantamento-end-forged) | Può evitare il consumo di durabilità nell’End. | 5 | Ultra | Advanced |
 | [Engine](Incantamento-engine) | Ha una probabilità del 10% * livello di restituire il razzo pirotecnico quando viene utilizzato per accelerare in volo. | 10 | Epic | Advanced |
 | [God's Protection](Incantamento-god-protection) | Applica una riduzione del 60% nel calcolatore dei danni della mod. | 1 | Unique | Loot |
+| [Happy Boost](Incantamento-happy-boost) | Aumenta la velocità di volo con le elitre del 50%, 80% o 110%. | 3 | Rare | Advanced |
 | [Healing Aura](Incantamento-healing-aura) | Cura i giocatori vicini mentre resti accovacciato. | 3 | Epic | Advanced |
 | [Health Upgrade](Incantamento-health-upgrade) | Aumenta la salute massima tramite Health Boost. | 5 | Epic | Advanced |
 | [Heart of Depth](Incantamento-heart-of-depth) | Quando si subisce danno, applica l'effetto di stato Oscurità (Darkness) all'attaccante. | 1 | Legendary | Advanced |
@@ -45,6 +65,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Hell Flakes](Incantamento-hell-flakes) | Quando il giocatore va a fuoco o subisce calore, rigenera livello punti di durabilità al secondo. | 3 | Ultra | Advanced |
 | [Hicker](Incantamento-hicker) | Conferisce Salto Potenziato mentre indossi l’armatura incantata. | 5 | Epic | Normal |
 | [Ice Speed](Incantamento-ice-speed) | Conferisce Velocità mentre sei a terra. | 5 | Epic | Normal |
+| [Kinetic Protection](Incantamento-kinetic-protection) | Aggiunge armatura in volo e riduce i danni da impatto con le elitre. | 5 | Rare | Advanced |
 | [Nether Forged](Incantamento-nether-forged) | Può evitare il consumo di durabilità nel Nether. | 5 | Ultra | Advanced |
 | [Rabbit Foot](Incantamento-rabbit-foot) | Aumenta la fortuna dell'utilizzatore di 1 punto per livello. | 5 | Ultra | Advanced |
 | [Sea Flakes](Incantamento-sea-flakes) | Rigenera 1 punto di durabilità ogni 4/livello minuti quando ci si trova sotto la pioggia o immersi in acqua. | 3 | Ultra | Advanced |
@@ -52,6 +73,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Snowshoeing](Incantamento-snowshoeing) | Permette al giocatore di camminare sopra la neve polverosa senza sprofondare e senza subire congelamento. | 1 | Legendary | Advanced |
 | [Soft Falling](Incantamento-soft-falling) | Premere Salto in aria attiva Caduta Lenta; gli stivali prevengono il danno da caduta. | 1 | Unique | Advanced |
 | [Soil Falling](Incantamento-soil-falling) | Impedisce la distruzione dei blocchi di terreno zappato (farmland/crops) quando ci si salta sopra. | 1 | Rare | Normal |
+| [Step Assist](Incantamento-step-assist) | Sale automaticamente un blocco; gli ostacoli superiori richiedono un salto. | 3 | Rare | Normal Advanced |
 | [Sun Blessing](Incantamento-sun-blessing) | Genera esperienza di giorno nell’Overworld con cielo visibile. | 5 | Legendary | Advanced |
 | [Villager Forged](Incantamento-villager-forged) | Può evitare il consumo di durabilità nell’Overworld. | 5 | Ultra | Advanced |
 | [Vision Blessing](Incantamento-vision-blessing) | Fornisce l'effetto di stato Visione Notturna permanente. | 1 | Legendary | Advanced |
@@ -72,18 +94,23 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Comet Slam](Incantamento-comet-slam) | Se lo Smash Attack viene eseguito da piu di 12 blocchi d'altezza, genera un'esplosione magica che incendia l'area e applica Knockback X. | 1 | Legendary | Advanced |
 | [Creeping Threat](Incantamento-creeping-threat) | Aggiunge danno contro gli artropodi e applica debolezza e rallentamento. | 7 | Uncommon | Normal |
 | [Curse of Perish](Incantamento-curse-of-perish) | Infligge l'effetto di stato Wither al target con intensità pari al livello dell'incanto. | 3 | Ultra | Advanced |
+| [Curse of Slippery](Incantamento-curse-of-slippery) | Fa cadere casualmente l’oggetto impugnato, in media ogni 33 secondi. | 1 | Common | Normal |
 | [Curse of Spider](Incantamento-curse-of-spider) | Applica Veleno al bersaglio colpito. | 5 | Ultra | Advanced |
 | [Dash](Incantamento-dash) | Aumenta il danno del colpo di 1 + livello/2 se la stessa arma con lo stesso incantesimo è impugnata contemporaneamente in entrambe le mani. | 5 | Uncommon | Normal |
 | [Dual Sweeping](Incantamento-dual-sweeping) | Raddoppia il danno del fendente quando nell’altra mano c’è una spada. | 2 | Legendary | Advanced |
 | [Exorcist](Incantamento-exorcist) | Aggiunge 2,5 danni per livello contro la categoria hell. | 7 | Uncommon | Normal |
 | [Experienced](Incantamento-experienced) | Aggiunge 4 danni per livello ai colpi considerati critici dalla mod. | 1 | Ultra | Advanced |
+| [Fanatic](Incantamento-fanatic) | Aumenta progressivamente la probabilità di pescare tesori sulla singola canna. | 1 | Rare | Normal Advanced |
+| [Fear](Incantamento-fear) | I colpi di spada prolungano il timer di esplosione del creeper. | 1 | Rare | Normal Advanced |
 | [Flogging](Incantamento-flogging) | Aggiunge 2,5 danni per livello contro la categoria rebel. | 7 | Uncommon | Normal |
 | [Freeze Aspect](Incantamento-freeze-aspect) | Applica l'effetto rallentamento e congelamento progressivo sul bersaglio. | 5 | Rare | Normal |
+| [Fuse Cutter](Incantamento-fuse-cutter) | Annulla le esplosioni entro tre blocchi mentre pari con lo scudo. | 1 | Rare | Advanced |
 | [Gravity Well](Incantamento-gravity-well) | Durante un attacco dall'alto, attira lentamente i mob nel raggio di 5 blocchi verso il punto d'impatto. | 2 | Epic | Advanced |
 | [Gream Reaper](Incantamento-gream-reaper) | Aggiunge 2,5 danni per livello senza richiedere una categoria mob. | 10 | Unique | Fusione |
 | [Heartseeker](Incantamento-heartseeker) | Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato. | 1 | Legendary | Advanced |
 | [Heavy Impact](Incantamento-heavy-impact) | Aggiunge danno agli schianti della mazza. | 5 | Rare | Advanced |
 | [Herbicide](Incantamento-herbicide) | Aggiunge 3 danni per livello contro la categoria fungi. | 7 | Uncommon | Normal |
+| [Immortality](Incantamento-immortality) | Lo scudo impugnato salva dalla morte consumando soltanto questo incantesimo. | 1 | Ultra | Advanced |
 | [Impaler Reach](Incantamento-impaler-reach) | Aggiunge un blocco di portata per livello a interazioni ed entità. | 3 | Epic | Advanced |
 | [Inking](Incantamento-inking) | Acceca il bersaglio (Darkness) evidenziando la sua sagoma (Glowing) e debilitandolo (Weakness). | 5 | Common | Normal |
 | [Katana](Incantamento-katana) | Aggiunge 1,25 danni d’attacco per livello. | 10 | Common | Normal |
@@ -91,7 +118,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Leeching Aspect](Incantamento-leeching-aspect) | Cura l’attaccante dopo un colpo critico. | 2 | Rare | Normal |
 | [Lunge](Incantamento-lunge) | Spinge il bersaglio lontano dall’attaccante. | 1 | Ultra | Advanced |
 | [Mida's Touch](Incantamento-midas-touch) | Le uccisioni possono generare pepite o un lingotto d’oro. | 5 | Rare | Normal |
-| [Neptune's Will](Incantamento-neptunes-will) | Aggiunge 5 danni per livello con un tridente; il bonus si applica anche alle altre armi se il tridente incantato è nella mano secondaria. | 3 | Legendary | Advanced |
+| [Neptune's Will](Incantamento-neptunes-will) | Aggiunge 5 danni per livello al tridente in mischia e al lancio. | 3 | Legendary | Advanced |
 | [Payback](Incantamento-payback) | Aumenta il danno al diminuire della salute. | 5 | Epic | Advanced |
 | [Phalanx Stance](Incantamento-phalanx-stance) | Scudo nella mano principale e lancia nella secondaria conferiscono difesa. | 3 | Rare | Advanced |
 | [Quick Hit](Incantamento-quick-hit) | Accorcia il tempo di recupero degli attacchi. | 5 | Epic | Advanced |
@@ -128,27 +155,14 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 
 | Incantamento | Effetto | Max | Classe | Ottenimento |
 | --- | --- | --- | --- | --- |
+| [Curse of Fatigue](Incantamento-curse-of-fatigue) | Rallenta azioni e movimento, con contributi cumulativi sull’armatura. | 3 | Common | Normal |
 | [Curse of Fragility](Incantamento-curse-of-fragility) | L'esatto opposto di Unbreaking; aumenta sensibilmente il consumo di durabilità dell'oggetto ad ogni utilizzo. | 3 | Common | Normal |
+| [Curse of Incompatibility](Incantamento-curse-of-incompatibility) | Impedisce la combinazione con qualsiasi altro incantesimo. | 1 | Common | Normal |
 | [Curse of the Forest](Incantamento-curse-of-the-forest) | Alla morte del giocatore, l'oggetto genera un'esplosione controllata (Lvl 1 = Esplosione Creeper, Lvl 2 = Creeper Caricato). | 2 | Epic | Advanced |
 | [DeathBreak](Incantamento-deathbreak) | Blocca il consumo di durabilità e sostituisce Unbreaking. | 1 | Ultra | Speciale |
 | [Enduring](Incantamento-enduring) | Gli oggetti incantati rimangono persistenti a terra all'infinito quando vengono droppati, prevenendo il despawn dei 5 minuti. | 1 | Ultra | Advanced |
 | [Soulbond](Incantamento-soulbond) | Mantiene l'oggetto nell'inventario del giocatore dopo la morte anche se la gamerule keepInventory è impostata su false. | 1 | Ultra | Advanced |
 | [Welding](Incantamento-welding) | Riduce il costo in XP delle riparazioni all’incudine. | 5 | Ultra | Advanced |
-
-<a name="tiro-e-proiettili"></a>
-
-## Tiro e proiettili
-
-| Incantamento | Effetto | Max | Classe | Ottenimento |
-| --- | --- | --- | --- | --- |
-| [Curse of Target](Incantamento-curse-of-target) | Le frecce evidenziano il bersaglio colpito. | 5 | Uncommon | Normal |
-| [Elasticity](Incantamento-elasticity) | Aumenta la velocità delle frecce del 25% per livello. | 3 | Legendary | Advanced |
-| [Nineleven](Incantamento-nineleven) | Abbate all'istante (Instakill) Phantom e Pipistrelli colpiti dal dardo. | 1 | Ultra | Advanced |
-| [Pop](Incantamento-pop) | Le frecce producono un’esplosione all’impatto. | 5 | Epic | Normal |
-| [Replenish](Incantamento-replenish) | Può rimborsare un proiettile dopo il tiro. | 3 | Rare | Normal |
-| [Sniper](Incantamento-sniper) | Aggiunge danno in funzione della distanza dal tiratore. | 1 | Uncommon | Normal |
-| [Swiftness](Incantamento-swiftness) | Aumenta la velocità di movimento durante la carica di arco o lancia. | 5 | Legendary | Advanced |
-| [Theft](Incantamento-theft) | Aggiunge copie casuali dei drop nelle uccisioni gestite dalla meccanica. | 5 | Legendary | Advanced |
 
 <a name="scavo-e-strumenti"></a>
 

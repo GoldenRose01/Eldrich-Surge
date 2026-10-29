@@ -191,8 +191,8 @@ def build():
             '## Ottenimento', obtaining(entry),
             'Le impostazioni di disponibilità, rarità e compatibilità del mondo possono restringere le offerte. La voce «Loot» nei metadati non identifica da sola una struttura o una probabilità di generazione: vedi [Ottenimento](Ottenimento).',
             '## Compatibilità',
-            ('L’`exclusive_set` del datapack include: ' + blocked_links + '.') if blocked_links else
-            'Nessun altro incantamento risolto da un gruppo esclusivo in questa definizione. Restano applicabili le regole degli oggetti e le incompatibilità impostate nel mondo.',
+            edit.get('compatibility') or (('L’`exclusive_set` del datapack include: ' + blocked_links + '.') if blocked_links else
+            'Nessun altro incantamento risolto da un gruppo esclusivo in questa definizione. Restano applicabili le regole degli oggetti e le incompatibilità impostate nel mondo.'),
             'Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.',
             '## Dati tecnici', '<details>\n<summary>Mostra effetti e costi dichiarati nel datapack</summary>\n\n```json\n' +
             json.dumps({k:entry['resource'][k] for k in ['effects','min_cost','max_cost','anvil_cost'] if k in entry['resource']},ensure_ascii=False,indent=2) + '\n```\n\n</details>',
@@ -214,6 +214,8 @@ def build():
     write('Compatibilita', '\n\n'.join(['# ⚖️ Compatibilità e gruppi', '[Home](Home) · [Catalogo](Enchantments) · [Incudine](Incudine)',
         '## Come leggere le incompatibilità',
         'Il datapack dichiara `exclusive_set`; le impostazioni del mondo aggiungono regole esplicite per coppie di incantamenti. Il risultato dipende dal sistema che consulta tali regole. Un’etichetta di gruppo non autorizza a ignorare le eccezioni delle fusioni.',
+        '## Maledizioni con regole runtime',
+        '[Curse of Incompatibility](Incantamento-curse-of-incompatibility) blocca ogni altro incantesimo. [Curse of Fatigue](Incantamento-curse-of-fatigue) è incompatibile con Efficiency. Entrambe le regole sono simmetriche e si applicano anche al tavolo avanzato.',
         '## Gruppi dichiarati nei tag del progetto',
         table(['Tag', 'Componenti'], [[f'`eldrich-surge:{p.stem}`', ', '.join(link(by_id[v.split(':')[1]]) if v.startswith('eldrich-surge:') and v.split(':')[1] in by_id else f'`{v}`' for v in json.loads(p.read_text(encoding='utf-8-sig'))['values'])]
             for p in sorted((DATA / 'eldrich-surge/tags/enchantment').glob('*.json'))]),

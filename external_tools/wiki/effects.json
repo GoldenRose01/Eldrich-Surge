@@ -1,66 +1,320 @@
 {
-  "armored": {"summary": "Aggiunge armatura mentre indossi l’Elytra.", "detail": "La meccanica passiva aggiunge **4 punti armatura per livello**, fino a 20 al livello V. Il bonus viene rimosso quando l’Elytra non è indossata. Questo valore proviene dal codice runtime: la vecchia descrizione Java indica ancora 2 punti per livello."},
-  "digger": {"summary": "Rompe un piano di blocchi 3×3 attorno al blocco estratto.", "detail": "Con lo strumento nella mano principale, rompere un blocco avvia l’estrazione degli altri otto blocchi del piano 3×3. Il piano segue la direzione dello sguardo; guardando oltre 60° in alto o in basso diventa orizzontale. Sono esclusi aria e blocchi indistruttibili. I blocchi aggiuntivi passano dalla normale procedura di rottura del giocatore."},
-  "excavator": {"summary": "Aumenta la portata di interazione con blocchi ed entità.", "detail": "Ogni livello aggiunge **1 blocco** a `block_interaction_range` e `entity_interaction_range`. I livelli degli strumenti nelle due mani vengono sommati. Non modifica l’area di scavo: quella è la funzione di Digger."},
-  "katana": {"summary": "Aggiunge 1,25 danni d’attacco per livello.", "detail": "Il datapack applica un modificatore additivo a `minecraft:attack_damage`: **1,25 × livello**. Al livello X il bonus dichiarato è +12,5. Katana sostituisce Sharpness nelle offerte filtrate dalla mod; può inoltre essere trasformato all’incudine in Gream Reaper."},
-  "gream_reaper": {"summary": "Aggiunge 2,5 danni per livello senza richiedere una categoria mob.", "detail": "Il bonus runtime è **2,5 × livello**, fino a +25 al livello X. È separato dai bonus delle categorie mob ed è soggetto al moltiplicatore PvP della mod. L’oggetto dichiarato è la zappa di netherite. Vedi Incudine per i percorsi di fusione."},
-  "blade_of_apocalypse": {"summary": "Aggiunge danno per ciascuna categoria bersaglio corrispondente.", "detail": "Il bonus è **2 × livello × categorie corrispondenti**, fra `animals`, `undead`, `void`, `hell` e `water`. Un’entità con più categorie può ricevere più contributi. Quando Blade è presente, il ramo runtime dei bonus individuali di categoria viene sostituito dal suo calcolo. EnchLib può cambiare le categorie assegnate ai mob."},
-  "star_fate": {"summary": "Combina i bersagli magici, artropodi, ribelli, fungini e cubici.", "detail": "Ogni categoria corrispondente aggiunge **2,5 × livello**, eccetto `arthropods`, che aggiunge **2,75 × livello**. Sono considerate `magik`, `arthropods`, `rebel`, `fungi` e `cubic`; i contributi si sommano per mob con più categorie. L’ottenimento richiede la fusione dei componenti all’incudine."},
-  "butcher": {"summary": "Aggiunge danno contro gli animali e raddoppia specifici drop di carne.", "detail": "Contro la categoria `animals` aggiunge **2,5 danni per livello**. La meccanica dei drop duplica manzo, maiale, pollo, montone e coniglio crudi quando il killer impugna Butcher in una delle mani. Il raddoppio non cresce ulteriormente con il livello e non si estende automaticamente a qualsiasi drop."},
-  "undead_slayer": {"summary": "Aggiunge 2,5 danni per livello contro la categoria undead.", "detail": "Il bonus runtime è **2,5 × livello** contro i mob assegnati a `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldrich Surge. La sostituzione delle offerte di Smite non significa che il danno sia raddoppiato rispetto a Smite."},
-  "bane_of_end": {"summary": "Aggiunge 2,5 danni per livello contro la categoria void.", "detail": "L’effetto consulta la categoria `void`, non semplicemente la dimensione in cui si trova il bersaglio. Senza EnchLib la mod usa il tag di fallback dei mob dell’End."},
-  "exorcist": {"summary": "Aggiunge 2,5 danni per livello contro la categoria hell.", "detail": "Il bersaglio deve appartenere a `hell`. Il bonus deriva dalla classificazione del mob, quindi non richiede che il combattimento avvenga nel Nether."},
-  "witch_hunter": {"summary": "Aggiunge 2,5 danni per livello contro la categoria magik.", "detail": "Il nome della categoria nel codice è `magik`. Le assegnazioni sono modificabili tramite EnchLib; non viene controllato soltanto un elenco fisso di streghe o evocatori."},
-  "flogging": {"summary": "Aggiunge 2,5 danni per livello contro la categoria rebel.", "detail": "Il contributo viene applicato ai bersagli appartenenti a `rebel`. Può sommarsi ai contributi di altre categorie quando le regole di compatibilità consentono la combinazione."},
-  "herbicide": {"summary": "Aggiunge 3 danni per livello contro la categoria fungi.", "detail": "Il bonus individuale è **3 × livello** contro `fungi`. Il coefficiente della corrispondente categoria in Star Fate è diverso: 2,5 per livello."},
-  "smoother": {"summary": "Aggiunge 3 danni per livello contro la categoria cubic.", "detail": "Il bonus individuale è **3 × livello** contro `cubic`. La categoria viene risolta attraverso EnchLib oppure i tag di fallback; il nome non descrive una trasformazione dei blocchi."},
-  "wrath_of_the_abyss": {"summary": "Aggiunge 3 danni per livello contro la categoria water.", "detail": "Il bonus è **3 × livello** contro i mob appartenenti a `water`, indipendentemente dal fatto che il bersaglio sia immerso al momento del colpo."},
-  "creeping_threat": {"summary": "Aggiunge danno contro gli artropodi e applica debolezza e rallentamento.", "detail": "Il bonus contro `arthropods` è **2,5 × livello**. Ogni colpo applica Debolezza per 4 secondi, con amplificatore fino a 2. Sugli artropodi applica anche Rallentamento IV per `20 + 15 × livello` tick."},
-  "blessing_of_the_night": {"summary": "Genera esperienza durante la notte.", "detail": "Ogni 1.200 tick del giocatore, nella fascia oraria 13.000–23.000, assegna **5 × livello punti XP**. Non richiede visibilità del cielo. Sono punti esperienza, non un numero garantito di sfere."},
-  "sun_blessing": {"summary": "Genera esperienza di giorno nell’Overworld con cielo visibile.", "detail": "Durante la fascia precedente al tick 12.000, nell’Overworld e con il cielo visibile, ogni 1.200 tick assegna **10 × livello punti XP**."},
-  "hell_blessing": {"summary": "Genera esperienza mentre sei nella lava o stai bruciando.", "detail": "Ogni 20 tick, se il giocatore è nella lava oppure va a fuoco, assegna **10 × livello punti XP**. Non è richiesto che il giocatore si trovi nel Nether."},
-  "healing_aura": {"summary": "Cura i giocatori vicini mentre resti accovacciato.", "detail": "Ogni 40 tick, se il portatore è accovacciato, cura **1 + livello punti salute** ai giocatori feriti entro 6 blocchi, incluso il portatore. Il codice non filtra le squadre: «alleati» non significa che i nemici siano esclusi."},
-  "hicker": {"summary": "Conferisce Salto Potenziato mentre indossi l’armatura incantata.", "detail": "La meccanica rinnova Salto Potenziato per 40 tick. L’amplificatore è `min(2, livello − 1)`: non viene applicata direttamente una formula di altezza in blocchi."},
-  "ice_speed": {"summary": "Conferisce Velocità mentre sei a terra.", "detail": "Nel codice attuale il requisito è `onGround()`: non viene controllato il tipo di blocco freddo. L’amplificatore è `min(1, livello − 1)` e l’effetto viene rinnovato per 40 tick. La vecchia descrizione limitata al ghiaccio non corrisponde a questo controllo runtime."},
-  "swiftness": {"summary": "Aumenta la velocità di movimento durante la carica di arco o lancia.", "detail": "Quando stai usando un arco o una lancia incantata, applica un bonus additivo di **0,1 × livello** all’attributo di movimento. Il controllo corrente non comprende la balestra. Il bonus viene rimosso quando interrompi l’uso."},
-  "leeching_aspect": {"summary": "Cura l’attaccante dopo un colpo critico.", "detail": "Un colpo considerato critico dal controllo della mod cura `max(1, danno × 0,15 × livello)` punti salute. Il codice usa una cura diretta: non assegna cuori gialli di Assorbimento."},
-  "launch": {"summary": "Spinge verticalmente il bersaglio colpito.", "detail": "Il ramo dei colpi applica una spinta verticale di **0,25 × livello**. Il datapack corrente non contiene un modificatore della velocità del tridente: il vecchio testo descrittivo non dimostra un potenziamento del tiro."},
-  "elasticity": {"summary": "Aumenta la velocità delle frecce del 25% per livello.", "detail": "Il moltiplicatore runtime è **1 + 0,25 × livello**: 1,25× al livello I, 1,50× al II e 1,75× al III. Non è semplicemente «velocità × livello»."},
-  "sniper": {"summary": "Aggiunge danno in funzione della distanza dal tiratore.", "detail": "Se Sniper è presente, il bonus è `min(distanza attuale fra proprietario e freccia × 0,4, 25)`. Il livello viene usato come verifica di presenza, senza un ulteriore moltiplicatore nel metodo. È distanza dal tiratore, non la lunghezza totale della traiettoria."},
-  "curse_of_target": {"summary": "Le frecce evidenziano il bersaglio colpito.", "detail": "L’effetto Glowing dura **40 × livello tick**, cioè 2 secondi per livello a 20 TPS. Questo valore runtime è diverso dal vecchio testo che indicava un secondo per livello."},
-  "replenish": {"summary": "Può rimborsare un proiettile dopo il tiro.", "detail": "La probabilità è `min(100, 33 × livello)%`: 33%, 66%, 99% ai primi tre livelli. I proiettili marcati `INTANGIBLE_PROJECTILE` sono esclusi. Il metodo corrente non limita il rimborso soltanto alle frecce con effetti; il rimborso va nell’inventario o cade a terra se pieno."},
-  "theft": {"summary": "Aggiunge copie casuali dei drop nelle uccisioni gestite dalla meccanica.", "detail": "Per ogni stack presente nei drop genera un extra casuale da 0 al livello di Theft incluso. È una logica aggiuntiva della mod, non una copia automatica dell’effetto vanilla Looting. Il livello viene cercato nell’arma del proiettile o nelle mani del tiratore."},
-  "pop": {"summary": "Le frecce producono un’esplosione all’impatto.", "detail": "La potenza passata all’esplosione è **1,5 + 0,5 × livello**. L’interazione con i blocchi è `NONE`: questa esplosione non è configurata per distruggere il terreno."},
-  "bloody_mary": {"summary": "Può far ottenere la testa della vittima di un’uccisione in mischia.", "detail": "Richiede un colpo diretto di un giocatore, un’arma valida con Bloody Mary e i drop dei mob abilitati. Probabilità: `min(100%, 10% + 10% × Looting)`. Le teste native vengono usate dove disponibili; le altre teste vanilla dipendono dalle tabelle dedicate. Per un giocatore viene conservato il suo profilo; i mob di altre mod non ricevono automaticamente una testa."},
-  "midas_touch": {"summary": "Le uccisioni possono generare pepite o un lingotto d’oro.", "detail": "La probabilità del drop è `min(100%, 20% × livello)`. Superato il tiro, il premio è un lingotto con probabilità 15%; altrimenti sono pepite in quantità pari al livello. La meccanica rispetta l’abilitazione dei drop dei mob."},
-  "soft_falling": {"summary": "Premere Salto in aria attiva Caduta Lenta; gli stivali prevengono il danno da caduta.", "detail": "Con gli stivali incantati, una nuova pressione di Salto in aria applica Caduta Lenta per **100 tick** (5 secondi a 20 TPS), con almeno 10 tick fra attivazioni. Non si attiva a terra, a cavallo o durante il volo creativo. Il controllo del danno annulla separatamente il danno di tipo `FALL` quando questi stivali sono equipaggiati."},
-  "end_adaptability": {"summary": "Tenta di salvarti dal danno del vuoto cercando una superficie sicura.", "detail": "Quando il danno è `FELL_OUT_OF_WORLD`, cerca una posizione sicura entro un raggio orizzontale di 32 blocchi. Se la ricerca e il teletrasporto riescono, annulla il danno e azzera caduta e velocità. Se non trova una destinazione, il danno non viene annullato: non garantisce un salvataggio nel vuoto senza terreno vicino."},
-  "weapon_protection": {"summary": "Riduce il danno da un attaccante che impugna un oggetto.", "detail": "Il ramo corrente controlla che l’attaccante sia una creatura vivente con la mano principale non vuota, senza limitarsi a spade, asce o tridenti. Sottrae al moltiplicatore `min(0,5, 0,07 × somma dei livelli sull’armatura)`. Il risultato si combina con le altre riduzioni del calcolatore."},
-  "combustion_protection": {"summary": "Riduce il danno da fuoco ed esplosioni e rinnova Resistenza al Fuoco.", "detail": "Nel calcolatore sottrae al moltiplicatore `min(0,4, 0,08 × livelli sull’armatura)` per danni di tipo fuoco o esplosione. La meccanica passiva rinnova anche Resistenza al Fuoco e spegne il giocatore."},
-  "god_protection": {"summary": "Applica una riduzione del 60% nel calcolatore dei danni della mod.", "detail": "Se presente su un equipaggiamento controllato, moltiplica per **0,40** il moltiplicatore del danno. Opera nel percorso intercettato dal calcolatore della mod, insieme alle altre riduzioni; non va interpretato come un controllo universale di ogni possibile fonte o sistema di danno di terze parti."},
-  "experienced": {"summary": "Aggiunge 4 danni per livello ai colpi considerati critici dalla mod.", "detail": "La meccanica aggiunge `4 × livello` quando il giocatore sta cadendo, non è a terra, non è in acqua e non è passeggero. Si tratta di un bonus additivo nel calcolatore, non di un moltiplicatore arbitrario del danno totale."},
-  "payback": {"summary": "Aumenta il danno al diminuire della salute.", "detail": "Formula: `6 × livello × (1 − salute / salute massima)²`. La crescita è quadratica rispetto alla frazione di salute mancante. Il bonus passa dal moltiplicatore PvP della mod."},
-  "triumph": {"summary": "Cura dopo aver ucciso il bersaglio.", "detail": "Il ramo delle ricompense delle uccisioni cura l’attaccante di **2 × livello punti salute**. Non ripristina direttamente la saturazione alimentare."},
-  "sickened_of_hell": {"summary": "Converte patate e kelp raccolti nei corrispondenti prodotti cotti.", "detail": "Il ramo attuale opera sui blocchi del tag `CROPS`: sostituisce le patate con patate al forno e il kelp con kelp essiccato. Non è una conversione universale di qualsiasi raccolto agricolo."},
-  "vacuum": {"summary": "Raccoglie gli oggetti vicini dentro una Shulker Box incantata.", "detail": "Ogni 10 tick esamina gli oggetti in un volume ottenuto espandendo di 4 blocchi la hitbox del giocatore. Inserisce prima negli stack compatibili incompleti, poi negli slot vuoti della Shulker. Gli oggetti non inseriti restano nel mondo."},
-  "refill": {"summary": "Rifornisce lo stack nella mano principale dalla Shulker Box.", "detail": "Ogni 10 tick, per ogni Shulker incantata esaminata, trasferisce una unità del primo stack compatibile verso la mano principale, se lo stack impugnato non è vuoto né completo. La compatibilità confronta anche i componenti degli oggetti."},
-  "siphon": {"summary": "Instrada gli oggetti raccolti negli stack incompleti di una Shulker Box.", "detail": "Cerca stack con lo stesso oggetto e gli stessi componenti nelle Shulker incantate nell’inventario e nella mano secondaria. Riempie soltanto stack già presenti e incompleti; non usa nuovi slot vuoti. Il residuo resta al normale percorso di raccolta."},
-  "welding": {"summary": "Riduce il costo in XP delle riparazioni all’incudine.", "detail": "Quando il risultato è effettivamente meno danneggiato dell’oggetto di sinistra, il costo diventa `max(1, ceil(costo originale / (4 × min(livello, 5))))`. La riduzione non si applica indiscriminatamente a rinomina e qualsiasi altra operazione."},
-  "deathbreak": {"summary": "Blocca il consumo di durabilità e sostituisce Unbreaking.", "detail": "Il controllo della durabilità restituisce zero danni all’oggetto. Applicato tramite l’incudine, imposta anche il componente `UNBREAKABLE` e rimuove Unbreaking. Il libro si ottiene combinando **due libri contenenti soltanto Unbreaking III**. Non viene offerto dai tavoli."},
-  "quick_hit": {"summary": "Accorcia il tempo di recupero degli attacchi.", "detail": "Il ritardo dell’attacco viene diviso per **1 + 0,1 × livello**. Il beneficio riguarda il tempo di ricarica della barra, non un azzeramento universale dell’invulnerabilità del bersaglio."},
-  "cocktail_spell": {"summary": "Condivide gli effetti di stato del lanciatore con i giocatori vicini.", "detail": "Quando il libro lanciato raggiunge terra, copia gli effetti attivi del suo proprietario sui giocatori entro `8 + 8 × livello` blocchi. Conserva gli effetti copiati: non imposta automaticamente intensità X. Il libro viene consumato dopo un lancio riuscito."},
-  "phalanx_stance": {"summary": "Scudo nella mano principale e lancia nella secondaria conferiscono difesa.", "detail": "Con la combinazione richiesta aggiunge **2 armatura** e **1 robustezza armatura per livello**; il movimento riceve un modificatore additivo di **−0,1 × livello**. Il codice usa un valore additivo, quindi non equivale semplicemente a una percentuale del 10%."},
-  "lunge": {"summary": "Spinge il bersaglio lontano dall’attaccante.", "detail": "Il ramo del colpo aggiunge una spinta orizzontale proporzionale alla distanza fra le posizioni, moltiplicata per 0,9, e una spinta verticale di 0,2. Il livello è verificato come presenza; questo ramo non dimezza l’armatura né applica un ulteriore moltiplicatore per livello."},
-  "superweight": {"summary": "Aggiunge danno nel calcolatore dei colpi.", "detail": "Il bonus indipendente è **2 × livello** danni e passa dal modificatore PvP. Un altro ramo incrementa il moltiplicatore iniziale del danno di 0,02 per livello quando l’attaccante lo impugna. Il datapack corrente è vuoto: non contiene la riduzione della velocità d’attacco annunciata dal testo storico."},
-  "heavy_impact": {"summary": "Aggiunge danno agli schianti della mazza.", "detail": "Quando la sorgente è marcata `IS_MACE_SMASH`, aggiunge **1,5 × livello** danni. Il controllo non si applica indistintamente a ogni colpo a terra."},
-  "heartseeker": {"summary": "Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato.", "detail": "Il prodotto scalare fra la direzione dello sguardo della vittima e la direzione verso l’attaccante deve essere inferiore a −0,2. In quel caso il danno passato al calcolo armatura è moltiplicato per **1,5** e il valore di armatura per **0,5**. La logica usa la presenza dell’incantamento, non un moltiplicatore ulteriore per livello."},
-  "dwarf_forged": {"summary": "Può evitare il consumo di durabilità nei biomi sotterranei riconosciuti.", "detail": "Nei biomi con percorso `lush_caves`, `dripstone_caves` o `deep_dark`, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il controllo verifica la presenza dell’incantamento; non moltiplica la probabilità per il livello."},
-  "end_forged": {"summary": "Può evitare il consumo di durabilità nell’End.", "detail": "Nell’End, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il livello superiore a I non aggiunge un moltiplicatore in questo ramo."},
-  "nether_forged": {"summary": "Può evitare il consumo di durabilità nel Nether.", "detail": "Nel Nether, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. È un controllo prima della normale elaborazione della durabilità, non un nuovo livello vanilla Unbreaking."},
-  "villager_forged": {"summary": "Può evitare il consumo di durabilità nell’Overworld.", "detail": "Nell’Overworld, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il nome non richiede la presenza di un villaggio."},
-  "dual_sweeping": {"summary": "Raddoppia il danno del fendente quando nell’altra mano c’è una spada.", "detail": "Richiede Dual Sweeping sull’arma principale e un oggetto del tag `SWORDS` nella mano secondaria. Il danno passato al fendente viene moltiplicato per **2**. Il metodo verifica la presenza dell’incantamento, senza aumentare ulteriormente il fattore al livello II."},
-  "curse_of_spider": {"summary": "Applica Veleno al bersaglio colpito.", "detail": "Il ramo del colpo applica Veleno per **30 × livello tick**, con amplificatore `livello − 1`; è presente anche un percorso per i proiettili. La gamerule `lethal_poison` risulta registrata, ma nei sorgenti controllati non compare un suo utilizzo operativo: non viene garantito che attivarla renda il veleno letale."},
-  "health_upgrade": {"summary": "Aumenta la salute massima tramite Health Boost.", "detail": "Rinnova Health Boost per 80 tick, con amplificatore `min(4, somma dei livelli sull’armatura − 1)`. Il beneficio è quindi limitato all’amplificatore 4 anche con cap personalizzati superiori."},
-  "impaler_reach": {"summary": "Aggiunge un blocco di portata per livello a interazioni ed entità.", "detail": "Il datapack applica **+1 × livello** sia a `block_interaction_range` sia a `entity_interaction_range` negli slot dichiarati. Non usa il vecchio nome di attributo `generic.player.reach_distance`. Le incompatibilità sono quelle del gruppo `weapon_utility` e delle regole del mondo."},
-  "smelting": {"summary": "Sostituisce determinati blocchi con drop trasformati.", "detail": "La mappa corrente gestisce minerali di ferro, oro e rame, detriti antichi, sabbia, pietrisco, pietra, argilla, spugne e altre conversioni esplicite. Le polveri di calcestruzzo diventano vetro del colore corrispondente. Non consulta universalmente ogni ricetta di fornace aggiunta da altre mod."}
+  "armored": {
+    "summary": "Aggiunge armatura mentre indossi l’Elytra.",
+    "detail": "La meccanica passiva aggiunge **4 punti armatura per livello**, fino a 20 al livello V. Il bonus viene rimosso quando l’Elytra non è indossata. Questo valore proviene dal codice runtime: la vecchia descrizione Java indica ancora 2 punti per livello."
+  },
+  "digger": {
+    "summary": "Rompe un piano di blocchi 3×3 attorno al blocco estratto.",
+    "detail": "Con lo strumento nella mano principale, rompere un blocco avvia l’estrazione degli altri otto blocchi del piano 3×3. Il piano segue la direzione dello sguardo; guardando oltre 60° in alto o in basso diventa orizzontale. Sono esclusi aria e blocchi indistruttibili. I blocchi aggiuntivi passano dalla normale procedura di rottura del giocatore."
+  },
+  "excavator": {
+    "summary": "Aumenta la portata di interazione con blocchi ed entità.",
+    "detail": "Ogni livello aggiunge **1 blocco** a `block_interaction_range` e `entity_interaction_range`. I livelli degli strumenti nelle due mani vengono sommati. Non modifica l’area di scavo: quella è la funzione di Digger."
+  },
+  "katana": {
+    "summary": "Aggiunge 1,25 danni d’attacco per livello.",
+    "detail": "Il datapack applica un modificatore additivo a `minecraft:attack_damage`: **1,25 × livello**. Al livello X il bonus dichiarato è +12,5. Katana sostituisce Sharpness nelle offerte filtrate dalla mod; può inoltre essere trasformato all’incudine in Gream Reaper."
+  },
+  "gream_reaper": {
+    "summary": "Aggiunge 2,5 danni per livello senza richiedere una categoria mob.",
+    "detail": "Il bonus runtime è **2,5 × livello**, fino a +25 al livello X. È separato dai bonus delle categorie mob ed è soggetto al moltiplicatore PvP della mod. L’oggetto dichiarato è la zappa di netherite. Vedi Incudine per i percorsi di fusione."
+  },
+  "blade_of_apocalypse": {
+    "summary": "Aggiunge danno per ciascuna categoria bersaglio corrispondente.",
+    "detail": "Il bonus è **2 × livello × categorie corrispondenti**, fra `animals`, `undead`, `void`, `hell` e `water`. Un’entità con più categorie può ricevere più contributi. Quando Blade è presente, il ramo runtime dei bonus individuali di categoria viene sostituito dal suo calcolo. EnchLib può cambiare le categorie assegnate ai mob."
+  },
+  "star_fate": {
+    "summary": "Combina i bersagli magici, artropodi, ribelli, fungini e cubici.",
+    "detail": "Ogni categoria corrispondente aggiunge **2,5 × livello**, eccetto `arthropods`, che aggiunge **2,75 × livello**. Sono considerate `magik`, `arthropods`, `rebel`, `fungi` e `cubic`; i contributi si sommano per mob con più categorie. L’ottenimento richiede la fusione dei componenti all’incudine."
+  },
+  "butcher": {
+    "summary": "Aggiunge danno contro gli animali e raddoppia specifici drop di carne.",
+    "detail": "Contro la categoria `animals` aggiunge **2,5 danni per livello**. La meccanica dei drop duplica manzo, maiale, pollo, montone e coniglio crudi quando il killer impugna Butcher in una delle mani. Il raddoppio non cresce ulteriormente con il livello e non si estende automaticamente a qualsiasi drop."
+  },
+  "undead_slayer": {
+    "summary": "Aggiunge 2,5 danni per livello contro la categoria undead.",
+    "detail": "Il bonus runtime è **2,5 × livello** contro i mob assegnati a `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldrich Surge. La sostituzione delle offerte di Smite non significa che il danno sia raddoppiato rispetto a Smite."
+  },
+  "bane_of_end": {
+    "summary": "Aggiunge 2,5 danni per livello contro la categoria void.",
+    "detail": "L’effetto consulta la categoria `void`, non semplicemente la dimensione in cui si trova il bersaglio. Senza EnchLib la mod usa il tag di fallback dei mob dell’End."
+  },
+  "exorcist": {
+    "summary": "Aggiunge 2,5 danni per livello contro la categoria hell.",
+    "detail": "Il bersaglio deve appartenere a `hell`. Il bonus deriva dalla classificazione del mob, quindi non richiede che il combattimento avvenga nel Nether."
+  },
+  "witch_hunter": {
+    "summary": "Aggiunge 2,5 danni per livello contro la categoria magik.",
+    "detail": "Il nome della categoria nel codice è `magik`. Le assegnazioni sono modificabili tramite EnchLib; non viene controllato soltanto un elenco fisso di streghe o evocatori."
+  },
+  "flogging": {
+    "summary": "Aggiunge 2,5 danni per livello contro la categoria rebel.",
+    "detail": "Il contributo viene applicato ai bersagli appartenenti a `rebel`. Può sommarsi ai contributi di altre categorie quando le regole di compatibilità consentono la combinazione."
+  },
+  "herbicide": {
+    "summary": "Aggiunge 3 danni per livello contro la categoria fungi.",
+    "detail": "Il bonus individuale è **3 × livello** contro `fungi`. Il coefficiente della corrispondente categoria in Star Fate è diverso: 2,5 per livello."
+  },
+  "smoother": {
+    "summary": "Aggiunge 3 danni per livello contro la categoria cubic.",
+    "detail": "Il bonus individuale è **3 × livello** contro `cubic`. La categoria viene risolta attraverso EnchLib oppure i tag di fallback; il nome non descrive una trasformazione dei blocchi."
+  },
+  "wrath_of_the_abyss": {
+    "summary": "Aggiunge 3 danni per livello contro la categoria water.",
+    "detail": "Il bonus è **3 × livello** contro i mob appartenenti a `water`, indipendentemente dal fatto che il bersaglio sia immerso al momento del colpo."
+  },
+  "creeping_threat": {
+    "summary": "Aggiunge danno contro gli artropodi e applica debolezza e rallentamento.",
+    "detail": "Il bonus contro `arthropods` è **2,5 × livello**. Ogni colpo applica Debolezza per 4 secondi, con amplificatore fino a 2. Sugli artropodi applica anche Rallentamento IV per `20 + 15 × livello` tick."
+  },
+  "blessing_of_the_night": {
+    "summary": "Genera esperienza durante la notte.",
+    "detail": "Ogni 1.200 tick del giocatore, nella fascia oraria 13.000–23.000, assegna **5 × livello punti XP**. Non richiede visibilità del cielo. Sono punti esperienza, non un numero garantito di sfere."
+  },
+  "sun_blessing": {
+    "summary": "Genera esperienza di giorno nell’Overworld con cielo visibile.",
+    "detail": "Durante la fascia precedente al tick 12.000, nell’Overworld e con il cielo visibile, ogni 1.200 tick assegna **10 × livello punti XP**."
+  },
+  "hell_blessing": {
+    "summary": "Genera esperienza mentre sei nella lava o stai bruciando.",
+    "detail": "Ogni 20 tick, se il giocatore è nella lava oppure va a fuoco, assegna **10 × livello punti XP**. Non è richiesto che il giocatore si trovi nel Nether."
+  },
+  "healing_aura": {
+    "summary": "Cura i giocatori vicini mentre resti accovacciato.",
+    "detail": "Ogni 40 tick, se il portatore è accovacciato, cura **1 + livello punti salute** ai giocatori feriti entro 6 blocchi, incluso il portatore. Il codice non filtra le squadre: «alleati» non significa che i nemici siano esclusi."
+  },
+  "hicker": {
+    "summary": "Conferisce Salto Potenziato mentre indossi l’armatura incantata.",
+    "detail": "La meccanica rinnova Salto Potenziato per 40 tick. L’amplificatore è `min(2, livello − 1)`: non viene applicata direttamente una formula di altezza in blocchi."
+  },
+  "ice_speed": {
+    "summary": "Conferisce Velocità mentre sei a terra.",
+    "detail": "Nel codice attuale il requisito è `onGround()`: non viene controllato il tipo di blocco freddo. L’amplificatore è `min(1, livello − 1)` e l’effetto viene rinnovato per 40 tick. La vecchia descrizione limitata al ghiaccio non corrisponde a questo controllo runtime."
+  },
+  "swiftness": {
+    "summary": "Aumenta la velocità di movimento durante la carica di arco o lancia.",
+    "detail": "Quando stai usando un arco o una lancia incantata, applica un bonus additivo di **0,1 × livello** all’attributo di movimento. Il controllo corrente non comprende la balestra. Il bonus viene rimosso quando interrompi l’uso."
+  },
+  "leeching_aspect": {
+    "summary": "Cura l’attaccante dopo un colpo critico.",
+    "detail": "Un colpo considerato critico dal controllo della mod cura `max(1, danno × 0,15 × livello)` punti salute. Il codice usa una cura diretta: non assegna cuori gialli di Assorbimento."
+  },
+  "launch": {
+    "summary": "Spinge verticalmente il bersaglio colpito.",
+    "detail": "Il ramo dei colpi applica una spinta verticale di **0,25 × livello**. Il datapack corrente non contiene un modificatore della velocità del tridente: il vecchio testo descrittivo non dimostra un potenziamento del tiro."
+  },
+  "elasticity": {
+    "summary": "Aumenta la velocità delle frecce del 25% per livello.",
+    "detail": "Il moltiplicatore runtime è **1 + 0,25 × livello**: 1,25× al livello I, 1,50× al II e 1,75× al III. Non è semplicemente «velocità × livello»."
+  },
+  "sniper": {
+    "summary": "Aggiunge danno in funzione della distanza dal tiratore.",
+    "detail": "Se Sniper è presente, il bonus è `min(distanza attuale fra proprietario e freccia × 0,4, 25)`. Il livello viene usato come verifica di presenza, senza un ulteriore moltiplicatore nel metodo. È distanza dal tiratore, non la lunghezza totale della traiettoria."
+  },
+  "curse_of_target": {
+    "summary": "Le frecce evidenziano il bersaglio colpito.",
+    "detail": "L’effetto Glowing dura **40 × livello tick**, cioè 2 secondi per livello a 20 TPS. Questo valore runtime è diverso dal vecchio testo che indicava un secondo per livello."
+  },
+  "replenish": {
+    "summary": "Può rimborsare un proiettile dopo il tiro.",
+    "detail": "La probabilità è `min(100, 33 × livello)%`: 33%, 66%, 99% ai primi tre livelli. I proiettili marcati `INTANGIBLE_PROJECTILE` sono esclusi. Il metodo corrente non limita il rimborso soltanto alle frecce con effetti; il rimborso va nell’inventario o cade a terra se pieno."
+  },
+  "theft": {
+    "summary": "Aggiunge copie casuali dei drop nelle uccisioni gestite dalla meccanica.",
+    "detail": "Per ogni stack presente nei drop genera un extra casuale da 0 al livello di Theft incluso. È una logica aggiuntiva della mod, non una copia automatica dell’effetto vanilla Looting. Il livello viene cercato nell’arma del proiettile o nelle mani del tiratore."
+  },
+  "pop": {
+    "summary": "Le frecce producono un’esplosione all’impatto.",
+    "detail": "La potenza passata all’esplosione è **1,5 + 0,5 × livello**. L’interazione con i blocchi è `NONE`: questa esplosione non è configurata per distruggere il terreno."
+  },
+  "bloody_mary": {
+    "summary": "Può far ottenere la testa della vittima di un’uccisione in mischia.",
+    "detail": "Richiede un colpo diretto di un giocatore, un’arma valida con Bloody Mary e i drop dei mob abilitati. Probabilità: `min(100%, 10% + 10% × Looting)`. Le teste native vengono usate dove disponibili; le altre teste vanilla dipendono dalle tabelle dedicate. Per un giocatore viene conservato il suo profilo; i mob di altre mod non ricevono automaticamente una testa."
+  },
+  "midas_touch": {
+    "summary": "Le uccisioni possono generare pepite o un lingotto d’oro.",
+    "detail": "La probabilità del drop è `min(100%, 20% × livello)`. Superato il tiro, il premio è un lingotto con probabilità 15%; altrimenti sono pepite in quantità pari al livello. La meccanica rispetta l’abilitazione dei drop dei mob."
+  },
+  "soft_falling": {
+    "summary": "Premere Salto in aria attiva Caduta Lenta; gli stivali prevengono il danno da caduta.",
+    "detail": "Con gli stivali incantati, una nuova pressione di Salto in aria applica Caduta Lenta per **100 tick** (5 secondi a 20 TPS), con almeno 10 tick fra attivazioni. Non si attiva a terra, a cavallo o durante il volo creativo. Il controllo del danno annulla separatamente il danno di tipo `FALL` quando questi stivali sono equipaggiati."
+  },
+  "end_adaptability": {
+    "summary": "Tenta di salvarti dal danno del vuoto cercando una superficie sicura.",
+    "detail": "Quando il danno è `FELL_OUT_OF_WORLD`, cerca una posizione sicura entro un raggio orizzontale di 32 blocchi. Se la ricerca e il teletrasporto riescono, annulla il danno e azzera caduta e velocità. Se non trova una destinazione, il danno non viene annullato: non garantisce un salvataggio nel vuoto senza terreno vicino."
+  },
+  "weapon_protection": {
+    "summary": "Riduce il danno da un attaccante che impugna un oggetto.",
+    "detail": "Il ramo corrente controlla che l’attaccante sia una creatura vivente con la mano principale non vuota, senza limitarsi a spade, asce o tridenti. Sottrae al moltiplicatore `min(0,5, 0,07 × somma dei livelli sull’armatura)`. Il risultato si combina con le altre riduzioni del calcolatore."
+  },
+  "combustion_protection": {
+    "summary": "Riduce il danno da fuoco ed esplosioni e rinnova Resistenza al Fuoco.",
+    "detail": "Nel calcolatore sottrae al moltiplicatore `min(0,4, 0,08 × livelli sull’armatura)` per danni di tipo fuoco o esplosione. La meccanica passiva rinnova anche Resistenza al Fuoco e spegne il giocatore."
+  },
+  "god_protection": {
+    "summary": "Applica una riduzione del 60% nel calcolatore dei danni della mod.",
+    "detail": "Se presente su un equipaggiamento controllato, moltiplica per **0,40** il moltiplicatore del danno. Opera nel percorso intercettato dal calcolatore della mod, insieme alle altre riduzioni; non va interpretato come un controllo universale di ogni possibile fonte o sistema di danno di terze parti."
+  },
+  "experienced": {
+    "summary": "Aggiunge 4 danni per livello ai colpi considerati critici dalla mod.",
+    "detail": "La meccanica aggiunge `4 × livello` quando il giocatore sta cadendo, non è a terra, non è in acqua e non è passeggero. Si tratta di un bonus additivo nel calcolatore, non di un moltiplicatore arbitrario del danno totale."
+  },
+  "payback": {
+    "summary": "Aumenta il danno al diminuire della salute.",
+    "detail": "Formula: `6 × livello × (1 − salute / salute massima)²`. La crescita è quadratica rispetto alla frazione di salute mancante. Il bonus passa dal moltiplicatore PvP della mod."
+  },
+  "triumph": {
+    "summary": "Cura dopo aver ucciso il bersaglio.",
+    "detail": "Il ramo delle ricompense delle uccisioni cura l’attaccante di **2 × livello punti salute**. Non ripristina direttamente la saturazione alimentare."
+  },
+  "sickened_of_hell": {
+    "summary": "Converte patate e kelp raccolti nei corrispondenti prodotti cotti.",
+    "detail": "Il ramo attuale opera sui blocchi del tag `CROPS`: sostituisce le patate con patate al forno e il kelp con kelp essiccato. Non è una conversione universale di qualsiasi raccolto agricolo."
+  },
+  "vacuum": {
+    "summary": "Raccoglie gli oggetti vicini dentro una Shulker Box incantata.",
+    "detail": "Ogni 10 tick esamina gli oggetti in un volume ottenuto espandendo di 4 blocchi la hitbox del giocatore. Inserisce prima negli stack compatibili incompleti, poi negli slot vuoti della Shulker. Gli oggetti non inseriti restano nel mondo."
+  },
+  "refill": {
+    "summary": "Rifornisce lo stack nella mano principale dalla Shulker Box.",
+    "detail": "Ogni 10 tick, per ogni Shulker incantata esaminata, trasferisce una unità del primo stack compatibile verso la mano principale, se lo stack impugnato non è vuoto né completo. La compatibilità confronta anche i componenti degli oggetti."
+  },
+  "siphon": {
+    "summary": "Instrada gli oggetti raccolti negli stack incompleti di una Shulker Box.",
+    "detail": "Cerca stack con lo stesso oggetto e gli stessi componenti nelle Shulker incantate nell’inventario e nella mano secondaria. Riempie soltanto stack già presenti e incompleti; non usa nuovi slot vuoti. Il residuo resta al normale percorso di raccolta."
+  },
+  "welding": {
+    "summary": "Riduce il costo in XP delle riparazioni all’incudine.",
+    "detail": "Quando il risultato è effettivamente meno danneggiato dell’oggetto di sinistra, il costo diventa `max(1, ceil(costo originale / (4 × min(livello, 5))))`. La riduzione non si applica indiscriminatamente a rinomina e qualsiasi altra operazione."
+  },
+  "deathbreak": {
+    "summary": "Blocca il consumo di durabilità e sostituisce Unbreaking.",
+    "detail": "Il controllo della durabilità restituisce zero danni all’oggetto. Applicato tramite l’incudine, imposta anche il componente `UNBREAKABLE` e rimuove Unbreaking. Il libro si ottiene combinando **due libri contenenti soltanto Unbreaking III**. Non viene offerto dai tavoli."
+  },
+  "quick_hit": {
+    "summary": "Accorcia il tempo di recupero degli attacchi.",
+    "detail": "Il ritardo dell’attacco viene diviso per **1 + 0,1 × livello**. Il beneficio riguarda il tempo di ricarica della barra, non un azzeramento universale dell’invulnerabilità del bersaglio."
+  },
+  "cocktail_spell": {
+    "summary": "Condivide gli effetti di stato del lanciatore con i giocatori vicini.",
+    "detail": "Quando il libro lanciato raggiunge terra, copia gli effetti attivi del suo proprietario sui giocatori entro `8 + 8 × livello` blocchi. Conserva gli effetti copiati: non imposta automaticamente intensità X. Il libro viene consumato dopo un lancio riuscito."
+  },
+  "phalanx_stance": {
+    "summary": "Scudo nella mano principale e lancia nella secondaria conferiscono difesa.",
+    "detail": "Con la combinazione richiesta aggiunge **2 armatura** e **1 robustezza armatura per livello**; il movimento riceve un modificatore additivo di **−0,1 × livello**. Il codice usa un valore additivo, quindi non equivale semplicemente a una percentuale del 10%."
+  },
+  "lunge": {
+    "summary": "Spinge il bersaglio lontano dall’attaccante.",
+    "detail": "Il ramo del colpo aggiunge una spinta orizzontale proporzionale alla distanza fra le posizioni, moltiplicata per 0,9, e una spinta verticale di 0,2. Il livello è verificato come presenza; questo ramo non dimezza l’armatura né applica un ulteriore moltiplicatore per livello."
+  },
+  "superweight": {
+    "summary": "Aggiunge danno nel calcolatore dei colpi.",
+    "detail": "Il bonus indipendente è **2 × livello** danni e passa dal modificatore PvP. Un altro ramo incrementa il moltiplicatore iniziale del danno di 0,02 per livello quando l’attaccante lo impugna. Il datapack corrente è vuoto: non contiene la riduzione della velocità d’attacco annunciata dal testo storico."
+  },
+  "heavy_impact": {
+    "summary": "Aggiunge danno agli schianti della mazza.",
+    "detail": "Quando la sorgente è marcata `IS_MACE_SMASH`, aggiunge **1,5 × livello** danni. Il controllo non si applica indistintamente a ogni colpo a terra."
+  },
+  "heartseeker": {
+    "summary": "Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato.",
+    "detail": "Il prodotto scalare fra la direzione dello sguardo della vittima e la direzione verso l’attaccante deve essere inferiore a −0,2. In quel caso il danno passato al calcolo armatura è moltiplicato per **1,5** e il valore di armatura per **0,5**. La logica usa la presenza dell’incantamento, non un moltiplicatore ulteriore per livello."
+  },
+  "dwarf_forged": {
+    "summary": "Può evitare il consumo di durabilità nei biomi sotterranei riconosciuti.",
+    "detail": "Nei biomi con percorso `lush_caves`, `dripstone_caves` o `deep_dark`, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il controllo verifica la presenza dell’incantamento; non moltiplica la probabilità per il livello."
+  },
+  "end_forged": {
+    "summary": "Può evitare il consumo di durabilità nell’End.",
+    "detail": "Nell’End, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il livello superiore a I non aggiunge un moltiplicatore in questo ramo."
+  },
+  "nether_forged": {
+    "summary": "Può evitare il consumo di durabilità nel Nether.",
+    "detail": "Nel Nether, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. È un controllo prima della normale elaborazione della durabilità, non un nuovo livello vanilla Unbreaking."
+  },
+  "villager_forged": {
+    "summary": "Può evitare il consumo di durabilità nell’Overworld.",
+    "detail": "Nell’Overworld, se è disponibile il giocatore nel controllo, una probabilità fissa di **1 su 3** azzera il consumo gestito. Il nome non richiede la presenza di un villaggio."
+  },
+  "dual_sweeping": {
+    "summary": "Raddoppia il danno del fendente quando nell’altra mano c’è una spada.",
+    "detail": "Richiede Dual Sweeping sull’arma principale e un oggetto del tag `SWORDS` nella mano secondaria. Il danno passato al fendente viene moltiplicato per **2**. Il metodo verifica la presenza dell’incantamento, senza aumentare ulteriormente il fattore al livello II."
+  },
+  "curse_of_spider": {
+    "summary": "Applica Veleno al bersaglio colpito.",
+    "detail": "Il ramo del colpo applica Veleno per **30 × livello tick**, con amplificatore `livello − 1`; è presente anche un percorso per i proiettili. La gamerule `lethal_poison` risulta registrata, ma nei sorgenti controllati non compare un suo utilizzo operativo: non viene garantito che attivarla renda il veleno letale."
+  },
+  "health_upgrade": {
+    "summary": "Aumenta la salute massima tramite Health Boost.",
+    "detail": "Rinnova Health Boost per 80 tick, con amplificatore `min(4, somma dei livelli sull’armatura − 1)`. Il beneficio è quindi limitato all’amplificatore 4 anche con cap personalizzati superiori."
+  },
+  "impaler_reach": {
+    "summary": "Aggiunge un blocco di portata per livello a interazioni ed entità.",
+    "detail": "Il datapack applica **+1 × livello** sia a `block_interaction_range` sia a `entity_interaction_range` negli slot dichiarati. Non usa il vecchio nome di attributo `generic.player.reach_distance`. Le incompatibilità sono quelle del gruppo `weapon_utility` e delle regole del mondo."
+  },
+  "smelting": {
+    "summary": "Sostituisce determinati blocchi con drop trasformati.",
+    "detail": "La mappa corrente gestisce minerali di ferro, oro e rame, detriti antichi, sabbia, pietrisco, pietra, argilla, spugne e altre conversioni esplicite. Le polveri di calcestruzzo diventano vetro del colore corrispondente. Non consulta universalmente ogni ricetta di fornace aggiunta da altre mod."
+  },
+  "fanatic": {
+    "summary": "Aumenta progressivamente la probabilità di pescare tesori sulla singola canna.",
+    "detail": "Ogni cattura completata aggiunge **1 punto percentuale** alla probabilità di tesoro. Il contatore è salvato sulla canna, visibile nella descrizione e limitato a 100; non cresce con recuperi a vuoto o entità agganciate. Due canne conservano punteggi indipendenti. Il bonus tiene conto dei pesi vanilla e di Fortuna del mare; a 100 garantisce tesori anche senza acqua aperta. Datapack che cambiano i pesi possono modificare la progressione intermedia."
+  },
+  "dodge": {
+    "summary": "Può evitare completamente un evento di danno con i gambali equipaggiati.",
+    "detail": "Probabilità: **12,5% / 25% / 33%** ai livelli I/II/III. Il tiro avviene sui colpi che superano i controlli vanilla di immunità e intervallo fra danni. Una schivata annulla il danno, conserva l’intervallo normale e mostra **Schivato!** sopra la barra rapida. I contatti ripetuti con una fonte di danno non consumano subito la schivata con un nuovo tentativo al tick successivo."
+  },
+  "fuse_cutter": {
+    "summary": "Annulla le esplosioni entro tre blocchi mentre pari con lo scudo.",
+    "detail": "Richiede uno scudo incantato in parata effettiva. Se il centro dell’esplosione è entro **3 blocchi** dalla posizione del giocatore, viene annullata l’intera esplosione, proteggendo anche terreno e altre entità. Scudo abbassato, ritardo iniziale della parata o distanza superiore non attivano l’effetto."
+  },
+  "immortality": {
+    "summary": "Lo scudo impugnato salva dalla morte consumando soltanto questo incantesimo.",
+    "detail": "Un danno mortale normale viene fermato lasciando **1 cuore**; il fuoco viene spento e Immortality rimosso dallo scudo. Lo scudo e gli altri incantesimi restano. Funziona in entrambe le mani e non richiede parata. Danni che bypassano l’invulnerabilità, come `/kill`, mantengono l’eccezione vanilla."
+  },
+  "curse_of_slippery": {
+    "summary": "Fa cadere casualmente l’oggetto impugnato, in media ogni 33 secondi.",
+    "detail": "Ogni oggetto maledetto nelle mani ha probabilità **1/660 per tick** di cadere: 33 secondi in media a 20 TPS, non un timer fisso. L’intero stack conserva componenti, durabilità e incantesimi. Supporta spade, asce, picconi, pale, zappe, lance, tridenti, archi, balestre, scudi e canne da pesca."
+  },
+  "curse_of_incompatibility": {
+    "summary": "Impedisce la combinazione con qualsiasi altro incantesimo.",
+    "detail": "La regola è simmetrica nel controllo standard di compatibilità: blocca sia l’aggiunta di altri incantesimi sia l’applicazione della maledizione a un oggetto già incantato. Si applica anche al tavolo avanzato. Non cancella incantesimi forzati direttamente con comandi.",
+    "compatibility": "Incompatibile con **qualsiasi altro incantesimo**, tramite regola runtime simmetrica."
+  },
+  "curse_of_fatigue": {
+    "summary": "Rallenta azioni e movimento, con contributi cumulativi sull’armatura.",
+    "detail": "Su strumenti e armi la velocità di scavo, recupero degli attacchi, carica e animazione viene moltiplicata per **0,8 per livello**: riduzioni del 20%, 36% e 48,8%. Ogni livello sui quattro pezzi di armatura moltiplica il movimento per **0,95**; dodici livelli totali riducono la velocità di circa **46%**. Rimuovere i pezzi rimuove il contributo. Incompatibile con Efficiency.",
+    "compatibility": "Incompatibile con **Efficiency**, tramite regola runtime simmetrica."
+  },
+  "curse_of_corrosion": {
+    "summary": "L’armatura maledetta infligge danno quando sei bagnato.",
+    "detail": "In acqua o sotto pioggia diretta infligge **0,25 punti salute (⅛ di cuore) ogni 3 secondi**. Più pezzi non moltiplicano il danno. Sono danni magici soggetti alle normali difese; un tetto ferma l’effetto della pioggia, ma non quello del contatto con acqua."
+  },
+  "blessing_of_the_sea": {
+    "summary": "Cura il giocatore e ripara l’armatura incantata quando sei bagnato.",
+    "detail": "In acqua o sotto pioggia diretta, ogni **3 secondi** cura **0,25 punti salute (⅛ di cuore)** una sola volta e ripara **1 punto durabilità per ogni pezzo incantato**. Nessun effetto all’asciutto; la cura non cresce indossando più pezzi."
+  },
+  "accuracy_shot": {
+    "summary": "Le frecce seguono la mira senza gravità e scompaiono dopo 30 secondi.",
+    "detail": "Rimuove la dispersione iniziale e la gravità. Non insegue automaticamente i bersagli: la direzione resta quella della mira. La freccia legge l’arco salvato al lancio, quindi cambiare arma non modifica l’effetto. La scadenza di **600 tick** è salvata anche per le frecce conficcate e non riparte ricaricando il mondo."
+  },
+  "fear": {
+    "summary": "I colpi di spada prolungano il timer di esplosione del creeper.",
+    "detail": "Ogni colpo diretto riuscito del giocatore aggiunge **20 tick (1 secondo)** alla durata della miccia del creeper ancora vivo. I colpi si sommano; frecce e attacchi respinti non contribuiscono. Il timer è salvato dal creeper, con limite a 32.767 tick per rispettare il formato vanilla."
+  },
+  "kinetic_protection": {
+    "summary": "Aggiunge armatura in volo e riduce i danni da impatto con le elitre.",
+    "detail": "Durante il volo con elitre aggiunge **6 punti armatura per livello**, fino a **30 al livello V**. Il bonus viene rimosso atterrando o togliendo le elitre. I danni da collisione contro pareti vengono ridotti del **24% / 48% / 72% / 80% / 80%**. La riga per l’armatura oltre 20 è allineata sopra la barra vanilla e segue scala GUI e righe di cuori."
+  },
+  "happy_boost": {
+    "summary": "Aumenta la velocità di volo con le elitre del 50%, 80% o 110%.",
+    "detail": "Lo spostamento in planata viene moltiplicato per **1,5 / 1,8 / 2,1**. Il fattore si applica sia sul client sia sul server, senza moltiplicare ripetutamente la velocità memorizzata: non genera accelerazione esponenziale. L’effetto riguarda il volo con elitre."
+  },
+  "step_assist": {
+    "summary": "Sale automaticamente un blocco; gli ostacoli superiori richiedono un salto.",
+    "detail": "A tutti i livelli, l’altezza del passo automatico è **1 blocco**. Per superare dislivelli maggiori devi premere Salto. Il salto normale permette circa 1,25 blocchi; al livello III si aggiunge **0,05** alla forza del salto, permettendo di superare un blocco con una lastra sopra (**1,5 blocchi**). Rimuovendo gli stivali scompaiono entrambi i bonus; eventuali modificatori di altre mod possono sommarsi."
+  },
+  "neptunes_will": {
+    "summary": "Aggiunge 5 danni per livello al tridente in mischia e al lancio.",
+    "detail": "Ai livelli I/II/III aggiunge **5 / 10 / 15 punti danno**. Il tridente lanciato usa il livello salvato sul proiettile: cambiare arma dopo il lancio non lo altera e un secondo tridente impugnato non raddoppia il bonus del proiettile. In mischia resta valido il bonus alle altre armi quando un tridente incantato è nella mano secondaria."
+  }
 }

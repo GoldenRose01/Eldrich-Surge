@@ -37,6 +37,20 @@
     "eldrich-surge:vacuum",
     "eldrich-surge:weapon_protection",
     "eldrich-surge:witch_hunter",
-    "eldrich-surge:wrath_of_the_abyss"
+    "eldrich-surge:wrath_of_the_abyss",
+    "eldrich-surge:fanatic",
+    "eldrich-surge:dodge",
+    "eldrich-surge:fuse_cutter",
+    "eldrich-surge:immortality",
+    "eldrich-surge:curse_of_slippery",
+    "eldrich-surge:curse_of_incompatibility",
+    "eldrich-surge:curse_of_fatigue",
+    "eldrich-surge:curse_of_corrosion",
+    "eldrich-surge:blessing_of_the_sea",
+    "eldrich-surge:accuracy_shot",
+    "eldrich-surge:fear",
+    "eldrich-surge:kinetic_protection",
+    "eldrich-surge:happy_boost",
+    "eldrich-surge:step_assist"
   ]
 }

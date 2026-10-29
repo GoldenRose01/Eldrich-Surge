@@ -95,6 +95,14 @@
     "eldrich-surge:weapon_protection",
     "eldrich-surge:welding",
     "eldrich-surge:witch_hunter",
-    "eldrich-surge:wrath_of_the_abyss"
+    "eldrich-surge:wrath_of_the_abyss",
+    "eldrich-surge:fanatic",
+    "eldrich-surge:curse_of_slippery",
+    "eldrich-surge:curse_of_incompatibility",
+    "eldrich-surge:curse_of_fatigue",
+    "eldrich-surge:curse_of_corrosion",
+    "eldrich-surge:accuracy_shot",
+    "eldrich-surge:fear",
+    "eldrich-surge:step_assist"
   ]
 }

@@ -41,4 +41,4 @@ if __name__ == '__main__':
     assert len(list(enchlib.glob('Preset-*.md'))) == 42
     for directory,repository in [(surge,'Eldrich-Surge'),(enchlib,'enchlib')]:
         print(f'{repository}: {validate(directory,repository)} Markdown pages; links, assets and SVG valid')
-    print('All 104 registered enchantments and 42 preset entries have individual pages.')
+    print(f'All {len(entries)} registered enchantments and 42 preset entries have individual pages.')
