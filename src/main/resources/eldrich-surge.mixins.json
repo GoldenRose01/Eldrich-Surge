@@ -38,6 +38,7 @@
 	],
 	"client": [
 		"EnchantmentNameColorMixin",
+        "EnchantmentDetailsMixin",
 		"ExtendedArmorHudMixin",
 		"AdvancedEnchantingParticlesMixin"
 	],

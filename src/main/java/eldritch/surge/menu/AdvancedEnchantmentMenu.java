@@ -66,6 +66,7 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
     public int reagentCost() { return state[5]; }
     public int offerId(int index) { return ids[index] - 1; }
     public int maxLevel(int index) { return maxima[index]; }
+    public int availableLevel(int index) { return hasRitual() ? maxima[index] : Math.min(1, maxima[index]); }
     public int currentLevel(int index) { return existing[index]; }
     public Holder<Enchantment> enchantment(int id) {
         return owner.level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).asHolderIdMap().byId(id);
@@ -93,11 +94,11 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
                 var h = offers.get(i);
                 ids[i] = map.getId(h) + 1;
                 int cap = EnchantmentCapsConfig.resolveEnchantingTableCap(h.key().identifier(), h.value().getMaxLevel());
-                maxima[i] = Math.max(1, Math.min(255, hasRitual() ? cap : 1));
+                maxima[i] = Math.max(1, Math.min(255, cap));
                 existing[i] = EnchantmentHelper.getEnchantmentsForCrafting(stack).getLevel(h);
-                if (ids[i] == state[2] && existing[i] < maxima[i]) {
+                if (ids[i] == state[2] && existing[i] < availableLevel(i)) {
                     selectedFound = true;
-                    state[3] = Math.clamp(state[3], existing[i] + 1, maxima[i]);
+                    state[3] = Math.clamp(state[3], existing[i] + 1, availableLevel(i));
                 }
             }
             if (!selectedFound) { state[2] = 0; state[3] = 0; }

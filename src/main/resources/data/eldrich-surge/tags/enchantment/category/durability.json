@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:blessing_of_the_sea",
+    "eldrich-surge:deathbreak",
+    "eldrich-surge:dwarf_flakes",
+    "eldrich-surge:dwarf_forged",
+    "eldrich-surge:end_flakes",
+    "eldrich-surge:end_forged",
+    "eldrich-surge:hell_flakes",
+    "eldrich-surge:nether_forged",
+    "eldrich-surge:sea_flakes",
+    "eldrich-surge:villager_forged",
+    "eldrich-surge:welding"
+  ]
+}

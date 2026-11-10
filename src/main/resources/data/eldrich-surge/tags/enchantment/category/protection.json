@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:armored",
+    "eldrich-surge:combustion_protection",
+    "eldrich-surge:dodge",
+    "eldrich-surge:end_adaptability",
+    "eldrich-surge:fuse_cutter",
+    "eldrich-surge:god_protection",
+    "eldrich-surge:immortality",
+    "eldrich-surge:kinetic_protection",
+    "eldrich-surge:phalanx_stance",
+    "eldrich-surge:smithcrafts",
+    "eldrich-surge:snowshoeing",
+    "eldrich-surge:soft_falling",
+    "eldrich-surge:weapon_protection"
+  ]
+}

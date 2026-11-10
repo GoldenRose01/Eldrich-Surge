@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:accuracy_shot",
+    "eldrich-surge:curse_of_target",
+    "eldrich-surge:elasticity",
+    "eldrich-surge:launch",
+    "eldrich-surge:neptunes_will",
+    "eldrich-surge:nineleven",
+    "eldrich-surge:pop",
+    "eldrich-surge:replenish",
+    "eldrich-surge:sea_breeze",
+    "eldrich-surge:sniper",
+    "eldrich-surge:theft"
+  ]
+}

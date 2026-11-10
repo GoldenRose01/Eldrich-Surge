@@ -70,8 +70,8 @@ public final class EnchantmentTooltips {
                     eldritch.surge.enchantment.mechanics.SurvivalEnchantmentMechanics.fishingScore(stack))
                     .withStyle(ChatFormatting.AQUA));
         }
-        appendFrom(direct, lines, addedKeys);
-        appendFrom(stored, lines, addedKeys);
+
+
         if (stack.is(Items.ENCHANTED_BOOK) || stack.is(EldritchItems.SPELL_BOOK)) {
             Minecraft minecraft = Minecraft.getInstance();
             if (minecraft.player != null && !minecraft.player.getAbilities().instabuild) {

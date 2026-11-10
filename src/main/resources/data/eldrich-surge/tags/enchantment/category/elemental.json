@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:comet_slam",
+    "eldrich-surge:freeze_aspect",
+    "eldrich-surge:heart_of_nether",
+    "eldrich-surge:heart_of_the_sky",
+    "eldrich-surge:pop",
+    "eldrich-surge:storm_spell"
+  ]
+}

@@ -11,6 +11,7 @@ import java.util.*;
 
 /** Infuser-style search, selectable enchantments, level controls and explicit confirmation. */
 public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<AdvancedEnchantmentMenu> {
+    private final eldritch.surge.client.tooltip.EnchantmentDetailsPanel details = new eldritch.surge.client.tooltip.EnchantmentDetailsPanel();
     private EditBox search;
     private final List<Button> rows = new ArrayList<>();
     private final List<Integer> filtered = new ArrayList<>();
@@ -67,14 +68,14 @@ public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<Adv
             String name = (selected ? "> " : "") + h.value().description().getString();
             String level = " " + menu.currentLevel(offer) + "/" + menu.maxLevel(offer);
             button.setMessage(Component.literal(font.plainSubstrByWidth(name, 183 - font.width(level)) + level));
-            button.setTooltip(Tooltip.create(Enchantment.getFullname(h, selected ? menu.targetLevel() : menu.maxLevel(offer))));
+
         }
         previous.active = offset > 0;
         next.active = offset + 4 < filtered.size();
         minus.active = plus.active = menu.selectedId() >= 0;
         for (int i = 0; i < menu.offerCount(); i++) if (menu.offerId(i) == menu.selectedId()) {
             minus.active = menu.targetLevel() > menu.currentLevel(i) + 1;
-            plus.active = menu.targetLevel() < menu.maxLevel(i);
+            plus.active = menu.targetLevel() < menu.availableLevel(i);
         }
         var player = minecraft.player;
         apply.active = menu.xpCost() > 0 && player != null && (player.hasInfiniteMaterials()
@@ -99,6 +100,11 @@ public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<Adv
             graphics.verticalLine(x - 1, y - 1, y + 16, 0xff373737);
         }
         super.extractContents(graphics, mouseX, mouseY, partialTick);
+        for (int row = 0; row < rows.size(); row++) {
+            int index = offset + row;
+            if (index < filtered.size() && rows.get(row).isHovered()) details.show(menu.enchantment(menu.offerId(filtered.get(index))), leftPos + imageWidth + 6, topPos + 38, width, height);
+        }
+        details.render(graphics, mouseX, mouseY, width, height);
     }
     @Override protected void extractLabels(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
         graphics.text(font, title, 8, 6, 0xff40304f, false);

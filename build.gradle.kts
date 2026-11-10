@@ -24,6 +24,19 @@ val fabricApiVersion = fabricApiVersions[minecraftVersion]
 	?.takeIf { requestedMinecraftVersion != minecraftVersion && !configuredFabricApiVersion.endsWith("+$minecraftVersion") }
 	?: if (configuredFabricApiVersion.endsWith("+$minecraftVersion")) configuredFabricApiVersion else fabricApiVersions[minecraftVersion] ?: configuredFabricApiVersion
 
+// Snapshot 26.4 adds an explicit section to inventory slot constructors.
+if (minecraftVersion.startsWith("26.4")) {
+	val snapshotSources = tasks.register<Sync>("prepareSnapshotJava") {
+		from("src/main/java")
+		into(layout.buildDirectory.dir("generated/snapshotJava"))
+		filter { line: String ->
+			line.replace("new Slot(inputs, 0, 15, 40)", "new Slot(inputs, 0, 15, 40, Slot.Section.INPUT)")
+				.replace("new Slot(inputs, 1, 15, 76)", "new Slot(inputs, 1, 15, 76, Slot.Section.SECOND_INPUT)")
+		}
+	}
+	sourceSets.main { java.setSrcDirs(listOf(snapshotSources)) }
+}
+
 base {
 	archivesName.set("eldrich-surge-$minecraftVersion+")
 }
@@ -37,6 +50,28 @@ loom {
 			sourceSet(sourceSets.getByName("client"))
 		}
 	}
+}
+
+if (minecraftVersion.startsWith("26.4")) {
+	val snapshotClientSources = tasks.register<Sync>("prepareSnapshotClientJava") {
+		from("src/client/java")
+		into(layout.buildDirectory.dir("generated/snapshotClientJava"))
+		filter { line: String ->
+			line.replace("button.visible = index < filtered.size();", "button.setVisible(index < filtered.size());")
+				.replace("@Shadow protected Slot hoveredSlot;", "@Shadow protected abstract net.minecraft.client.gui.components.inventory.SlotWidget getHoveredSlot();")
+				.replace("return hoveredSlot;", "return getHoveredSlot() == null ? null : getHoveredSlot().slot();")
+				.replace("!button.visible", "!button.isVisible()")
+				.replace("GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick", "GuiGraphicsExtractor graphics")
+				.replace("GuiGraphicsExtractor graphics, int mouseX, int mouseY)", "GuiGraphicsExtractor graphics)")
+				.replace("super.extractContents(graphics, mouseX, mouseY, partialTick)", "super.extractContents(graphics)")
+				.replace("extractContents(GuiGraphicsExtractor graphics) {", "extractContents(GuiGraphicsExtractor graphics) { int mouseX = graphics.mouseX(), mouseY = graphics.mouseY();")
+				.replace("GuiGraphicsExtractor graphics, CallbackInfo ci) {", "GuiGraphicsExtractor graphics, CallbackInfo ci) { int mouseX = graphics.mouseX(), mouseY = graphics.mouseY();")
+				.replace("import net.minecraft.client.renderer.RenderPipelines;", "import net.minecraft.client.gui.GuiPipeline;")
+				.replace("RenderPipelines.GUI_TEXTURED", "GuiPipeline.TEXTURED")
+				.replace("MenuScreens.register(", "MenuScreens.register(net.minecraft.client.core.registries.BuiltInClientRegistries.MENU_SCREEN, ")
+		}
+	}
+	sourceSets.named("client") { java.setSrcDirs(listOf(snapshotClientSources)) }
 }
 
 fabricApi {

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:blessing_of_the_sea",
+    "eldrich-surge:healing_aura",
+    "eldrich-surge:health_upgrade",
+    "eldrich-surge:leeching_aspect",
+    "eldrich-surge:triumph"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:backslash",
+    "eldrich-surge:catapult",
+    "eldrich-surge:fear",
+    "eldrich-surge:freeze_aspect",
+    "eldrich-surge:gravity_well",
+    "eldrich-surge:heart_of_depth",
+    "eldrich-surge:heart_of_nether",
+    "eldrich-surge:heart_of_the_sky",
+    "eldrich-surge:impaler_reach",
+    "eldrich-surge:inking",
+    "eldrich-surge:lunge",
+    "eldrich-surge:quick_hit",
+    "eldrich-surge:sea_breeze",
+    "eldrich-surge:spirit_cast",
+    "eldrich-surge:vanguard_charge"
+  ]
+}

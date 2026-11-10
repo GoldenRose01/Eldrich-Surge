@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "eldrich-surge:curse_of_corrosion",
+    "eldrich-surge:curse_of_fatigue",
+    "eldrich-surge:curse_of_fragility",
+    "eldrich-surge:curse_of_incompatibility",
+    "eldrich-surge:curse_of_perish",
+    "eldrich-surge:curse_of_slippery",
+    "eldrich-surge:curse_of_spider",
+    "eldrich-surge:curse_of_target",
+    "eldrich-surge:curse_of_the_forest"
+  ]
+}
