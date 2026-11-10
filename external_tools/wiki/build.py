@@ -216,6 +216,9 @@ def build():
         'Il datapack dichiara `exclusive_set`; le impostazioni del mondo aggiungono regole esplicite per coppie di incantamenti. Il risultato dipende dal sistema che consulta tali regole. Un’etichetta di gruppo non autorizza a ignorare le eccezioni delle fusioni.',
         '## Maledizioni con regole runtime',
         '[Curse of Incompatibility](Incantamento-curse-of-incompatibility) blocca ogni altro incantesimo. [Curse of Fatigue](Incantamento-curse-of-fatigue) è incompatibile con Efficiency. Entrambe le regole sono simmetriche e si applicano anche al tavolo avanzato.',
+        '## Categorie per effetto (1.7.1)',
+        'I tag `eldrich-surge:category/` raggruppano i 118 incantesimi per effetto: combat, curse, damage, durability, elemental, experience, fishing, healing, loot, mining, movement, protection, ranged, special e utility. Sono gruppi descrittivi per datapack e integrazioni: non sono exclusive_set e non aggiungono incompatibilità né filtri automatici in EnchLib.',
+        'Fragility, Perish, Spider, Target e The Forest sono inoltre incluse nel tag minecraft:curse dalla 1.7.1.',
         '## Gruppi dichiarati nei tag del progetto',
         table(['Tag', 'Componenti'], [[f'`eldrich-surge:{p.stem}`', ', '.join(link(by_id[v.split(':')[1]]) if v.startswith('eldrich-surge:') and v.split(':')[1] in by_id else f'`{v}`' for v in json.loads(p.read_text(encoding='utf-8-sig'))['values'])]
             for p in sorted((DATA / 'eldrich-surge/tags/enchantment').glob('*.json'))]),

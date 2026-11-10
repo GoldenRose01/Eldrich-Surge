@@ -2,11 +2,11 @@
 
 [Home](Home) · [Catalogo](Enchantments)
 
-Questa wiki documenta il checkout di Eldrich Surge **1.6.2 / Minecraft 26.3**, verificato il **25 ottobre 2026**. Non assegna a una meccanica una garanzia di test in gioco soltanto perché compare nel catalogo.
+Questa wiki documenta Eldrich Surge **1.7.1**, con JAR per **Minecraft 26.3 e 26.4 Snapshot 7**. Documentazione aggiornata il **10 novembre 2026**. I risultati di compilazione e controllo riportati si riferiscono ai JAR preparati il 7 novembre; non equivalgono a prove in gioco.
 
 ## Origine delle informazioni
 
-- Catalogo registrato: `ModEnchantmentDefinitions.ALL` — 104 voci.
+- Catalogo registrato: `ModEnchantmentDefinitions.ALL` — 118 voci.
 - Livelli, slot, peso e componenti dati: JSON sotto `data/eldrich-surge/enchantment`.
 - Regole configurabili degli oggetti e descrizioni: classi sotto `enchantment/ench`.
 - Effetti personalizzati: meccaniche, calcolatore dei danni e mixin.
@@ -16,7 +16,7 @@ Ogni scheda collega definizione Java e datapack. Le spiegazioni runtime integran
 
 ## Limiti noti
 
-Alla generazione risultavano due controlli dei dati non superati: il test del catalogo si aspettava ancora Swiftness anche sulle balestre; il test dei bonus delle armi si aspettava una struttura JSON non presente. La wiki segue i dati e i controlli runtime correnti, senza correggere implicitamente le meccaniche.
+I controlli completi sono passati su 26.3. Sullo snapshot 26.4 Snapshot 7 la compilazione è riuscita, ma manca la testa Bloody Mary per `minecraft:frostbite`. I nuovi pannelli dei dettagli richiedono ancora una verifica visiva in gioco.
 
 Le pagine sono in italiano, con nomi e ID originali per facilitare ricerca e comandi. I collegamenti al sorgente puntano a `main` e possono evolvere dopo la pubblicazione.
 

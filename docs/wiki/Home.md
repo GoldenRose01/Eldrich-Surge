@@ -1,6 +1,6 @@
 ![Eldrich Surge — Guida agli incantamenti](https://raw.githubusercontent.com/wiki/GoldenRose01/Eldrich-Surge/assets/banner.svg)
 
-**Minecraft 26.3 · Fabric · Eldrich Surge 1.7.0**
+**Minecraft 26.3 / 26.4 Snapshot 7 · Fabric · Eldrich Surge 1.7.1**
 
 Incantamenti per combattimento, esplorazione e automazione dell’inventario. Trova un effetto nel catalogo, oppure segui la progressione dal tavolo normale alle fusioni all’incudine.
 
@@ -11,13 +11,13 @@ Incantamenti per combattimento, esplorazione e automazione dell’inventario. Tr
 | [Gruppi e compatibilità](Compatibilita) | [Fusioni all’incudine](Incudine) | [Integrazione EnchLib](Integrazione-EnchLib) |
 | [Incantamenti vanilla](Vanilla) | [Libri magici e rituali](Rituali) | [Fonti e limiti](Fonti) |
 
-## Novità della versione 1.7.0
+## Novità della versione 1.7.1
 
-Quattordici nuovi incantesimi per pesca, difesa, maledizioni, tiro e mobilità. Consulta [Novità 1.7.0](Versione-1.7.0) per valori, correzioni e stato delle prove in gioco.
+Livelli massimi corretti nel tavolo avanzato, descrizioni degli incantesimi in pannelli al passaggio del cursore e un JAR dedicato a 26.4 Snapshot 7. Consulta [Novità 1.7.1](Versione-1.7.1) per dettagli e limiti noti. I quattordici incantesimi introdotti in precedenza sono descritti in [Novità 1.7.0](Versione-1.7.0).
 
 ## Inizia a giocare
 
-1. Installa la mod con Fabric API e Fabric Language Kotlin per Minecraft 26.3.
+1. Installa la mod con Fabric API e Fabric Language Kotlin compatibili con il JAR scelto: Minecraft 26.3 oppure 26.4 Snapshot 7.
 2. Usa il tavolo normale con lapislazzuli per il percorso normale.
 3. Crea il tavolo avanzato con un tavolo normale e quattro frammenti di ametista.
 4. Costruisci la formazione di quarzo cesellato e oro per scegliere i livelli superiori nel tavolo avanzato.

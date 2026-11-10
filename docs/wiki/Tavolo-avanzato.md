@@ -40,11 +40,11 @@ Le Q sono a due blocchi di distanza sui punti cardinali; le G occupano gli angol
 
 ## Interfaccia e reagenti
 
-Inserisci l'oggetto nello slot superiore a sinistra e il reagente in quello inferiore. Cerca un incantesimo nell'elenco, selezionalo, scegli il livello con **− / +**, poi premi **Incanta**. Le frecce e la rotella scorrono l'elenco. Il tooltip mostra il nome completo e il livello; quello del pulsante Incanta mostra il costo completo.
+Inserisci l'oggetto nello slot superiore a sinistra e il reagente in quello inferiore. Cerca un incantesimo nell'elenco, selezionalo, scegli il livello con **− / +**, poi premi **Incanta**. Le frecce e la rotella scorrono l'elenco. Passando il cursore su un incantesimo si apre un pannello con i dettagli del solo incantesimo evidenziato. Puoi spostare il cursore nel riquadro per mantenerlo aperto. Il tooltip del pulsante Incanta mostra il costo completo.
 
 **Ametista** seleziona gli incantamenti ordinari avanzati. **Frammenti dell'eco** selezionano i rituali su un libro normale. Lapislazzuli non è un reagente del tavolo avanzato.
 
-Senza formazione puoi scegliere soltanto il livello I. Con la formazione 5×5 completa puoi scegliere fino al limite configurato. Gli incantesimi incompatibili, disabilitati, riservati al bottino o già al limite non compaiono. Gli incantesimi sono scelti direttamente: non si effettuano estrazioni casuali.
+Il massimo mostrato è sempre il limite reale configurato, anche senza formazione: non viene più indicato I per tutti gli incantesimi. Senza formazione puoi comunque scegliere soltanto il livello I. Con la formazione 5×5 completa puoi scegliere fino al limite configurato. Gli incantesimi incompatibili, disabilitati, riservati al bottino o già al limite non compaiono. Gli incantesimi sono scelti direttamente: non si effettuano estrazioni casuali.
 
 Un incantesimo completo costa **30 livelli XP e 3 frammenti**. I livelli aggiunti costano in proporzione al limite completo, arrotondando per eccesso, con un minimo di 1 livello XP e 1 frammento. Esempio per un limite V: da zero a I costa 6 livelli XP e 1 frammento; da III a V costa 12 livelli XP e 2 frammenti. La modalità creativa non consuma XP né reagenti.
 

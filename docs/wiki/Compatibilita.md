@@ -10,6 +10,12 @@ Il datapack dichiara `exclusive_set`; le impostazioni del mondo aggiungono regol
 
 [Curse of Incompatibility](Incantamento-curse-of-incompatibility) blocca ogni altro incantesimo. [Curse of Fatigue](Incantamento-curse-of-fatigue) è incompatibile con Efficiency. Entrambe le regole sono simmetriche e si applicano anche al tavolo avanzato.
 
+## Categorie per effetto (1.7.1)
+
+I tag `eldrich-surge:category/` raggruppano i 118 incantesimi per effetto: combat, curse, damage, durability, elemental, experience, fishing, healing, loot, mining, movement, protection, ranged, special e utility. Sono gruppi descrittivi per datapack e integrazioni: non sono exclusive_set e non aggiungono incompatibilità né filtri automatici in EnchLib.
+
+Fragility, Perish, Spider, Target e The Forest sono inoltre incluse nel tag minecraft:curse dalla 1.7.1.
+
 ## Gruppi dichiarati nei tag del progetto
 
 | Tag | Componenti |
