@@ -1,0 +1,1968 @@
+{
+  "configVersion": 4,
+  "enchantments": {
+    "eldrich-surge:accuracy_shot": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:armored": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:elytra"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:backslash": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:bane_of_end": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:blade_of_apocalypse": {
+      "enabled": true,
+      "anvilMaxLevel": 9,
+      "enchantingTableMaxLevel": 9,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:blessing_of_the_night": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:blessing_of_the_sea": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:bloody_mary": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes",
+        "#minecraft:hoes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:butcher": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:catapult": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:cocktail_spell": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:book"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:combustion_protection": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:comet_slam": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/mace"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:creeping_threat": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_corrosion": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_fatigue": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_fragility": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_incompatibility": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_perish": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_slippery": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/slippery"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_spider": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_target": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:curse_of_the_forest": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:dash": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:deathbreak": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:digger": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:axes",
+        "#minecraft:pickaxes",
+        "#minecraft:shovels"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:dodge": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/leg_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:dual_sweeping": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:dwarf_flakes": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:dwarf_forged": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:elasticity": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:end_adaptability": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:leg_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:end_blessing": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:end_flakes": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:end_forged": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:enduring": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:engine": {
+      "enabled": true,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:elytra"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:excavator": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:axes",
+        "#minecraft:pickaxes",
+        "#minecraft:shovels"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:exorcist": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:experienced": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:fanatic": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/fishing"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:fear": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:flogging": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:freeze_aspect": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:fuse_cutter": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/shield"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:god_protection": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor",
+        "#minecraft:enchantable/trident"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:gravity_well": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/mace"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:gream_reaper": {
+      "enabled": true,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": true,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:netherite_hoe"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:happy_boost": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:elytra"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:healing_aura": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:leg_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:health_upgrade": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:chest_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heart_of_depth": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:chest_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heart_of_nether": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:chest_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heart_of_the_sea": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:chest_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heart_of_the_sky": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:chest_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heartseeker": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/spear"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:heavy_impact": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/mace"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:hell_blessing": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:hell_flakes": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:herbicide": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:hicker": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:leg_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:ice_speed": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:immortality": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/shield"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:impaler_reach": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/spear"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:inking": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/trident"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:katana": {
+      "enabled": true,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:kinetic_protection": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:elytra"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:launch": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/trident"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:leeching_aspect": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:lunge": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:midas_touch": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:hoes",
+        "minecraft:netherite_hoe"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:neptunes_will": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/trident"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:nether_forged": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:nineleven": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:payback": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:phalanx_stance": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/spear"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:pop": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:pruning": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:shears"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:quick_hit": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords",
+        "#minecraft:axes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:rabbit_foot": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor",
+        "#minecraft:foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:ragnarok": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:book"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:red_moon": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:book"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:refill": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:shulker_box",
+        "minecraft:white_shulker_box",
+        "minecraft:orange_shulker_box",
+        "minecraft:magenta_shulker_box",
+        "minecraft:light_blue_shulker_box",
+        "minecraft:yellow_shulker_box",
+        "minecraft:lime_shulker_box",
+        "minecraft:pink_shulker_box",
+        "minecraft:gray_shulker_box",
+        "minecraft:light_gray_shulker_box",
+        "minecraft:cyan_shulker_box",
+        "minecraft:purple_shulker_box",
+        "minecraft:blue_shulker_box",
+        "minecraft:brown_shulker_box",
+        "minecraft:green_shulker_box",
+        "minecraft:red_shulker_box",
+        "minecraft:black_shulker_box"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:replenish": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:sea_breeze": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/trident"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:sea_flakes": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:seeker_blessing": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:seismic_wave": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/mace"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:sickened_of_hell": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:hoes"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:siphon": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:shulker_box",
+        "minecraft:white_shulker_box",
+        "minecraft:orange_shulker_box",
+        "minecraft:magenta_shulker_box",
+        "minecraft:light_blue_shulker_box",
+        "minecraft:yellow_shulker_box",
+        "minecraft:lime_shulker_box",
+        "minecraft:pink_shulker_box",
+        "minecraft:gray_shulker_box",
+        "minecraft:light_gray_shulker_box",
+        "minecraft:cyan_shulker_box",
+        "minecraft:purple_shulker_box",
+        "minecraft:blue_shulker_box",
+        "minecraft:brown_shulker_box",
+        "minecraft:green_shulker_box",
+        "minecraft:red_shulker_box",
+        "minecraft:black_shulker_box"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:smelting": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:axes",
+        "#minecraft:pickaxes",
+        "#minecraft:shovels"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:smithcrafts": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:shield"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:smoother": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:sniper": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:snowshoeing": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:soft_falling": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": true,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:soil_falling": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:soulbond": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:spirit_cast": {
+      "enabled": true,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon",
+        "minecraft:netherite_hoe"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:star_fate": {
+      "enabled": true,
+      "anvilMaxLevel": 9,
+      "enchantingTableMaxLevel": 9,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:step_assist": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/foot_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:storm_spell": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:book"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:sun_blessing": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:superweight": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:swiftness": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:spears"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:theft": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/bow",
+        "#minecraft:enchantable/crossbow"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:trench_spell": {
+      "enabled": true,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:book"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:triumph": {
+      "enabled": true,
+      "anvilMaxLevel": 3,
+      "enchantingTableMaxLevel": 3,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:swords"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:undead_slayer": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:vacuum": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "minecraft:shulker_box",
+        "minecraft:white_shulker_box",
+        "minecraft:orange_shulker_box",
+        "minecraft:magenta_shulker_box",
+        "minecraft:light_blue_shulker_box",
+        "minecraft:yellow_shulker_box",
+        "minecraft:lime_shulker_box",
+        "minecraft:pink_shulker_box",
+        "minecraft:gray_shulker_box",
+        "minecraft:light_gray_shulker_box",
+        "minecraft:cyan_shulker_box",
+        "minecraft:purple_shulker_box",
+        "minecraft:blue_shulker_box",
+        "minecraft:brown_shulker_box",
+        "minecraft:green_shulker_box",
+        "minecraft:red_shulker_box",
+        "minecraft:black_shulker_box"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:vanguard_charge": {
+      "enabled": true,
+      "anvilMaxLevel": 2,
+      "enchantingTableMaxLevel": 2,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#eldrich-surge:enchantable/spear"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:villager_forged": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:vision_blessing": {
+      "enabled": true,
+      "anvilMaxLevel": 1,
+      "enchantingTableMaxLevel": 1,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:head_armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:void_sweep": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:hoes",
+        "minecraft:netherite_hoe"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:weapon_protection": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/armor"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:welding": {
+      "enabled": true,
+      "anvilMaxLevel": 5,
+      "enchantingTableMaxLevel": 5,
+      "normalTable": false,
+      "advancedTable": true,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/durability"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:witch_hunter": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    },
+    "eldrich-surge:wrath_of_the_abyss": {
+      "enabled": true,
+      "anvilMaxLevel": 7,
+      "enchantingTableMaxLevel": 7,
+      "normalTable": true,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": []
+    }
+  }
+}

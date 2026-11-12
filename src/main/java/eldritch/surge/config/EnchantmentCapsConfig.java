@@ -324,17 +324,30 @@ public final class EnchantmentCapsConfig {
         }
     }
 
-    private static Data readGlobalOrCreate() {
-        if (!Files.exists(CONFIG_PATH)) {
+    private static Data readBundledDefaults() {
+        try (var stream = EnchantmentCapsConfig.class.getResourceAsStream("/config/eldrich-surge/enchantment_caps.json")) {
+            if (stream == null) return new Data();
+            Data loaded = GSON.fromJson(new java.io.InputStreamReader(stream, java.nio.charset.StandardCharsets.UTF_8), Data.class);
+            if (loaded == null || loaded.enchantments == null) return new Data();
+            return loaded;
+        } catch (IOException | RuntimeException error) {
+            EldritchSurge.LOGGER.error("Could not read bundled enchantment defaults", error);
             return new Data();
         }
+    }
 
+    private static Data readGlobalOrCreate() {
+        Data defaults = readBundledDefaults();
+        if (!Files.exists(CONFIG_PATH)) return defaults;
         try (Reader reader = Files.newBufferedReader(CONFIG_PATH)) {
             Data loaded = GSON.fromJson(reader, Data.class);
-            return loaded == null ? new Data() : loaded;
+            if (loaded == null) return defaults;
+            if (loaded.enchantments == null) loaded.enchantments = new TreeMap<>();
+            defaults.enchantments.forEach((id, value) -> loaded.enchantments.putIfAbsent(id, copyOverride(value)));
+            return loaded;
         } catch (IOException | RuntimeException exception) {
             EldritchSurge.LOGGER.warn("Could not read {}, using defaults.", CONFIG_PATH, exception);
-            return new Data();
+            return defaults;
         }
     }
 
