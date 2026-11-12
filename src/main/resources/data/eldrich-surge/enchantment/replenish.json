@@ -17,7 +17,8 @@
               "chance": {
                 "type": "minecraft:enchantment_level",
                 "amount": {
-                  "type": "minecraft:linear",
+                  "type": "eldrich-surge:logarithmic_level",
+          "max_level": 3,
                   "base": 0.33,
                   "per_level_above_first": 0.33
                 }

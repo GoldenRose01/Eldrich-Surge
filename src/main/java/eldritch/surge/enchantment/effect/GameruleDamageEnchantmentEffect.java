@@ -28,7 +28,8 @@ public record GameruleDamageEnchantmentEffect(
 
     @Override
     public void apply(ServerLevel world, int level, EnchantedItemInUse context, Entity target, Vec3 pos) {
-        if (!(target instanceof LivingEntity victim) || !matchesTag(victim)) {
+        if (eldritch.surge.combat.SecondaryEnchantmentDamage.isActive()
+                || !(target instanceof LivingEntity victim) || !victim.isAlive() || !matchesTag(victim)) {
             return;
         }
 
@@ -38,7 +39,9 @@ public record GameruleDamageEnchantmentEffect(
                 ? world.damageSources().magic()
                 : world.damageSources().indirectMagic(owner, owner);
 
-        victim.hurtServer(world, source, damage);
+        if (Float.isFinite(damage) && damage > 0) {
+            eldritch.surge.combat.SecondaryEnchantmentDamage.run(() -> victim.hurtServer(world, source, damage));
+        }
     }
 
     @Override

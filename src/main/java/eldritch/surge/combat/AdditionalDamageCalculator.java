@@ -43,6 +43,7 @@ public final class AdditionalDamageCalculator {
 
     public static float addBladeOfApocalypseDamage(ServerLevel world, float originalDamage, LivingEntity victim, Entity attacker, net.minecraft.world.damagesource.DamageSource source) {
         float damage = reduceIncomingDamage(world, originalDamage, victim, attacker, source);
+        if (SecondaryEnchantmentDamage.isActive()) return damage;
         if (!(attacker instanceof LivingEntity livingAttacker)) {
             return damage;
         }
@@ -105,6 +106,7 @@ public final class AdditionalDamageCalculator {
     }
 
     public static void afterSuccessfulHit(ServerLevel world, LivingEntity victim, Entity attacker, float damage, net.minecraft.world.damagesource.DamageSource source) {
+        if (SecondaryEnchantmentDamage.isActive()) return;
         if (!(attacker instanceof LivingEntity livingAttacker)) {
             return;
         }
@@ -209,14 +211,14 @@ public final class AdditionalDamageCalculator {
                     net.minecraft.world.damagesource.DamageSource waveSource = attacker instanceof Player player
                             ? attacker.damageSources().playerAttack(player)
                             : attacker.damageSources().mobAttack(attacker);
-                    nearby.hurtServer(world, waveSource, waveDamage);
+                    SecondaryEnchantmentDamage.run(() -> nearby.hurtServer(world, waveSource, waveDamage));
                 }
             }
         }
 
         int comet = EnchantmentLevels.onItem(world, weapon, "comet_slam");
         if (comet > 0 && attacker.fallDistance > 12.0F) {
-            world.explode(attacker, impact.getX(), impact.getY(), impact.getZ(), 3.0F, false, net.minecraft.world.level.Level.ExplosionInteraction.NONE);
+            SecondaryEnchantmentDamage.run(() -> world.explode(attacker, impact.getX(), impact.getY(), impact.getZ(), 3.0F, false, net.minecraft.world.level.Level.ExplosionInteraction.NONE));
             for (LivingEntity nearby : world.getEntitiesOfClass(LivingEntity.class, impact.getBoundingBox().inflate(5.0D))) {
                 if (nearby == attacker || !nearby.isAlive()) continue;
                 nearby.igniteForSeconds(5.0F);

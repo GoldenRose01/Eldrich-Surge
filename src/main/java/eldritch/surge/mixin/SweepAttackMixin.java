@@ -35,8 +35,10 @@ public abstract class SweepAttackMixin {
     private float eldritchSurge$modifySweepDamage(float amount) {
         Player player = (Player) (Object) this;
         ItemStack held = player.getMainHandItem();
-        int dual = EnchantmentLevels.onItem(player.level(), held, "dual_sweeping");
-        if (dual > 0 && player.getOffhandItem().is(ItemTags.SWORDS)) return amount * 2.0F;
+        double dual = EnchantmentLevels.onItemStrength(player.level(), held, "dual_sweeping");
+        if (dual > 0 && player.getOffhandItem().is(ItemTags.SWORDS)) {
+            return (float) (amount * (2.0D + 0.5D * Math.max(0, dual - 2)));
+        }
         int voidSweep = EnchantmentLevels.onItem(player.level(), held, "void_sweep");
         if (voidSweep > 0 && held.is(ItemTags.HOES)) return 10.0F + voidSweep;
         return amount;

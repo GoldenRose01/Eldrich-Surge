@@ -11,6 +11,7 @@ final class TransientAttributeModifiers {
 
     static void set(AttributeInstance attribute, Identifier id, double amount) {
         if (attribute == null) return;
+        if (!Double.isFinite(amount)) amount = 0.0D;
         AttributeModifier current = attribute.getModifier(id);
         if (amount == 0.0D) {
             if (current != null) attribute.removeModifier(id);

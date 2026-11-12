@@ -24,20 +24,25 @@ public abstract class ForgedUnbreakingMixin {
         if (EnchantmentLevels.onItem(level, stack, "deathbreak") > 0) return 0;
 
         int fragility = EnchantmentLevels.onItem(level, stack, "curse_of_fragility");
-        damage += fragility;
+        damage = (int) Math.min(Integer.MAX_VALUE, (long) damage + fragility);
 
         if (player != null) {
-            boolean conditionalForged = level.dimension() == Level.END
-                    && EnchantmentLevels.onItem(level, stack, "end_forged") > 0
-                    || level.dimension() == Level.NETHER
-                    && EnchantmentLevels.onItem(level, stack, "nether_forged") > 0
-                    || level.dimension() == Level.OVERWORLD
-                    && EnchantmentLevels.onItem(level, stack, "villager_forged") > 0;
+            double forged = level.dimension() == Level.END
+                    ? EnchantmentLevels.onItemStrength(level, stack, "end_forged")
+                    : level.dimension() == Level.NETHER
+                    ? EnchantmentLevels.onItemStrength(level, stack, "nether_forged")
+                    : level.dimension() == Level.OVERWORLD
+                    ? EnchantmentLevels.onItemStrength(level, stack, "villager_forged") : 0;
 
             ResourceKey<Biome> biomeKey = level.getBiome(player.blockPosition()).unwrapKey().orElse(null);
-            boolean dwarfForged = biomeKey != null && isUndergroundVanillaBiome(biomeKey)
-                    && EnchantmentLevels.onItem(level, stack, "dwarf_forged") > 0;
-            if ((conditionalForged || dwarfForged) && level.getRandom().nextInt(3) == 0) return 0;
+            if (biomeKey != null && isUndergroundVanillaBiome(biomeKey)) {
+                forged = Math.max(forged, EnchantmentLevels.onItemStrength(level, stack, "dwarf_forged"));
+            }
+            if (forged > 0) {
+                // Preserve the original roll at I-V; extend only the overlevel portion.
+                if (forged <= 5 ? level.getRandom().nextInt(3) == 0
+                        : level.getRandom().nextDouble() < Math.min(0.95D, 1.0D / 3 + 0.05D * (forged - 5))) return 0;
+            }
         }
 
         return original.call(stack, damage, level, player);

@@ -70,6 +70,7 @@ public final class DefensiveEnchantmentMechanics {
                     if (Math.max(Math.abs(dx), Math.abs(dz)) != radius) continue;
                     int x = origin.getX() + dx;
                     int z = origin.getZ() + dz;
+                    if (!level.hasChunkAt(new BlockPos(x, origin.getY(), z))) continue;
                     int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                     if (y <= level.getMinY() || y + 1 >= level.getMaxY()) continue;
 

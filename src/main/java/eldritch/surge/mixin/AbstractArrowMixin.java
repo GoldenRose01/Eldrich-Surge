@@ -41,6 +41,7 @@ public abstract class AbstractArrowMixin {
 
     @Inject(method = "onHitEntity", at = @At("HEAD"))
     private void eldritchSurge$applyArrowHitBonuses(EntityHitResult hit, CallbackInfo ci) {
+        eldritchSurge$restoreBaseDamage();
         AbstractArrow arrow = (AbstractArrow) (Object) this;
         if (!(arrow.level() instanceof ServerLevel level)) {
             return;
@@ -68,6 +69,11 @@ public abstract class AbstractArrowMixin {
         ProjectileEnchantmentMechanics.applyCurseOfTarget(level, arrow, hit.getEntity());
         ProjectileEnchantmentMechanics.applyCurseOfSpider(level, arrow, hit.getEntity());
         eldritchSurge$detonatePop(level, arrow, hit.getLocation().x, hit.getLocation().y, hit.getLocation().z);
+    }
+
+    @Inject(method = "onHitEntity", at = @At("RETURN"))
+    private void eldritchSurge$restoreArrowDamage(EntityHitResult hit, CallbackInfo ci) {
+        // Restore temporary bonuses on early returns too (TAIL only covers the final return).
         eldritchSurge$restoreBaseDamage();
     }
 

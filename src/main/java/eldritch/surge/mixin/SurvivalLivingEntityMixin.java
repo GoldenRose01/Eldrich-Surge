@@ -46,7 +46,7 @@ public abstract class SurvivalLivingEntityMixin {
     @ModifyVariable(method = "hurtServer", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private float eldrichSurge$reduceFlightImpact(float damage, ServerLevel level, DamageSource source) {
         if (!source.is(net.minecraft.world.damagesource.DamageTypes.FLY_INTO_WALL)) return damage;
-        int rank = SurvivalEnchantmentMechanics.elytraLevel((LivingEntity) (Object) this, "kinetic_protection");
+        double rank = SurvivalEnchantmentMechanics.elytraLevel((LivingEntity) (Object) this, "kinetic_protection");
         return damage * eldritch.surge.enchantment.mechanics.SurvivalEnchantmentMath.kineticImpactMultiplier(rank);
     }
 

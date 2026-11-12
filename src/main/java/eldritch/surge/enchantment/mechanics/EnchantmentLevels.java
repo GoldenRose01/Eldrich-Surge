@@ -57,14 +57,39 @@ public final class EnchantmentLevels {
     }
 
     public static int onItem(Level level, ItemStack stack, String id) {
-        if (stack.isEmpty()) {
+        return (int) Math.round(onItemStrength(level, stack, id));
+    }
+
+    public static double onItemStrength(Level level, ItemStack stack, String id) {
+        if (stack == null || stack.isEmpty()) {
             return 0;
         }
-        return getLevel(level, stack, EldritchSurge.id(id));
+        return EnchantmentScaling.effective(id, getLevel(level, stack, EldritchSurge.id(id)));
+    }
+
+    public static double onArmorStrength(Level level, LivingEntity entity, String id) {
+        double total = 0;
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            total += onItemStrength(level, entity.getItemBySlot(slot), id);
+        }
+        return total;
+    }
+
+    /** Keep existing stacked-armor potion caps; extend only genuinely over-level items. */
+    public static int armorAmplifier(Level level, LivingEntity entity, String id, int normalCap) {
+        double normal = 0, extra = 0;
+        var definition = ModEnchantmentDefinitions.BY_ID.get(id);
+        int max = definition == null ? 1 : definition.maxLevel();
+        for (EquipmentSlot slot : ARMOR_SLOTS) {
+            double strength = onItemStrength(level, entity.getItemBySlot(slot), id);
+            normal += Math.min(max, strength);
+            extra += Math.max(0, strength - max);
+        }
+        return (int) Math.clamp(Math.min(normalCap, normal - 1) + Math.round(extra), 0, 255);
     }
 
     public static int onMinecraftItem(Level level, ItemStack stack, String id) {
-        if (stack.isEmpty()) {
+        if (stack == null || stack.isEmpty()) {
             return 0;
         }
 

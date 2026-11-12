@@ -41,7 +41,7 @@ public final class SpellCastMechanics {
             return false;
         }
 
-        int levelValue = Math.max(1, spellLevel(stack, spell));
+        int levelValue = Math.max(1, EnchantmentScaling.discrete(spell, spellLevel(stack, spell)));
         switch (spell) {
             case "cocktail_spell" -> {
                 if (caster == null) return false;
@@ -53,7 +53,9 @@ public final class SpellCastMechanics {
                 if (caster == null) return false;
                 castStorm(level, caster);
             }
-            case "trench_spell" -> castTrench(level, itemEntity.blockPosition(), levelValue);
+            case "trench_spell" -> {
+                if (!TrenchWorkQueue.enqueue(level, itemEntity.blockPosition(), levelValue)) return false;
+            }
             default -> {
                 return false;
             }
@@ -66,7 +68,7 @@ public final class SpellCastMechanics {
     private static void castCocktail(ServerLevel level, LivingEntity caster, int spellLevel) {
         double radius = 8.0D + spellLevel * 8.0D;
         for (ServerPlayer player : level.getPlayers(player -> player.distanceToSqr(caster) <= radius * radius)) {
-            for (MobEffectInstance effect : caster.getActiveEffects()) {
+            for (MobEffectInstance effect : java.util.List.copyOf(caster.getActiveEffects())) {
                 player.addEffect(new MobEffectInstance(effect), caster);
             }
         }
@@ -205,19 +207,4 @@ public final class SpellCastMechanics {
                 .orElse(0);
     }
 
-    private static void castTrench(ServerLevel level, BlockPos origin, int spellLevel) {
-        int radius = 2 + spellLevel;
-        int minY = Math.max(level.getMinY(), -55);
-        for (int x = origin.getX() - radius; x <= origin.getX() + radius; x++) {
-            for (int z = origin.getZ() - radius; z <= origin.getZ() + radius; z++) {
-                for (int y = origin.getY(); y >= minY; y--) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    BlockState state = level.getBlockState(pos);
-                    if (!state.isAir() && !state.is(Blocks.BEDROCK)) {
-                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                    }
-                }
-            }
-        }
-    }
 }

@@ -33,7 +33,8 @@ public final class WeaponEnchantmentDamageTest {
                 .getAsJsonArray("minecraft:attributes").get(0).getAsJsonObject();
         JsonObject amount = modifier.getAsJsonObject("amount");
         if (!"minecraft:attack_damage".equals(modifier.get("attribute").getAsString())
-                || !"minecraft:linear".equals(amount.get("type").getAsString())
+                || !"eldrich-surge:logarithmic_level".equals(amount.get("type").getAsString())
+                || amount.get("max_level").getAsInt() != root.get("max_level").getAsInt()
                 || Double.compare(expected, amount.get("base").getAsDouble()) != 0
                 || Double.compare(expected, amount.get("per_level_above_first").getAsDouble()) != 0) {
             throw new AssertionError("Unexpected attack damage scaling for " + enchantment);

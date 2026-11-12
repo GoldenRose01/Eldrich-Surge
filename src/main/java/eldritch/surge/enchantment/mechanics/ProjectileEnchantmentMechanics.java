@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ProjectileEnchantmentMechanics {
+    private static final int MAX_BONUS_STACKS = 512;
     private ProjectileEnchantmentMechanics() {
     }
 
@@ -40,12 +41,7 @@ public final class ProjectileEnchantmentMechanics {
                 if (drainLooting > 0) {
                     List<ItemStack> cropBonus = new ArrayList<>();
                     for (ItemStack drop : List.copyOf(drops)) {
-                        int extra = drop.getCount() * 5 * drainLooting;
-                        while (extra > 0) {
-                            int count = Math.min(extra, drop.getMaxStackSize());
-                            cropBonus.add(drop.copyWithCount(count));
-                            extra -= count;
-                        }
+                        appendBonus(cropBonus, drop, (long) drop.getCount() * 5 * drainLooting);
                     }
                     drops.addAll(cropBonus);
                 }
@@ -80,14 +76,19 @@ public final class ProjectileEnchantmentMechanics {
             List<ItemStack> bonusDrops = new ArrayList<>();
             for (ItemStack drop : List.copyOf(drops)) {
                 int extra = context.getRandom().nextInt(level + 1);
-                while (extra > 0) {
-                    int count = Math.min(extra, drop.getMaxStackSize());
-                    bonusDrops.add(drop.copyWithCount(count));
-                    extra -= count;
-                }
+                appendBonus(bonusDrops, drop, extra);
             }
             drops.addAll(bonusDrops);
         });
+    }
+
+    private static void appendBonus(List<ItemStack> bonus, ItemStack template, long count) {
+        if (template == null || template.isEmpty() || template.getMaxStackSize() <= 0) return;
+        while (count > 0 && bonus.size() < MAX_BONUS_STACKS) {
+            int size = (int) Math.min(count, template.getMaxStackSize());
+            bonus.add(template.copyWithCount(size));
+            count -= size;
+        }
     }
 
     private static void applyButcherDrops(LootContext context, List<ItemStack> drops) {
@@ -142,14 +143,14 @@ public final class ProjectileEnchantmentMechanics {
     }
 
     public static float scaleArrowVelocity(ServerLevel level, AbstractArrow arrow, float velocity) {
-        int elasticity = projectileLevel(level, arrow, "elasticity");
-        return elasticity > 0 ? velocity * (1.0F + 0.25F * elasticity) : velocity;
+        double elasticity = projectileStrength(level, arrow, "elasticity");
+        return elasticity > 0 ? (float) (velocity * (1.0D + 0.25D * elasticity)) : velocity;
     }
 
     /** Refunds one projectile after a successful Replenish roll. */
     public static void tryReplenish(ServerLevel level, ItemStack weapon, ItemStack shotAmmo, LivingEntity shooter) {
         int enchantmentLevel = EnchantmentLevels.onItem(level, weapon, "replenish");
-        if (enchantmentLevel <= 0 || shotAmmo.isEmpty()
+        if (enchantmentLevel <= 0 || shotAmmo == null || shotAmmo.isEmpty() || shooter == null
                 || shotAmmo.has(net.minecraft.core.component.DataComponents.INTANGIBLE_PROJECTILE)
                 || level.getRandom().nextInt(100) >= Math.min(100, 33 * enchantmentLevel)) {
             return;
@@ -192,7 +193,8 @@ public final class ProjectileEnchantmentMechanics {
         }
 
         float radius = 1.5F + 0.5F * pop;
-        level.explode(arrow, x, y, z, radius, false, Level.ExplosionInteraction.NONE);
+        eldritch.surge.combat.SecondaryEnchantmentDamage.run(() ->
+                level.explode(arrow, x, y, z, radius, false, Level.ExplosionInteraction.NONE));
     }
 
     public static int popLevel(ServerLevel level, AbstractArrow arrow) {
@@ -207,14 +209,23 @@ public final class ProjectileEnchantmentMechanics {
     }
 
     private static int projectileLevel(ServerLevel level, AbstractArrow arrow, String enchantment) {
-        int levelOnArrow = EnchantmentLevels.onItem(level, arrow.getWeaponItem(), enchantment);
+        return (int) Math.round(projectileStrength(level, arrow, enchantment));
+    }
+
+    private static double projectileStrength(ServerLevel level, AbstractArrow arrow, String enchantment) {
+        ItemStack weapon = arrow.getWeaponItem();
+        // Spawner/dispenser projectiles have no weapon and must keep vanilla behavior.
+        if (weapon == null || weapon.isEmpty()) {
+            return 0;
+        }
+        double levelOnArrow = EnchantmentLevels.onItemStrength(level, weapon, enchantment);
         if (levelOnArrow > 0) return levelOnArrow;
 
         Entity owner = arrow.getOwner();
         if (owner instanceof LivingEntity living) {
             return Math.max(
-                    EnchantmentLevels.onItem(level, living.getMainHandItem(), enchantment),
-                    EnchantmentLevels.onItem(level, living.getOffhandItem(), enchantment)
+                    EnchantmentLevels.onItemStrength(level, living.getMainHandItem(), enchantment),
+                    EnchantmentLevels.onItemStrength(level, living.getOffhandItem(), enchantment)
             );
         }
         return 0;

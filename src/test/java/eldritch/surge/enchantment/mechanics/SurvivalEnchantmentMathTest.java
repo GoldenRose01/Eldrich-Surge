@@ -25,9 +25,9 @@ public final class SurvivalEnchantmentMathTest {
                 || SurvivalEnchantmentMath.nextFishingScore(99) != 100
                 || SurvivalEnchantmentMath.nextFishingScore(Integer.MAX_VALUE) != 100
                 || SurvivalEnchantmentMath.nextFishingScore(-5) != 1) throw new AssertionError("Fishing counter bounds");
-        close(0.33, SurvivalEnchantmentMath.dodgeChance(100));
+        close(0.95, SurvivalEnchantmentMath.dodgeChance(100));
         close(1, SurvivalEnchantmentMath.actionSpeed(-1));
-        close(SurvivalEnchantmentMath.armorSpeed(12), SurvivalEnchantmentMath.armorSpeed(100));
+        close(0.01, SurvivalEnchantmentMath.armorSpeed(100));
         double[] flight = {1, 1.5, 1.8, 2.1};
         double[] steps = {0.6, 1, 1, 1};
         for (int rank = 0; rank <= 3; rank++) {
@@ -39,7 +39,9 @@ public final class SurvivalEnchantmentMathTest {
         close(0.05, SurvivalEnchantmentMath.stepJumpBonus(3));
         double[] impact = {1, 0.76, 0.52, 0.28, 0.2, 0.2};
         for (int rank = 0; rank <= 5; rank++) close(impact[rank], SurvivalEnchantmentMath.kineticImpactMultiplier(rank));
-        close(2.1, SurvivalEnchantmentMath.flightSpeed(Integer.MAX_VALUE));
+        double overlevelFlight = EnchantmentScaling.effective("happy_boost", Integer.MAX_VALUE);
+        close(1.5 + 0.3 * (overlevelFlight - 1), SurvivalEnchantmentMath.flightSpeed(overlevelFlight));
+        if (SurvivalEnchantmentMath.actionSpeed(Integer.MAX_VALUE) <= 0) throw new AssertionError("Zero action speed");
         close(0, SurvivalEnchantmentMath.stepHeightBonus(-1));
         System.out.println("Validated Dodge, Fatigue, Fanatic, Happy Boost, Step Assist and Kinetic Protection scaling.");
     }

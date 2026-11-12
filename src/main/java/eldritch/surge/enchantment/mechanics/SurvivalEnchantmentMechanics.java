@@ -44,16 +44,16 @@ public final class SurvivalEnchantmentMechanics {
     }
 
     public static float actionSpeed(LivingEntity entity, ItemStack item) {
-        return SurvivalEnchantmentMath.actionSpeed(EnchantmentLevels.onItem(entity.level(), item, "curse_of_fatigue"));
+        return SurvivalEnchantmentMath.actionSpeed(EnchantmentLevels.onItemStrength(entity.level(), item, "curse_of_fatigue"));
     }
 
-    public static int elytraLevel(LivingEntity entity, String id) {
+    public static double elytraLevel(LivingEntity entity, String id) {
         ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        return chest.is(Items.ELYTRA) ? EnchantmentLevels.onItem(entity.level(), chest, id) : 0;
+        return chest.is(Items.ELYTRA) ? EnchantmentLevels.onItemStrength(entity.level(), chest, id) : 0;
     }
 
     public static boolean dodge(ServerLevel level, LivingEntity entity) {
-        int rank = EnchantmentLevels.onItem(level, entity.getItemBySlot(EquipmentSlot.LEGS), "dodge");
+        double rank = EnchantmentLevels.onItemStrength(level, entity.getItemBySlot(EquipmentSlot.LEGS), "dodge");
         return rank > 0 && entity.getRandom().nextDouble() < SurvivalEnchantmentMath.dodgeChance(rank);
     }
 
@@ -87,16 +87,16 @@ public final class SurvivalEnchantmentMechanics {
 
     private static void tick(ServerPlayer player) {
         ServerLevel level = (ServerLevel) player.level();
-        int steps = EnchantmentLevels.onItem(level, player.getItemBySlot(EquipmentSlot.FEET), "step_assist");
+        double steps = EnchantmentLevels.onItemStrength(level, player.getItemBySlot(EquipmentSlot.FEET), "step_assist");
         TransientAttributeModifiers.set(player.getAttribute(Attributes.STEP_HEIGHT), STEP_HEIGHT,
                 SurvivalEnchantmentMath.stepHeightBonus(steps));
         TransientAttributeModifiers.set(player.getAttribute(Attributes.JUMP_STRENGTH), STEP_JUMP,
                 SurvivalEnchantmentMath.stepJumpBonus(steps));
-        int kinetic = player.isFallFlying() ? Math.min(5, elytraLevel(player, "kinetic_protection")) : 0;
+        double kinetic = player.isFallFlying() ? elytraLevel(player, "kinetic_protection") : 0;
         TransientAttributeModifiers.set(player.getAttribute(Attributes.ARMOR), KINETIC_ARMOR, 6.0D * kinetic);
-        int fatigue = 0;
+        double fatigue = 0;
         for (EquipmentSlot slot : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
-            fatigue += Math.min(3, EnchantmentLevels.onItem(level, player.getItemBySlot(slot), "curse_of_fatigue"));
+            fatigue += EnchantmentLevels.onItemStrength(level, player.getItemBySlot(slot), "curse_of_fatigue");
         }
         var speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
         double penalty = SurvivalEnchantmentMath.armorSpeed(fatigue) - 1.0D;

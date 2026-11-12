@@ -86,10 +86,10 @@ public abstract class AnvilEnchantmentsMixin extends ItemCombinerMenu {
             ItemStack repairTarget = inputSlots.getItem(AnvilMenu.INPUT_SLOT);
             if (!repairTarget.isEmpty() && repairTarget.getDamageValue() > 0
                     && output.getDamageValue() < repairTarget.getDamageValue()) {
-                int welding = EnchantmentLevels.onItem(level, repairTarget, "welding");
+                double welding = EnchantmentLevels.onItemStrength(level, repairTarget, "welding");
                 int originalCost = cost.get();
                 if (welding > 0 && originalCost > 0) {
-                    cost.set(Math.max(1, (int) Math.ceil(originalCost / (4.0D * Math.min(welding, 5)))));
+                    cost.set(Math.max(1, (int) Math.ceil(originalCost / (4.0D * welding))));
                 }
             }
             return true;

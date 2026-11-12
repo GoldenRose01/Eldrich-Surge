@@ -18,6 +18,7 @@ public final class VanguardChargeMechanics {
     }
 
     public static void initialize() {
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> CHARGES.clear());
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             CHARGES.entrySet().removeIf(entry -> {
                 ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
@@ -34,7 +35,8 @@ public final class VanguardChargeMechanics {
                     return false;
                 }
 
-                target.hurtServer(level, player.damageSources().playerAttack(player), 4.0F + charge.level * 2.0F);
+                eldritch.surge.combat.SecondaryEnchantmentDamage.run(() ->
+                        target.hurtServer(level, player.damageSources().playerAttack(player), 4.0F + charge.level * 2.0F));
                 target.push(charge.direction.x * 0.7D, charge.direction.y * 0.5D, charge.direction.z * 0.7D);
                 return true;
             });

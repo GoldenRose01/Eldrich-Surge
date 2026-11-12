@@ -10,7 +10,8 @@
         "effect": {
           "type": "eldrich-surge:gamerule_damage",
           "amount": {
-            "type": "minecraft:linear",
+            "type": "eldrich-surge:logarithmic_level",
+          "max_level": 7,
             "base": 4.0,
             "per_level_above_first": 4.0
           },

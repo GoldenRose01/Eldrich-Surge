@@ -7,7 +7,8 @@
     "minecraft:attributes": [
       {
         "amount": {
-          "type": "minecraft:linear",
+          "type": "eldrich-surge:logarithmic_level",
+          "max_level": 10,
           "base": 1.25,
           "per_level_above_first": 1.25
         },

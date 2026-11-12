@@ -27,14 +27,16 @@ public abstract class SoulbondPlayerMixin {
     @Inject(method = "dropEquipment", at = @At("HEAD"))
     private void eldritchSurge$keepSoulboundItemsOnDeath(ServerLevel level, CallbackInfo ci) {
         eldritchSurge$soulboundStacks.clear();
-        int forest = 0;
+        double forest = 0;
         for (int slot = 0; slot < inventory.getContainerSize(); slot++) {
-            forest = Math.max(forest, EnchantmentLevels.onItem(level, inventory.getItem(slot), "curse_of_the_forest"));
+            forest = Math.max(forest, EnchantmentLevels.onItemStrength(level, inventory.getItem(slot), "curse_of_the_forest"));
         }
         if (forest > 0) {
             Player player = (Player) (Object) this;
-            level.explode(player, player.getX(), player.getY(), player.getZ(), forest == 1 ? 3.0F : 6.0F,
-                    false, net.minecraft.world.level.Level.ExplosionInteraction.NONE);
+            float radius = (float) Math.min(16.0D, 3.0D * forest);
+            eldritch.surge.combat.SecondaryEnchantmentDamage.run(() ->
+                    level.explode(player, player.getX(), player.getY(), player.getZ(), radius,
+                            false, net.minecraft.world.level.Level.ExplosionInteraction.NONE));
         }
         if (level.getGameRules().get(GameRules.KEEP_INVENTORY)) {
             return;

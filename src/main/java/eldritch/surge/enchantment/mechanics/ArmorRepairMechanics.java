@@ -31,7 +31,7 @@ public final class ArmorRepairMechanics {
                     }
 
                     int dwarf = EnchantmentLevels.onItem(level, armor, "dwarf_flakes");
-                    if (dwarf > 0 && player.tickCount % (4800 / dwarf) == 0
+                    if (dwarf > 0 && player.tickCount % EnchantmentScaling.repairInterval(dwarf) == 0
                             && level.getMaxLocalRawBrightness(player.blockPosition()) < 8) {
                         repair(armor, 1);
                     }
@@ -48,7 +48,7 @@ public final class ArmorRepairMechanics {
                     }
 
                     int sea = EnchantmentLevels.onItem(level, armor, "sea_flakes");
-                    if (sea > 0 && player.tickCount % (4800 / sea) == 0
+                    if (sea > 0 && player.tickCount % EnchantmentScaling.repairInterval(sea) == 0
                             && (player.isInWater() || level.isRainingAt(player.blockPosition()))) {
                         repair(armor, 1);
                     }

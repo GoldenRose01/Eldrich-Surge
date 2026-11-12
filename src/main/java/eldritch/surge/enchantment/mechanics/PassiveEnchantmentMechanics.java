@@ -44,6 +44,11 @@ public final class PassiveEnchantmentMechanics {
     }
 
     public static void initialize() {
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server -> {
+            SEEKER_TARGETS.clear();
+            SEEKER_ITEMS.clear();
+            SEEKER_ITEM_REFERENCES.clear();
+        });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> releaseSeekerTargets(handler.player.getUUID()));
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
@@ -70,13 +75,13 @@ public final class PassiveEnchantmentMechanics {
 
         int health = EnchantmentLevels.onArmor(level, player, "health_upgrade");
         if (health > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 80, Math.min(4, health - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 80, EnchantmentLevels.armorAmplifier(level, player, "health_upgrade", 4), true, false, true));
         }
 
         int sea = EnchantmentLevels.onArmor(level, player, "heart_of_the_sea");
         if (sea > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 80, Math.min(1, sea - 1), true, false, true));
-            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 80, Math.min(1, sea - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 80, EnchantmentLevels.armorAmplifier(level, player, "heart_of_the_sea", 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 80, EnchantmentLevels.armorAmplifier(level, player, "heart_of_the_sea", 1), true, false, true));
         }
 
         int night = EnchantmentLevels.onArmor(level, player, "blessing_of_the_night");
@@ -98,21 +103,21 @@ public final class PassiveEnchantmentMechanics {
 
         int hicker = EnchantmentLevels.onArmor(level, player, "hicker");
         if (hicker > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 40, Math.min(2, hicker - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 40, EnchantmentLevels.armorAmplifier(level, player, "hicker", 2), true, false, true));
         }
 
         int dash = EnchantmentLevels.onArmor(level, player, "dash");
         if (dash > 0 && player.isSprinting()) {
-            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, Math.min(2, dash - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, EnchantmentLevels.armorAmplifier(level, player, "dash", 2), true, false, true));
         }
 
         int iceSpeed = EnchantmentLevels.onArmor(level, player, "ice_speed");
         if (iceSpeed > 0 && player.onGround()) {
-            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, Math.min(1, iceSpeed - 1), true, false, true));
+            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, EnchantmentLevels.armorAmplifier(level, player, "ice_speed", 1), true, false, true));
         }
 
         ItemStack chargingItem = player.isUsingItem() ? player.getUseItem() : ItemStack.EMPTY;
-        int swiftness = swiftnessOnChargingWeapon(level, chargingItem);
+        double swiftness = swiftnessOnChargingWeapon(level, chargingItem);
         updateModifierAmount(player, Attributes.MOVEMENT_SPEED, SWIFTNESS_SPEED, 0.1D * swiftness);
 
         int healingAura = EnchantmentLevels.onArmor(level, player, "healing_aura");
@@ -147,23 +152,23 @@ public final class PassiveEnchantmentMechanics {
     }
 
     private static void applyArmored(ServerPlayer player) {
-        int level = player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
-                ? EnchantmentLevels.onArmor(player.level(), player, "armored")
+        double level = player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
+                ? EnchantmentLevels.onArmorStrength(player.level(), player, "armored")
                 : 0;
         updateModifierAmount(player, Attributes.ARMOR, ARMORED_ARMOR, level * 4.0D);
     }
 
     private static void applyExcavator(ServerPlayer player) {
-        int level = EnchantmentLevels.onItem(player.level(), player.getMainHandItem(), "excavator")
-                + EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "excavator");
+        double level = EnchantmentLevels.onItemStrength(player.level(), player.getMainHandItem(), "excavator")
+                + EnchantmentLevels.onItemStrength(player.level(), player.getOffhandItem(), "excavator");
         updateModifier(player, Attributes.BLOCK_INTERACTION_RANGE, EXCAVATOR_BLOCK_RANGE, level);
         updateModifier(player, Attributes.ENTITY_INTERACTION_RANGE, EXCAVATOR_ENTITY_RANGE, level);
     }
 
     private static void applyOffhandAndLuckModifiers(ServerPlayer player) {
-        int smithcrafts = EnchantmentLevels.onItem(player.level(), player.getOffhandItem(), "smithcrafts");
+        double smithcrafts = EnchantmentLevels.onItemStrength(player.level(), player.getOffhandItem(), "smithcrafts");
         updateModifier(player, Attributes.ARMOR, SMITHCRAFTS_ARMOR, smithcrafts * 2);
-        int rabbitFoot = EnchantmentLevels.onArmor(player.level(), player, "rabbit_foot");
+        double rabbitFoot = EnchantmentLevels.onArmorStrength(player.level(), player, "rabbit_foot");
         updateModifier(player, Attributes.LUCK, RABBIT_FOOT_LUCK, rabbitFoot);
     }
 
@@ -172,7 +177,7 @@ public final class PassiveEnchantmentMechanics {
         Set<UUID> current = new HashSet<>();
         if (seeker > 0) {
             for (ItemEntity item : level.getEntitiesOfClass(ItemEntity.class,
-                    player.getBoundingBox().inflate(2.0D * seeker))) {
+                    player.getBoundingBox().inflate(Math.min(64.0D, 2.0D * seeker)))) {
                 item.setGlowingTag(true);
                 current.add(item.getUUID());
                 SEEKER_ITEMS.put(item.getUUID(), item);
@@ -207,13 +212,13 @@ public final class PassiveEnchantmentMechanics {
         }
     }
 
-    private static void updateModifier(ServerPlayer player, net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey, Identifier id, int level) {
+    private static void updateModifier(ServerPlayer player, net.minecraft.core.Holder<net.minecraft.world.entity.ai.attributes.Attribute> attributeKey, Identifier id, double level) {
         updateModifierAmount(player, attributeKey, id, level);
     }
 
-    private static int swiftnessOnChargingWeapon(ServerLevel level, ItemStack stack) {
+    private static double swiftnessOnChargingWeapon(ServerLevel level, ItemStack stack) {
         if (!stack.is(ItemTags.BOW_ENCHANTABLE) && !stack.is(ItemTags.SPEARS)) return 0;
-        return EnchantmentLevels.onItem(level, stack, "swiftness");
+        return EnchantmentLevels.onItemStrength(level, stack, "swiftness");
     }
 
     private static void updateModifierAmount(ServerPlayer player,
