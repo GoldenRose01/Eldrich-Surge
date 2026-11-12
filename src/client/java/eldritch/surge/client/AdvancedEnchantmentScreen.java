@@ -17,6 +17,19 @@ public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<Adv
     private final List<Integer> filtered = new ArrayList<>();
     private int offset;
     private Button previous, next, minus, plus, apply;
+    private String lastQuery = "";
+    private int lastOffset = -1;
+    private int lastOfferCount = -1;
+    private int lastSelectedId = -1;
+    private int lastTargetLevel = -1;
+    private int lastXpCost = -1;
+    private int lastReagentCost = -1;
+    private int lastReagentCount = -1;
+    private int lastPlayerXp = -1;
+    private boolean lastPlayerCreative = false;
+    private Tooltip cachedTooltip = null;
+    private int cachedTooltipXp = -1;
+    private int cachedTooltipReagent = -1;
 
     public AdvancedEnchantmentScreen(AdvancedEnchantmentMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title, 256, 233);
@@ -46,16 +59,62 @@ public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<Adv
     private void send(int button) {
         if (minecraft.gameMode != null) minecraft.gameMode.handleInventoryButtonClick(menu.containerId, button);
     }
-    @Override protected void containerTick() { super.containerTick(); updateButtons(); }
+    @Override protected void containerTick() {
+        super.containerTick();
+        if (hasStateChanged()) {
+            updateButtons();
+        }
+    }
+
+    private boolean hasStateChanged() {
+        if (search == null) return false;
+        String query = search.getValue();
+        int offerCount = menu.offerCount();
+        int selectedId = menu.selectedId();
+        int targetLevel = menu.targetLevel();
+        int xpCost = menu.xpCost();
+        int reagentCost = menu.reagentCost();
+        int reagentCount = menu.getSlot(1).getItem().getCount();
+        var player = minecraft.player;
+        int playerXp = player != null ? player.experienceLevel : 0;
+        boolean creative = player != null && player.hasInfiniteMaterials();
+
+        return !Objects.equals(query, lastQuery)
+                || offset != lastOffset
+                || offerCount != lastOfferCount
+                || selectedId != lastSelectedId
+                || targetLevel != lastTargetLevel
+                || xpCost != lastXpCost
+                || reagentCost != lastReagentCost
+                || reagentCount != lastReagentCount
+                || playerXp != lastPlayerXp
+                || creative != lastPlayerCreative;
+    }
+
     private void updateButtons() {
         if (search == null || previous == null) return;
-        filtered.clear();
-        String query = search.getValue().toLowerCase(Locale.ROOT);
-        for (int i = 0; i < menu.offerCount(); i++) {
-            var h = menu.enchantment(menu.offerId(i));
-            if (h != null && (h.value().description().getString().toLowerCase(Locale.ROOT).contains(query)
-                    || h.unwrapKey().orElseThrow().identifier().toString().contains(query))) filtered.add(i);
+        String query = search.getValue();
+        int offerCount = menu.offerCount();
+        int selectedId = menu.selectedId();
+        int targetLevel = menu.targetLevel();
+        int xpCost = menu.xpCost();
+        int reagentCost = menu.reagentCost();
+        int reagentCount = menu.getSlot(1).getItem().getCount();
+        var player = minecraft.player;
+        int playerXp = player != null ? player.experienceLevel : 0;
+        boolean creative = player != null && player.hasInfiniteMaterials();
+
+        boolean filterChanged = !Objects.equals(query, lastQuery) || offerCount != lastOfferCount;
+        if (filterChanged) {
+            filtered.clear();
+            String lowerQuery = query.toLowerCase(Locale.ROOT);
+            for (int i = 0; i < offerCount; i++) {
+                var h = menu.enchantment(menu.offerId(i));
+                if (h != null && (h.value().description().getString().toLowerCase(Locale.ROOT).contains(lowerQuery)
+                        || h.unwrapKey().orElseThrow().identifier().toString().contains(lowerQuery))) filtered.add(i);
+            }
         }
+
         offset = Math.max(0, Math.min(offset, Math.max(0, ((filtered.size() - 1) / 4) * 4)));
         for (int row = 0; row < rows.size(); row++) {
             Button button = rows.get(row);
@@ -64,23 +123,36 @@ public final class AdvancedEnchantmentScreen extends AbstractContainerScreen<Adv
             if (!button.visible) continue;
             int offer = filtered.get(index);
             var h = menu.enchantment(menu.offerId(offer));
-            boolean selected = menu.offerId(offer) == menu.selectedId();
+            boolean selected = menu.offerId(offer) == selectedId;
             String name = (selected ? "> " : "") + h.value().description().getString();
             String level = " " + menu.currentLevel(offer) + "/" + menu.maxLevel(offer);
             button.setMessage(Component.literal(font.plainSubstrByWidth(name, 183 - font.width(level)) + level));
-
         }
         previous.active = offset > 0;
         next.active = offset + 4 < filtered.size();
-        minus.active = plus.active = menu.selectedId() >= 0;
-        for (int i = 0; i < menu.offerCount(); i++) if (menu.offerId(i) == menu.selectedId()) {
-            minus.active = menu.targetLevel() > menu.currentLevel(i) + 1;
-            plus.active = menu.targetLevel() < menu.availableLevel(i);
+        minus.active = plus.active = selectedId >= 0;
+        for (int i = 0; i < offerCount; i++) if (menu.offerId(i) == selectedId) {
+            minus.active = targetLevel > menu.currentLevel(i) + 1;
+            plus.active = targetLevel < menu.availableLevel(i);
         }
-        var player = minecraft.player;
-        apply.active = menu.xpCost() > 0 && player != null && (player.hasInfiniteMaterials()
-                || (player.experienceLevel >= menu.xpCost() && menu.getSlot(1).getItem().getCount() >= menu.reagentCost()));
-        apply.setTooltip(Tooltip.create(Component.translatable("gui.eldrich-surge.infuser.price", menu.xpCost(), menu.reagentCost())));
+        apply.active = xpCost > 0 && player != null && (creative || (playerXp >= xpCost && reagentCount >= reagentCost));
+        if (cachedTooltip == null || cachedTooltipXp != xpCost || cachedTooltipReagent != reagentCost) {
+            cachedTooltipXp = xpCost;
+            cachedTooltipReagent = reagentCost;
+            cachedTooltip = Tooltip.create(Component.translatable("gui.eldrich-surge.infuser.price", xpCost, reagentCost));
+        }
+        apply.setTooltip(cachedTooltip);
+
+        lastQuery = query;
+        lastOffset = offset;
+        lastOfferCount = offerCount;
+        lastSelectedId = selectedId;
+        lastTargetLevel = targetLevel;
+        lastXpCost = xpCost;
+        lastReagentCost = reagentCost;
+        lastReagentCount = reagentCount;
+        lastPlayerXp = playerXp;
+        lastPlayerCreative = creative;
     }
     @Override public boolean mouseScrolled(double x, double y, double horizontal, double vertical) {
         if (x >= leftPos + 47 && x < leftPos + 249 && y >= topPos + 38 && y < topPos + 110) {

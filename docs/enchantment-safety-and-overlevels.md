@@ -17,14 +17,14 @@ Gli incantesimi a livello unico restano effetti di attivazione. Gli incantesimi 
 Gli attributi continui, il volo, Elasticity e gli effetti numerici nei JSON conservano la parte frazionaria. I percorsi che richiedono livelli interi usano l'arrotondamento all'intero piu vicino: possono quindi esserci piccoli intervalli senza un nuovo incremento visibile.
 La conversione avviene una volta per oggetto, prima di sommare i contributi dell'equipaggiamento. Quattro oggetti ai rispettivi massimi ordinari non vengono trattati come un singolo oggetto fuori scala.
 
-Armored conserva il valore effettivamente implementato prima di questa modifica: **4 punti armatura per livello**. La descrizione preesistente che ne indica 2 non corrisponde al codice; non e stata usata per cambiare il bilanciamento ordinario.
+Armored applica la descrizione ufficiale: **2 punti armatura per livello** (fino a 10 punti armatura al livello V ordinario).
 
 | Armored | Forza effettiva | Bonus armatura |
 | --- | ---: | ---: |
-| I | 1 | 4 |
-| V | 5 | 20 |
-| VI | 5,6931 | 22,7726 |
-| XXVIII | 8,1781 | 32,7122 |
+| I | 1 | 2 |
+| V | 5 | 10 |
+| VI | 5,6931 | 11,3863 |
+| XXVIII | 8,1781 | 16,3563 |
 
 Questi sono i bonus del modificatore: il valore finale resta soggetto agli altri modificatori e ai limiti dell'attributo Minecraft.
 
@@ -67,6 +67,4 @@ Le protezioni sui danni riguardano le catene generate dalla mod; non costituisco
 - Test delle letture null/vuote, delle formule Survival e della guardia contro la ricorsione, anche dopo un'eccezione.
 - Verifiche esistenti di risorse, loot, ricette, configurazione, costi e categorie creative.
 
-Il comando Gradle completo non e stato eseguito per il blocco di scrittura sulla cache utente. Non sono stati eseguiti un avvio Fabric, il caricamento completo dei registri con il nuovo tipo di valore, l'applicazione runtime dei mixin o una prova multiplayer. Prima di distribuire una release vanno provati in un mondo di test: OminousItemSpawner, Armored V/XXVIII, frecce con impatti anticipatamente rifiutati, riparazioni fuori scala, Trench simultanei e combinazioni di danni secondari.
-
-Nessun JAR o incremento di versione fa parte di questa modifica.
+In versione 1.8.0, tutti i 22 task di verifica automatica (`./gradlew check`) sono stati eseguiti con successo, l'avvio del client di gioco (`runClient`) è stato testato e convalidato, e i JAR per Minecraft 26.3 e 26.4 Snapshot 8 sono stati generati nella cartella `Jar/`.

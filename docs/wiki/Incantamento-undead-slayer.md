@@ -19,7 +19,7 @@ Aggiunge 2,5 danni per livello contro la categoria undead.
 
 ## Effetto e utilizzo
 
-Il bonus runtime è **2,5 × livello** contro i mob assegnati a `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldrich Surge. La sostituzione delle offerte di Smite non significa che il danno sia raddoppiato rispetto a Smite.
+Il bonus runtime è **2,5 × livello** contro i mob assegnati alla categoria `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldritch Surge. Il calcolo viene eseguito direttamente dalla logica Java runtime senza duplicazioni dal datapack.
 
 ## Ottenimento
 

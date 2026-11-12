@@ -13,6 +13,11 @@ object EldritchSurgeClient : ClientModInitializer {
 	override fun onInitializeClient() {
 		EldritchScreens.initialize()
 		EnchantmentTooltips.initialize()
+		EnchantmentCapsConfig.setClientSyncSender { json ->
+			if (ClientPlayNetworking.canSend(WorldEnchantConfigPayload.TYPE)) {
+				ClientPlayNetworking.send(WorldEnchantConfigPayload(json, false))
+			}
+		}
 		var jumpWasDown = false
 		ClientTickEvents.END_CLIENT_TICK.register { client ->
 			val jumpDown = client.options.keyJump.isDown

@@ -15,15 +15,25 @@ public record ModEnchantmentDefinition(
         String effectDescription
 ) {
     public boolean normalTableDefault() {
+        if (id.equals("gream_reaper") || id.equals("deathbreak") || id.equals("blade_of_apocalypse") || id.equals("star_fate")) {
+            return false;
+        }
         return acquisition.toLowerCase().contains("normal");
     }
 
     public boolean advancedTableDefault() {
+        if (id.equals("gream_reaper") || id.equals("deathbreak") || id.equals("blade_of_apocalypse") || id.equals("star_fate")) {
+            return false;
+        }
         return acquisition.toLowerCase().contains("advanced");
     }
 
     public boolean lootDefault() {
-        return (classification.equalsIgnoreCase("Ritual") && !isCastSpell()) || id.equals("gream_reaper") || id.equals("soft_falling");
+        return (classification.equalsIgnoreCase("Ritual") && !isCastSpell())
+                || classification.equalsIgnoreCase("Loot")
+                || acquisition.equalsIgnoreCase("Loot")
+                || id.equals("gream_reaper")
+                || id.equals("soft_falling");
     }
 
     public boolean isCastSpell() {

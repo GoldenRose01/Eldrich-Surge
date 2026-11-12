@@ -68,7 +68,7 @@ if (minecraftVersion.startsWith("26.4")) {
 				.replace("GuiGraphicsExtractor graphics, CallbackInfo ci) {", "GuiGraphicsExtractor graphics, CallbackInfo ci) { int mouseX = graphics.mouseX(), mouseY = graphics.mouseY();")
 				.replace("import net.minecraft.client.renderer.RenderPipelines;", "import net.minecraft.client.gui.GuiPipeline;")
 				.replace("RenderPipelines.GUI_TEXTURED", "GuiPipeline.TEXTURED")
-				.replace("MenuScreens.register(", "MenuScreens.register(net.minecraft.client.core.registries.BuiltInClientRegistries.MENU_SCREEN, ")
+				.replace("MenuScreens.register(", "MenuScreens.register((net.minecraft.core.WritableRegistry) net.minecraft.client.core.registries.BuiltInClientRegistries.MENU_SCREEN, ")
 		}
 	}
 	sourceSets.named("client") { java.setSrcDirs(listOf(snapshotClientSources)) }

@@ -19,9 +19,7 @@ Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano
 
 ## Effetto e utilizzo
 
-La definizione del progetto descrive questo effetto: Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano secondaria.
-
-Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
+Fornisce **1 punto armatura per livello** tramite modificatore di attributo quando lo scudo è equipaggiato nella mano secondaria (`offhand`). La duplicazione precedente che sommava ulteriori 2 punti via codice Java è stata rimossa.
 
 ## Ottenimento
 

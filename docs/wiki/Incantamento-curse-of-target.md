@@ -19,7 +19,7 @@ Le frecce evidenziano il bersaglio colpito.
 
 ## Effetto e utilizzo
 
-L’effetto Glowing dura **40 × livello tick**, cioè 2 secondi per livello a 20 TPS. Questo valore runtime è diverso dal vecchio testo che indicava un secondo per livello.
+L’effetto Glowing dura **1 secondo per livello** (20 tick/livello), applicato dall'effetto datapack nativo. La precedente riapplicazione duplicata via codice Java è stata rimossa.
 
 ## Ottenimento
 

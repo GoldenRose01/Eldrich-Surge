@@ -2,17 +2,19 @@
 
 📚 **[Wiki completa](https://github.com/GoldenRose01/Eldrich-Surge/wiki)** — catalogo degli incantamenti, regole, tavolo avanzato, fusioni e configurazione.
 
-**A Fabric enchantment overhaul for Minecraft 26.3**
+**A Fabric enchantment overhaul for Minecraft 26.3 & 26.4 Snapshot 8**
 
-Eldritch Surge expands enchantment progression and combat with **106 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes and world-specific configuration.
+Eldritch Surge expands enchantment progression and combat with **118 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes, persistent table reagent storage, and world-specific configuration.
 
 ## Features
 
-- 106 custom enchantments with defined levels, item categories, acquisition routes and rarity classes.
+- 118 custom enchantments with defined levels, item categories, acquisition routes and rarity classes.
 - Enchantment effects for combat, mining, armor, movement, loot, curses, blessings and spell casting.
-- An Advanced Enchanting Table with separate progression and a required block formation for its 15- and 30-level slots.
+- An Advanced Enchanting Table with separate progression, persistent reagent storage (safely dropped upon block break), XP costs scaling by rarity class, and a required block formation for higher tiers.
 - Spell Books as a distinct item type for cast-spell enchantments.
 - Special anvil transformations, including the component enchantment combinations for Blade of Apocalypse and Star Fate, plus Katana to Gream Reaper.
+- Full gamerule and command management via `/eldrich <setting> <on/off>` (and `/eldritch`) for `keepLoyaltyTridents`, `sweepingRequiresEnchantment`, and `lethalPoison` (`player`, `mob`, `all`, `off`).
+- Safe Soulbond retention across respawns when `keepInventory` is false.
 - Optional EnchLib integration for editable mob categories, enchantment metadata, rarity and compatibility rules. EnchLib remains a separate mod and is not bundled in the Eldritch Surge jar.
 - World-specific enchantment rules, with server-to-client synchronization. Operators with permission level 2 or higher can change these rules.
 
@@ -20,20 +22,22 @@ Eldritch Surge expands enchantment progression and combat with **106 custom ench
 
 | Component | Version / status |
 |---|---|
-| Minecraft | 26.3 |
-| Mod | 1.6.0 |
+| Minecraft | 26.3 · 26.4 Snapshot 8 |
+| Mod | 1.8.0 |
 | Mod loader | Fabric |
-| Fabric API | Required |
+| Fabric API | Required (`0.161.0+26.3` / `0.166.2+26.4`) |
 | EnchLib | Optional; separate project and jar |
 | Mod Menu + Cloth Config or YACL | Optional; either library enables the in-game config screen; choose when both are installed |
 
 ## Install
 
-1. Install Fabric Loader for Minecraft 26.3.
+1. Install Fabric Loader for Minecraft 26.3 or 26.4 Snapshot 8.
 2. Add Fabric API, Fabric Language Kotlin and the Eldritch Surge jar to the `mods` folder.
 3. Add EnchLib separately if you want its mob-category and enchantment configuration integration.
 
-The development build jar is stored under [`Jar/`](Jar/). Its filename follows `eldrich-surge-26.3+-1.6.0.jar`.
+The release build jars are stored under [`Jar/`](Jar/):
+- `eldrich-surge-26.3+-1.8.0.jar`
+- `eldrich-surge-26.4-snapshot-8+-1.8.0.jar`
 
 ## Enchantment list and compatibility
 

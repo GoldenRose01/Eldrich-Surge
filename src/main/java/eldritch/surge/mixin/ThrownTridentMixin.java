@@ -1,7 +1,13 @@
 package eldritch.surge.mixin;
 
 import eldritch.surge.enchantment.mechanics.SeaBreezeMechanics;
+import eldritch.surge.game.EldritchGameRules;
+import eldritch.surge.game.LoyaltyTridentStorage;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
@@ -35,5 +41,17 @@ public abstract class ThrownTridentMixin {
     @Inject(method = "hitBlockEnchantmentEffects", at = @At("TAIL"))
     private void eldritchSurge$releaseWindOnBlockHit(ServerLevel level, BlockHitResult hit, ItemStack weapon, CallbackInfo ci) {
         SeaBreezeMechanics.releaseWindCharge(level, (ThrownTrident) (Object) this, weapon, hit.getLocation());
+    }
+
+    @WrapOperation(
+            method = "tick",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/arrow/ThrownTrident;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;")
+    )
+    private ItemEntity eldritchSurge$keepLoyaltyTrident(ThrownTrident trident, ServerLevel level, ItemStack stack, float yOffset, Operation<ItemEntity> original) {
+        if (EldritchGameRules.shouldKeepLoyaltyTridents(level) && trident.getOwner() instanceof ServerPlayer player) {
+            LoyaltyTridentStorage.store(player.getUUID(), stack);
+            return null;
+        }
+        return original.call(trident, level, stack, yOffset);
     }
 }

@@ -46,9 +46,18 @@ Inserisci l'oggetto nello slot superiore a sinistra e il reagente in quello infe
 
 Il massimo mostrato è sempre il limite reale configurato, anche senza formazione: non viene più indicato I per tutti gli incantesimi. Senza formazione puoi comunque scegliere soltanto il livello I. Con la formazione 5×5 completa puoi scegliere fino al limite configurato. Gli incantesimi incompatibili, disabilitati, riservati al bottino o già al limite non compaiono. Gli incantesimi sono scelti direttamente: non si effettuano estrazioni casuali.
 
-Un incantesimo completo costa **30 livelli XP e 3 frammenti**. I livelli aggiunti costano in proporzione al limite completo, arrotondando per eccesso, con un minimo di 1 livello XP e 1 frammento. Esempio per un limite V: da zero a I costa 6 livelli XP e 1 frammento; da III a V costa 12 livelli XP e 2 frammenti. La modalità creativa non consuma XP né reagenti.
+La verifica della struttura rituale è ottimizzata per verificarsi all'apertura dell'interfaccia e ad ogni cambio degli slot, eliminando controlli inutili su ogni singolo tick di gioco.
 
-Chiudendo l'interfaccia, l'oggetto torna al giocatore e il reagente resta conservato nel tavolo secondo il sistema della mod.
+Il costo in livelli XP scala in base alla classe di rarità dell'incantesimo selezionato:
+- **Common:** fino a 15 livelli XP e 1 frammento
+- **Uncommon:** fino a 20 livelli XP e 2 frammenti
+- **Rare:** fino a 25 livelli XP e 2 frammenti
+- **Epic:** fino a 30 livelli XP e 3 frammenti
+- **Ultra:** fino a 35 livelli XP e 3 frammenti
+
+I livelli intermedi aggiunti costano in proporzione al livello massimo configurato, arrotondando per eccesso, con un minimo di 1 livello XP e 1 frammento. La modalità creativa non consuma XP né reagenti.
+
+Chiudendo l'interfaccia, l'oggetto inserito torna all'inventario del giocatore. Il reagente inserito resta memorizzato in modo persistente nei dati NBT del blocco (conservandosi anche attraverso riavvii del server o ricaricamenti dei chunk) e viene automaticamente droppato a terra se il blocco del tavolo viene distrutto.
 
 ## EMI, REI e ricettario vanilla
 

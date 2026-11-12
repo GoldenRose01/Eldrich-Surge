@@ -219,10 +219,14 @@ public final class EnchantmentCapsConfig {
     }
 
     public static boolean passesRarity(Identifier enchantmentId, ItemStack stack, int slot, int level) {
-        return passesRarity(enchantmentId, "eldrich-surge:advanced_enchanting_table", stack, slot, level);
+        return passesRarity(enchantmentId, "eldrich-surge:advanced_enchanting_table", stack, slot, level, 0);
     }
 
     public static boolean passesRarity(Identifier enchantmentId, String tableId, ItemStack stack, int slot, int level) {
+        return passesRarity(enchantmentId, tableId, stack, slot, level, 0);
+    }
+
+    public static boolean passesRarity(Identifier enchantmentId, String tableId, ItemStack stack, int slot, int level, int seed) {
         CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
         int tableChance = tableId.equals("minecraft:enchanting_table")
                 ? override.normalTableChance : override.advancedTableChance;
@@ -240,7 +244,9 @@ public final class EnchantmentCapsConfig {
             return false;
         }
 
-        int roll = java.util.concurrent.ThreadLocalRandom.current().nextInt(100);
+        long combinedSeed = ((long) seed << 32) ^ java.util.Objects.hash(enchantmentId.toString(), stack == null || stack.isEmpty() ? "" : stack.getItem().toString(), slot, level);
+        net.minecraft.util.RandomSource random = net.minecraft.util.RandomSource.create(combinedSeed);
+        int roll = random.nextInt(100);
         return roll < rarity;
     }
 
@@ -365,14 +371,18 @@ public final class EnchantmentCapsConfig {
         }
     }
 
+    private static java.util.function.Consumer<String> clientSyncSender;
+
+    public static void setClientSyncSender(java.util.function.Consumer<String> sender) {
+        clientSyncSender = sender;
+    }
+
     private static Data copyData(Data source) {
-        Data copy = GSON.fromJson(GSON.toJson(source), Data.class);
-        return copy == null ? new Data() : copy;
+        return source == null ? new Data() : new Data(source);
     }
 
     private static CapsOverride copyOverride(CapsOverride source) {
-        CapsOverride copy = GSON.fromJson(GSON.toJson(source), CapsOverride.class);
-        return copy == null ? new CapsOverride() : copy;
+        return source == null ? new CapsOverride() : new CapsOverride(source);
     }
 
     /** Reads EnchLib's effective world view once on the logical server, then the resulting snapshot is synced. */
@@ -405,6 +415,37 @@ public final class EnchantmentCapsConfig {
         }
     }
 
+    public static String resolveRarityClass(Identifier enchantmentId) {
+        if (enchantmentId == null) return "common";
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId.toString(), ignored -> defaultOverride(enchantmentId));
+        return override.rarityClass != null ? override.rarityClass : "common";
+    }
+
+    private static String resolveRarityClassFromDefinition(ModEnchantmentDefinition definition) {
+        if (definition == null || definition.classification() == null) return "common";
+        String c = definition.classification().toLowerCase(java.util.Locale.ROOT);
+        if (c.contains("ultra") || c.contains("legendary") || c.contains("unique") || c.contains("ritual") || c.contains("very")) {
+            return "very_rare";
+        }
+        if (c.contains("rare") || c.contains("curse")) {
+            return "rare";
+        }
+        if (c.contains("uncommon")) {
+            return "uncommon";
+        }
+        return "common";
+    }
+
+    private static int defaultRarityForClass(String rarityClass) {
+        if (rarityClass == null) return 100;
+        return switch (rarityClass) {
+            case "uncommon" -> 80;
+            case "rare" -> 50;
+            case "very_rare" -> 25;
+            default -> 100;
+        };
+    }
+
     private static CapsOverride defaultOverride(Identifier enchantmentId) {
         CapsOverride override = new CapsOverride();
         if (enchantmentId == null) {
@@ -424,6 +465,10 @@ public final class EnchantmentCapsConfig {
                 override.advancedTable = definition.advancedTableDefault();
                 override.loot = definition.lootDefault();
                 override.supportedItems = new ArrayList<>(definition.supportedItems());
+                override.rarityClass = resolveRarityClassFromDefinition(definition);
+                override.rarity = defaultRarityForClass(override.rarityClass);
+                override.normalTableChance = override.rarity;
+                override.advancedTableChance = override.rarity;
             } else {
                 override.advancedTable = true;
             }
@@ -471,7 +516,7 @@ public final class EnchantmentCapsConfig {
     public static void save() {
         if (FabricLoader.getInstance().getEnvironmentType() == net.fabricmc.api.EnvType.CLIENT && !clientWorldSnapshot) return;
         if (clientWorldSnapshot) {
-            if (clientCanEditWorld) eldritch.surge.network.WorldEnchantConfigSync.submit(serializeForSync());
+            if (clientCanEditWorld && clientSyncSender != null) clientSyncSender.accept(serializeForSync());
             return;
         }
         Path target = worldConfigPath == null ? CONFIG_PATH : worldConfigPath;
@@ -486,7 +531,39 @@ public final class EnchantmentCapsConfig {
         }
     }
 
-    private static void saveGlobal() {
+    public static boolean isKeepLoyaltyTridents() {
+        return data.keepLoyaltyTridents;
+    }
+
+    public static void setKeepLoyaltyTridents(boolean value) {
+        data.keepLoyaltyTridents = value;
+    }
+
+    public static boolean isSweepingRequiresEnchantment() {
+        return data.sweepingRequiresEnchantment;
+    }
+
+    public static void setSweepingRequiresEnchantment(boolean value) {
+        data.sweepingRequiresEnchantment = value;
+    }
+
+    public static String getLethalPoisonMode() {
+        return data.getLethalPoisonMode();
+    }
+
+    public static void setLethalPoisonMode(String mode) {
+        data.setLethalPoisonMode(mode);
+    }
+
+    public static boolean isLethalPoison() {
+        return !"off".equalsIgnoreCase(data.getLethalPoisonMode());
+    }
+
+    public static void setLethalPoison(boolean value) {
+        data.setLethalPoisonMode(value ? "all" : "off");
+    }
+
+    public static void saveGlobal() {
         Path previous = worldConfigPath;
         worldConfigPath = null;
         save();
@@ -500,7 +577,42 @@ public final class EnchantmentCapsConfig {
 
     public static final class Data {
         public int configVersion = 4;
+        public boolean keepLoyaltyTridents = false;
+        public boolean sweepingRequiresEnchantment = true;
+        private com.google.gson.JsonElement lethalPoison = new com.google.gson.JsonPrimitive("off");
         public Map<String, CapsOverride> enchantments = new TreeMap<>();
+
+        public Data() {}
+
+        public Data(Data other) {
+            if (other != null) {
+                this.configVersion = other.configVersion;
+                this.keepLoyaltyTridents = other.keepLoyaltyTridents;
+                this.sweepingRequiresEnchantment = other.sweepingRequiresEnchantment;
+                this.lethalPoison = other.lethalPoison == null ? new com.google.gson.JsonPrimitive("off") : other.lethalPoison.deepCopy();
+                if (other.enchantments != null) {
+                    for (var entry : other.enchantments.entrySet()) {
+                        this.enchantments.put(entry.getKey(), new CapsOverride(entry.getValue()));
+                    }
+                }
+            }
+        }
+
+        public String getLethalPoisonMode() {
+            if (lethalPoison == null || lethalPoison.isJsonNull()) return "off";
+            if (lethalPoison.isJsonPrimitive()) {
+                var prim = lethalPoison.getAsJsonPrimitive();
+                if (prim.isBoolean()) {
+                    return prim.getAsBoolean() ? "all" : "off";
+                }
+                return prim.getAsString();
+            }
+            return "off";
+        }
+
+        public void setLethalPoisonMode(String mode) {
+            this.lethalPoison = new com.google.gson.JsonPrimitive(mode == null ? "off" : mode.toLowerCase(java.util.Locale.ROOT));
+        }
     }
 
     public static final class CapsOverride {
@@ -516,5 +628,24 @@ public final class EnchantmentCapsConfig {
         public int advancedTableChance = 100;
         public List<String> supportedItems = new ArrayList<>();
         public List<String> incompatibleEnchantments = new ArrayList<>();
+
+        public CapsOverride() {}
+
+        public CapsOverride(CapsOverride other) {
+            if (other != null) {
+                this.enabled = other.enabled;
+                this.anvilMaxLevel = other.anvilMaxLevel;
+                this.enchantingTableMaxLevel = other.enchantingTableMaxLevel;
+                this.normalTable = other.normalTable;
+                this.advancedTable = other.advancedTable;
+                this.loot = other.loot;
+                this.rarity = other.rarity;
+                this.rarityClass = other.rarityClass;
+                this.normalTableChance = other.normalTableChance;
+                this.advancedTableChance = other.advancedTableChance;
+                this.supportedItems = new ArrayList<>(other.supportedItems);
+                this.incompatibleEnchantments = new ArrayList<>(other.incompatibleEnchantments);
+            }
+        }
     }
 }

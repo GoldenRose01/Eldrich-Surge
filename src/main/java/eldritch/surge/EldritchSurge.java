@@ -42,6 +42,11 @@ public final class EldritchSurge implements ModInitializer {
         EnchLibIntegration.synchronizeEnchantments();
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            for (var level : server.getAllLevels()) {
+                level.getGameRules().set(EldritchGameRules.KEEP_LOYALTY_TRIDENTS, EnchantmentCapsConfig.isKeepLoyaltyTridents(), server);
+                level.getGameRules().set(EldritchGameRules.SWEEPING_REQUIRES_ENCHANTMENT, EnchantmentCapsConfig.isSweepingRequiresEnchantment(), server);
+                level.getGameRules().set(EldritchGameRules.LETHAL_POISON, EnchantmentCapsConfig.isLethalPoison(), server);
+            }
             EnchantmentIndex.refreshFromRegistry(server.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
             EnchantmentCapsConfig.loadAndSyncWithRegistry(EnchantmentIndex.snapshot().keySet());
             EnchantmentCapsConfig.activateWorld(server, EnchantmentIndex.snapshot().keySet());
@@ -49,6 +54,9 @@ public final class EldritchSurge implements ModInitializer {
 
             LOGGER.info("Eldritch Surge synchronized {} enchantments from the dynamic registry.",
                     EnchantmentIndex.snapshot().size());
+        });
+        net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            eldritch.surge.game.LoyaltyTridentStorage.restoreTridents(handler.player);
         });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> EnchantmentCapsConfig.deactivateWorld());
 

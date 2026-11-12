@@ -18,7 +18,6 @@
 		"NetherPortalLightMixin",
 		"PruningPlayerMixin",
 		"QuickHitMixin",
-		"ReplenishAmmoMixin",
 		"SnowshoeingMixin",
 		"SnowshoeingFreezeMixin",
 		"SoulbondPlayerMixin",
@@ -34,7 +33,11 @@
 		"FanaticFishingMixin",
 		"AccuracyShotArrowMixin",
 		"FearCreeperMixin",
-		"FlightEnchantmentMixin"
+		"FlightEnchantmentMixin",
+		"EnchantingTableBlockEntityMixin",
+		"BlockEntityMixin",
+		"PoisonMobEffectMixin",
+		"ServerPlayerRespawnMixin"
 	],
 	"client": [
 		"EnchantmentNameColorMixin",

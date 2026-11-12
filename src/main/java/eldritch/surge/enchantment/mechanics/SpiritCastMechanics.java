@@ -5,13 +5,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Kill counter and randomized temporary reward for Spirit Cast. */
 public final class SpiritCastMechanics {
-    private static final Map<UUID, Integer> KILL_COUNTS = new HashMap<>();
+    private static final Map<UUID, Integer> KILL_COUNTS = new ConcurrentHashMap<>();
 
     private SpiritCastMechanics() {}
 
@@ -26,5 +26,11 @@ public final class SpiritCastMechanics {
             default -> MobEffects.RESISTANCE;
         };
         player.addEffect(new MobEffectInstance(effect, 200, 0));
+    }
+
+    public static void resetKillCount(UUID playerUuid) {
+        if (playerUuid != null) {
+            KILL_COUNTS.remove(playerUuid);
+        }
     }
 }

@@ -10,7 +10,7 @@ public final class GreamReaperEnchantment {
             "NETHERITE HOE",
             10,
             "Unique",
-            "Normal",
+            "Loot",
             List.of("minecraft:netherite_hoe"),
             List.of("hand"),
             "",

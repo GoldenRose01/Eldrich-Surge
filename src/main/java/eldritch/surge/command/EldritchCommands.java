@@ -1,40 +1,22 @@
 package eldritch.surge.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import com.mojang.brigadier.suggestion.Suggestions;
-import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import eldritch.surge.EldritchSurge;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
+import net.minecraft.server.permissions.Permissions;
 
 public final class EldritchCommands {
-    private static final DynamicCommandExceptionType UNKNOWN_ENCHANTMENT = new DynamicCommandExceptionType(
-            id -> Component.translatable("commands.eldrich-surge.surge.unknown_enchantment", id)
+    private static final DynamicCommandExceptionType UNKNOWN_SETTING = new DynamicCommandExceptionType(
+            setting -> Component.translatable("commands.eldrich-surge.setting.unknown", setting)
     );
-    private static final SimpleCommandExceptionType EMPTY_HAND = new SimpleCommandExceptionType(
-            Component.translatable("commands.eldrich-surge.surge.empty_hand")
+    private static final DynamicCommandExceptionType INVALID_SETTING_VALUE = new DynamicCommandExceptionType(
+            val -> Component.translatable("commands.eldrich-surge.setting.invalid_value", val)
     );
 
     private EldritchCommands() {
@@ -45,94 +27,118 @@ public final class EldritchCommands {
     }
 
     private static void register(CommandDispatcher<CommandSourceStack> dispatcher, net.minecraft.commands.CommandBuildContext context, Commands.CommandSelection selection) {
-        dispatcher.register(Commands.literal("surge")
-                .then(Commands.argument("enchname", StringArgumentType.word())
-                        .suggests(EldritchCommands::suggestEnchantments)
-                        .then(Commands.argument("lvl", IntegerArgumentType.integer(0))
-                                .suggests(EldritchCommands::suggestLevels)
-                                .executes(EldritchCommands::executeSurge))));
+        var settingArg = Commands.argument("setting", StringArgumentType.word())
+                .suggests((ctx, builder) -> {
+                    builder.suggest("keep_loyalty_tridents");
+                    builder.suggest("sweeping_requires_enchantment");
+                    builder.suggest("lethal_poison");
+                    return builder.buildFuture();
+                });
+
+        var valueArg = Commands.argument("value", StringArgumentType.word())
+                .suggests((ctx, builder) -> {
+                    String setting = "";
+                    try {
+                        setting = StringArgumentType.getString(ctx, "setting").toLowerCase(java.util.Locale.ROOT);
+                    } catch (IllegalArgumentException ignored) {
+                    }
+                    if ("lethal_poison".equals(setting)) {
+                        builder.suggest("off");
+                        builder.suggest("player");
+                        builder.suggest("mob");
+                        builder.suggest("all");
+                    } else {
+                        builder.suggest("on");
+                        builder.suggest("off");
+                    }
+                    return builder.buildFuture();
+                })
+                .executes(EldritchCommands::executeSetting);
+
+        var eldrichNode = dispatcher.register(Commands.literal("eldrich")
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
+                .then(settingArg.then(valueArg)));
+
+        dispatcher.register(Commands.literal("eldritch")
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
+                .redirect(eldrichNode));
     }
 
-    private static int executeSurge(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-        ServerPlayer player = context.getSource().getPlayerOrException();
-        ItemStack stack = player.getMainHandItem();
-        if (stack.isEmpty()) {
-            throw EMPTY_HAND.create();
+    private static int executeSetting(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        String setting = StringArgumentType.getString(context, "setting").toLowerCase(java.util.Locale.ROOT);
+        String rawValue = StringArgumentType.getString(context, "value").toLowerCase(java.util.Locale.ROOT);
+
+        if ("lethal_poison".equals(setting)) {
+            String mode;
+            if (rawValue.equals("off") || rawValue.equals("false") || rawValue.equals("0") || rawValue.equals("disable")) {
+                mode = "off";
+            } else if (rawValue.equals("player") || rawValue.equals("players")) {
+                mode = "player";
+            } else if (rawValue.equals("mob") || rawValue.equals("mobs")) {
+                mode = "mob";
+            } else if (rawValue.equals("all") || rawValue.equals("on") || rawValue.equals("true") || rawValue.equals("1") || rawValue.equals("enable")) {
+                mode = "all";
+            } else {
+                throw INVALID_SETTING_VALUE.create(rawValue);
+            }
+
+            eldritch.surge.config.EnchantmentCapsConfig.setLethalPoisonMode(mode);
+            eldritch.surge.config.EnchantmentCapsConfig.saveGlobal();
+
+            var server = context.getSource().getServer();
+            if (server != null) {
+                boolean gameruleEnabled = !"off".equals(mode);
+                for (var level : server.getAllLevels()) {
+                    level.getGameRules().set(eldritch.surge.game.EldritchGameRules.LETHAL_POISON, gameruleEnabled, server);
+                }
+            }
+
+            context.getSource().sendSuccess(
+                    () -> Component.translatable(
+                            "commands.eldrich-surge.setting.success",
+                            setting,
+                            mode
+                    ),
+                    true
+            );
+            return 1;
         }
 
-        String enchantmentName = StringArgumentType.getString(context, "enchname");
-        int level = IntegerArgumentType.getInteger(context, "lvl");
-        Holder.Reference<Enchantment> enchantment = resolveEnchantment(context.getSource(), enchantmentName)
-                .orElseThrow(() -> UNKNOWN_ENCHANTMENT.create(enchantmentName));
+        boolean boolValue;
+        if (rawValue.equals("on") || rawValue.equals("true") || rawValue.equals("1") || rawValue.equals("enable")) {
+            boolValue = true;
+        } else if (rawValue.equals("off") || rawValue.equals("false") || rawValue.equals("0") || rawValue.equals("disable")) {
+            boolValue = false;
+        } else {
+            throw INVALID_SETTING_VALUE.create(rawValue);
+        }
 
-        stack.enchant(enchantment, level);
-        player.getInventory().setChanged();
-        player.containerMenu.broadcastChanges();
+        switch (setting) {
+            case "keep_loyalty_tridents" -> eldritch.surge.config.EnchantmentCapsConfig.setKeepLoyaltyTridents(boolValue);
+            case "sweeping_requires_enchantment" -> eldritch.surge.config.EnchantmentCapsConfig.setSweepingRequiresEnchantment(boolValue);
+            default -> throw UNKNOWN_SETTING.create(setting);
+        }
+
+        eldritch.surge.config.EnchantmentCapsConfig.saveGlobal();
+
+        var server = context.getSource().getServer();
+        if (server != null) {
+            for (var level : server.getAllLevels()) {
+                switch (setting) {
+                    case "keep_loyalty_tridents" -> level.getGameRules().set(eldritch.surge.game.EldritchGameRules.KEEP_LOYALTY_TRIDENTS, boolValue, server);
+                    case "sweeping_requires_enchantment" -> level.getGameRules().set(eldritch.surge.game.EldritchGameRules.SWEEPING_REQUIRES_ENCHANTMENT, boolValue, server);
+                }
+            }
+        }
 
         context.getSource().sendSuccess(
                 () -> Component.translatable(
-                        "commands.eldrich-surge.surge.success",
-                        Enchantment.getFullname(enchantment, level),
-                        stack.getDisplayName()
+                        "commands.eldrich-surge.setting.success",
+                        setting,
+                        boolValue ? "on" : "off"
                 ),
                 true
         );
-        return level;
-    }
-
-    private static CompletableFuture<Suggestions> suggestEnchantments(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-        HolderLookup.RegistryLookup<Enchantment> enchantments = context.getSource()
-                .registryAccess()
-                .lookupOrThrow(Registries.ENCHANTMENT);
-
-        Set<String> suggestions = new LinkedHashSet<>();
-        enchantments.listElementIds()
-                .sorted(Comparator.comparing(ResourceKey::toString))
-                .forEach(key -> {
-                    Identifier id = key.identifier();
-                    suggestions.add(id.toString());
-                    suggestions.add(id.getPath());
-                });
-
-        suggestions.stream()
-                .filter(suggestion -> suggestion.startsWith(builder.getRemainingLowerCase()))
-                .forEach(builder::suggest);
-        return builder.buildFuture();
-    }
-
-    private static CompletableFuture<Suggestions> suggestLevels(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
-        int maxLevel = StringArgumentType.getString(context, "enchname").isBlank()
-                ? 10
-                : resolveEnchantment(context.getSource(), StringArgumentType.getString(context, "enchname"))
-                .map(entry -> Math.max(1, entry.value().getMaxLevel()))
-                .orElse(10);
-
-        int suggestionCeiling = Math.min(Math.max(maxLevel, 10), 25);
-        for (int level = 1; level <= suggestionCeiling; level++) {
-            builder.suggest(level);
-        }
-        if (maxLevel > suggestionCeiling) {
-            builder.suggest(maxLevel);
-        }
-        builder.suggest(maxLevel + 1);
-        return builder.buildFuture();
-    }
-
-    private static Optional<Holder.Reference<Enchantment>> resolveEnchantment(CommandSourceStack source, String rawName) {
-        HolderLookup.RegistryLookup<Enchantment> enchantments = source.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-
-        Identifier fullId = rawName.contains(":") ? Identifier.tryParse(rawName) : null;
-        if (fullId != null) {
-            return enchantments.get(ResourceKey.create(Registries.ENCHANTMENT, fullId));
-        }
-
-        return enchantments.listElements()
-                .filter(entry -> entry.unwrapKey()
-                        .map(key -> key.identifier().getPath().equals(rawName))
-                        .orElse(false))
-                .sorted(Comparator.comparing(entry -> entry.unwrapKey()
-                        .map(key -> key.identifier().getNamespace().equals("minecraft") ? "0" + key.identifier() : "1" + key.identifier().toString())
-                        .orElse("2")))
-                .findFirst();
+        return 1;
     }
 }

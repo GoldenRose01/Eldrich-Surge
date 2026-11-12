@@ -34,7 +34,7 @@ import java.util.Set;
 public final class EldritchCreativeTabs {
     private static final Map<String, ModEnchantmentDefinition> DEFINITIONS = ModEnchantmentDefinitions.BY_ID;
     private static final Set<Identifier> UNIVERSAL_VANILLA_ENCHANTMENTS = Set.of(
-            Identifier.withDefaultNamespace("vanishing"),
+            Identifier.withDefaultNamespace("vanishing_curse"),
             Identifier.withDefaultNamespace("binding_curse"),
             Identifier.withDefaultNamespace("mending"),
             Identifier.withDefaultNamespace("unbreaking")

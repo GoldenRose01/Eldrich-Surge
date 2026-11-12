@@ -19,7 +19,7 @@ Aggiunge 2,5 danni per livello contro la categoria void.
 
 ## Effetto e utilizzo
 
-L’effetto consulta la categoria `void`, non semplicemente la dimensione in cui si trova il bersaglio. Senza EnchLib la mod usa il tag di fallback dei mob dell’End.
+L’effetto aggiunge **2,5 danni per livello** contro le creature della categoria `void` (senza EnchLib la mod usa il tag di fallback dei mob dell’End `#eldrich-surge:is_end_mob`). Il danno viene calcolato direttamente dalla logica di combattimento di Eldritch Surge, evitando duplicazioni con il datapack.
 
 ## Ottenimento
 

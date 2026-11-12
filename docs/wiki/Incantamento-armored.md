@@ -19,7 +19,7 @@ Aggiunge armatura mentre indossi l’Elytra.
 
 ## Effetto e utilizzo
 
-La meccanica passiva aggiunge **4 punti armatura per livello**, fino a 20 al livello V. Il bonus viene rimosso quando l’Elytra non è indossata. Questo valore proviene dal codice runtime: la vecchia descrizione Java indica ancora 2 punti per livello.
+La meccanica passiva aggiunge **2 punti armatura per livello**, fino a 10 punti al livello V (allineato alla descrizione dell'incantesimo). Il bonus viene rimosso quando l’Elytra non è indossata.
 
 ## Ottenimento
 

@@ -24,6 +24,16 @@ public abstract class SweepAttackMixin {
                 && held.is(ItemTags.HOES)
                 && EnchantmentLevels.onItem(player.level(), held, "void_sweep") > 0) {
             cir.setReturnValue(true);
+            return;
+        }
+
+        if (cir.getReturnValue() && eldritch.surge.game.EldritchGameRules.requiresSweepingEnchantment(player.level())) {
+            int sweeping = EnchantmentLevels.onItem(player.level(), held, "dual_sweeping")
+                    + EnchantmentLevels.onItem(player.level(), held, "void_sweep")
+                    + EnchantmentLevels.onMinecraftItem(player.level(), held, "sweeping_edge");
+            if (sweeping <= 0) {
+                cir.setReturnValue(false);
+            }
         }
     }
 

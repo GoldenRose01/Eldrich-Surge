@@ -44,10 +44,4 @@ public final class WorldEnchantConfigSync {
             }
         }
     }
-
-    public static void submit(String json) {
-        if (net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.canSend(WorldEnchantConfigPayload.TYPE)) {
-            net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.send(new WorldEnchantConfigPayload(json, false));
-        }
-    }
 }

@@ -1,10 +1,10 @@
 # Eldritch Surge
 
-**Expand your enchantment progression with 106 custom enchantments, advanced enchanting, Spell Books and configurable world rules.**
+**Expand your enchantment progression with 118 custom enchantments, advanced enchanting, Spell Books and configurable world rules.**
 
-Eldritch Surge is a Fabric mod for Minecraft 26.3 that expands the way you build equipment and progress through enchantments. Discover new options for weapons, armor, tools, ranged equipment, shields and more, with effects spanning combat, exploration, mining, movement, survival and spell casting.
+Eldritch Surge is a Fabric mod for Minecraft 26.3 & 26.4 Snapshot 8 that expands the way you build equipment and progress through enchantments. Discover new options for weapons, armor, tools, ranged equipment, shields and more, with effects spanning combat, exploration, mining, movement, survival and spell casting.
 
-## 106 custom enchantments
+## 118 custom enchantments
 
 Explore an enchantment collection that includes offensive abilities, defensive upgrades, environmental blessings, curses, utility effects and rituals. Each enchantment has its own level limits, supported equipment and default acquisition rules.
 
@@ -14,13 +14,20 @@ The collection also includes enchantments for bows and crossbows, shields, maces
 
 ## Advanced enchanting
 
-The Advanced Enchanting Table adds another stage to enchantment progression. It uses Amethyst Shards and a dedicated block formation, with its level-15 and level-30 options available only when the required formation is valid.
+The Advanced Enchanting Table adds another stage to enchantment progression. It uses Amethyst Shards, persistent block entity storage (dropping reagents safely upon destruction), and a dedicated block formation, with higher-level options available only when the required formation is valid.
 
-Normal and advanced table availability are configured separately. This lets a world distinguish everyday upgrades from enchantments reserved for later progression. Treasure-only enchantments remain excluded from both tables.
+XP costs scale based on the enchantment's rarity class (Common, Uncommon, Rare, Epic, Ultra). Normal and advanced table availability are configured separately. This lets a world distinguish everyday upgrades from enchantments reserved for later progression. Treasure-only enchantments remain excluded from both tables unless specifically enabled in loot or world configuration.
+
+## Commands and gamerules
+
+Operators can configure gameplay behavior dynamically using `/eldrich <setting> <on/off>` (or `/eldritch`):
+- `keepLoyaltyTridents`: Prevents Loyalty tridents from falling to the ground or disappearing into the void/on death.
+- `sweepingRequiresEnchantment`: Restricts the sword sweeping attack to weapons equipped with Sweeping Edge.
+- `lethalPoison`: Allows Poison effect damage to be lethal to `player`, `mob`, or `all` entities.
 
 ## Spell Books and rituals
 
-Spell Books are a separate item type for cast-spell enchantments, extending enchanting beyond conventional equipment upgrades. The spell collection includes Cocktail Spell, Ragnarok, Red Moon, Storm Spell and Trench Spell, connected to the advanced enchanting workflow.
+Spell Books are a separate item type for cast-spell enchantments, extending enchanting beyond conventional equipment upgrades. The spell collection includes Cocktail Spell, Ragnarok, Red Moon, Storm Spell and Trench Spell, connected to the advanced enchanting workflow with Echo Shards.
 
 ## Special anvil combinations
 
@@ -54,9 +61,9 @@ EnchLib adds integration for enchantment metadata, mob categories, rarity and co
 
 ## Installation
 
-1. Install Fabric Loader 0.19.3 or newer for Minecraft 26.3 and use Java 25 or newer.
+1. Install Fabric Loader for Minecraft 26.3 or 26.4 Snapshot 8 and use Java 25.
 2. Add Fabric API, Fabric Language Kotlin and Eldritch Surge to your mods folder.
 3. Optionally add Mod Menu and Cloth Config or YACL for in-game configuration.
 4. Optionally install EnchLib for its additional integrations.
 
-**Current release:** 1.6.0 · **Minecraft:** 26.3 · **Loader:** Fabric · **License:** MIT
+**Current release:** 1.8.0 · **Minecraft:** 26.3 / 26.4 Snapshot 8 · **Loader:** Fabric · **License:** MIT

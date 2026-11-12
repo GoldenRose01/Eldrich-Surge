@@ -147,22 +147,6 @@ public final class ProjectileEnchantmentMechanics {
         return elasticity > 0 ? (float) (velocity * (1.0D + 0.25D * elasticity)) : velocity;
     }
 
-    /** Refunds one projectile after a successful Replenish roll. */
-    public static void tryReplenish(ServerLevel level, ItemStack weapon, ItemStack shotAmmo, LivingEntity shooter) {
-        int enchantmentLevel = EnchantmentLevels.onItem(level, weapon, "replenish");
-        if (enchantmentLevel <= 0 || shotAmmo == null || shotAmmo.isEmpty() || shooter == null
-                || shotAmmo.has(net.minecraft.core.component.DataComponents.INTANGIBLE_PROJECTILE)
-                || level.getRandom().nextInt(100) >= Math.min(100, 33 * enchantmentLevel)) {
-            return;
-        }
-
-        ItemStack refunded = shotAmmo.copyWithCount(1);
-        if (shooter instanceof net.minecraft.world.entity.player.Player player
-                && !player.getInventory().add(refunded)) {
-            player.drop(refunded, false, net.minecraft.util.Prediction.PREDICTED);
-        }
-    }
-
     public static double sniperBonus(ServerLevel level, AbstractArrow arrow) {
         int sniper = projectileLevel(level, arrow, "sniper");
         Entity owner = arrow.getOwner();
@@ -177,13 +161,6 @@ public final class ProjectileEnchantmentMechanics {
         int nineleven = projectileLevel(level, arrow, "nineleven");
         String targetId = net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getPath();
         return nineleven > 0 && (targetId.equals("phantom") || targetId.equals("bat"));
-    }
-
-    public static void applyCurseOfTarget(ServerLevel level, AbstractArrow arrow, Entity target) {
-        int curseLevel = projectileLevel(level, arrow, "curse_of_target");
-        if (curseLevel > 0 && target instanceof net.minecraft.world.entity.LivingEntity living) {
-            living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 40 * curseLevel, 0));
-        }
     }
 
     public static void detonatePop(ServerLevel level, AbstractArrow arrow, double x, double y, double z) {

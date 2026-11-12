@@ -1,6 +1,7 @@
 package eldritch.surge.enchantment.mechanics;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
@@ -17,11 +18,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.saveddata.WeatherData;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
 public final class SpellCastMechanics {
@@ -170,16 +171,39 @@ public final class SpellCastMechanics {
             double distance = minRadius + Math.sqrt(level.getRandom().nextDouble()) * (radius - minRadius);
             int x = (int) Math.floor(origin.getX() + 0.5D + Math.cos(angle) * distance);
             int z = (int) Math.floor(origin.getZ() + 0.5D + Math.sin(angle) * distance);
-            BlockPos surface = level.getHeightmapPos(
-                    Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                    new BlockPos(x, origin.getY(), z)
-            );
+            BlockPos targetCol = new BlockPos(x, origin.getY(), z);
+            if (!level.hasChunkAt(targetCol)) {
+                continue;
+            }
+            BlockPos surface = null;
+            if (level.dimension() == Level.NETHER) {
+                int startY = Math.min(origin.getY() + 10, 120);
+                BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos(x, startY, z);
+                while (cursor.getY() > level.getMinY()) {
+                    BlockState bs = level.getBlockState(cursor);
+                    BlockState below = level.getBlockState(cursor.below());
+                    if (bs.isAir() && level.getBlockState(cursor.above()).isAir()
+                            && !below.isAir() && !below.is(Blocks.BEDROCK) && below.getFluidState().isEmpty()) {
+                        surface = cursor.immutable();
+                        break;
+                    }
+                    cursor.move(Direction.DOWN);
+                }
+                if (surface == null) continue;
+            } else {
+                surface = level.getHeightmapPos(
+                        Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                        targetCol
+                );
+            }
             BlockState floor = level.getBlockState(surface.below());
             if (level.getBlockState(surface).isAir()
                     && level.getBlockState(surface.above()).isAir()
                     && !floor.isAir()
+                    && !floor.is(Blocks.BEDROCK)
                     && floor.getFluidState().isEmpty()) {
-                boolean spaced = usedSites.stream().allMatch(used -> used.distSqr(surface) >= minSpacing * minSpacing);
+                final BlockPos targetPos = surface;
+                boolean spaced = usedSites.stream().allMatch(used -> used.distSqr(targetPos) >= minSpacing * minSpacing);
                 if (!spaced) continue;
                 usedSites.add(surface.immutable());
                 return new Vec3(surface.getX() + 0.5D, surface.getY(), surface.getZ() + 0.5D);

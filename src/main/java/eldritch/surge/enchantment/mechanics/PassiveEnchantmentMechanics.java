@@ -33,7 +33,6 @@ public final class PassiveEnchantmentMechanics {
     private static final Identifier ARMORED_ARMOR = Identifier.fromNamespaceAndPath("eldrich-surge", "armored_armor");
     private static final Identifier EXCAVATOR_BLOCK_RANGE = Identifier.fromNamespaceAndPath("eldrich-surge", "excavator_block_range");
     private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldrich-surge", "excavator_entity_range");
-    private static final Identifier SMITHCRAFTS_ARMOR = Identifier.fromNamespaceAndPath("eldrich-surge", "smithcrafts_armor");
     private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldrich-surge", "rabbit_foot_luck");
     private static final Identifier SWIFTNESS_SPEED = Identifier.fromNamespaceAndPath("eldrich-surge", "swiftness_speed");
     private static final Map<UUID, Set<UUID>> SEEKER_TARGETS = new HashMap<>();
@@ -53,10 +52,12 @@ public final class PassiveEnchantmentMechanics {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 applyPlayerPassives((ServerLevel) player.level(), player);
-                applyArmored(player);
-                applyExcavator(player);
-                applyOffhandAndLuckModifiers(player);
-                updateSeekerGlow((ServerLevel) player.level(), player);
+                if (player.tickCount % 5 == 0) {
+                    applyArmored(player);
+                    applyExcavator(player);
+                    applyOffhandAndLuckModifiers(player);
+                    updateSeekerGlow((ServerLevel) player.level(), player);
+                }
             }
         });
     }
@@ -135,6 +136,7 @@ public final class PassiveEnchantmentMechanics {
     }
 
     private static void applyInventoryAutomation(ServerLevel level, ServerPlayer player) {
+        List<ItemStack> vacuumShulkers = null;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             ItemStack shulker = player.getInventory().getItem(slot);
             if (!isShulker(shulker)) {
@@ -146,7 +148,17 @@ public final class PassiveEnchantmentMechanics {
             }
 
             if (EnchantmentLevels.onItem(level, shulker, "vacuum") > 0) {
-                vacuumNearbyItems(level, player, shulker);
+                if (vacuumShulkers == null) vacuumShulkers = new ArrayList<>();
+                vacuumShulkers.add(shulker);
+            }
+        }
+
+        if (vacuumShulkers != null && !vacuumShulkers.isEmpty()) {
+            List<ItemEntity> nearby = level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4.0D));
+            if (!nearby.isEmpty()) {
+                for (ItemStack shulker : vacuumShulkers) {
+                    vacuumNearbyItems(nearby, shulker);
+                }
             }
         }
     }
@@ -155,7 +167,7 @@ public final class PassiveEnchantmentMechanics {
         double level = player.getItemBySlot(EquipmentSlot.CHEST).is(Items.ELYTRA)
                 ? EnchantmentLevels.onArmorStrength(player.level(), player, "armored")
                 : 0;
-        updateModifierAmount(player, Attributes.ARMOR, ARMORED_ARMOR, level * 4.0D);
+        updateModifierAmount(player, Attributes.ARMOR, ARMORED_ARMOR, level * 2.0D);
     }
 
     private static void applyExcavator(ServerPlayer player) {
@@ -166,8 +178,6 @@ public final class PassiveEnchantmentMechanics {
     }
 
     private static void applyOffhandAndLuckModifiers(ServerPlayer player) {
-        double smithcrafts = EnchantmentLevels.onItemStrength(player.level(), player.getOffhandItem(), "smithcrafts");
-        updateModifier(player, Attributes.ARMOR, SMITHCRAFTS_ARMOR, smithcrafts * 2);
         double rabbitFoot = EnchantmentLevels.onArmorStrength(player.level(), player, "rabbit_foot");
         updateModifier(player, Attributes.LUCK, RABBIT_FOOT_LUCK, rabbitFoot);
     }
@@ -309,8 +319,7 @@ public final class PassiveEnchantmentMechanics {
         }
     }
 
-    private static void vacuumNearbyItems(ServerLevel level, ServerPlayer player, ItemStack shulker) {
-        List<ItemEntity> nearby = level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4.0D));
+    private static void vacuumNearbyItems(List<ItemEntity> nearby, ItemStack shulker) {
         if (nearby.isEmpty()) {
             return;
         }

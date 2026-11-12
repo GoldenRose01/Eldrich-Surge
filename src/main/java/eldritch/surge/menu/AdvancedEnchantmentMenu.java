@@ -54,7 +54,10 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
             addDataSlot(DataSlot.shared(maxima, i));
             addDataSlot(DataSlot.shared(existing, i));
         }
-        access.execute((world, pos) -> inputs.setItem(1, EnchantingReagentStorage.take(world, pos)));
+        access.execute((world, pos) -> {
+            inputs.setItem(1, EnchantingReagentStorage.take(world, pos));
+            refresh();
+        });
     }
 
     private static boolean isReagent(ItemStack stack) { return stack.is(Items.AMETHYST_SHARD) || stack.is(Items.ECHO_SHARD); }
@@ -105,8 +108,10 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
             state[4] = 0; state[5] = 0;
             for (int i = 0; i < state[0]; i++) if (ids[i] == state[2]) {
                 var enchantment = enchantment(offerId(i));
-                int cap = EnchantmentCapsConfig.resolveEnchantingTableCap(enchantment.unwrapKey().orElseThrow().identifier(), enchantment.value().getMaxLevel());
-                state[4] = AdvancedInfusingCosts.experience(state[3] - existing[i], cap);
+                Identifier enchId = enchantment.unwrapKey().orElseThrow().identifier();
+                int cap = EnchantmentCapsConfig.resolveEnchantingTableCap(enchId, enchantment.value().getMaxLevel());
+                String rarityClass = EnchantmentCapsConfig.resolveRarityClass(enchId);
+                state[4] = AdvancedInfusingCosts.experience(state[3] - existing[i], cap, rarityClass);
                 state[5] = AdvancedInfusingCosts.reagents(state[3] - existing[i], cap);
             }
         });
@@ -135,11 +140,6 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
         if (configuredCap < 1) return false;
         int cap = Math.min(255, hasRitual() ? configuredCap : 1);
         return enchants.getLevel(holder) < cap;
-    }
-
-    @Override public void broadcastChanges() {
-        if (!applying) refresh();
-        super.broadcastChanges();
     }
 
     @Override public boolean clickMenuButton(Player player, int button) {

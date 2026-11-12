@@ -19,9 +19,7 @@ Mantiene l'oggetto nell'inventario del giocatore dopo la morte anche se la gamer
 
 ## Effetto e utilizzo
 
-La definizione del progetto descrive questo effetto: Mantiene l'oggetto nell'inventario del giocatore dopo la morte anche se la gamerule keepInventory è impostata su false.
-
-Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
+L'incantesimo trattiene l'oggetto nell'inventario del giocatore anche alla morte con `keepInventory = false`. L'oggetto incantato con Soulbond non viene rilasciato a terra come drop e, al momento del respawn del giocatore, viene ripristinato esattamente nello stesso slot di origine dell'inventario.
 
 ## Ottenimento
 

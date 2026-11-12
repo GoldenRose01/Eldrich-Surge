@@ -19,7 +19,7 @@ Può rimborsare un proiettile dopo il tiro.
 
 ## Effetto e utilizzo
 
-La probabilità è `min(100, 33 × livello)%`: 33%, 66%, 99% ai primi tre livelli. I proiettili marcati `INTANGIBLE_PROJECTILE` sono esclusi. Il metodo corrente non limita il rimborso soltanto alle frecce con effetti; il rimborso va nell’inventario o cade a terra se pieno.
+Con una probabilità del 33% per livello (33%, 66%, 99% ai tre livelli), azzera il consumo della freccia speciale scoccata appartenente al tag `#eldrich-surge:special_arrows`, preservandola direttamente nell'inventario del tiratore. Rimosso qualsiasi doppio calcolo disallineato.
 
 ## Ottenimento
 
