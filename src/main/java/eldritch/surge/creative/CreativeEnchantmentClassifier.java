@@ -29,7 +29,7 @@ final class CreativeEnchantmentClassifier {
             return CreativeCategory.MELEE_WEAPONS;
         }
         if (containsAny(itemCategory, "tools")
-                || containsAny(supportedItems, "pickaxe", "pickaxes", "shovel", "shovels", "hoe", "hoes", "mining", "shears")) {
+                || containsAny(supportedItems, "axe", "axes", "pickaxe", "pickaxes", "shovel", "shovels", "hoe", "hoes", "mining", "shears")) {
             return CreativeCategory.TOOLS;
         }
         return CreativeCategory.EXTRA;

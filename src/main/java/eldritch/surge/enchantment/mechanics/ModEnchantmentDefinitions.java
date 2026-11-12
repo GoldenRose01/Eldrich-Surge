@@ -99,6 +99,7 @@ public final class ModEnchantmentDefinitions {
             SniperEnchantment.DEFINITION,
             TheftEnchantment.DEFINITION,
             DiggerEnchantment.DEFINITION,
+            LumberjackEnchantment.DEFINITION,
             ExcavatorEnchantment.DEFINITION,
             PruningEnchantment.DEFINITION,
             SickenedOfHellEnchantment.DEFINITION,

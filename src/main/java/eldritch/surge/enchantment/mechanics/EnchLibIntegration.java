@@ -144,6 +144,7 @@ public final class EnchLibIntegration {
             }
             addIncompatibility(defaults, "minecraft:sharpness", "eldrich-surge:katana");
             addIncompatibility(defaults, "minecraft:bane_of_arthropods", "eldrich-surge:creeping_threat");
+            addIncompatibility(defaults, "minecraft:impaling", "eldrich-surge:neptunes_will");
             addIncompatibility(defaults, "eldrich-surge:star_fate", "eldrich-surge:witch_hunter",
                     "eldrich-surge:creeping_threat", "eldrich-surge:flogging", "eldrich-surge:herbicide",
                     "eldrich-surge:smoother");
@@ -151,7 +152,7 @@ public final class EnchLibIntegration {
                     "eldrich-surge:undead_slayer", "eldrich-surge:bane_of_end", "eldrich-surge:exorcist",
                     "eldrich-surge:wrath_of_the_abyss");
             addIncompatibility(defaults, "eldrich-surge:gream_reaper", "eldrich-surge:star_fate",
-                    "eldrich-surge:blade_of_apocalypse", "eldrich-surge:katana");
+                    "eldrich-surge:blade_of_apocalypse", "eldrich-surge:katana", "eldrich-surge:neptunes_will");
             for (Map.Entry<String, java.util.Set<String>> entry : defaults.entrySet()) {
                 Object configured = getter.invoke(null, entry.getKey());
                 if (configured instanceof List<?> current && current.isEmpty()) {
@@ -180,7 +181,8 @@ public final class EnchLibIntegration {
                 if (separator <= 0 || trimmed.startsWith("#")) continue;
                 String id = trimmed.substring(0, separator).trim();
                 if (!id.startsWith("minecraft:")) continue;
-                boolean replaced = id.equals("minecraft:sharpness") || id.equals("minecraft:smite") || id.equals("minecraft:bane_of_arthropods");
+                boolean replaced = id.equals("minecraft:sharpness") || id.equals("minecraft:smite")
+                        || id.equals("minecraft:bane_of_arthropods") || id.equals("minecraft:impaling");
                 normal.put(id, !replaced);
                 advanced.put(id, false);
                 chances.put(id, 100);

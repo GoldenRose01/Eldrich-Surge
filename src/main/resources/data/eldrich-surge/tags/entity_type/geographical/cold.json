@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "minecraft:fox",
+      "required": false
+    },
+    {
+      "id": "minecraft:goat",
+      "required": false
+    },
+    {
+      "id": "minecraft:polar_bear",
+      "required": false
+    },
+    {
+      "id": "minecraft:rabbit",
+      "required": false
+    },
+    {
+      "id": "minecraft:snow_golem",
+      "required": false
+    },
+    {
+      "id": "minecraft:stray",
+      "required": false
+    },
+    {
+      "id": "minecraft:wolf",
+      "required": false
+    }
+  ]
+}

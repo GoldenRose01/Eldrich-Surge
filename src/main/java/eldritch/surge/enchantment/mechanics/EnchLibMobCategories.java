@@ -24,7 +24,15 @@ public final class EnchLibMobCategories {
             Map.entry("water", EldritchEntityTaxonomy.WATER),
             Map.entry("arthropods", EldritchEntityTaxonomy.ARTHROPODS),
             Map.entry("cubic", EldritchEntityTaxonomy.CUBIC),
-            Map.entry("flying", EldritchEntityTaxonomy.FLYING)
+            Map.entry("flying", EldritchEntityTaxonomy.FLYING),
+            Map.entry("surface", EldritchEntityTaxonomy.GEO_SURFACE),
+            Map.entry("underground", EldritchEntityTaxonomy.GEO_UNDERGROUND),
+            Map.entry("aquatic", EldritchEntityTaxonomy.GEO_AQUATIC),
+            Map.entry("aerial", EldritchEntityTaxonomy.GEO_AERIAL),
+            Map.entry("nether", EldritchEntityTaxonomy.GEO_NETHER),
+            Map.entry("end", EldritchEntityTaxonomy.GEO_END),
+            Map.entry("arid", EldritchEntityTaxonomy.GEO_ARID),
+            Map.entry("cold", EldritchEntityTaxonomy.GEO_COLD)
     );
 
     private static final Method ENCHLIB_HAS_CATEGORY = findApiMethod();

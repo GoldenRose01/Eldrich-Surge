@@ -4,22 +4,23 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Aggiunge 5 danni per livello al tridente in mischia e al lancio.
+Aggiunge +2.5 danni per livello al tridente in mischia (come attributo nativo d'attacco) e al lancio, sostituendo Impalamento (Impaling).
 
 | Proprietà | Valore predefinito |
 | --- | --- |
 | Identificatore | `eldrich-surge:neptunes_will` |
-| Livello massimo | 3 |
+| Livello massimo | 5 |
 | Classe dichiarata | Legendary |
 | Oggetti — regola configuratore | `#minecraft:enchantable/trident` |
 | Oggetti — datapack | `#minecraft:enchantable/trident` |
 | Slot dichiarati | `hand` |
-| Peso nel datapack | 1 |
-| Gruppo esclusivo dichiarato | — |
+| Peso nel datapack | 2 |
+| Gruppo esclusivo dichiarato | `#eldrich-surge:additional_damage` |
 
 ## Effetto e utilizzo
 
-Ai livelli I/II/III aggiunge **5 / 10 / 15 punti danno**. Il tridente lanciato usa il livello salvato sul proiettile: cambiare arma dopo il lancio non lo altera e un secondo tridente impugnato non raddoppia il bonus del proiettile. In mischia resta valido il bonus alle altre armi quando un tridente incantato è nella mano secondaria.
+Sostituisce completamente l'incantesimo vanilla **Impalamento** (*Impaling*), estendendo il bonus di danno a qualsiasi bersaglio (non solo acquatico).
+Ai livelli I/II/III/IV/V conferisce **+2.5 / +5.0 / +7.5 / +10.0 / +12.5 punti danno d'attacco**. Il bonus opera in mischia tramite l'attributo nativo dell'arma (come Katana) e viene trasferito al proiettile quando il tridente viene lanciato.
 
 ## Ottenimento
 
@@ -29,7 +30,7 @@ Le impostazioni di disponibilità, rarità e compatibilità del mondo possono re
 
 ## Compatibilità
 
-Nessun altro incantamento risolto da un gruppo esclusivo in questa definizione. Restano applicabili le regole degli oggetti e le incompatibilità impostate nel mondo.
+Appartiene al gruppo esclusivo `#eldrich-surge:additional_damage` ed è incompatibile con Impaling, Katana, Gream Reaper e gli altri incantamenti di danno addizionale.
 
 Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.
 
@@ -40,15 +41,37 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ```json
 {
-  "min_cost": {
-    "base": 20,
-    "per_level_above_first": 7
+  "anvil_cost": 5,
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "eldrich-surge:logarithmic_level",
+          "base": 2.5,
+          "per_level_above_first": 2.5,
+          "max_level": 5
+        },
+        "attribute": "minecraft:attack_damage",
+        "id": "eldrich-surge:neptunes_will",
+        "operation": "add_value"
+      }
+    ]
   },
+  "exclusive_set": "#eldrich-surge:additional_damage",
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10
   },
-  "anvil_cost": 2
+  "max_level": 5,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 7
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#minecraft:enchantable/trident",
+  "weight": 2
 }
 ```
 

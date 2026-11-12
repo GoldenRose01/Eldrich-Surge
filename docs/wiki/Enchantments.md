@@ -1,6 +1,6 @@
 # 📖 Catalogo degli incantamenti
 
-**118 incantamenti · valori del sorgente corrente · Minecraft 26.3**
+**119 incantamenti · valori del sorgente corrente · Minecraft 26.3 / 26.4 Snapshot 8**
 
 [Home](Home) · [Per oggetto](Per-oggetto) · [Compatibilità](Compatibilita) · [Ottenimento](Ottenimento)
 
@@ -15,7 +15,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 - [Combattimento](#combattimento) — 51
 - [Rituali](#rituali) — 5
 - [Durabilità](#durabilita) — 8
-- [Scavo e strumenti](#scavo-e-strumenti) — 4
+- [Scavo e strumenti](#scavo-e-strumenti) — 5
 - [Inventario](#inventario) — 3
 
 <a name="tiro-e-proiettili"></a>
@@ -172,6 +172,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | --- | --- | --- | --- | --- |
 | [Digger](Incantamento-digger) | Rompe un piano di blocchi 3×3 attorno al blocco estratto. | 1 | Rare | Normal, Advanced |
 | [Excavator](Incantamento-excavator) | Aumenta la portata di interazione con blocchi ed entità. | 3 | Rare | Advanced |
+| [Lumberjack](Incantamento-lumberjack) | Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idonea. | 1 | Rare | Normal, Advanced |
 | [Pruning](Incantamento-pruning) | Distrugge istantaneamente (Instamine) blocchi di foglie, erba e altri blocchi delicati gestiti dalle cesoie. | 1 | Uncommon | Normal |
 | [Smelting](Incantamento-smelting) | Sostituisce determinati blocchi con drop trasformati. | 1 | Legendary | Advanced |
 

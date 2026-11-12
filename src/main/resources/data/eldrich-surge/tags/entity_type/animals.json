@@ -14,6 +14,10 @@
       "required": false
     },
     {
+      "id": "minecraft:bat",
+      "required": false
+    },
+    {
       "id": "minecraft:bee",
       "required": false
     },
@@ -27,6 +31,10 @@
     },
     {
       "id": "minecraft:chicken",
+      "required": false
+    },
+    {
+      "id": "minecraft:cod",
       "required": false
     },
     {
@@ -58,15 +66,15 @@
       "required": false
     },
     {
-      "id": "minecraft:happy_ghast",
-      "required": false
-    },
-    {
       "id": "minecraft:glow_squid",
       "required": false
     },
     {
       "id": "minecraft:goat",
+      "required": false
+    },
+    {
+      "id": "minecraft:happy_ghast",
       "required": false
     },
     {
@@ -90,11 +98,19 @@
       "required": false
     },
     {
+      "id": "minecraft:nautilus",
+      "required": false
+    },
+    {
       "id": "minecraft:ocelot",
       "required": false
     },
     {
       "id": "minecraft:panda",
+      "required": false
+    },
+    {
+      "id": "minecraft:parrot",
       "required": false
     },
     {
@@ -123,6 +139,10 @@
     },
     {
       "id": "minecraft:sniffer",
+      "required": false
+    },
+    {
+      "id": "minecraft:squid",
       "required": false
     },
     {

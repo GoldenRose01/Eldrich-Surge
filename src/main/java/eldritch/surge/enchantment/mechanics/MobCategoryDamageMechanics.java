@@ -14,26 +14,20 @@ import java.util.stream.Collectors;
 
 /** Damage rules driven by EnchLib's editable world mob categories. */
 public final class MobCategoryDamageMechanics {
-    private static final float BLADE_DAMAGE_PER_LEVEL_PER_CATEGORY = 2.0F;
+    private static final float COMPOSITE_DAMAGE_PER_LEVEL_PER_CATEGORY = 2.5F;
     private static final List<CategoryBonus> INDIVIDUAL_ENCHANTMENTS = List.of(
             new CategoryBonus("bane_of_end", "void", 2.5F),
             new CategoryBonus("undead_slayer", "undead", 2.5F),
             new CategoryBonus("exorcist", "hell", 2.5F),
             new CategoryBonus("butcher", "animals", 2.5F),
-            new CategoryBonus("herbicide", "fungi", 3.0F),
+            new CategoryBonus("herbicide", "fungi", 2.5F),
             new CategoryBonus("witch_hunter", "magik", 2.5F),
-            new CategoryBonus("wrath_of_the_abyss", "water", 3.0F),
+            new CategoryBonus("wrath_of_the_abyss", "water", 2.5F),
             new CategoryBonus("creeping_threat", "arthropods", 2.5F),
-            new CategoryBonus("smoother", "cubic", 3.0F),
+            new CategoryBonus("smoother", "cubic", 2.5F),
             new CategoryBonus("flogging", "rebel", 2.5F)
     );
-    private static final List<CategoryBonus> STAR_FATE_CATEGORIES = List.of(
-            new CategoryBonus("star_fate", "magik", 2.5F),
-            new CategoryBonus("star_fate", "arthropods", 2.75F),
-            new CategoryBonus("star_fate", "rebel", 2.5F),
-            new CategoryBonus("star_fate", "fungi", 2.5F),
-            new CategoryBonus("star_fate", "cubic", 2.5F)
-    );
+    private static final List<String> STAR_FATE_CATEGORIES = List.of("magik", "arthropods", "rebel", "fungi", "cubic");
     private static final List<String> BLADE_CATEGORIES = List.of("animals", "undead", "void", "hell", "water");
     private static final Set<String> CATEGORY_COMPONENTS = INDIVIDUAL_ENCHANTMENTS.stream()
             .map(rule -> EldritchSurge.id(rule.enchantmentId()).toString())
@@ -44,12 +38,21 @@ public final class MobCategoryDamageMechanics {
 
     public static float bonusForHit(ServerLevel world, ItemStack weapon, LivingEntity victim) {
         float bonus = sumBonuses(world, weapon, victim, INDIVIDUAL_ENCHANTMENTS);
-        return bonus + sumBonuses(world, weapon, victim, STAR_FATE_CATEGORIES);
+        int starFateLevel = EnchantmentLevels.onItem(world, weapon, "star_fate");
+        if (starFateLevel > 0) {
+            bonus += starFateBonus(world, victim, starFateLevel);
+        }
+        return bonus;
+    }
+
+    public static float starFateBonus(ServerLevel world, LivingEntity victim, int level) {
+        return EnchLibMobCategories.count(world, victim, STAR_FATE_CATEGORIES)
+                * level * COMPOSITE_DAMAGE_PER_LEVEL_PER_CATEGORY;
     }
 
     public static float bladeOfApocalypseBonus(ServerLevel world, LivingEntity victim, int level) {
         return EnchLibMobCategories.count(world, victim, BLADE_CATEGORIES)
-                * level * BLADE_DAMAGE_PER_LEVEL_PER_CATEGORY;
+                * level * COMPOSITE_DAMAGE_PER_LEVEL_PER_CATEGORY;
     }
 
     public static boolean isCategoryComponent(String enchantmentId) {
@@ -70,8 +73,7 @@ public final class MobCategoryDamageMechanics {
         for (CategoryBonus bonus : INDIVIDUAL_ENCHANTMENTS) {
             categories.put(EldritchSurge.id(bonus.enchantmentId()).toString(), List.of(bonus.category()));
         }
-        categories.put("eldrich-surge:star_fate", STAR_FATE_CATEGORIES.stream()
-                .map(CategoryBonus::category).distinct().toList());
+        categories.put("eldrich-surge:star_fate", STAR_FATE_CATEGORIES);
         categories.put("eldrich-surge:blade_of_apocalypse", BLADE_CATEGORIES);
         return Map.copyOf(categories);
     }

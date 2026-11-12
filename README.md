@@ -4,11 +4,11 @@
 
 **A Fabric enchantment overhaul for Minecraft 26.3 & 26.4 Snapshot 8**
 
-Eldritch Surge expands enchantment progression and combat with **118 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes, persistent table reagent storage, and world-specific configuration.
+Eldritch Surge expands enchantment progression and combat with **119 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes, persistent table reagent storage, and world-specific configuration.
 
 ## Features
 
-- 118 custom enchantments with defined levels, item categories, acquisition routes and rarity classes.
+- 119 custom enchantments with defined levels, item categories, acquisition routes and rarity classes.
 - Enchantment effects for combat, mining, armor, movement, loot, curses, blessings and spell casting.
 - An Advanced Enchanting Table with separate progression, persistent reagent storage (safely dropped upon block break), XP costs scaling by rarity class, and a required block formation for higher tiers.
 - Spell Books as a distinct item type for cast-spell enchantments.

@@ -1,6 +1,6 @@
 # Categorie degli incantamenti per effetto
 
-Tutti i 118 incantamenti appartengono ad almeno una categoria; gli effetti misti possono appartenere a più gruppi.
+Tutti i 119 incantamenti appartengono ad almeno una categoria; gli effetti misti possono appartenere a più gruppi.
 
 I tag hanno il formato `#eldrich-surge:category/damage`. Sono gruppi descrittivi: non sono usati come `exclusive_set` e non impongono incompatibilità. I set preesistenti (`protection`, `flakes`, `forged`, ecc.) mantengono le proprie regole.
 
@@ -44,7 +44,7 @@ Il menu Categories di EnchLib attualmente configura gli oggetti compatibili (`en
 
 ## mining
 
-`digger`, `excavator`, `pruning`, `smelting`, `trench_spell`.
+`digger`, `excavator`, `lumberjack`, `pruning`, `smelting`, `trench_spell`.
 
 ## movement
 

@@ -18,6 +18,8 @@ val fabricApiVersions = mapOf(
 	"26.1" to "0.145.1+26.1",
 	"26.2" to "0.154.0+26.2",
 	"26.3" to "0.161.0+26.3",
+	"26.4" to "0.166.2+26.4",
+	"26.4-snapshot-8" to "0.166.2+26.4",
 )
 val configuredFabricApiVersion = providers.gradleProperty("fabric_api_version").get()
 val fabricApiVersion = fabricApiVersions[minecraftVersion]

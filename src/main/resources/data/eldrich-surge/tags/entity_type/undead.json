@@ -6,11 +6,23 @@
       "required": false
     },
     {
+      "id": "minecraft:camel_husk",
+      "required": false
+    },
+    {
       "id": "minecraft:drowned",
       "required": false
     },
     {
+      "id": "minecraft:giant",
+      "required": false
+    },
+    {
       "id": "minecraft:husk",
+      "required": false
+    },
+    {
+      "id": "minecraft:parched",
       "required": false
     },
     {
@@ -54,11 +66,15 @@
       "required": false
     },
     {
-      "id": "minecraft:zombified_piglin",
+      "id": "minecraft:zombie_nautilus",
       "required": false
     },
     {
       "id": "minecraft:zombie_villager",
+      "required": false
+    },
+    {
+      "id": "minecraft:zombified_piglin",
       "required": false
     }
   ]

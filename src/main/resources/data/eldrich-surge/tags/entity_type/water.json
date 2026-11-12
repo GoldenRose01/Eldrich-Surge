@@ -30,6 +30,10 @@
       "required": false
     },
     {
+      "id": "minecraft:nautilus",
+      "required": false
+    },
+    {
       "id": "minecraft:pufferfish",
       "required": false
     },
@@ -51,6 +55,10 @@
     },
     {
       "id": "minecraft:turtle",
+      "required": false
+    },
+    {
+      "id": "minecraft:zombie_nautilus",
       "required": false
     }
   ]

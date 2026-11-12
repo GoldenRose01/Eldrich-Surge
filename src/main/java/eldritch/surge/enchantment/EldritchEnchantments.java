@@ -13,6 +13,7 @@ public final class EldritchEnchantments {
     public static final ResourceKey<Enchantment> UNDEAD_SLAYER = of("undead_slayer");
     public static final ResourceKey<Enchantment> BLADE_OF_APOCALYPSE = of("blade_of_apocalypse");
     public static final ResourceKey<Enchantment> DIGGER = of("digger");
+    public static final ResourceKey<Enchantment> LUMBERJACK = of("lumberjack");
     public static final List<ResourceKey<Enchantment>> ALL = ModEnchantmentDefinitions.ALL.stream()
             .map(definition -> of(definition.id()))
             .toList();

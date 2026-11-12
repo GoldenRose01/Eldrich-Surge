@@ -1,13 +1,29 @@
 {
-  "anvil_cost": 2,
+  "anvil_cost": 5,
   "description": {
     "translate": "enchantment.eldrich-surge.neptunes_will"
   },
+  "effects": {
+    "minecraft:attributes": [
+      {
+        "amount": {
+          "type": "eldrich-surge:logarithmic_level",
+          "base": 2.5,
+          "per_level_above_first": 2.5,
+          "max_level": 5
+        },
+        "attribute": "minecraft:attack_damage",
+        "id": "eldrich-surge:neptunes_will",
+        "operation": "add_value"
+      }
+    ]
+  },
+  "exclusive_set": "#eldrich-surge:additional_damage",
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10
   },
-  "max_level": 3,
+  "max_level": 5,
   "min_cost": {
     "base": 20,
     "per_level_above_first": 7
@@ -16,5 +32,5 @@
     "hand"
   ],
   "supported_items": "#minecraft:enchantable/trident",
-  "weight": 1
+  "weight": 2
 }

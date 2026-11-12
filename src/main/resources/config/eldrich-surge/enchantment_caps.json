@@ -1296,8 +1296,8 @@
                                                        },
                          "eldrich-surge:neptunes_will":  {
                                                              "enabled":  true,
-                                                             "anvilMaxLevel":  3,
-                                                             "enchantingTableMaxLevel":  3,
+                                                             "anvilMaxLevel":  5,
+                                                             "enchantingTableMaxLevel":  5,
                                                              "normalTable":  false,
                                                              "advancedTable":  true,
                                                              "loot":  false,
@@ -2200,5 +2200,23 @@
 
                                                                                                ]
                                                               }
-                     }
+                     },
+    "eldrich-surge:lumberjack":  {
+                                     "enabled":  true,
+                                     "anvilMaxLevel":  1,
+                                     "enchantingTableMaxLevel":  1,
+                                     "normalTable":  true,
+                                     "advancedTable":  true,
+                                     "loot":  false,
+                                     "rarity":  50,
+                                     "rarityClass":  "rare",
+                                     "normalTableChance":  50,
+                                     "advancedTableChance":  50,
+                                     "supportedItems":  [
+                                                            "#eldrich-surge:enchantable/lumberjack"
+                                                        ],
+                                     "incompatibleEnchantments":  [
+
+                                                                  ]
+                                 }
 }

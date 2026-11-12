@@ -23,6 +23,28 @@ object EldritchEntityTaxonomy {
     @JvmField val CUBIC: TagKey<EntityType<*>> = tag("cubic")
     @JvmField val FLYING: TagKey<EntityType<*>> = tag("flying")
 
+    // Geographical / Habitat Taxonomy Tags
+    @JvmField val GEO_SURFACE: TagKey<EntityType<*>> = tag("geographical/surface")
+    @JvmField val GEO_UNDERGROUND: TagKey<EntityType<*>> = tag("geographical/underground")
+    @JvmField val GEO_AQUATIC: TagKey<EntityType<*>> = tag("geographical/aquatic")
+    @JvmField val GEO_AERIAL: TagKey<EntityType<*>> = tag("geographical/aerial")
+    @JvmField val GEO_NETHER: TagKey<EntityType<*>> = tag("geographical/nether")
+    @JvmField val GEO_END: TagKey<EntityType<*>> = tag("geographical/end")
+    @JvmField val GEO_ARID: TagKey<EntityType<*>> = tag("geographical/arid")
+    @JvmField val GEO_COLD: TagKey<EntityType<*>> = tag("geographical/cold")
+
+    @JvmField
+    val GEOGRAPHICAL: List<TagKey<EntityType<*>>> = listOf(
+        GEO_SURFACE,
+        GEO_UNDERGROUND,
+        GEO_AQUATIC,
+        GEO_AERIAL,
+        GEO_NETHER,
+        GEO_END,
+        GEO_ARID,
+        GEO_COLD,
+    )
+
     @JvmField
     val ALL: List<TagKey<EntityType<*>>> = listOf(
         TAMEABLE,
@@ -40,6 +62,14 @@ object EldritchEntityTaxonomy {
         ARTHROPODS,
         CUBIC,
         FLYING,
+        GEO_SURFACE,
+        GEO_UNDERGROUND,
+        GEO_AQUATIC,
+        GEO_AERIAL,
+        GEO_NETHER,
+        GEO_END,
+        GEO_ARID,
+        GEO_COLD,
     )
 
     @JvmField

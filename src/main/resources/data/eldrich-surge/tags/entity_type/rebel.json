@@ -10,6 +10,10 @@
       "required": false
     },
     {
+      "id": "minecraft:piglin_brute",
+      "required": false
+    },
+    {
       "id": "minecraft:pillager",
       "required": false
     },
@@ -27,6 +31,10 @@
     },
     {
       "id": "minecraft:warden",
+      "required": false
+    },
+    {
+      "id": "minecraft:witch",
       "required": false
     }
   ]

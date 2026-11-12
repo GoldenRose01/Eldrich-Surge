@@ -26,6 +26,10 @@
       "required": false
     },
     {
+      "id": "minecraft:ghast",
+      "required": false
+    },
+    {
       "id": "minecraft:ghastling",
       "required": false
     },
@@ -34,15 +38,11 @@
       "required": false
     },
     {
-      "id": "minecraft:ghast",
+      "id": "minecraft:parrot",
       "required": false
     },
     {
       "id": "minecraft:phantom",
-      "required": false
-    },
-    {
-      "id": "minecraft:parrot",
       "required": false
     },
     {

@@ -6,10 +6,6 @@
       "required": false
     },
     {
-      "id": "minecraft:bat",
-      "required": false
-    },
-    {
       "id": "minecraft:blaze",
       "required": false
     },
@@ -19,6 +15,10 @@
     },
     {
       "id": "minecraft:copper_golem",
+      "required": false
+    },
+    {
+      "id": "minecraft:creaking",
       "required": false
     },
     {
@@ -38,11 +38,11 @@
       "required": false
     },
     {
-      "id": "minecraft:happy_ghast",
+      "id": "minecraft:glow_squid",
       "required": false
     },
     {
-      "id": "minecraft:glow_squid",
+      "id": "minecraft:happy_ghast",
       "required": false
     },
     {
@@ -50,15 +50,23 @@
       "required": false
     },
     {
-      "id": "minecraft:skeleton_horse",
-      "required": false
-    },
-    {
       "id": "minecraft:shulker",
       "required": false
     },
     {
+      "id": "minecraft:skeleton_horse",
+      "required": false
+    },
+    {
+      "id": "minecraft:sulfur_cube",
+      "required": false
+    },
+    {
       "id": "minecraft:vex",
+      "required": false
+    },
+    {
+      "id": "minecraft:wandering_trader",
       "required": false
     },
     {

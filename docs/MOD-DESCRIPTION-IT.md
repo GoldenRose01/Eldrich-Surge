@@ -1,14 +1,14 @@
 # Eldritch Surge
 
-**Espandi la progressione dei tuoi incantesimi con 118 incantamenti personalizzati, incantamento avanzato, Libri degli Incantesimi e regole di mondo configurabili.**
+**Espandi la progressione dei tuoi incantesimi con 119 incantamenti personalizzati, incantamento avanzato, Libri degli Incantesimi e regole di mondo configurabili.**
 
 Eldritch Surge è una mod Fabric per Minecraft 26.3 e 26.4 Snapshot 8 che rivoluziona il modo in cui potenzi il tuo equipaggiamento. Scopri nuove opzioni per armi, armature, strumenti, archi, balestre, scudi e molto altro, con effetti dedicati a combattimento, esplorazione, estrazione, mobilità, sopravvivenza e lancio di incantesimi.
 
-## 118 incantamenti personalizzati
+## 119 incantamenti personalizzati
 
 Esplora una vasta collezione di incantesimi che include abilità offensive, potenziamenti difensivi, benedizioni ambientali, maledizioni, effetti di utilità e rituali. Ciascun incantesimo ha limiti di livello definiti, categorie di oggetti compatibili e regole di ottenimento predefinite.
 
-Costruisci build incentrate su incantesimi per armi come Katana, Freeze Aspect e Leeching Aspect; sfrutta opzioni per armatura e movimento come Health Upgrade, Rabbit Foot e Snowshoeing; oppure forgia strumenti specializzati con Digger, Excavator e Smelting.
+Costruisci build incentrate su incantesimi per armi come Katana, Freeze Aspect e Leeching Aspect; sfrutta opzioni per armatura e movimento come Health Upgrade, Rabbit Foot e Snowshoeing; oppure forgia strumenti specializzati con Digger, Excavator, Lumberjack e Smelting.
 
 La collezione comprende anche incantesimi per canne da pesca, tridenti, mazze, lance e shulker box.
 

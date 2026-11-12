@@ -8,6 +8,7 @@ public final class CreativeEnchantmentCategoryTest {
         expect("midas_touch", CreativeCategory.MELEE_WEAPONS);
         expect("void_sweep", CreativeCategory.MELEE_WEAPONS);
         expect("digger", CreativeCategory.TOOLS);
+        expect("lumberjack", CreativeCategory.TOOLS);
         expect("excavator", CreativeCategory.TOOLS);
         expect("smelting", CreativeCategory.TOOLS);
         expect("neptunes_will", CreativeCategory.RANGED_WEAPONS);

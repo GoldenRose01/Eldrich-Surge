@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     {
+      "id": "minecraft:allay",
+      "required": false
+    },
+    {
       "id": "minecraft:camel",
       "required": false
     },
@@ -23,6 +27,10 @@
     },
     {
       "id": "minecraft:horse",
+      "required": false
+    },
+    {
+      "id": "minecraft:llama",
       "required": false
     },
     {

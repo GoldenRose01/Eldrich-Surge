@@ -6,7 +6,7 @@ Incantamenti per combattimento, esplorazione e automazione dell’inventario. Tr
 
 | 📖 Trova un incantamento | 🔮 Impara le meccaniche | ⚙️ Gestisci il mondo |
 |---|---|---|
-| [Catalogo dei 118 incantamenti](Enchantments) | [Ottenimento](Ottenimento) | [Configurazione e permessi](Configuration) |
+| [Catalogo dei 119 incantamenti](Enchantments) | [Ottenimento](Ottenimento) | [Configurazione e permessi](Configuration) |
 | [Incantamenti per oggetto](Per-oggetto) | [Tavolo avanzato e formazione](Tavolo-avanzato) | [Comandi e gamerule](Comandi-e-gamerule) |
 | [Gruppi e compatibilità](Compatibilita) | [Fusioni all’incudine](Incudine) | [Integrazione EnchLib](Integrazione-EnchLib) |
 | [Incantamenti vanilla](Vanilla) | [Libri magici e rituali](Rituali) | [Fonti e limiti](Fonti) |

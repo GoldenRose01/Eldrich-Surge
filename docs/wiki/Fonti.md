@@ -2,11 +2,11 @@
 
 [Home](Home) · [Catalogo](Enchantments)
 
-Questa wiki documenta Eldrich Surge **1.7.1**, con JAR per **Minecraft 26.3 e 26.4 Snapshot 7**. Documentazione aggiornata il **10 novembre 2026**. I risultati di compilazione e controllo riportati si riferiscono ai JAR preparati il 7 novembre; non equivalgono a prove in gioco.
+Questa wiki documenta Eldrich Surge **1.8.0**, con JAR per **Minecraft 26.3 e 26.4 Snapshot 8**.
 
 ## Origine delle informazioni
 
-- Catalogo registrato: `ModEnchantmentDefinitions.ALL` — 118 voci.
+- Catalogo registrato: `ModEnchantmentDefinitions.ALL` — 119 voci.
 - Livelli, slot, peso e componenti dati: JSON sotto `data/eldrich-surge/enchantment`.
 - Regole configurabili degli oggetti e descrizioni: classi sotto `enchantment/ench`.
 - Effetti personalizzati: meccaniche, calcolatore dei danni e mixin.

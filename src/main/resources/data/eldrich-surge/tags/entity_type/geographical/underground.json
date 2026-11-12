@@ -1,0 +1,41 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "minecraft:bat",
+      "required": false
+    },
+    {
+      "id": "minecraft:breeze",
+      "required": false
+    },
+    {
+      "id": "minecraft:cave_spider",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_golem",
+      "required": false
+    },
+    {
+      "id": "minecraft:glow_squid",
+      "required": false
+    },
+    {
+      "id": "minecraft:silverfish",
+      "required": false
+    },
+    {
+      "id": "minecraft:slime",
+      "required": false
+    },
+    {
+      "id": "minecraft:sulfur_cube",
+      "required": false
+    },
+    {
+      "id": "minecraft:warden",
+      "required": false
+    }
+  ]
+}

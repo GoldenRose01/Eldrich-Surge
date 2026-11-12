@@ -51,16 +51,6 @@ public final class AdditionalDamageCalculator {
         float finalDamage = damage;
         ItemStack weapon = livingAttacker.getMainHandItem();
         ItemStack offhand = livingAttacker.getOffhandItem();
-        // Thrown tridents carry their own enchantments. Their bonus is applied at
-        // impact, independently of whatever the owner equips after throwing.
-        if (source == null || !source.is(DamageTypeTags.IS_PROJECTILE)) {
-            int neptuneLevel = weapon.is(Items.TRIDENT)
-                    ? EnchantmentLevels.onItem(world, weapon, "neptunes_will") : 0;
-            if (offhand.is(Items.TRIDENT)) {
-                neptuneLevel += EnchantmentLevels.onItem(world, offhand, "neptunes_will");
-            }
-            finalDamage += eldritch.surge.enchantment.ench.NeptunesWillEnchantment.bonusDamage(neptuneLevel);
-        }
         int dash = EnchantmentLevels.onItem(world, weapon, "dash");
         if (dash > 0 && ItemStack.isSameItemSameComponents(weapon, offhand)
                 && EnchantmentLevels.onItem(world, offhand, "dash") > 0) {
@@ -309,7 +299,7 @@ public final class AdditionalDamageCalculator {
     }
 
     static float greamReaperBonus(int level) {
-        return Math.max(0, level) * 2.5F;
+        return Math.max(0, level) * 3.0F;
     }
 
     private static boolean isCriticalLike(Player player) {

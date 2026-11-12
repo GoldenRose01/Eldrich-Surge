@@ -50,11 +50,11 @@
       "required": false
     },
     {
-      "id": "minecraft:happy_ghast",
+      "id": "minecraft:goat",
       "required": false
     },
     {
-      "id": "minecraft:goat",
+      "id": "minecraft:happy_ghast",
       "required": false
     },
     {

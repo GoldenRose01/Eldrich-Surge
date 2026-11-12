@@ -12,7 +12,7 @@ Il datapack dichiara `exclusive_set`; le impostazioni del mondo aggiungono regol
 
 ## Categorie per effetto (1.7.1)
 
-I tag `eldrich-surge:category/` raggruppano i 118 incantesimi per effetto: combat, curse, damage, durability, elemental, experience, fishing, healing, loot, mining, movement, protection, ranged, special e utility. Sono gruppi descrittivi per datapack e integrazioni: non sono exclusive_set e non aggiungono incompatibilità né filtri automatici in EnchLib.
+I tag `eldrich-surge:category/` raggruppano i 119 incantesimi per effetto: combat, curse, damage, durability, elemental, experience, fishing, healing, loot, mining, movement, protection, ranged, special e utility. Sono gruppi descrittivi per datapack e integrazioni: non sono exclusive_set e non aggiungono incompatibilità né filtri automatici in EnchLib.
 
 Fragility, Perish, Spider, Target e The Forest sono inoltre incluse nel tag minecraft:curse dalla 1.7.1.
 

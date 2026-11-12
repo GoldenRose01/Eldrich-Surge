@@ -1,14 +1,14 @@
 # Eldritch Surge
 
-**Expand your enchantment progression with 118 custom enchantments, advanced enchanting, Spell Books and configurable world rules.**
+**Expand your enchantment progression with 119 custom enchantments, advanced enchanting, Spell Books and configurable world rules.**
 
 Eldritch Surge is a Fabric mod for Minecraft 26.3 & 26.4 Snapshot 8 that expands the way you build equipment and progress through enchantments. Discover new options for weapons, armor, tools, ranged equipment, shields and more, with effects spanning combat, exploration, mining, movement, survival and spell casting.
 
-## 118 custom enchantments
+## 119 custom enchantments
 
 Explore an enchantment collection that includes offensive abilities, defensive upgrades, environmental blessings, curses, utility effects and rituals. Each enchantment has its own level limits, supported equipment and default acquisition rules.
 
-Build around weapon enchantments such as Katana, Freeze Aspect and Leeching Aspect; explore armor and movement options such as Health Upgrade, Rabbit Foot and Snowshoeing; or develop specialized tools with enchantments such as Digger, Excavator and Smelting.
+Build around weapon enchantments such as Katana, Freeze Aspect and Leeching Aspect; explore armor and movement options such as Health Upgrade, Rabbit Foot and Snowshoeing; or develop specialized tools with enchantments such as Digger, Excavator, Lumberjack and Smelting.
 
 The collection also includes enchantments for bows and crossbows, shields, maces, spears and shulker boxes. Item compatibility varies by enchantment, so different equipment types support different combinations.
 

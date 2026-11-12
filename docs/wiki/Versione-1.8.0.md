@@ -2,10 +2,17 @@
 
 [Home](Home) · [Versione precedente](Versione-1.7.1) · [Tavolo avanzato](Tavolo-avanzato) · [Comandi e gamerule](Comandi-e-gamerule)
 
-**Minecraft 26.3 / 26.4 Snapshot 8 · Fabric · 118 incantesimi nel catalogo**
+**Minecraft 26.3 / 26.4 Snapshot 8 · Fabric · 119 incantesimi nel catalogo**
 
 ## Cosa cambia dalla 1.7.1
 
+- **Nuovo incantamento Lumberjack:** introdotto l'incantamento `eldrich-surge:lumberjack` per asce (pietra, ferro, oro, diamante, netherite), che permette di abbattere l'intero albero in un colpo mentre si è abbassati (sneak), integrato con il sistema di felling avanzato e mod compatibili.
+- **Tassonomia e Categorie Geografiche dei Mob:** Classificati tutti i 90 mob viventi di Minecraft (inclusi quelli dello snapshot 26.4: Creaking, Breeze, Bogged, Armadillo, Nautilus, Zombie Nautilus, Camel Husk, Parched, ecc.) e aggiunti i nuovi tag dedicati per livello geografico/habitat (`geographical/surface`, `geographical/underground`, `geographical/aquatic`, `geographical/aerial`, `geographical/nether`, `geographical/end`, `geographical/arid`, `geographical/cold`).
+- **Bilanciamento Danno di Categoria (+2.5 per livello):** Tutti i 10 incantesimi mirati a categorie tassonomiche (`butcher`, `undead_slayer`, `creeping_threat`, `witch_hunter`, `exorcist`, `bane_of_end`, `wrath_of_the_abyss`, `smoother`, `herbicide`, `flogging`) infliggono ora uniformemente **+2.5 di danno per livello**.
+- **Formula Incantesimi Compositi (Star Fate & Blade of Apocalypse):** Aggiornata la formula di calcolo per entrambi a **+2.5 × livello × numero di categorie soddisfatte dal bersaglio**.
+- **Gream Reaper (+3.0 per livello):** Danno universale aumentato da +2.5 a **+3.0 per livello** contro qualsiasi creatura senza restrizioni di categoria.
+- **Neptune's Will (Sostituzione di Impaling e Attributo Stile Katana):** Sostituisce ed elimina dal gioco l'incantesimo vanilla Impalamento (*Impaling*). Applica al tridente l'attributo nativo `minecraft:attack_damage` con scaling logaritmico da livello 1 a 5 (I–V), partendo da **+2.5 danni per livello** sia in mischia sia al lancio.
+- **Localizzazione Completa Duale (EN/IT):** Tutte le descrizioni e i tooltip dei 119 incantesimi tradotti e verificati in italiano e inglese.
 - **Soulbond e conservazione al respawn:** risolto il problema per cui con `keepInventory = false` gli oggetti con Soulbond venivano persi al respawn. Tramite `ServerPlayerRespawnMixin`, gli oggetti con Soulbond vengono mantenuti esattamente negli slot di origine dell'inventario al momento del respawn.
 - **Risoluzione doppie applicazioni (JSON + Java):**
   - `bane_of_end` e `undead_slayer`: rimossi gli effetti datapack ridondanti, lasciando la sola applicazione Java in `MobCategoryDamageMechanics` per garantire il corretto bonus per livello contro le rispettive categorie senza duplicazioni.

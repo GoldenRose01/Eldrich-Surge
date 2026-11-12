@@ -91,6 +91,7 @@ public final class EnchantmentBookTags {
         addIfSupported(supported, enchantment, Items.MACE, BookTag.MACE);
         addIfSupported(supported, enchantment, Items.WOODEN_SWORD, BookTag.MELEE_WEAPON);
         addIfSupported(supported, enchantment, Items.WOODEN_AXE, BookTag.MELEE_WEAPON);
+        addIfSupported(supported, enchantment, Items.DIAMOND_AXE, BookTag.MELEE_WEAPON);
         addIfSupported(supported, enchantment, Items.WOODEN_PICKAXE, BookTag.TOOL);
         addIfSupported(supported, enchantment, Items.WOODEN_SHOVEL, BookTag.TOOL);
         addIfSupported(supported, enchantment, Items.WOODEN_HOE, BookTag.FARMING);

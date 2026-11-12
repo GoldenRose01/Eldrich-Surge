@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "minecraft:armadillo",
+      "required": false
+    },
+    {
+      "id": "minecraft:camel",
+      "required": false
+    },
+    {
+      "id": "minecraft:camel_husk",
+      "required": false
+    },
+    {
+      "id": "minecraft:husk",
+      "required": false
+    },
+    {
+      "id": "minecraft:parched",
+      "required": false
+    },
+    {
+      "id": "minecraft:rabbit",
+      "required": false
+    }
+  ]
+}

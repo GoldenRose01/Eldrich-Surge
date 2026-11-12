@@ -6,6 +6,10 @@
       "required": false
     },
     {
+      "id": "minecraft:ghast",
+      "required": false
+    },
+    {
       "id": "minecraft:ghastling",
       "required": false
     },
@@ -14,15 +18,15 @@
       "required": false
     },
     {
-      "id": "minecraft:ghast",
-      "required": false
-    },
-    {
       "id": "minecraft:hoglin",
       "required": false
     },
     {
       "id": "minecraft:magma_cube",
+      "required": false
+    },
+    {
+      "id": "minecraft:parched",
       "required": false
     },
     {
@@ -35,6 +39,10 @@
     },
     {
       "id": "minecraft:strider",
+      "required": false
+    },
+    {
+      "id": "minecraft:wither",
       "required": false
     },
     {

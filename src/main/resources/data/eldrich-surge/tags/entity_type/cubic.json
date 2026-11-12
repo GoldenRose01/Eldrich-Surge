@@ -2,6 +2,26 @@
   "replace": false,
   "values": [
     {
+      "id": "minecraft:armadillo",
+      "required": false
+    },
+    {
+      "id": "minecraft:copper_golem",
+      "required": false
+    },
+    {
+      "id": "minecraft:creaking",
+      "required": false
+    },
+    {
+      "id": "minecraft:giant",
+      "required": false
+    },
+    {
+      "id": "minecraft:iron_golem",
+      "required": false
+    },
+    {
       "id": "minecraft:magma_cube",
       "required": false
     },
@@ -11,6 +31,10 @@
     },
     {
       "id": "minecraft:slime",
+      "required": false
+    },
+    {
+      "id": "minecraft:snow_golem",
       "required": false
     },
     {
