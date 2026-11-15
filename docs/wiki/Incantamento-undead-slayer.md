@@ -19,7 +19,7 @@ Aggiunge 2,5 danni per livello contro la categoria undead.
 
 ## Effetto e utilizzo
 
-Il bonus runtime è **2,5 × livello** contro i mob assegnati alla categoria `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldritch Surge. Il calcolo viene eseguito direttamente dalla logica Java runtime senza duplicazioni dal datapack.
+Il bonus runtime è **2,5 × livello** contro i mob assegnati a `undead`. Le categorie provengono da EnchLib, se disponibile, altrimenti dai tag di Eldrich Surge. La sostituzione delle offerte di Smite non significa che il danno sia raddoppiato rispetto a Smite.
 
 ## Ottenimento
 
@@ -29,7 +29,7 @@ Le impostazioni di disponibilità, rarità e compatibilità del mondo possono re
 
 ## Compatibilità
 
-L’`exclusive_set` del datapack include: [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst`.
+L’`exclusive_set` del datapack include: [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Neptune's Will](Incantamento-neptunes-will), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst`.
 
 Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.
 
@@ -40,23 +40,7 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ```json
 {
-  "effects": {
-    "minecraft:post_attack": [
-      {
-        "affected": "victim",
-        "effect": {
-          "type": "eldrich-surge:gamerule_damage",
-          "amount": {
-            "type": "minecraft:linear",
-            "base": 4.0,
-            "per_level_above_first": 4.0
-          },
-          "entity_type_tag": "eldrich-surge:undead"
-        },
-        "enchanted": "attacker"
-      }
-    ]
-  },
+  "effects": {},
   "min_cost": {
     "base": 14,
     "per_level_above_first": 9

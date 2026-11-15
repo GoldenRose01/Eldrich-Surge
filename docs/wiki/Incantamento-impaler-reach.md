@@ -44,7 +44,8 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
     "minecraft:attributes": [
       {
         "amount": {
-          "type": "minecraft:linear",
+          "type": "eldrich-surge:logarithmic_level",
+          "max_level": 3,
           "base": 1.0,
           "per_level_above_first": 1.0
         },
@@ -54,7 +55,8 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
       },
       {
         "amount": {
-          "type": "minecraft:linear",
+          "type": "eldrich-surge:logarithmic_level",
+          "max_level": 3,
           "base": 1.0,
           "per_level_above_first": 1.0
         },

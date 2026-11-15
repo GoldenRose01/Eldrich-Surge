@@ -1,29 +1,29 @@
 <img src="https://raw.githubusercontent.com/wiki/GoldenRose01/Eldrich-Surge/assets/diamond_chestplate.png" width="48" alt="Armatura e mobilità">
 
-# Step Assist
+# Magnetic
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Sale automaticamente un blocco; gli ostacoli superiori richiedono un salto.
+Attira gli oggetti a terra entro 8 blocchi verso il centro dell’Armor Stand.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
-| Identificatore | `eldrich-surge:step_assist` |
-| Livello massimo | 3 |
+| Identificatore | `eldrich-surge:magnetic` |
+| Livello massimo | 1 |
 | Classe dichiarata | Rare |
-| Oggetti — regola configuratore | `#minecraft:enchantable/foot_armor` |
-| Oggetti — datapack | `#minecraft:enchantable/foot_armor` |
-| Slot dichiarati | `feet` |
-| Peso nel datapack | 5 |
+| Oggetti — regola configuratore | `minecraft:armor_stand` |
+| Oggetti — datapack | `minecraft:armor_stand` |
+| Slot dichiarati | `any` |
+| Peso nel datapack | 4 |
 | Gruppo esclusivo dichiarato | — |
 
 ## Effetto e utilizzo
 
-A tutti i livelli, l’altezza del passo automatico è **1 blocco**. Per superare dislivelli maggiori devi premere Salto. Il salto normale permette circa 1,25 blocchi; al livello III si aggiunge **0,05** alla forza del salto, permettendo di superare un blocco con una lastra sopra (**1,5 blocchi**). Rimuovendo gli stivali scompaiono entrambi i bonus; eventuali modificatori di altre mod possono sommarsi.
+Applicabile agli Armor Stand; attrae gli `ItemEntity` nel raggio di 8 blocchi verso il centro dell’entità e conserva l’incantesimo quando l’Armor Stand viene rotto e riposizionato.
 
 ## Ottenimento
 
-Tavolo normale / Tavolo avanzato con ametista
+Tavolo normale
 
 Le impostazioni di disponibilità, rarità e compatibilità del mondo possono restringere le offerte. La voce «Loot» nei metadati non identifica da sola una struttura o una probabilità di generazione: vedi [Ottenimento](Ottenimento).
 
@@ -42,7 +42,7 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 {
   "effects": {},
   "min_cost": {
-    "base": 5,
+    "base": 10,
     "per_level_above_first": 7
   },
   "max_cost": {
@@ -57,12 +57,13 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ## Fonti del progetto
 
-- [Definizione Java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/ench/StepAssistEnchantment.java)
-- [Definizione datapack](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/enchantment/step_assist.json)
+- [Definizione Java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/ench/MagneticEnchantment.java)
+- [Definizione datapack](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/enchantment/magnetic.json)
 
 <details>
 <summary>Meccaniche che consultano questo ID</summary>
 
-- [SurvivalEnchantmentMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/SurvivalEnchantmentMechanics.java)
+- [ArmorStandItemMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/ArmorStandItemMixin.java)
+- [ArmorStandMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/ArmorStandMixin.java)
 
 </details>

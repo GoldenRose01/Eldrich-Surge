@@ -15,7 +15,7 @@ Durante un attacco dall'alto, attira lentamente i mob nel raggio di 5 blocchi ve
 | Oggetti — datapack | `#minecraft:enchantable/mace` |
 | Slot dichiarati | `hand` |
 | Peso nel datapack | 2 |
-| Gruppo esclusivo dichiarato | `#eldrich-surge:weapon_utility` |
+| Gruppo esclusivo dichiarato | `#eldrich-surge:weapon_utility`, `eldrich-surge:heavy_impact` |
 
 ## Effetto e utilizzo
 
@@ -31,7 +31,7 @@ Le impostazioni di disponibilità, rarità e compatibilità del mondo possono re
 
 ## Compatibilità
 
-L’`exclusive_set` del datapack include: [Impaler Reach](Incantamento-impaler-reach), [Seismic Wave](Incantamento-seismic-wave), [Vanguard Charge](Incantamento-vanguard-charge), `minecraft:sweeping_edge`.
+L’`exclusive_set` del datapack include: [Heavy Impact](Incantamento-heavy-impact), [Impaler Reach](Incantamento-impaler-reach), [Seismic Wave](Incantamento-seismic-wave), [Vanguard Charge](Incantamento-vanguard-charge), `minecraft:sweeping_edge`.
 
 Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.
 

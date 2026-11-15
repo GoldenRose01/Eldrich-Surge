@@ -1,6 +1,6 @@
 # 📖 Catalogo degli incantamenti
 
-**119 incantamenti · valori del sorgente corrente · Minecraft 26.3 / 26.4 Snapshot 8**
+**122 incantamenti · valori del sorgente corrente · Minecraft 26.3**
 
 [Home](Home) · [Per oggetto](Per-oggetto) · [Compatibilità](Compatibilita) · [Ottenimento](Ottenimento)
 
@@ -12,7 +12,7 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 
 - [Tiro e proiettili](#tiro-e-proiettili) — 9
 - [Armatura e mobilità](#armatura-e-mobilita) — 38
-- [Combattimento](#combattimento) — 51
+- [Combattimento](#combattimento) — 54
 - [Rituali](#rituali) — 5
 - [Durabilità](#durabilita) — 8
 - [Scavo e strumenti](#scavo-e-strumenti) — 5
@@ -64,8 +64,9 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Hell Blessing](Incantamento-hell-blessing) | Genera esperienza mentre sei nella lava o stai bruciando. | 5 | Legendary | Advanced |
 | [Hell Flakes](Incantamento-hell-flakes) | Quando il giocatore va a fuoco o subisce calore, rigenera livello punti di durabilità al secondo. | 3 | Ultra | Advanced |
 | [Hicker](Incantamento-hicker) | Conferisce Salto Potenziato mentre indossi l’armatura incantata. | 5 | Epic | Normal |
-| [Ice Speed](Incantamento-ice-speed) | Conferisce Velocità mentre sei a terra. | 5 | Epic | Normal |
+| [Ice Speed](Incantamento-ice-speed) | Aumenta la velocità di movimento su ghiaccio, neve e blocchi freddi. | 5 | Epic | Normal |
 | [Kinetic Protection](Incantamento-kinetic-protection) | Aggiunge armatura in volo e riduce i danni da impatto con le elitre. | 5 | Rare | Advanced |
+| [Magnetic](Incantamento-magnetic) | Attira gli oggetti a terra entro 8 blocchi verso il centro dell’Armor Stand. | 1 | Rare | Normal |
 | [Nether Forged](Incantamento-nether-forged) | Può evitare il consumo di durabilità nel Nether. | 5 | Ultra | Advanced |
 | [Rabbit Foot](Incantamento-rabbit-foot) | Aumenta la fortuna dell'utilizzatore di 1 punto per livello. | 5 | Ultra | Advanced |
 | [Sea Flakes](Incantamento-sea-flakes) | Rigenera 1 punto di durabilità ogni 4/livello minuti quando ci si trova sotto la pioggia o immersi in acqua. | 3 | Ultra | Advanced |
@@ -73,7 +74,6 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Snowshoeing](Incantamento-snowshoeing) | Permette al giocatore di camminare sopra la neve polverosa senza sprofondare e senza subire congelamento. | 1 | Legendary | Advanced |
 | [Soft Falling](Incantamento-soft-falling) | Premere Salto in aria attiva Caduta Lenta; gli stivali prevengono il danno da caduta. | 1 | Unique | Advanced |
 | [Soil Falling](Incantamento-soil-falling) | Impedisce la distruzione dei blocchi di terreno zappato (farmland/crops) quando ci si salta sopra. | 1 | Rare | Normal |
-| [Step Assist](Incantamento-step-assist) | Sale automaticamente un blocco; gli ostacoli superiori richiedono un salto. | 3 | Rare | Normal Advanced |
 | [Sun Blessing](Incantamento-sun-blessing) | Genera esperienza di giorno nell’Overworld con cielo visibile. | 5 | Legendary | Advanced |
 | [Villager Forged](Incantamento-villager-forged) | Può evitare il consumo di durabilità nell’Overworld. | 5 | Ultra | Advanced |
 | [Vision Blessing](Incantamento-vision-blessing) | Fornisce l'effetto di stato Visione Notturna permanente. | 1 | Legendary | Advanced |
@@ -102,23 +102,26 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | [Experienced](Incantamento-experienced) | Aggiunge 4 danni per livello ai colpi considerati critici dalla mod. | 1 | Ultra | Advanced |
 | [Fanatic](Incantamento-fanatic) | Aumenta progressivamente la probabilità di pescare tesori sulla singola canna. | 1 | Rare | Normal Advanced |
 | [Fear](Incantamento-fear) | I colpi di spada prolungano il timer di esplosione del creeper. | 1 | Rare | Normal Advanced |
+| [Fisherman](Incantamento-fisherman) | Garantisce che un pesce abbocchi sempre entro 5 secondi. | 1 | Legendary | Advanced |
 | [Flogging](Incantamento-flogging) | Aggiunge 2,5 danni per livello contro la categoria rebel. | 7 | Uncommon | Normal |
 | [Freeze Aspect](Incantamento-freeze-aspect) | Applica l'effetto rallentamento e congelamento progressivo sul bersaglio. | 5 | Rare | Normal |
 | [Fuse Cutter](Incantamento-fuse-cutter) | Annulla le esplosioni entro tre blocchi mentre pari con lo scudo. | 1 | Rare | Advanced |
 | [Gravity Well](Incantamento-gravity-well) | Durante un attacco dall'alto, attira lentamente i mob nel raggio di 5 blocchi verso il punto d'impatto. | 2 | Epic | Advanced |
 | [Gream Reaper](Incantamento-gream-reaper) | Aggiunge 2,5 danni per livello senza richiedere una categoria mob. | 10 | Unique | Fusione |
-| [Heartseeker](Incantamento-heartseeker) | Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato. | 1 | Legendary | Advanced |
+| [Heartseeker](Incantamento-heartseeker) | Assorbe e cura i cuori tolti durante un attacco in carica con la lancia. | 1 | Legendary | Advanced |
 | [Heavy Impact](Incantamento-heavy-impact) | Aggiunge danno agli schianti della mazza. | 5 | Rare | Advanced |
 | [Herbicide](Incantamento-herbicide) | Aggiunge 3 danni per livello contro la categoria fungi. | 7 | Uncommon | Normal |
+| [Hole in One](Incantamento-hole-in-one) | Probabilità di eliminare istantaneamente i mob semplici negli attacchi corpo a corpo con la lancia. | 3 | Epic | Advanced |
 | [Immortality](Incantamento-immortality) | Lo scudo impugnato salva dalla morte consumando soltanto questo incantesimo. | 1 | Ultra | Advanced |
 | [Impaler Reach](Incantamento-impaler-reach) | Aggiunge un blocco di portata per livello a interazioni ed entità. | 3 | Epic | Advanced |
 | [Inking](Incantamento-inking) | Acceca il bersaglio (Darkness) evidenziando la sua sagoma (Glowing) e debilitandolo (Weakness). | 5 | Common | Normal |
 | [Katana](Incantamento-katana) | Aggiunge 1,25 danni d’attacco per livello. | 10 | Common | Normal |
 | [Launch](Incantamento-launch) | Spinge verticalmente il bersaglio colpito. | 5 | Epic | Advanced |
 | [Leeching Aspect](Incantamento-leeching-aspect) | Cura l’attaccante dopo un colpo critico. | 2 | Rare | Normal |
+| [Lumberjack](Incantamento-lumberjack) | Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idonea. | 1 | Rare | Normal, Advanced |
 | [Lunge](Incantamento-lunge) | Spinge il bersaglio lontano dall’attaccante. | 1 | Ultra | Advanced |
 | [Mida's Touch](Incantamento-midas-touch) | Le uccisioni possono generare pepite o un lingotto d’oro. | 5 | Rare | Normal |
-| [Neptune's Will](Incantamento-neptunes-will) | Aggiunge 5 danni per livello al tridente in mischia e al lancio. | 3 | Legendary | Advanced |
+| [Neptune's Will](Incantamento-neptunes-will) | Aggiunge 5 danni per livello al tridente in mischia e al lancio. | 5 | Legendary | Advanced |
 | [Payback](Incantamento-payback) | Aumenta il danno al diminuire della salute. | 5 | Epic | Advanced |
 | [Phalanx Stance](Incantamento-phalanx-stance) | Scudo nella mano principale e lancia nella secondaria conferiscono difesa. | 3 | Rare | Advanced |
 | [Quick Hit](Incantamento-quick-hit) | Accorcia il tempo di recupero degli attacchi. | 5 | Epic | Advanced |
@@ -172,9 +175,9 @@ Ogni nome apre una scheda con effetto, oggetti, livelli, ottenimento, gruppi e r
 | --- | --- | --- | --- | --- |
 | [Digger](Incantamento-digger) | Rompe un piano di blocchi 3×3 attorno al blocco estratto. | 1 | Rare | Normal, Advanced |
 | [Excavator](Incantamento-excavator) | Aumenta la portata di interazione con blocchi ed entità. | 3 | Rare | Advanced |
-| [Lumberjack](Incantamento-lumberjack) | Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idonea. | 1 | Rare | Normal, Advanced |
 | [Pruning](Incantamento-pruning) | Distrugge istantaneamente (Instamine) blocchi di foglie, erba e altri blocchi delicati gestiti dalle cesoie. | 1 | Uncommon | Normal |
-| [Smelting](Incantamento-smelting) | Sostituisce determinati blocchi con drop trasformati. | 1 | Legendary | Advanced |
+| [Smelting](Incantamento-smelting) | Cuoce automaticamente in fornace qualsiasi drop compatibile e applica un bonus stile Fortuna fino al livello 5. | 1 | Legendary | Advanced |
+| [Veinminer](Incantamento-veinminer) | Da accovacciato, rompe tutta la vena di minerali connessa. | 1 | Rare | Normal |
 
 <a name="inventario"></a>
 

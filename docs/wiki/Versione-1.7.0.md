@@ -21,7 +21,7 @@
 | [Fear](Incantamento-fear) | Spada | I | Ogni colpo riuscito aggiunge 1 secondo alla miccia del creeper. |
 | [Kinetic Protection](Incantamento-kinetic-protection) | Elitre | I–V | +6 armatura per livello in volo e riduzione dei danni da impatto. |
 | [Happy Boost](Incantamento-happy-boost) | Elitre | I–III | Velocità in volo +50% / +80% / +110%. |
-| [Step Assist](Incantamento-step-assist) | Stivali | I–III | Salita automatica fino a 1 blocco; salto richiesto sopra tale altezza, fino a 1,5 blocchi al III. |
+| Step Assist *(rimosso in 1.9.0)* | Stivali | I–III | Salita automatica fino a 1 blocco; salto richiesto sopra tale altezza, fino a 1,5 blocchi al III. |
 
 ## Correzioni dalle prove in gioco
 

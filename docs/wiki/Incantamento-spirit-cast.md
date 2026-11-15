@@ -19,7 +19,9 @@ Ogni 15 meno livello uccisioni assegna casualmente Forza, Velocità o Resistenza
 
 ## Effetto e utilizzo
 
-Ogni `(15 - livello)` uccisioni assegna casualmente Forza, Velocità o Resistenza per 10 secondi. Il contatore delle uccisioni del giocatore viene preservato in memoria attraverso disconnessioni e riavvii del server, azzerandosi unicamente in caso di morte del giocatore.
+La definizione del progetto descrive questo effetto: Ogni 15 meno livello uccisioni assegna casualmente Forza, Velocità o Resistenza per 10 secondi.
+
+Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
 
 ## Ottenimento
 

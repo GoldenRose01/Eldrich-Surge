@@ -66,6 +66,7 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 <summary>Meccaniche che consultano questo ID</summary>
 
 - [AdditionalDamageCalculator.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/combat/AdditionalDamageCalculator.java)
+- [DualWieldCombatMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/combat/DualWieldCombatMechanics.java)
 - [PassiveEnchantmentMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/PassiveEnchantmentMechanics.java)
 
 </details>

@@ -4,7 +4,7 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato.
+Assorbe e cura i cuori tolti durante un attacco in carica con la lancia.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
@@ -19,7 +19,7 @@ Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato.
 
 ## Effetto e utilizzo
 
-Il prodotto scalare fra la direzione dello sguardo della vittima e la direzione verso l’attaccante deve essere inferiore a −0,2. In quel caso il danno passato al calcolo armatura è moltiplicato per **1,5** e il valore di armatura per **0,5**. La logica usa la presenza dell’incantamento, non un moltiplicatore ulteriore per livello.
+Quando colpisci un’entità con un attacco in carica (`stabAttack`) usando una lancia incantata, calcola i punti salute effettivamente rimossi al bersaglio e cura il giocatore della stessa quantità.
 
 ## Ottenimento
 

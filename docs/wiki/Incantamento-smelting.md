@@ -4,7 +4,7 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Sostituisce determinati blocchi con drop trasformati.
+Cuoce automaticamente in fornace qualsiasi drop compatibile e applica un bonus stile Fortuna fino al livello 5.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
@@ -19,7 +19,7 @@ Sostituisce determinati blocchi con drop trasformati.
 
 ## Effetto e utilizzo
 
-La mappa corrente gestisce minerali di ferro, oro e rame, detriti antichi, sabbia, pietrisco, pietra, argilla, spugne e altre conversioni esplicite. Le polveri di calcestruzzo diventano vetro del colore corrispondente. Non consulta universalmente ogni ricetta di fornace aggiunta da altre mod.
+Consulta `RecipeType.SMELTING` per ogni drop del blocco rotto (inclusi minerali, sabbia, pietrisco, argilla e tronchi trasformati in carbonella con l’ascia). Applica inoltre un moltiplicatore stile Fortuna fino al livello 5 sugli oggetti fusi.
 
 ## Ottenimento
 

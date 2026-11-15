@@ -19,7 +19,7 @@ Aggiunge 2,5 danni per livello contro la categoria void.
 
 ## Effetto e utilizzo
 
-L’effetto aggiunge **2,5 danni per livello** contro le creature della categoria `void` (senza EnchLib la mod usa il tag di fallback dei mob dell’End `#eldrich-surge:is_end_mob`). Il danno viene calcolato direttamente dalla logica di combattimento di Eldritch Surge, evitando duplicazioni con il datapack.
+L’effetto consulta la categoria `void`, non semplicemente la dimensione in cui si trova il bersaglio. Senza EnchLib la mod usa il tag di fallback dei mob dell’End.
 
 ## Ottenimento
 
@@ -29,7 +29,7 @@ Le impostazioni di disponibilità, rarità e compatibilità del mondo possono re
 
 ## Compatibilità
 
-L’`exclusive_set` del datapack include: [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst`.
+L’`exclusive_set` del datapack include: [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Neptune's Will](Incantamento-neptunes-will), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst`.
 
 Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.
 
@@ -40,23 +40,7 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ```json
 {
-  "effects": {
-    "minecraft:post_attack": [
-      {
-        "affected": "victim",
-        "effect": {
-          "type": "eldrich-surge:gamerule_damage",
-          "amount": {
-            "type": "minecraft:linear",
-            "base": 3.0,
-            "per_level_above_first": 1.5
-          },
-          "entity_type_tag": "eldrich-surge:is_end_mob"
-        },
-        "enchanted": "attacker"
-      }
-    ]
-  },
+  "effects": {},
   "min_cost": {
     "base": 10,
     "per_level_above_first": 8

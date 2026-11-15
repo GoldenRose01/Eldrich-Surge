@@ -19,7 +19,7 @@ Le frecce evidenziano il bersaglio colpito.
 
 ## Effetto e utilizzo
 
-L’effetto Glowing dura **1 secondo per livello** (20 tick/livello), applicato dall'effetto datapack nativo. La precedente riapplicazione duplicata via codice Java è stata rimossa.
+L’effetto Glowing dura **40 × livello tick**, cioè 2 secondi per livello a 20 TPS. Questo valore runtime è diverso dal vecchio testo che indicava un secondo per livello.
 
 ## Ottenimento
 
@@ -48,12 +48,14 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
           "type": "minecraft:apply_mob_effect",
           "to_apply": "minecraft:glowing",
           "min_duration": {
-            "type": "minecraft:linear",
+            "type": "eldrich-surge:logarithmic_level",
+            "max_level": 5,
             "base": 1.0,
             "per_level_above_first": 1.0
           },
           "max_duration": {
-            "type": "minecraft:linear",
+            "type": "eldrich-surge:logarithmic_level",
+            "max_level": 5,
             "base": 1.0,
             "per_level_above_first": 1.0
           },
@@ -89,10 +91,3 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 - [Definizione Java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/ench/CurseOfTargetEnchantment.java)
 - [Definizione datapack](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/enchantment/curse_of_target.json)
-
-<details>
-<summary>Meccaniche che consultano questo ID</summary>
-
-- [ProjectileEnchantmentMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/ProjectileEnchantmentMechanics.java)
-
-</details>

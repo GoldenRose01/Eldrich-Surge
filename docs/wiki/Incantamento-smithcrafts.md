@@ -19,7 +19,9 @@ Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano
 
 ## Effetto e utilizzo
 
-Fornisce **1 punto armatura per livello** tramite modificatore di attributo quando lo scudo è equipaggiato nella mano secondaria (`offhand`). La duplicazione precedente che sommava ulteriori 2 punti via codice Java è stata rimossa.
+La definizione del progetto descrive questo effetto: Fornisce 2 punti armatura per livello mentre lo scudo è equipaggiato nella mano secondaria.
+
+Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
 
 ## Ottenimento
 
@@ -44,7 +46,8 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
     "minecraft:attributes": [
       {
         "amount": {
-          "type": "minecraft:linear",
+          "type": "eldrich-surge:logarithmic_level",
+          "max_level": 3,
           "base": 1.0,
           "per_level_above_first": 1.0
         },
@@ -72,10 +75,3 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 - [Definizione Java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/ench/SmithcraftsEnchantment.java)
 - [Definizione datapack](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/enchantment/smithcrafts.json)
-
-<details>
-<summary>Meccaniche che consultano questo ID</summary>
-
-- [PassiveEnchantmentMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/PassiveEnchantmentMechanics.java)
-
-</details>

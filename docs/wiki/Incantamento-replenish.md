@@ -19,7 +19,7 @@ Può rimborsare un proiettile dopo il tiro.
 
 ## Effetto e utilizzo
 
-Con una probabilità del 33% per livello (33%, 66%, 99% ai tre livelli), azzera il consumo della freccia speciale scoccata appartenente al tag `#eldrich-surge:special_arrows`, preservandola direttamente nell'inventario del tiratore. Rimosso qualsiasi doppio calcolo disallineato.
+La probabilità è `min(100, 33 × livello)%`: 33%, 66%, 99% ai primi tre livelli. I proiettili marcati `INTANGIBLE_PROJECTILE` sono esclusi. Il metodo corrente non limita il rimborso soltanto alle frecce con effetti; il rimborso va nell’inventario o cade a terra se pieno.
 
 ## Ottenimento
 
@@ -54,9 +54,23 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
               "chance": {
                 "type": "minecraft:enchantment_level",
                 "amount": {
-                  "type": "minecraft:linear",
-                  "base": 0.33,
-                  "per_level_above_first": 0.33
+                  "type": "minecraft:lookup",
+                  "values": [
+                    0.33,
+                    0.65,
+                    0.85
+                  ],
+                  "fallback": {
+                    "type": "minecraft:clamped",
+                    "value": {
+                      "type": "eldrich-surge:logarithmic_level",
+                      "max_level": 3,
+                      "base": 0.33,
+                      "per_level_above_first": 0.26
+                    },
+                    "min": 0.0,
+                    "max": 0.92
+                  }
                 }
               },
               "type": "minecraft:random_chance"
@@ -90,10 +104,3 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 - [Definizione Java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/ench/ReplenishEnchantment.java)
 - [Definizione datapack](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/resources/data/eldrich-surge/enchantment/replenish.json)
-
-<details>
-<summary>Meccaniche che consultano questo ID</summary>
-
-- [ProjectileEnchantmentMechanics.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/ProjectileEnchantmentMechanics.java)
-
-</details>

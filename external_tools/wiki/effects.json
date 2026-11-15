@@ -88,8 +88,8 @@
     "detail": "La meccanica rinnova Salto Potenziato per 40 tick. L’amplificatore è `min(2, livello − 1)`: non viene applicata direttamente una formula di altezza in blocchi."
   },
   "ice_speed": {
-    "summary": "Conferisce Velocità mentre sei a terra.",
-    "detail": "Nel codice attuale il requisito è `onGround()`: non viene controllato il tipo di blocco freddo. L’amplificatore è `min(1, livello − 1)` e l’effetto viene rinnovato per 40 tick. La vecchia descrizione limitata al ghiaccio non corrisponde a questo controllo runtime."
+    "summary": "Aumenta la velocità di movimento su ghiaccio, neve e blocchi freddi.",
+    "detail": "Applica un modificatore di **0,064 × livello** su `MOVEMENT_SPEED` solo quando il giocatore cammina su ghiaccio, ghiaccio compatto/azzurro, neve o blocchi di neve/ghiaccio compatto."
   },
   "swiftness": {
     "summary": "Aumenta la velocità di movimento durante la carica di arco o lancia.",
@@ -216,8 +216,8 @@
     "detail": "Quando la sorgente è marcata `IS_MACE_SMASH`, aggiunge **1,5 × livello** danni. Il controllo non si applica indistintamente a ogni colpo a terra."
   },
   "heartseeker": {
-    "summary": "Potenzia i colpi alle spalle e dimezza l’armatura nel calcolo intercettato.",
-    "detail": "Il prodotto scalare fra la direzione dello sguardo della vittima e la direzione verso l’attaccante deve essere inferiore a −0,2. In quel caso il danno passato al calcolo armatura è moltiplicato per **1,5** e il valore di armatura per **0,5**. La logica usa la presenza dell’incantamento, non un moltiplicatore ulteriore per livello."
+    "summary": "Assorbe e cura i cuori tolti durante un attacco in carica con la lancia.",
+    "detail": "Quando colpisci un’entità con un attacco in carica (`stabAttack`) usando una lancia incantata, calcola i punti salute effettivamente rimossi al bersaglio e cura il giocatore della stessa quantità."
   },
   "dwarf_forged": {
     "summary": "Può evitare il consumo di durabilità nei biomi sotterranei riconosciuti.",
@@ -252,8 +252,8 @@
     "detail": "Il datapack applica **+1 × livello** sia a `block_interaction_range` sia a `entity_interaction_range` negli slot dichiarati. Non usa il vecchio nome di attributo `generic.player.reach_distance`. Le incompatibilità sono quelle del gruppo `weapon_utility` e delle regole del mondo."
   },
   "smelting": {
-    "summary": "Sostituisce determinati blocchi con drop trasformati.",
-    "detail": "La mappa corrente gestisce minerali di ferro, oro e rame, detriti antichi, sabbia, pietrisco, pietra, argilla, spugne e altre conversioni esplicite. Le polveri di calcestruzzo diventano vetro del colore corrispondente. Non consulta universalmente ogni ricetta di fornace aggiunta da altre mod."
+    "summary": "Cuoce automaticamente in fornace qualsiasi drop compatibile e applica un bonus stile Fortuna fino al livello 5.",
+    "detail": "Consulta `RecipeType.SMELTING` per ogni drop del blocco rotto (inclusi minerali, sabbia, pietrisco, argilla e tronchi trasformati in carbonella con l’ascia). Applica inoltre un moltiplicatore stile Fortuna fino al livello 5 sugli oggetti fusi."
   },
   "fanatic": {
     "summary": "Aumenta progressivamente la probabilità di pescare tesori sulla singola canna.",
@@ -309,12 +309,24 @@
     "summary": "Aumenta la velocità di volo con le elitre del 50%, 80% o 110%.",
     "detail": "Lo spostamento in planata viene moltiplicato per **1,5 / 1,8 / 2,1**. Il fattore si applica sia sul client sia sul server, senza moltiplicare ripetutamente la velocità memorizzata: non genera accelerazione esponenziale. L’effetto riguarda il volo con elitre."
   },
-  "step_assist": {
-    "summary": "Sale automaticamente un blocco; gli ostacoli superiori richiedono un salto.",
-    "detail": "A tutti i livelli, l’altezza del passo automatico è **1 blocco**. Per superare dislivelli maggiori devi premere Salto. Il salto normale permette circa 1,25 blocchi; al livello III si aggiunge **0,05** alla forza del salto, permettendo di superare un blocco con una lastra sopra (**1,5 blocchi**). Rimuovendo gli stivali scompaiono entrambi i bonus; eventuali modificatori di altre mod possono sommarsi."
-  },
   "neptunes_will": {
     "summary": "Aggiunge 5 danni per livello al tridente in mischia e al lancio.",
     "detail": "Ai livelli I/II/III aggiunge **5 / 10 / 15 punti danno**. Il tridente lanciato usa il livello salvato sul proiettile: cambiare arma dopo il lancio non lo altera e un secondo tridente impugnato non raddoppia il bonus del proiettile. In mischia resta valido il bonus alle altre armi quando un tridente incantato è nella mano secondaria."
+  },
+  "magnetic": {
+    "summary": "Attira gli oggetti a terra entro 8 blocchi verso il centro dell’Armor Stand.",
+    "detail": "Applicabile agli Armor Stand; attrae gli `ItemEntity` nel raggio di 8 blocchi verso il centro dell’entità e conserva l’incantesimo quando l’Armor Stand viene rotto e riposizionato."
+  },
+  "hole_in_one": {
+    "summary": "Probabilità di eliminare istantaneamente i mob semplici negli attacchi corpo a corpo con la lancia.",
+    "detail": "Concede **1% / 3% / 5%** di probabilità ai livelli I/II/III (poi progressione logaritmica verso il **15%**) di infliggere danno letale immediato a mob non boss negli attacchi melee con la lancia."
+  },
+  "fisherman": {
+    "summary": "Garantisce che un pesce abbocchi sempre entro 5 secondi.",
+    "detail": "Incantesimo leggendario (nome oro) per canna da pesca che limita i timer di attesa dell’amo in acqua (`timeUntilLured` e `timeUntilHooked`) garantendo l’abboccata entro 100 tick (5 secondi)."
+  },
+  "veinminer": {
+    "summary": "Da accovacciato, rompe tutta la vena di minerali connessa.",
+    "detail": "Su picconi, tenendo premuto `Shift`, scava fino a 64 blocchi connessi dello stesso minerale (incluse varianti deepslate), fermandosi se il piccone sta per rompersi e restando compatibile con Fortuna, Silk Touch e Smelting."
   }
 }

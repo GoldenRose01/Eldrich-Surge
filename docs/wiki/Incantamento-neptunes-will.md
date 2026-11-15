@@ -4,7 +4,7 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Aggiunge +2.5 danni per livello al tridente in mischia (come attributo nativo d'attacco) e al lancio, sostituendo Impalamento (Impaling).
+Aggiunge 5 danni per livello al tridente in mischia e al lancio.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
@@ -19,8 +19,7 @@ Aggiunge +2.5 danni per livello al tridente in mischia (come attributo nativo d'
 
 ## Effetto e utilizzo
 
-Sostituisce completamente l'incantesimo vanilla **Impalamento** (*Impaling*), estendendo il bonus di danno a qualsiasi bersaglio (non solo acquatico).
-Ai livelli I/II/III/IV/V conferisce **+2.5 / +5.0 / +7.5 / +10.0 / +12.5 punti danno d'attacco**. Il bonus opera in mischia tramite l'attributo nativo dell'arma (come Katana) e viene trasferito al proiettile quando il tridente viene lanciato.
+Ai livelli I/II/III aggiunge **5 / 10 / 15 punti danno**. Il tridente lanciato usa il livello salvato sul proiettile: cambiare arma dopo il lancio non lo altera e un secondo tridente impugnato non raddoppia il bonus del proiettile. In mischia resta valido il bonus alle altre armi quando un tridente incantato è nella mano secondaria.
 
 ## Ottenimento
 
@@ -30,7 +29,7 @@ Le impostazioni di disponibilità, rarità e compatibilità del mondo possono re
 
 ## Compatibilità
 
-Appartiene al gruppo esclusivo `#eldrich-surge:additional_damage` ed è incompatibile con Impaling, Katana, Gream Reaper e gli altri incantamenti di danno addizionale.
+L’`exclusive_set` del datapack include: [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst`.
 
 Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarati, componenti di fusione e regole personalizzate.
 
@@ -41,7 +40,6 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ```json
 {
-  "anvil_cost": 5,
   "effects": {
     "minecraft:attributes": [
       {
@@ -57,21 +55,15 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
       }
     ]
   },
-  "exclusive_set": "#eldrich-surge:additional_damage",
-  "max_cost": {
-    "base": 50,
-    "per_level_above_first": 10
-  },
-  "max_level": 5,
   "min_cost": {
     "base": 20,
     "per_level_above_first": 7
   },
-  "slots": [
-    "hand"
-  ],
-  "supported_items": "#minecraft:enchantable/trident",
-  "weight": 2
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 10
+  },
+  "anvil_cost": 5
 }
 ```
 
@@ -85,7 +77,6 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 <details>
 <summary>Meccaniche che consultano questo ID</summary>
 
-- [AdditionalDamageCalculator.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/combat/AdditionalDamageCalculator.java)
 - [CreativeEnchantmentClassifier.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/creative/CreativeEnchantmentClassifier.java)
 - [ThrownTridentMixin.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mixin/ThrownTridentMixin.java)
 

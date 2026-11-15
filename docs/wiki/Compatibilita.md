@@ -20,7 +20,7 @@ Fragility, Perish, Spider, Target e The Forest sono inoltre incluse nel tag mine
 
 | Tag | Componenti |
 | --- | --- |
-| `eldrich-surge:additional_damage` | [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst` |
+| `eldrich-surge:additional_damage` | [Blade of Apocalypse](Incantamento-blade-of-apocalypse), [Comet Slam](Incantamento-comet-slam), [Gream Reaper](Incantamento-gream-reaper), [Heavy Impact](Incantamento-heavy-impact), [Katana](Incantamento-katana), [Neptune's Will](Incantamento-neptunes-will), [Star Fate](Incantamento-star-fate), `minecraft:breach`, `minecraft:density`, `minecraft:impaling`, `minecraft:wind_burst` |
 | `eldrich-surge:aspect` | [Heartseeker](Incantamento-heartseeker), `minecraft:fire_aspect` |
 | `eldrich-surge:blessings` | [Blessing of the Night](Incantamento-blessing-of-the-night), [End Blessing](Incantamento-end-blessing), [Hell Blessing](Incantamento-hell-blessing), [Sun Blessing](Incantamento-sun-blessing), [Vision Blessing](Incantamento-vision-blessing), [Seeker Blessing](Incantamento-seeker-blessing) |
 | `eldrich-surge:falling` | [Soft Falling](Incantamento-soft-falling), [Soil Falling](Incantamento-soil-falling) |

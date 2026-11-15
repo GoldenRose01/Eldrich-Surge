@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/wiki/GoldenRose01/Eldrich-Surge/assets/diamond_axe.png" width="48" alt="Scavo e strumenti">
+<img src="https://raw.githubusercontent.com/wiki/GoldenRose01/Eldrich-Surge/assets/diamond_sword.png" width="48" alt="Combattimento">
 
 # Lumberjack
 
@@ -11,7 +11,7 @@ Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idone
 | Identificatore | `eldrich-surge:lumberjack` |
 | Livello massimo | 1 |
 | Classe dichiarata | Rare |
-| Oggetti — regola configuratore | `#minecraft:axes` |
+| Oggetti — regola configuratore | `#eldrich-surge:enchantable/lumberjack` |
 | Oggetti — datapack | `#eldrich-surge:enchantable/lumberjack` |
 | Slot dichiarati | `hand` |
 | Peso nel datapack | 3 |
@@ -19,7 +19,9 @@ Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idone
 
 ## Effetto e utilizzo
 
-Quando applicato a un'ascia compatibile (pietra, ferro, oro, diamante o netherite), permette di abbattere interi alberi collegati in un solo colpo mentre ci si trova abbassati (sneak/shift). Si integra direttamente con il sistema di felling avanzato (e con mod di tree-chopping come FallingTree / BetterVanilla+).
+La definizione del progetto descrive questo effetto: Abbatti l'intero albero in un solo colpo mentre sei abbassato con un'ascia idonea.
+
+Per i componenti gestiti dai dati, gli effetti dichiarati sono riportati nel riquadro tecnico sotto. La presenza nel catalogo non sostituisce una prova in gioco.
 
 ## Ottenimento
 
@@ -40,7 +42,6 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 
 ```json
 {
-  "anvil_cost": 4,
   "effects": {},
   "min_cost": {
     "base": 15,
@@ -49,7 +50,8 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10
-  }
+  },
+  "anvil_cost": 4
 }
 ```
 
@@ -64,7 +66,5 @@ Consulta [Compatibilità](Compatibilita) per la distinzione fra gruppi dichiarat
 <summary>Meccaniche che consultano questo ID</summary>
 
 - [EldritchEnchantments.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/EldritchEnchantments.java)
-- [ModEnchantmentDefinitions.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/enchantment/mechanics/ModEnchantmentDefinitions.java)
-- [TreeFeller.java](https://github.com/GoldenRose01/Eldrich-Surge/blob/main/src/main/java/eldritch/surge/mechanics/tree/TreeFeller.java)
 
 </details>

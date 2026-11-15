@@ -4,7 +4,7 @@
 
 [← Catalogo](Enchantments) · [Oggetti](Per-oggetto) · [Regole](Compatibilita)
 
-Conferisce Velocità mentre sei a terra.
+Aumenta la velocità di movimento su ghiaccio, neve e blocchi freddi.
 
 | Proprietà | Valore predefinito |
 | --- | --- |
@@ -19,7 +19,7 @@ Conferisce Velocità mentre sei a terra.
 
 ## Effetto e utilizzo
 
-Nel codice attuale il requisito è `onGround()`: non viene controllato il tipo di blocco freddo. L’amplificatore è `min(1, livello − 1)` e l’effetto viene rinnovato per 40 tick. La vecchia descrizione limitata al ghiaccio non corrisponde a questo controllo runtime.
+Applica un modificatore di **0,064 × livello** su `MOVEMENT_SPEED` solo quando il giocatore cammina su ghiaccio, ghiaccio compatto/azzurro, neve o blocchi di neve/ghiaccio compatto.
 
 ## Ottenimento
 
