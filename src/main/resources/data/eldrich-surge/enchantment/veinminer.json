@@ -1,0 +1,21 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.eldrich-surge.veinminer"
+  },
+  "effects": {},
+  "max_cost": {
+    "base": 55,
+    "per_level_above_first": 10
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 20,
+    "per_level_above_first": 10
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#minecraft:pickaxes",
+  "weight": 3
+}

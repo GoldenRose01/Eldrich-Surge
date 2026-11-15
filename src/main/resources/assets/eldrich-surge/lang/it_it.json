@@ -398,5 +398,7 @@
   "tooltip.eldrich-surge.enchantment.eldrich-surge.hole_in_one": "Gli attacchi corpo a corpo con la lancia hanno una probabilità di eliminare istantaneamente i mob semplici (1% al I, 5% al III, poi logaritmica verso il 15%).",
   "enchantment.eldrich-surge.fisherman": "Fisherman",
   "tooltip.eldrich-surge.enchantment.eldrich-surge.fisherman": "Garantisce che un pesce abbocchi sempre entro 5 secondi.",
+  "enchantment.eldrich-surge.veinminer": "Veinminer",
+  "tooltip.eldrich-surge.enchantment.eldrich-surge.veinminer": "Da accovacciato, rompe automaticamente tutti i minerali connessi della stessa vena (fino a 64 blocchi).",
   "message.eldrich-surge.dodge": "Schivato!"
 }

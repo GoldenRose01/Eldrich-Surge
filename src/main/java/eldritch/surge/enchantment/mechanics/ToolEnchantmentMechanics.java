@@ -1,10 +1,13 @@
 package eldritch.surge.enchantment.mechanics;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -15,13 +18,20 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public final class ToolEnchantmentMechanics {
+    private static final int MAX_VEIN_BLOCKS = 64;
+    private static final ThreadLocal<Boolean> VEINMINING = ThreadLocal.withInitial(() -> Boolean.FALSE);
+
     private ToolEnchantmentMechanics() {
     }
 
@@ -30,11 +40,20 @@ public final class ToolEnchantmentMechanics {
             if (level.isClientSide() || !(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)) {
                 return true;
             }
+
+            ItemStack tool = serverPlayer.getMainHandItem();
+            if (!Boolean.TRUE.equals(VEINMINING.get())
+                    && serverPlayer.isShiftKeyDown()
+                    && tool.is(ItemTags.PICKAXES)
+                    && EnchantmentLevels.onItem(serverLevel, tool, "veinminer") > 0
+                    && isOreBlock(state)
+                    && (!state.requiresCorrectToolForDrops() || serverPlayer.hasCorrectToolForDrops(state))) {
+                mineVein(serverLevel, serverPlayer, pos, state.getBlock(), tool);
+            }
+
             if (serverPlayer.isCreative()) {
                 return true;
             }
-
-            ItemStack tool = serverPlayer.getMainHandItem();
             int smeltingLevel = EnchantmentLevels.onItem(serverLevel, tool, "smelting");
             if (smeltingLevel <= 0) {
                 return true;
@@ -103,5 +122,74 @@ public final class ToolEnchantmentMechanics {
             level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, part));
             remaining -= take;
         }
+    }
+
+    private static void mineVein(ServerLevel level, ServerPlayer player, BlockPos origin, Block originBlock, ItemStack tool) {
+        String originOreKey = normalizedOreKey(originBlock);
+        Set<BlockPos> visited = new HashSet<>();
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+        List<BlockPos> targets = new ArrayList<>();
+
+        visited.add(origin);
+        queue.add(origin);
+
+        while (!queue.isEmpty() && targets.size() + 1 < MAX_VEIN_BLOCKS) {
+            BlockPos current = queue.removeFirst();
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        if (dx == 0 && dy == 0 && dz == 0) {
+                            continue;
+                        }
+                        BlockPos next = current.offset(dx, dy, dz);
+                        if (!visited.add(next)) {
+                            continue;
+                        }
+                        BlockState nextState = level.getBlockState(next);
+                        if (normalizedOreKey(nextState.getBlock()).equals(originOreKey)) {
+                            targets.add(next);
+                            queue.add(next);
+                            if (targets.size() + 1 >= MAX_VEIN_BLOCKS) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (targets.isEmpty()) {
+            return;
+        }
+
+        VEINMINING.set(Boolean.TRUE);
+        try {
+            for (BlockPos targetPos : targets) {
+                ItemStack currentTool = player.getMainHandItem();
+                if (currentTool.isEmpty() || !currentTool.is(ItemTags.PICKAXES)) {
+                    break;
+                }
+                if (!player.isCreative() && currentTool.isDamageableItem()
+                        && currentTool.getDamageValue() >= currentTool.getMaxDamage() - 1) {
+                    break;
+                }
+                player.gameMode.destroyBlock(targetPos);
+            }
+        } finally {
+            VEINMINING.remove();
+        }
+    }
+
+    private static boolean isOreBlock(BlockState state) {
+        if (state.is(ConventionalBlockTags.ORES) || state.is(Blocks.ANCIENT_DEBRIS)) {
+            return true;
+        }
+        String path = BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath();
+        return path.endsWith("_ore");
+    }
+
+    private static String normalizedOreKey(Block block) {
+        String id = BuiltInRegistries.BLOCK.getKey(block).toString();
+        return id.replace(":deepslate_", ":");
     }
 }

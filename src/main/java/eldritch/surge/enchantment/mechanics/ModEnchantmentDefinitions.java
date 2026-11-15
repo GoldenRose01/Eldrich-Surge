@@ -128,7 +128,8 @@ public final class ModEnchantmentDefinitions {
             WeldingEnchantment.DEFINITION,
             MagneticEnchantment.DEFINITION,
             HoleInOneEnchantment.DEFINITION,
-            FishermanEnchantment.DEFINITION
+            FishermanEnchantment.DEFINITION,
+            VeinminerEnchantment.DEFINITION
     );
 
     public static final Map<String, ModEnchantmentDefinition> BY_ID = ALL.stream()

@@ -398,5 +398,7 @@
   "tooltip.eldrich-surge.enchantment.eldrich-surge.hole_in_one": "Melee spear attacks have a chance to instantly kill simple mobs (1% at I, 5% at III, scaling logarithmically toward 15%).",
   "enchantment.eldrich-surge.fisherman": "Fisherman",
   "tooltip.eldrich-surge.enchantment.eldrich-surge.fisherman": "Guarantees a fish bite within 5 seconds.",
+  "enchantment.eldrich-surge.veinminer": "Veinminer",
+  "tooltip.eldrich-surge.enchantment.eldrich-surge.veinminer": "While sneaking, mines all connected ores of the same vein (up to 64 blocks).",
   "message.eldrich-surge.dodge": "Dodged!"
 }
