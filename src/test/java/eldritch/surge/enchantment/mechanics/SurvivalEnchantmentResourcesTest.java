@@ -25,7 +25,7 @@ public final class SurvivalEnchantmentResourcesTest {
         var ops = RegistryOps.create(JsonOps.INSTANCE, net.minecraft.data.registries.VanillaRegistries.createWorldLookup());
         String[] ids = {"fanatic", "dodge", "fuse_cutter", "immortality", "curse_of_slippery",
                 "curse_of_incompatibility", "curse_of_fatigue", "curse_of_corrosion", "blessing_of_the_sea",
-                "accuracy_shot", "fear", "kinetic_protection", "happy_boost", "step_assist"};
+                "accuracy_shot", "fear", "kinetic_protection", "happy_boost"};
         for (String id : ids) {
             var definition = ModEnchantmentDefinitions.BY_ID.get(id);
             var json = JsonParser.parseString(Files.readString(Path.of(

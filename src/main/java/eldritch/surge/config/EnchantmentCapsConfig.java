@@ -48,13 +48,13 @@ public final class EnchantmentCapsConfig {
     /** Reads saved presets early so EnchLib's optional menu can seed table defaults before a world is opened. */
     public static void prepareForIntegration() {
         data = readGlobalOrCreate();
+        applyBaseLevelPresets();
     }
 
     public static void loadAndSyncWithRegistry(Collection<Identifier> knownEnchantments) {
         data = readGlobalOrCreate();
         boolean needsAvailabilityMigration = data.configVersion < 2;
         boolean needsVanillaReplacementMigration = data.configVersion < 3;
-        boolean needsBaseLevelPresetMigration = data.configVersion < 4;
 
         for (Identifier id : knownEnchantments) {
             CapsOverride override = data.enchantments.computeIfAbsent(id.toString(), ignored -> defaultOverride(id));
@@ -67,9 +67,7 @@ public final class EnchantmentCapsConfig {
             disableReplacedVanillaEnchantments();
         }
 
-        if (needsBaseLevelPresetMigration) {
-            applyBaseLevelPresets();
-        }
+        applyBaseLevelPresets();
 
         data.configVersion = 4;
         saveGlobal();
@@ -90,6 +88,7 @@ public final class EnchantmentCapsConfig {
         world.configVersion = Math.max(world.configVersion, defaults.configVersion);
         data = world;
         if (!hasWorldConfig) captureEnchLibWorldValues();
+        applyBaseLevelPresets();
         save();
     }
 
@@ -145,19 +144,33 @@ public final class EnchantmentCapsConfig {
     }
 
     public static int getAnvilCap(String enchantmentId) {
-        return data.enchantments.computeIfAbsent(enchantmentId, ignored -> new CapsOverride()).anvilMaxLevel;
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId)));
+        if (override.anvilMaxLevel > 0) return override.anvilMaxLevel;
+        Identifier id = Identifier.tryParse(enchantmentId);
+        if (id != null && id.getNamespace().equals(EldritchSurge.MOD_ID)) {
+            ModEnchantmentDefinition def = ModEnchantmentDefinitions.BY_ID.get(id.getPath());
+            if (def != null) return def.maxLevel();
+        }
+        return 0;
     }
 
     public static void setAnvilCap(String enchantmentId, int maxLevel) {
-        data.enchantments.computeIfAbsent(enchantmentId, ignored -> new CapsOverride()).anvilMaxLevel = Math.max(0, maxLevel);
+        data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).anvilMaxLevel = Math.max(0, maxLevel);
     }
 
     public static int getEnchantingTableCap(String enchantmentId) {
-        return data.enchantments.computeIfAbsent(enchantmentId, ignored -> new CapsOverride()).enchantingTableMaxLevel;
+        CapsOverride override = data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId)));
+        if (override.enchantingTableMaxLevel > 0) return override.enchantingTableMaxLevel;
+        Identifier id = Identifier.tryParse(enchantmentId);
+        if (id != null && id.getNamespace().equals(EldritchSurge.MOD_ID)) {
+            ModEnchantmentDefinition def = ModEnchantmentDefinitions.BY_ID.get(id.getPath());
+            if (def != null) return def.maxLevel();
+        }
+        return 0;
     }
 
     public static void setEnchantingTableCap(String enchantmentId, int maxLevel) {
-        data.enchantments.computeIfAbsent(enchantmentId, ignored -> new CapsOverride()).enchantingTableMaxLevel = Math.max(0, maxLevel);
+        data.enchantments.computeIfAbsent(enchantmentId, ignored -> defaultOverride(Identifier.tryParse(enchantmentId))).enchantingTableMaxLevel = Math.max(0, maxLevel);
     }
 
     public static boolean isAllowedInNormalTable(Identifier enchantmentId) {
@@ -395,8 +408,16 @@ public final class EnchantmentCapsConfig {
             if (enabled instanceof Boolean configured) value.enabled = configured;
             Object maxLevel = callEnchLib("getMaxLevel", new Class<?>[]{String.class}, id);
             if (maxLevel instanceof Integer configured && configured > 0) {
-                value.anvilMaxLevel = configured;
-                value.enchantingTableMaxLevel = configured;
+                ModEnchantmentDefinition def = id.startsWith(EldritchSurge.MOD_ID + ":")
+                        ? ModEnchantmentDefinitions.BY_ID.get(id.substring(EldritchSurge.MOD_ID.length() + 1))
+                        : null;
+                if (def == null || configured > 1 || def.maxLevel() == 1) {
+                    value.anvilMaxLevel = configured;
+                    value.enchantingTableMaxLevel = configured;
+                } else if (value.anvilMaxLevel <= 0) {
+                    value.anvilMaxLevel = def.maxLevel();
+                    value.enchantingTableMaxLevel = def.maxLevel();
+                }
             }
             Object normalEnabled = callEnchLib("getTableEnabled", new Class<?>[]{String.class, String.class}, id, "minecraft:enchanting_table");
             if (normalEnabled instanceof Boolean configured) value.normalTable = configured;
@@ -446,7 +467,7 @@ public final class EnchantmentCapsConfig {
         };
     }
 
-    private static CapsOverride defaultOverride(Identifier enchantmentId) {
+    public static CapsOverride defaultOverride(Identifier enchantmentId) {
         CapsOverride override = new CapsOverride();
         if (enchantmentId == null) {
             override.loot = true;
@@ -504,10 +525,10 @@ public final class EnchantmentCapsConfig {
     private static void applyBaseLevelPresets() {
         for (ModEnchantmentDefinition definition : ModEnchantmentDefinitions.ALL) {
             CapsOverride override = data.enchantments.computeIfAbsent(EldritchSurge.MOD_ID + ":" + definition.id(), ignored -> defaultOverride(EldritchSurge.id(definition.id())));
-            if (override.anvilMaxLevel <= 0) {
+            if (override.anvilMaxLevel <= 0 || (definition.maxLevel() > 1 && override.anvilMaxLevel == 1)) {
                 override.anvilMaxLevel = definition.maxLevel();
             }
-            if (override.enchantingTableMaxLevel <= 0) {
+            if (override.enchantingTableMaxLevel <= 0 || (definition.maxLevel() > 1 && override.enchantingTableMaxLevel == 1)) {
                 override.enchantingTableMaxLevel = definition.maxLevel();
             }
         }

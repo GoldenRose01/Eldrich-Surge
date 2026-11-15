@@ -2,6 +2,7 @@ package eldritch.surge.enchantment.mechanics;
 
 import eldritch.surge.EldritchSurge;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -82,7 +83,9 @@ public final class MobCategoryDamageMechanics {
         float bonus = 0.0F;
         for (CategoryBonus rule : rules) {
             int level = EnchantmentLevels.onItem(world, weapon, rule.enchantmentId());
-            if (level > 0 && EnchLibMobCategories.has(world, victim, rule.category())) {
+            if (level > 0 && (EnchLibMobCategories.has(world, victim, rule.category())
+                    || ("creeping_threat".equals(rule.enchantmentId())
+                            && victim instanceof net.minecraft.world.entity.monster.Creeper))) {
                 bonus += level * rule.damagePerLevel();
             }
         }

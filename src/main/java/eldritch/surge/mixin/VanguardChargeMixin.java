@@ -28,7 +28,7 @@ public abstract class VanguardChargeMixin {
         int level = EnchantmentLevels.onItem(player.level(), spear, "vanguard_charge");
         if (level > 0 && spear.is(ItemTags.SPEARS)
                 && player instanceof ServerPlayer serverPlayer && player.level() instanceof ServerLevel) {
-            VanguardChargeMechanics.activate(serverPlayer, livingTarget, level);
+            VanguardChargeMechanics.activate(serverPlayer, livingTarget, level, player.getTicksUsingItem());
         }
     }
 }

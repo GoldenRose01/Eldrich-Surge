@@ -43,7 +43,7 @@ The release build jars are stored under [`Jar/`](Jar/):
 
 See the [enchantment index](docs/wiki/Enchantments.md) for every registered enchantment, its maximum level, rarity/classification, supported item category, default source and declared exclusive set. Special component recipes and vanilla replacements are listed there too.
 
-The [wiki home](docs/wiki/Home.md) links to configuration and gameplay documentation. The [test plan](docs/gameplay-test-plan.xlsx) tracks behavior that still needs in-game verification.
+The [wiki home](docs/wiki/Home.md) links to configuration and gameplay documentation.
 
 ## World configuration
 
@@ -51,7 +51,7 @@ Global defaults are stored in `config/eldrich-surge/enchantment_caps.json`. Each
 
 ## Development
 
-External utilities and their assets live in [`external_tools/`](external_tools/README.md). The configurator starts from `external_tools/config-tool/config.exe`.
+Project architecture and mechanics context are detailed in [`project_context/context.md`](project_context/context.md).
 
 Standalone regression checks are registered centrally in `gradle/verification.gradle.kts`; add a task name and entry point there to include a new check in `gradlew check`.
 

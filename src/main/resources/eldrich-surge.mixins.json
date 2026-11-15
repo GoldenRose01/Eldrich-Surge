@@ -14,6 +14,7 @@
 		"HeartseekerMixin",
 		"ItemEntityMixin",
 		"ItemFramePickResultMixin",
+		"LivingEntityAttackAccessor",
 		"LivingEntityDamageMixin",
 		"NetherPortalLightMixin",
 		"PruningPlayerMixin",
@@ -32,18 +33,23 @@
 		"CurseCompatibilityMixin",
 		"FanaticFishingMixin",
 		"AccuracyShotArrowMixin",
+		"ArmorStandItemMixin",
+		"ArmorStandMixin",
 		"FearCreeperMixin",
 		"FlightEnchantmentMixin",
 		"EnchantingTableBlockEntityMixin",
 		"BlockEntityMixin",
 		"PoisonMobEffectMixin",
-		"ServerPlayerRespawnMixin"
+		"ServerPlayerRespawnMixin",
+		"ShulkerBoxBlockEntityMixin"
 	],
 	"client": [
 		"EnchantmentNameColorMixin",
         "EnchantmentDetailsMixin",
-		"ExtendedArmorHudMixin",
-		"AdvancedEnchantingParticlesMixin"
+		"AnvilScreenMixin",
+		"AdvancedEnchantingParticlesMixin",
+		"ShulkerBoxRendererMixin",
+		"ShulkerBoxSpecialRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

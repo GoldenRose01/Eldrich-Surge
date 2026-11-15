@@ -169,6 +169,9 @@ public final class AdvancedEnchantmentMenu extends AbstractContainerMenu impleme
                 int price = xpCost();
                 if (result.is(Items.BOOK)) result = result.transmuteCopy(SpellBookItems.isCastSpell(enchantment) ? EldritchItems.SPELL_BOOK : Items.ENCHANTED_BOOK);
                 result.enchant(enchantment, targetLevel());
+                if (enchantment.unwrapKey().map(k -> k.identifier().equals(EldritchSurge.id("welding"))).orElse(false)) {
+                    result.set(net.minecraft.core.component.DataComponents.REPAIR_COST, 0);
+                }
                 SpellBookItems.markIfSpellBook(result);
                 player.onEnchantmentPerformed(result, price);
                 reagent.consume(reagentCost(), player);

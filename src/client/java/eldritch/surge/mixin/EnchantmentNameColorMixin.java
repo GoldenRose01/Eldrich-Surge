@@ -6,12 +6,31 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Set;
+
 @Mixin(Enchantment.class)
 public abstract class EnchantmentNameColorMixin {
+    @Unique
+    private static final int TYPE_ENCHANTMENT_BROWN = 0xA05A2C;
+    @Unique
+    private static final Set<String> TYPE_ENCHANTMENTS = Set.of(
+            "butcher",
+            "creeping_threat",
+            "bane_of_end",
+            "undead_slayer",
+            "exorcist",
+            "herbicide",
+            "witch_hunter",
+            "wrath_of_the_abyss",
+            "smoother",
+            "flogging"
+    );
+
     @Inject(method = "getFullname", at = @At("RETURN"), cancellable = true)
     private static void eldrichSurge$colorSpecialEnchantments(
             Holder<Enchantment> enchantment,
@@ -28,8 +47,10 @@ public abstract class EnchantmentNameColorMixin {
 
         if (path.equals("curse_of_fragility") || path.equals("curse_of_the_forest")) {
             cir.setReturnValue(cir.getReturnValue().copy().withStyle(ChatFormatting.RED));
+        } else if (TYPE_ENCHANTMENTS.contains(path)) {
+            cir.setReturnValue(cir.getReturnValue().copy().withColor(TYPE_ENCHANTMENT_BROWN));
         } else if (path.equals("deathbreak") || path.equals("enduring") || path.equals("soulbond")
-                || path.equals("welding") || (enchantment.unwrapKey().map(key ->
+                || path.equals("welding") || path.equals("fisherman") || (enchantment.unwrapKey().map(key ->
                 key.identifier().equals(net.minecraft.resources.Identifier.withDefaultNamespace("mending"))).orElse(false))) {
             cir.setReturnValue(cir.getReturnValue().copy().withStyle(ChatFormatting.GOLD));
         }

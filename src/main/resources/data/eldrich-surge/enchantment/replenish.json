@@ -11,16 +11,29 @@
           "value": 0.0
         },
         "requirements": {
-              "type": "minecraft:all_of",
+          "type": "minecraft:all_of",
           "terms": [
             {
               "chance": {
                 "type": "minecraft:enchantment_level",
                 "amount": {
-                  "type": "eldrich-surge:logarithmic_level",
-          "max_level": 3,
-                  "base": 0.33,
-                  "per_level_above_first": 0.33
+                  "type": "minecraft:lookup",
+                  "values": [
+                    0.33,
+                    0.65,
+                    0.85
+                  ],
+                  "fallback": {
+                    "type": "minecraft:clamped",
+                    "value": {
+                      "type": "eldrich-surge:logarithmic_level",
+                      "max_level": 3,
+                      "base": 0.33,
+                      "per_level_above_first": 0.26
+                    },
+                    "min": 0.0,
+                    "max": 0.92
+                  }
                 }
               },
               "type": "minecraft:random_chance"

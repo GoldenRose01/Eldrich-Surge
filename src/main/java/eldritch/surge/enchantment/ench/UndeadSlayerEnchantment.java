@@ -14,7 +14,7 @@ public final class UndeadSlayerEnchantment {
             List.of("#minecraft:enchantable/weapon"),
             List.of("hand"),
             "#eldrich-surge:additional_damage",
-            "Fornisce un bonus di danno raddoppiato rispetto a Smite contro la classe globale dei Non-Morti."
+            "Fornisce un bonus di +2.5 danni per livello contro la classe globale dei Non-Morti."
     );
 
     private UndeadSlayerEnchantment() {

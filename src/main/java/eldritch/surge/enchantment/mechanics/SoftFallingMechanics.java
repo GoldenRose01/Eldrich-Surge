@@ -32,16 +32,6 @@ public final class SoftFallingMechanics {
     }
 
     private static void tryActivate(Player player, boolean pressed) {
-        if (!pressed || !(player.level() instanceof ServerLevel level) || player.onGround()
-                || player.isPassenger() || player.getAbilities().flying) return;
-
-        int levelOfEnchantment = EnchantmentLevels.onItem(level,
-                player.getItemBySlot(EquipmentSlot.FEET), "soft_falling");
-        if (levelOfEnchantment <= 0) return;
-
-        int lastTrigger = LAST_TRIGGER_TICK.getOrDefault(player.getUUID(), Integer.MIN_VALUE / 2);
-        if (player.tickCount - lastTrigger < 10) return;
-        LAST_TRIGGER_TICK.put(player.getUUID(), player.tickCount);
-        player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 100, 0, true, false, true));
+        // Soft Falling grants fall-damage immunity without applying Slow Falling.
     }
 }

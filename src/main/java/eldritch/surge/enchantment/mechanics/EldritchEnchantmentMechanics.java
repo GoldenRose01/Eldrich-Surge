@@ -7,6 +7,7 @@ public final class EldritchEnchantmentMechanics {
     public static void initialize() {
         TrenchWorkQueue.initialize();
         SurvivalEnchantmentMechanics.initialize();
+        eldritch.surge.combat.DualWieldCombatMechanics.initialize();
         BloodyMaryMechanics.initialize();
         MidasTouchMechanics.initialize();
         SoftFallingMechanics.initialize();

@@ -18,14 +18,19 @@ import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AnvilMenu.class)
@@ -35,9 +40,26 @@ public abstract class AnvilEnchantmentsMixin extends ItemCombinerMenu {
     @Final
     private DataSlot cost;
 
+    @Unique
+    private static final Identifier WELDING_ID = EldritchSurge.id("welding");
+
+    @Unique
+    private static final String WELDING_FUSIONS_KEY = "eldrich_welding_fusions";
+
     protected AnvilEnchantmentsMixin(MenuType<?> type, int containerId, Inventory inventory,
                                      ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slots) {
         super(type, containerId, inventory, access, slots);
+    }
+
+    @ModifyConstant(
+            method = "createResult",
+            slice = @Slice(from = @At(value = "FIELD", target = "Lnet/minecraft/core/component/DataComponents;CUSTOM_NAME:Lnet/minecraft/core/component/DataComponentType;")),
+            constant = @Constant(intValue = 40)
+    )
+    private int eldritchSurge$adjustAnvilCostCap(int original) {
+        ItemStack left = inputSlots.getItem(AnvilMenu.INPUT_SLOT);
+        ItemStack right = inputSlots.getItem(AnvilMenu.ADDITIONAL_SLOT);
+        return (hasWelding(left) || hasWelding(right)) ? 50 : Integer.MAX_VALUE;
     }
 
     @Inject(method = "createResult", at = @At("TAIL"))
@@ -84,16 +106,42 @@ public abstract class AnvilEnchantmentsMixin extends ItemCombinerMenu {
             }
 
             ItemStack repairTarget = inputSlots.getItem(AnvilMenu.INPUT_SLOT);
-            if (!repairTarget.isEmpty() && repairTarget.getDamageValue() > 0
-                    && output.getDamageValue() < repairTarget.getDamageValue()) {
-                double welding = EnchantmentLevels.onItemStrength(level, repairTarget, "welding");
-                int originalCost = cost.get();
-                if (welding > 0 && originalCost > 0) {
-                    cost.set(Math.max(1, (int) Math.ceil(originalCost / (4.0D * welding))));
+            boolean hadWelding = EnchantmentLevels.onItem(level, repairTarget, "welding") > 0;
+            double welding = EnchantmentLevels.onItemStrength(level, output, "welding");
+            if (welding > 0) {
+                if (!hadWelding) {
+                    output.set(DataComponents.REPAIR_COST, 0);
+                    CustomData.update(DataComponents.CUSTOM_DATA, output, tag -> tag.putInt(WELDING_FUSIONS_KEY, 0));
+                } else {
+                    int prevFusions = repairTarget.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+                            .copyTag().getIntOr(WELDING_FUSIONS_KEY, Math.max(0, repairTarget.getOrDefault(DataComponents.REPAIR_COST, 0)));
+                    int fusions = prevFusions + 1;
+                    CustomData.update(DataComponents.CUSTOM_DATA, output, tag -> tag.putInt(WELDING_FUSIONS_KEY, fusions));
+                    int logRepairCost = Math.min(49, Math.max(1,
+                            (int) Math.round((3.5D / (0.6D + 0.4D * welding)) * Math.log(fusions + 1.0D))));
+                    output.set(DataComponents.REPAIR_COST, logRepairCost);
+                }
+
+                if (!repairTarget.isEmpty() && repairTarget.getDamageValue() > 0
+                        && output.getDamageValue() < repairTarget.getDamageValue()) {
+                    int originalCost = cost.get();
+                    if (originalCost > 0) {
+                        cost.set(Math.max(1, Math.min(49, (int) Math.ceil(originalCost / (4.0D * welding)))));
+                    }
                 }
             }
             return true;
         }, false);
+    }
+
+    private static boolean hasWelding(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        return EnchantmentHelper.getEnchantmentsForCrafting(stack).entrySet().stream()
+                .anyMatch(entry -> entry.getIntValue() > 0 && entry.getKey().unwrapKey()
+                        .map(key -> key.identifier().equals(WELDING_ID))
+                        .orElse(false));
     }
 
     private static boolean isMaxUnbreakingBook(ItemStack stack) {

@@ -2,58 +2,27 @@ package eldritch.surge.enchantment.mechanics;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.ItemLike;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public final class ToolEnchantmentMechanics {
-    private static final Map<Block, ItemLike> SMELTED_DROPS = createSmeltedDrops();
-
     private ToolEnchantmentMechanics() {
-    }
-
-    private static Map<Block, ItemLike> createSmeltedDrops() {
-        Map<Block, ItemLike> drops = new HashMap<>();
-        drops.put(Blocks.IRON_ORE, Items.IRON_INGOT);
-        drops.put(Blocks.DEEPSLATE_IRON_ORE, Items.IRON_INGOT);
-        drops.put(Blocks.GOLD_ORE, Items.GOLD_INGOT);
-        drops.put(Blocks.DEEPSLATE_GOLD_ORE, Items.GOLD_INGOT);
-        drops.put(Blocks.NETHER_GOLD_ORE, Items.GOLD_INGOT);
-        drops.put(Blocks.COPPER_ORE, Items.COPPER_INGOT);
-        drops.put(Blocks.DEEPSLATE_COPPER_ORE, Items.COPPER_INGOT);
-        drops.put(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_SCRAP);
-        drops.put(Blocks.SAND, Items.GLASS);
-        drops.put(Blocks.RED_SAND, Items.GLASS);
-        drops.put(Blocks.COBBLESTONE, Items.STONE);
-        drops.put(Blocks.COBBLED_DEEPSLATE, Items.DEEPSLATE);
-        drops.put(Blocks.DEEPSLATE, Items.COBBLED_DEEPSLATE);
-        drops.put(Blocks.NETHERRACK, Items.NETHER_BRICK);
-        drops.put(Blocks.WET_SPONGE, Items.SPONGE);
-        drops.put(Blocks.CLAY, Blocks.TERRACOTTA);
-        drops.put(Blocks.STONE, Blocks.SMOOTH_STONE);
-        drops.put(Blocks.SANDSTONE, Blocks.SMOOTH_SANDSTONE);
-        drops.put(Blocks.RED_SANDSTONE, Blocks.SMOOTH_RED_SANDSTONE);
-
-        for (DyeColor color : DyeColor.values()) {
-            Block powder = BuiltInRegistries.BLOCK.getValue(
-                    Identifier.withDefaultNamespace(color.getName() + "_concrete_powder"));
-            Block glass = BuiltInRegistries.BLOCK.getValue(
-                    Identifier.withDefaultNamespace(color.getName() + "_stained_glass"));
-            if (powder != Blocks.AIR && glass != Blocks.AIR) drops.put(powder, glass);
-        }
-        return Map.copyOf(drops);
     }
 
     public static void initialize() {
@@ -61,25 +30,78 @@ public final class ToolEnchantmentMechanics {
             if (level.isClientSide() || !(level instanceof ServerLevel serverLevel) || !(player instanceof ServerPlayer serverPlayer)) {
                 return true;
             }
-
-            if (EnchantmentLevels.onItem(serverLevel, serverPlayer.getMainHandItem(), "smelting") > 0 && hasSmeltedDrop(state)) {
-                serverLevel.destroyBlock(pos, false, serverPlayer);
-                dropSmelted(serverLevel, pos, state);
-                return false;
+            if (serverPlayer.isCreative()) {
+                return true;
             }
 
-            return true;
+            ItemStack tool = serverPlayer.getMainHandItem();
+            int smeltingLevel = EnchantmentLevels.onItem(serverLevel, tool, "smelting");
+            if (smeltingLevel <= 0) {
+                return true;
+            }
+            if (state.requiresCorrectToolForDrops() && !serverPlayer.hasCorrectToolForDrops(state)) {
+                return true;
+            }
+
+            List<ItemStack> drops = Block.getDrops(state, serverLevel, pos, blockEntity, serverPlayer, tool);
+            if (drops.isEmpty()) {
+                return true;
+            }
+
+            int fortune = serverLevel.registryAccess().lookup(Registries.ENCHANTMENT)
+                    .flatMap(reg -> reg.get(Enchantments.FORTUNE))
+                    .map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, tool))
+                    .orElse(0);
+            int effectiveFortune = Math.min(5, Math.max(fortune, smeltingLevel > 1 ? smeltingLevel : 0));
+
+            boolean anySmelted = false;
+            List<ItemStack> finalDrops = new ArrayList<>(drops.size());
+            for (ItemStack drop : drops) {
+                if (drop.isEmpty()) {
+                    continue;
+                }
+                SingleRecipeInput input = new SingleRecipeInput(drop);
+                Optional<RecipeHolder<SmeltingRecipe>> recipe = serverLevel.recipeAccess().getRecipeFor(RecipeType.SMELTING, input, serverLevel);
+                if (recipe.isPresent()) {
+                    ItemStack smelted = recipe.get().value().assemble(input);
+                    if (!smelted.isEmpty()) {
+                        int count = drop.getCount();
+                        if (effectiveFortune > 0) {
+                            int bonus = serverLevel.getRandom().nextInt(effectiveFortune + 2) - 1;
+                            if (bonus > 0) {
+                                count *= (bonus + 1);
+                            }
+                        }
+                        smelted.setCount(smelted.getCount() * count);
+                        finalDrops.add(smelted);
+                        anySmelted = true;
+                        continue;
+                    }
+                }
+                finalDrops.add(drop);
+            }
+
+            if (!anySmelted) {
+                return true;
+            }
+
+            serverLevel.destroyBlock(pos, false, serverPlayer);
+            tool.hurtAndBreak(1, serverPlayer, EquipmentSlot.MAINHAND);
+            for (ItemStack out : finalDrops) {
+                spawnSplitDrops(serverLevel, pos, out);
+            }
+            return false;
         });
     }
 
-    private static boolean hasSmeltedDrop(BlockState state) {
-        return SMELTED_DROPS.containsKey(state.getBlock());
-    }
-
-    private static void dropSmelted(ServerLevel level, BlockPos pos, BlockState state) {
-        ItemLike smelted = SMELTED_DROPS.get(state.getBlock());
-        if (smelted != null) {
-            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, new ItemStack(smelted)));
+    private static void spawnSplitDrops(ServerLevel level, BlockPos pos, ItemStack stack) {
+        int remaining = stack.getCount();
+        int maxStack = stack.getMaxStackSize();
+        while (remaining > 0) {
+            int take = Math.min(remaining, maxStack);
+            ItemStack part = stack.copyWithCount(take);
+            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, part));
+            remaining -= take;
         }
     }
 }

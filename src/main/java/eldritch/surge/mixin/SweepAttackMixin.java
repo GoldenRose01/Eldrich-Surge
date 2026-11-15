@@ -17,10 +17,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public abstract class SweepAttackMixin {
     @Inject(method = "isSweepAttack", at = @At("RETURN"), cancellable = true)
-    private void eldritchSurge$allowHoeSweep(boolean critical, boolean sprinting, boolean strongAttack, CallbackInfoReturnable<Boolean> cir) {
+    private void eldritchSurge$allowHoeSweep(boolean strongAttack, boolean critical, boolean sprinting, CallbackInfoReturnable<Boolean> cir) {
         Player player = (Player) (Object) this;
         ItemStack held = player.getMainHandItem();
-        if (!critical && !sprinting && !strongAttack && player.onGround()
+        if (strongAttack && !critical && !sprinting && player.onGround()
                 && held.is(ItemTags.HOES)
                 && EnchantmentLevels.onItem(player.level(), held, "void_sweep") > 0) {
             cir.setReturnValue(true);
@@ -46,8 +46,8 @@ public abstract class SweepAttackMixin {
         Player player = (Player) (Object) this;
         ItemStack held = player.getMainHandItem();
         double dual = EnchantmentLevels.onItemStrength(player.level(), held, "dual_sweeping");
-        if (dual > 0 && player.getOffhandItem().is(ItemTags.SWORDS)) {
-            return (float) (amount * (2.0D + 0.5D * Math.max(0, dual - 2)));
+        if (dual > 0 && eldritch.surge.combat.DualWieldCombatMechanics.isDualWieldingSameWeaponType(player)) {
+            return amount * 1.5F;
         }
         int voidSweep = EnchantmentLevels.onItem(player.level(), held, "void_sweep");
         if (voidSweep > 0 && held.is(ItemTags.HOES)) return 10.0F + voidSweep;
@@ -55,15 +55,43 @@ public abstract class SweepAttackMixin {
     }
 
     @Inject(method = "doSweepAttack", at = @At("HEAD"))
-    private void eldritchSurge$showDualSweepParticles(CallbackInfo ci) {
+    private void eldritchSurge$showDualSweepParticles(
+            net.minecraft.world.entity.Entity target,
+            float baseDamage,
+            net.minecraft.world.damagesource.DamageSource damageSource,
+            float attackStrengthScale,
+            CallbackInfo ci) {
         Player player = (Player) (Object) this;
         ItemStack mainHand = player.getMainHandItem();
         if (EnchantmentLevels.onItem(player.level(), mainHand, "dual_sweeping") > 0
-                && player.getOffhandItem().is(ItemTags.SWORDS)
+                && eldritch.surge.combat.DualWieldCombatMechanics.isDualWieldingSameWeaponType(player)
                 && player.level() instanceof ServerLevel serverLevel) {
+            double yawRad = Math.toRadians(player.getYRot());
+            double forwardX = -Math.sin(yawRad);
+            double forwardZ = Math.cos(yawRad);
+            double rightX = Math.cos(yawRad);
+            double rightZ = Math.sin(yawRad);
             serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SWEEP_ATTACK,
-                    player.getX(), player.getY() + 1.0D, player.getZ(), 6,
-                    0.45D, 0.25D, 0.45D, 0.0D);
+                    player.getX() + forwardX * 1.1D + rightX * 0.65D, player.getY() + 1.0D,
+                    player.getZ() + forwardZ * 1.1D + rightZ * 0.65D, 2, 0.2D, 0.1D, 0.2D, 0.0D);
+            serverLevel.sendParticles(net.minecraft.core.particles.ParticleTypes.SWEEP_ATTACK,
+                    player.getX() - forwardX * 1.1D - rightX * 0.65D, player.getY() + 1.0D,
+                    player.getZ() - forwardZ * 1.1D - rightZ * 0.65D, 2, 0.2D, 0.1D, 0.2D, 0.0D);
+
+            // Secondary sweep in the opposite direction
+            float reverseSweepDamage = (1.0F + baseDamage) * 1.5F;
+            net.minecraft.world.phys.Vec3 reverseCenter = player.position().add(-forwardX * 1.5D, 0.5D, -forwardZ * 1.5D);
+            net.minecraft.world.phys.AABB reverseBox = new net.minecraft.world.phys.AABB(reverseCenter, reverseCenter).inflate(1.25D, 0.5D, 1.25D);
+            eldritch.surge.combat.SecondaryEnchantmentDamage.run(() -> {
+                for (net.minecraft.world.entity.LivingEntity other : serverLevel.getEntitiesOfClass(
+                        net.minecraft.world.entity.LivingEntity.class, reverseBox)) {
+                    if (other != player && other != target && !player.isAlliedTo(other)
+                            && player.distanceToSqr(other) < 9.0D) {
+                        other.knockback(0.4D, forwardX, forwardZ, damageSource, 0.0F);
+                        other.hurtServer(serverLevel, damageSource, reverseSweepDamage);
+                    }
+                }
+            });
         }
     }
 

@@ -33,10 +33,12 @@ public abstract class SoulbondPlayerMixin {
         }
         if (forest > 0) {
             Player player = (Player) (Object) this;
-            float radius = (float) Math.min(16.0D, 3.0D * forest);
-            eldritch.surge.combat.SecondaryEnchantmentDamage.run(() ->
-                    level.explode(player, player.getX(), player.getY(), player.getZ(), radius,
-                            false, net.minecraft.world.level.Level.ExplosionInteraction.NONE));
+            float radius = 2.0F;
+            eldritch.surge.combat.SecondaryEnchantmentDamage.run(() -> {
+                level.explode(player, player.getX(), player.getY(), player.getZ(), radius,
+                        false, net.minecraft.world.level.Level.ExplosionInteraction.NONE);
+                breakFragileBlocksAround(level, player.blockPosition(), radius);
+            });
         }
         if (level.getGameRules().get(GameRules.KEEP_INVENTORY)) {
             return;
@@ -56,5 +58,26 @@ public abstract class SoulbondPlayerMixin {
             inventory.setItem(entry.getKey(), entry.getValue());
         }
         eldritchSurge$soulboundStacks.clear();
+    }
+
+    @Unique
+    private static void breakFragileBlocksAround(ServerLevel level, net.minecraft.core.BlockPos center, float radius) {
+        int r = (int) Math.ceil(radius);
+        double maxDistSq = radius * radius;
+        net.minecraft.core.BlockPos.MutableBlockPos pos = new net.minecraft.core.BlockPos.MutableBlockPos();
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dy = -r; dy <= r; dy++) {
+                for (int dz = -r; dz <= r; dz++) {
+                    if (dx * dx + dy * dy + dz * dz > maxDistSq) continue;
+                    pos.set(center.getX() + dx, center.getY() + dy, center.getZ() + dz);
+                    var state = level.getBlockState(pos);
+                    if (!state.isAir()
+                            && state.getDestroySpeed(level, pos) >= 0.0F
+                            && state.getBlock().getExplosionResistance() <= 0.6F) {
+                        level.destroyBlock(pos, true);
+                    }
+                }
+            }
+        }
     }
 }

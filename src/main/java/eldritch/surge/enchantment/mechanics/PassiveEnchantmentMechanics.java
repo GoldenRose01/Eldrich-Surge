@@ -35,6 +35,8 @@ public final class PassiveEnchantmentMechanics {
     private static final Identifier EXCAVATOR_ENTITY_RANGE = Identifier.fromNamespaceAndPath("eldrich-surge", "excavator_entity_range");
     private static final Identifier RABBIT_FOOT_LUCK = Identifier.fromNamespaceAndPath("eldrich-surge", "rabbit_foot_luck");
     private static final Identifier SWIFTNESS_SPEED = Identifier.fromNamespaceAndPath("eldrich-surge", "swiftness_speed");
+    private static final Identifier HICKER_STEP_HEIGHT = Identifier.fromNamespaceAndPath("eldrich-surge", "hicker_step_height");
+    private static final Identifier ICE_SPEED_MODIFIER = Identifier.fromNamespaceAndPath("eldrich-surge", "ice_speed_modifier");
     private static final Map<UUID, Set<UUID>> SEEKER_TARGETS = new HashMap<>();
     private static final Map<UUID, ItemEntity> SEEKER_ITEMS = new HashMap<>();
     private static final Map<UUID, Integer> SEEKER_ITEM_REFERENCES = new HashMap<>();
@@ -103,9 +105,7 @@ public final class PassiveEnchantmentMechanics {
         }
 
         int hicker = EnchantmentLevels.onArmor(level, player, "hicker");
-        if (hicker > 0) {
-            player.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 40, EnchantmentLevels.armorAmplifier(level, player, "hicker", 2), true, false, true));
-        }
+        updateModifierAmount(player, Attributes.STEP_HEIGHT, HICKER_STEP_HEIGHT, hicker > 0 ? 0.5D * hicker : 0.0D);
 
         int dash = EnchantmentLevels.onArmor(level, player, "dash");
         if (dash > 0 && player.isSprinting()) {
@@ -113,9 +113,8 @@ public final class PassiveEnchantmentMechanics {
         }
 
         int iceSpeed = EnchantmentLevels.onArmor(level, player, "ice_speed");
-        if (iceSpeed > 0 && player.onGround()) {
-            player.addEffect(new MobEffectInstance(MobEffects.SPEED, 40, EnchantmentLevels.armorAmplifier(level, player, "ice_speed", 1), true, false, true));
-        }
+        double iceBoost = iceSpeed > 0 && isOnIceOrSnow(level, player) ? 0.064D * iceSpeed : 0.0D;
+        updateModifierAmount(player, Attributes.MOVEMENT_SPEED, ICE_SPEED_MODIFIER, iceBoost);
 
         ItemStack chargingItem = player.isUsingItem() ? player.getUseItem() : ItemStack.EMPTY;
         double swiftness = swiftnessOnChargingWeapon(level, chargingItem);
@@ -136,7 +135,6 @@ public final class PassiveEnchantmentMechanics {
     }
 
     private static void applyInventoryAutomation(ServerLevel level, ServerPlayer player) {
-        List<ItemStack> vacuumShulkers = null;
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
             ItemStack shulker = player.getInventory().getItem(slot);
             if (!isShulker(shulker)) {
@@ -145,20 +143,6 @@ public final class PassiveEnchantmentMechanics {
 
             if (EnchantmentLevels.onItem(level, shulker, "refill") > 0) {
                 refillMainHand(player, shulker);
-            }
-
-            if (EnchantmentLevels.onItem(level, shulker, "vacuum") > 0) {
-                if (vacuumShulkers == null) vacuumShulkers = new ArrayList<>();
-                vacuumShulkers.add(shulker);
-            }
-        }
-
-        if (vacuumShulkers != null && !vacuumShulkers.isEmpty()) {
-            List<ItemEntity> nearby = level.getEntitiesOfClass(ItemEntity.class, player.getBoundingBox().inflate(4.0D));
-            if (!nearby.isEmpty()) {
-                for (ItemStack shulker : vacuumShulkers) {
-                    vacuumNearbyItems(nearby, shulker);
-                }
             }
         }
     }
@@ -237,7 +221,26 @@ public final class PassiveEnchantmentMechanics {
         TransientAttributeModifiers.set(player.getAttribute(attributeKey), id, amount <= 0.0D ? 0.0D : amount);
     }
 
+    private static boolean isOnIceOrSnow(ServerLevel level, ServerPlayer player) {
+        return isIceOrSnowBlock(level.getBlockState(player.blockPosition()))
+                || isIceOrSnowBlock(level.getBlockState(player.getBlockPosBelowThatAffectsMyMovement()));
+    }
+
+    private static boolean isIceOrSnowBlock(net.minecraft.world.level.block.state.BlockState state) {
+        if (state.isAir()) {
+            return false;
+        }
+        if (state.is(net.minecraft.tags.BlockTags.ICE) || state.is(net.minecraft.tags.BlockTags.SNOW)) {
+            return true;
+        }
+        String path = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath();
+        return path.contains("ice") || path.contains("snow");
+    }
+
     public static boolean trySiphonPickup(ServerLevel level, ServerPlayer player, ItemEntity itemEntity) {
+        if (itemEntity.hasPickUpDelay()) {
+            return false;
+        }
         ItemStack remaining = itemEntity.getItem().copy();
         boolean changed = false;
 
@@ -263,16 +266,37 @@ public final class PassiveEnchantmentMechanics {
             }
         }
 
+        for (int slot = 0; slot < player.getInventory().getContainerSize() && !remaining.isEmpty(); slot++) {
+            ItemStack shulker = player.getInventory().getItem(slot);
+            if (shulker != player.getOffhandItem()
+                    && isShulker(shulker)
+                    && EnchantmentLevels.onItem(level, shulker, "vacuum") > 0) {
+                ItemStack next = vacuumIntoShulker(shulker, remaining);
+                if (next.getCount() != remaining.getCount()) {
+                    remaining = next;
+                    changed = true;
+                }
+            }
+        }
+
+        if (!remaining.isEmpty() && isShulker(offhand) && EnchantmentLevels.onItem(level, offhand, "vacuum") > 0) {
+            ItemStack next = vacuumIntoShulker(offhand, remaining);
+            if (next.getCount() != remaining.getCount()) {
+                remaining = next;
+                changed = true;
+            }
+        }
+
         if (!changed) {
             return false;
         }
 
         if (remaining.isEmpty()) {
             itemEntity.discard();
-        } else {
-            itemEntity.setItem(remaining);
+            return true;
         }
-        return true;
+        itemEntity.setItem(remaining);
+        return false;
     }
 
     private static ItemStack siphonIntoPartialStacks(ItemStack shulker, ItemStack incoming) {
@@ -319,31 +343,13 @@ public final class PassiveEnchantmentMechanics {
         }
     }
 
-    private static void vacuumNearbyItems(List<ItemEntity> nearby, ItemStack shulker) {
-        if (nearby.isEmpty()) {
-            return;
-        }
-
+    private static ItemStack vacuumIntoShulker(ItemStack shulker, ItemStack incoming) {
         NonNullList<ItemStack> contents = shulkerContents(shulker);
-        boolean changed = false;
-        for (ItemEntity entity : nearby) {
-            if (!entity.isAlive()) {
-                continue;
-            }
-
-            ItemStack remaining = insert(contents, entity.getItem());
-            if (remaining.isEmpty()) {
-                entity.discard();
-                changed = true;
-            } else if (remaining.getCount() != entity.getItem().getCount()) {
-                entity.setItem(remaining);
-                changed = true;
-            }
-        }
-
-        if (changed) {
+        ItemStack remaining = insert(contents, incoming);
+        if (remaining.getCount() != incoming.getCount()) {
             saveShulkerContents(shulker, contents);
         }
+        return remaining;
     }
 
     private static ItemStack insert(NonNullList<ItemStack> contents, ItemStack stack) {

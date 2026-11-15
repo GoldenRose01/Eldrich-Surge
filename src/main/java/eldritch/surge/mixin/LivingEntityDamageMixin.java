@@ -1,7 +1,10 @@
 package eldritch.surge.mixin;
 
 import eldritch.surge.combat.AdditionalDamageCalculator;
+import eldritch.surge.enchantment.ench.HoleInOneEnchantment;
 import eldritch.surge.enchantment.mechanics.DefensiveEnchantmentMechanics;
+import eldritch.surge.enchantment.mechanics.EnchantmentLevels;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,6 +27,16 @@ public abstract class LivingEntityDamageMixin {
         Entity attacker = source.getEntity();
         if (attacker == null) {
             return amount;
+        }
+
+        if (attacker instanceof LivingEntity livingAttacker
+                && source.getDirectEntity() == livingAttacker
+                && livingAttacker.getMainHandItem().is(ItemTags.SPEARS)) {
+            int holeInOne = EnchantmentLevels.onItem(world, livingAttacker.getMainHandItem(), "hole_in_one");
+            if (holeInOne > 0 && HoleInOneEnchantment.isSimpleMob(victim)
+                    && victim.getRandom().nextDouble() < HoleInOneEnchantment.oneshotChance(holeInOne)) {
+                return Math.max(amount, victim.getHealth() + victim.getAbsorptionAmount() + 100.0F);
+            }
         }
 
         return AdditionalDamageCalculator.addBladeOfApocalypseDamage(

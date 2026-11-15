@@ -79,6 +79,17 @@ public final class AdditionalDamageCalculator {
             finalDamage += EnchantmentLevels.onItem(world, livingAttacker.getMainHandItem(), "heavy_impact") * 1.5F;
         }
 
+        if (livingAttacker instanceof Player player && isCriticalLike(player)) {
+            int experienced = EnchantmentLevels.onItem(world, weapon, "experienced");
+            if (experienced > 0) {
+                finalDamage *= (1.0F + 0.5F * experienced);
+            }
+        }
+
+        if (livingAttacker instanceof Player player && DualWieldCombatMechanics.isSimultaneousDualDash(world, player)) {
+            finalDamage *= 2.0F;
+        }
+
         return finalDamage;
     }
 
@@ -142,7 +153,8 @@ public final class AdditionalDamageCalculator {
         int creeping = EnchantmentLevels.onItem(world, weapon, "creeping_threat");
         if (creeping > 0) {
             victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, Math.min(2, creeping - 1)));
-            if (EnchLibMobCategories.has(world, victim, "arthropods")) {
+            if (EnchLibMobCategories.has(world, victim, "arthropods")
+                    || victim instanceof net.minecraft.world.entity.monster.Creeper) {
                 victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20 + 15 * creeping, 3));
             }
         }
@@ -179,7 +191,11 @@ public final class AdditionalDamageCalculator {
                 double dy = victim.getY() - nearby.getY();
                 double dz = victim.getZ() - nearby.getZ();
                 double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-                if (distance > 0.001D) nearby.push(dx / distance * 0.12D * gravityWell, dy / distance * 0.12D * gravityWell, dz / distance * 0.12D * gravityWell);
+                if (distance > 0.001D) {
+                    double pull = Math.min(1.4D, 0.55D * gravityWell);
+                    double vy = Math.max(0.18D, (dy / distance) * pull);
+                    nearby.push((dx / distance) * pull, vy, (dz / distance) * pull);
+                }
             }
         }
 
@@ -229,9 +245,6 @@ public final class AdditionalDamageCalculator {
         ItemStack weapon = attacker.getMainHandItem();
         float bonus = EnchantmentLevels.onItem(world, weapon, "superweight") * 2.0F;
         bonus += paybackBonus(world, weapon, attacker);
-        if (attacker instanceof Player player && isCriticalLike(player)) {
-            bonus += EnchantmentLevels.onItem(world, weapon, "experienced") * 4.0F;
-        }
         bonus += customSmiteBonus(world, weapon, victim);
         bonus += greamReaperBonus(EnchantmentLevels.onItem(world, weapon, "gream_reaper"));
         return applyPvpModifier(world, victim, bonus);
@@ -283,6 +296,9 @@ public final class AdditionalDamageCalculator {
         int triumph = EnchantmentLevels.onItem(world, weapon, "triumph");
         if (triumph > 0) {
             attacker.heal(2.0F * triumph);
+            if (attacker instanceof Player player) {
+                player.getFoodData().eat(2 * triumph, 0.5F * triumph);
+            }
         }
 
     }

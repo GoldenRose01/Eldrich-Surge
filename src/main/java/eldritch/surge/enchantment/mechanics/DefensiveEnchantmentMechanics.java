@@ -40,7 +40,8 @@ public final class DefensiveEnchantmentMechanics {
     }
 
     public static void retaliate(ServerLevel level, LivingEntity wearer, Entity attacker, DamageSource source) {
-        if (!(attacker instanceof LivingEntity target) || target == wearer || !target.isAlive()) {
+        Entity resolvedAttacker = attacker != null ? attacker : source.getDirectEntity();
+        if (!(resolvedAttacker instanceof LivingEntity target) || target == wearer || !target.isAlive()) {
             return;
         }
 
@@ -52,7 +53,7 @@ public final class DefensiveEnchantmentMechanics {
 
         int nether = EnchantmentLevels.onArmor(level, wearer, "heart_of_nether");
         if (nether > 0 && !source.is(DamageTypeTags.IS_PROJECTILE)) {
-            target.igniteForSeconds(2.0F * nether);
+            target.igniteForSeconds(Math.max(4.0F, 4.0F * nether));
         }
 
         int sky = EnchantmentLevels.onArmor(level, wearer, "heart_of_the_sky");

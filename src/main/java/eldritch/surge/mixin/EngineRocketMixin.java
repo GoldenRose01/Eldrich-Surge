@@ -21,8 +21,11 @@ public abstract class EngineRocketMixin {
     private void eldritchSurge$returnElytraBoostRocket(ItemStack stack, int count, LivingEntity user, Operation<Void> original) {
         if (user instanceof Player player && player.isFallFlying() && player.level() instanceof ServerLevel level) {
             int engine = EnchantmentLevels.onItem(level, player.getItemBySlot(EquipmentSlot.CHEST), "engine");
-            if (engine > 0 && level.getRandom().nextInt(100) < Math.min(100, engine * 10)) {
-                return;
+            if (engine > 0) {
+                double refundChance = Math.min(90.0D, 80.0D * (Math.log(engine + 1.0D) / Math.log(11.0D)));
+                if (level.getRandom().nextDouble() * 100.0D < refundChance) {
+                    return;
+                }
             }
         }
         original.call(stack, count, user);

@@ -20,6 +20,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ThrownTrident.class)
 public abstract class ThrownTridentMixin {
+    @org.spongepowered.asm.mixin.Unique
+    private boolean eldritchSurge$hasHit;
+
+    @Inject(method = "tick", at = @At("HEAD"))
+    private void eldritchSurge$applyLaunchNoGravity(CallbackInfo ci) {
+        ThrownTrident trident = (ThrownTrident) (Object) this;
+        if (eldritchSurge$hasHit) {
+            if (trident.isNoGravity()) {
+                trident.setNoGravity(false);
+            }
+            return;
+        }
+        if (!trident.isNoGravity() && trident.level() instanceof ServerLevel level) {
+            ItemStack weapon = trident.getWeaponItem();
+            if (weapon != null && eldritch.surge.enchantment.mechanics.EnchantmentLevels.onItem(level, weapon, "launch") >= 5) {
+                trident.setNoGravity(true);
+            }
+        }
+    }
+
     @ModifyArg(method = "onHitEntity", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/Entity;hurtOrSimulate(Lnet/minecraft/world/damagesource/DamageSource;F)Z"), index = 1)
     private float eldritchSurge$neptuneThrownDamage(float damage) {
@@ -33,6 +53,8 @@ public abstract class ThrownTridentMixin {
     @Inject(method = "onHitEntity", at = @At("TAIL"))
     private void eldritchSurge$releaseWindOnEntityHit(EntityHitResult hit, CallbackInfo ci) {
         ThrownTrident trident = (ThrownTrident) (Object) this;
+        eldritchSurge$hasHit = true;
+        trident.setNoGravity(false);
         if (trident.level() instanceof ServerLevel level) {
             SeaBreezeMechanics.releaseWindCharge(level, trident, trident.getWeaponItem(), hit.getLocation());
         }
@@ -40,7 +62,10 @@ public abstract class ThrownTridentMixin {
 
     @Inject(method = "hitBlockEnchantmentEffects", at = @At("TAIL"))
     private void eldritchSurge$releaseWindOnBlockHit(ServerLevel level, BlockHitResult hit, ItemStack weapon, CallbackInfo ci) {
-        SeaBreezeMechanics.releaseWindCharge(level, (ThrownTrident) (Object) this, weapon, hit.getLocation());
+        ThrownTrident trident = (ThrownTrident) (Object) this;
+        eldritchSurge$hasHit = true;
+        trident.setNoGravity(false);
+        SeaBreezeMechanics.releaseWindCharge(level, trident, weapon, hit.getLocation());
     }
 
     @WrapOperation(

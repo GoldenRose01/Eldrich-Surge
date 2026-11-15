@@ -2218,5 +2218,23 @@
                                      "incompatibleEnchantments":  [
 
                                                                   ]
-                                 }
+                                 },
+    "eldrich-surge:magnetic":  {
+                                   "enabled":  true,
+                                   "anvilMaxLevel":  1,
+                                   "enchantingTableMaxLevel":  1,
+                                   "normalTable":  true,
+                                   "advancedTable":  true,
+                                   "loot":  false,
+                                   "rarity":  50,
+                                   "rarityClass":  "rare",
+                                   "normalTableChance":  50,
+                                   "advancedTableChance":  50,
+                                   "supportedItems":  [
+                                                          "minecraft:armor_stand"
+                                                      ],
+                                   "incompatibleEnchantments":  [
+
+                                                                ]
+                               }
 }

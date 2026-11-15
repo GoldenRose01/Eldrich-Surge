@@ -26,7 +26,7 @@ public final class VanguardChargeMechanics {
                 Charge charge = entry.getValue();
                 Entity entity = level.getEntity(charge.target);
                 if (!(entity instanceof LivingEntity target) || !target.isAlive() || charge.ticksLeft <= 0) return true;
-                entry.setValue(new Charge(charge.target, charge.level, charge.direction, charge.ticksLeft - 1));
+                entry.setValue(new Charge(charge.target, charge.level, charge.chargeTicks, charge.direction, charge.ticksLeft - 1));
 
                 Vec3 step = charge.direction.scale(0.9D);
                 if (level.noCollision(target, target.getBoundingBox().move(step))) {
@@ -35,21 +35,23 @@ public final class VanguardChargeMechanics {
                     return false;
                 }
 
+                float chargeMultiplier = 1.0F + Math.min(3.0F, charge.chargeTicks / 20.0F) * 0.75F;
+                float damage = (4.0F + charge.level * 2.0F) * chargeMultiplier;
                 eldritch.surge.combat.SecondaryEnchantmentDamage.run(() ->
-                        target.hurtServer(level, player.damageSources().playerAttack(player), 4.0F + charge.level * 2.0F));
+                        target.hurtServer(level, player.damageSources().playerAttack(player), damage));
                 target.push(charge.direction.x * 0.7D, charge.direction.y * 0.5D, charge.direction.z * 0.7D);
                 return true;
             });
         });
     }
 
-    public static void activate(ServerPlayer player, LivingEntity target, int level) {
+    public static void activate(ServerPlayer player, LivingEntity target, int level, int chargeTicks) {
         Vec3 direction = player.getLookAngle().normalize();
         player.setDeltaMovement(direction.scale(1.25D));
         target.setDeltaMovement(direction.scale(0.9D));
-        CHARGES.put(player.getUUID(), new Charge(target.getUUID(), level, direction, 12));
+        CHARGES.put(player.getUUID(), new Charge(target.getUUID(), level, Math.max(0, chargeTicks), direction, 12));
     }
 
-    private record Charge(UUID target, int level, Vec3 direction, int ticksLeft) {
+    private record Charge(UUID target, int level, int chargeTicks, Vec3 direction, int ticksLeft) {
     }
 }

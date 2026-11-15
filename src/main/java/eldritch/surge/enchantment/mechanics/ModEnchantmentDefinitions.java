@@ -12,7 +12,6 @@ public final class ModEnchantmentDefinitions {
             FearEnchantment.DEFINITION,
             KineticProtectionEnchantment.DEFINITION,
             HappyBoostEnchantment.DEFINITION,
-            StepAssistEnchantment.DEFINITION,
             FanaticEnchantment.DEFINITION,
             DodgeEnchantment.DEFINITION,
             FuseCutterEnchantment.DEFINITION,
@@ -126,7 +125,10 @@ public final class ModEnchantmentDefinitions {
             ImpalerReachEnchantment.DEFINITION,
             VanguardChargeEnchantment.DEFINITION,
             HeartseekerEnchantment.DEFINITION,
-            WeldingEnchantment.DEFINITION
+            WeldingEnchantment.DEFINITION,
+            MagneticEnchantment.DEFINITION,
+            HoleInOneEnchantment.DEFINITION,
+            FishermanEnchantment.DEFINITION
     );
 
     public static final Map<String, ModEnchantmentDefinition> BY_ID = ALL.stream()

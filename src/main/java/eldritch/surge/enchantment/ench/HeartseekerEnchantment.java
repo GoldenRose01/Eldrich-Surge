@@ -14,7 +14,7 @@ public final class HeartseekerEnchantment {
             List.of("#eldrich-surge:enchantable/spear"),
             List.of("hand"),
             "#eldrich-surge:aspect",
-            "Colpo alle spalle. Attaccare un'entita non voltata verso il player garantisce un colpo critico automatico che ignora il 50% dell'armatura."
+            "Assorbe e cura il player dei cuori inflitti al bersaglio durante un attacco in carica con la lancia."
     );
 
     private HeartseekerEnchantment() {

@@ -1,21 +1,21 @@
 {
   "anvil_cost": 2,
   "description": {
-    "translate": "enchantment.eldrich-surge.step_assist"
+    "translate": "enchantment.eldrich-surge.magnetic"
   },
   "effects": {},
   "max_cost": {
     "base": 35,
     "per_level_above_first": 10
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
-    "base": 5,
+    "base": 10,
     "per_level_above_first": 7
   },
   "slots": [
-    "feet"
+    "any"
   ],
-  "supported_items": "#minecraft:enchantable/foot_armor",
-  "weight": 5
+  "supported_items": "minecraft:armor_stand",
+  "weight": 4
 }

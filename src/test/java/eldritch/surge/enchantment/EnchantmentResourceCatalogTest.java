@@ -36,11 +36,16 @@ public final class EnchantmentResourceCatalogTest {
                 if (!Files.isRegularFile(tag)) throw new AssertionError("Missing resource supported-item tag " + resourceSupportedItems + " for " + id);
             }
             if (json.has("exclusive_set")) {
-                String exclusiveSet = json.get("exclusive_set").getAsString();
-                if (exclusiveSet.startsWith("#eldrich-surge:")) {
-                    Path tag = Path.of("src/main/resources/data/eldrich-surge/tags/enchantment/"
-                            + exclusiveSet.substring("#eldrich-surge:".length()) + ".json");
-                    if (!Files.isRegularFile(tag)) throw new AssertionError("Missing exclusive-set enchantment tag " + exclusiveSet + " for " + id);
+                var exclusiveElem = json.get("exclusive_set");
+                var exclusiveEntries = exclusiveElem.isJsonArray()
+                        ? exclusiveElem.getAsJsonArray().asList().stream().map(com.google.gson.JsonElement::getAsString).toList()
+                        : java.util.List.of(exclusiveElem.getAsString());
+                for (String exclusiveSet : exclusiveEntries) {
+                    if (exclusiveSet.startsWith("#eldrich-surge:")) {
+                        Path tag = Path.of("src/main/resources/data/eldrich-surge/tags/enchantment/"
+                                + exclusiveSet.substring("#eldrich-surge:".length()) + ".json");
+                        if (!Files.isRegularFile(tag)) throw new AssertionError("Missing exclusive-set enchantment tag " + exclusiveSet + " for " + id);
+                    }
                 }
             }
             for (String itemTag : definition.supportedItems()) {

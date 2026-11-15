@@ -20,8 +20,6 @@ import net.minecraft.world.level.ServerExplosion;
 public final class SurvivalEnchantmentMechanics {
     public static final String FISHING_SCORE = "eldrich_surge_fanatic_catches";
     private static final net.minecraft.resources.Identifier FATIGUE_SPEED = EldritchSurge.id("fatigue_speed");
-    private static final net.minecraft.resources.Identifier STEP_HEIGHT = EldritchSurge.id("step_assist_height");
-    private static final net.minecraft.resources.Identifier STEP_JUMP = EldritchSurge.id("step_assist_jump");
     private static final net.minecraft.resources.Identifier KINETIC_ARMOR = EldritchSurge.id("kinetic_armor");
 
     private SurvivalEnchantmentMechanics() {}
@@ -87,11 +85,6 @@ public final class SurvivalEnchantmentMechanics {
 
     private static void tick(ServerPlayer player) {
         ServerLevel level = (ServerLevel) player.level();
-        double steps = EnchantmentLevels.onItemStrength(level, player.getItemBySlot(EquipmentSlot.FEET), "step_assist");
-        TransientAttributeModifiers.set(player.getAttribute(Attributes.STEP_HEIGHT), STEP_HEIGHT,
-                SurvivalEnchantmentMath.stepHeightBonus(steps));
-        TransientAttributeModifiers.set(player.getAttribute(Attributes.JUMP_STRENGTH), STEP_JUMP,
-                SurvivalEnchantmentMath.stepJumpBonus(steps));
         double kinetic = player.isFallFlying() ? elytraLevel(player, "kinetic_protection") : 0;
         TransientAttributeModifiers.set(player.getAttribute(Attributes.ARMOR), KINETIC_ARMOR, 6.0D * kinetic);
         double fatigue = 0;
@@ -112,7 +105,7 @@ public final class SurvivalEnchantmentMechanics {
         if (!player.isAlive() || player.isSpectator()) return;
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack held = player.getItemInHand(hand);
-            if (EnchantmentLevels.onItem(level, held, "curse_of_slippery") > 0 && player.getRandom().nextInt(660) == 0) {
+            if (EnchantmentLevels.onItem(level, held, "curse_of_slippery") > 0 && player.getRandom().nextInt(1400) == 0) {
                 var dropped = player.drop(held.copy(), false, net.minecraft.util.Prediction.SERVER_ONLY);
                 if (dropped != null) {
                     player.setItemInHand(hand, ItemStack.EMPTY);
@@ -120,11 +113,17 @@ public final class SurvivalEnchantmentMechanics {
                 }
             }
         }
+        if (player.tickCount % 40 == 0 && player.isInWater() && EnchantmentLevels.onArmor(level, player, "curse_of_corrosion") > 0) {
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (!slot.isArmor()) continue;
+                ItemStack armor = player.getItemBySlot(slot);
+                if (!armor.isEmpty() && armor.isDamageableItem()) {
+                    armor.hurtAndBreak(1, player, slot);
+                }
+            }
+        }
         if (player.tickCount % 60 != 0 || !(player.isInWater() || level.isRainingAt(player.blockPosition())
                 || level.isRainingAt(net.minecraft.core.BlockPos.containing(player.getEyePosition())))) return;
-        if (EnchantmentLevels.onArmor(level, player, "curse_of_corrosion") > 0) {
-            player.hurtServer(level, player.damageSources().magic(), 0.25F);
-        }
         if (!player.isAlive()) return;
         boolean blessed = false;
         for (EquipmentSlot slot : EquipmentSlot.values()) {

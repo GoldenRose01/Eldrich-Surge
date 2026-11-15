@@ -33,14 +33,6 @@ bin/
 
 run/
 /logs/
-/state/wiki/
-
-# config tool generated files
-
-/external_tools/**/obj/
-/external_tools/**/bin/
-/external_tools/**/publish/
-/external_tools/**/__pycache__/
 
 # java
 

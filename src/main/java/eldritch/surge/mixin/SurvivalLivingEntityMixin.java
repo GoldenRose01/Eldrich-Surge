@@ -91,4 +91,12 @@ public abstract class SurvivalLivingEntityMixin {
                                                boolean broadcast, CallbackInfoReturnable<Boolean> cir) {
         eldrichSurge$swingHand = hand;
     }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void eldritchSurge$tickMagneticArmorStand(CallbackInfo ci) {
+        if ((Object) this instanceof eldritch.surge.enchantment.mechanics.MagneticArmorStand magnetic
+                && magnetic.eldritchSurge$getMagneticLevel() > 0) {
+            magnetic.eldritchSurge$tickMagnetic();
+        }
+    }
 }
