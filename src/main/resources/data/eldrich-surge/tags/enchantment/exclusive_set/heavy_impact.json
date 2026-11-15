@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#eldrich-surge:additional_damage",
+    "eldrich-surge:gravity_well"
+  ]
+}

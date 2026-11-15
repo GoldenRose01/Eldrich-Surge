@@ -4,10 +4,7 @@
     "translate": "enchantment.eldrich-surge.heavy_impact"
   },
   "effects": {},
-  "exclusive_set": [
-    "#eldrich-surge:additional_damage",
-    "eldrich-surge:gravity_well"
-  ],
+  "exclusive_set": "#eldrich-surge:exclusive_set/heavy_impact",
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10

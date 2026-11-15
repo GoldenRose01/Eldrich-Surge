@@ -4,10 +4,7 @@
     "translate": "enchantment.eldrich-surge.gravity_well"
   },
   "effects": {},
-  "exclusive_set": [
-    "#eldrich-surge:weapon_utility",
-    "eldrich-surge:heavy_impact"
-  ],
+  "exclusive_set": "#eldrich-surge:exclusive_set/gravity_well",
   "max_cost": {
     "base": 50,
     "per_level_above_first": 10
