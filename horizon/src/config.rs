@@ -1,7 +1,7 @@
 use std::sync::atomic::AtomicBool;
 use std::sync::Mutex;
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LethalPoisonMode {
     Off,
     Player,
@@ -53,5 +53,19 @@ impl EldrichConfig {
 
     pub fn lethal_poison_mode(&self) -> LethalPoisonMode {
         *self.lethal_poison.lock().expect("lethal_poison lock")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_lethal_poison_modes() {
+        assert_eq!(LethalPoisonMode::parse("off"), Some(LethalPoisonMode::Off));
+        assert_eq!(LethalPoisonMode::parse("player"), Some(LethalPoisonMode::Player));
+        assert_eq!(LethalPoisonMode::parse("mob"), Some(LethalPoisonMode::Mob));
+        assert_eq!(LethalPoisonMode::parse("all"), Some(LethalPoisonMode::All));
+        assert_eq!(LethalPoisonMode::parse("invalid"), None);
     }
 }

@@ -59,6 +59,36 @@ pub fn max_on_equipment(host: &dyn Host, living: LivingRef, id: &str) -> i32 {
     best
 }
 
+pub fn stored_enchantments(stack: &ItemStack) -> Vec<(String, i32)> {
+    let Some(components) = stack.components() else {
+        return Vec::new();
+    };
+    let patch = Compound::from(components);
+    let Some(Tag::Compound(ench_map)) = patch.get(&"minecraft:stored_enchantments".into()) else {
+        return Vec::new();
+    };
+    ench_map
+        .iter()
+        .map(|(k, v)| (k.to_string_lossy(), tag_to_i32(v)))
+        .collect()
+}
+
+pub fn make_enchanted_book(host: &dyn Host, id: &str, level: i32) -> Option<ItemStack> {
+    let key = host.item_key(&mod_api::Identifier::parse("minecraft:enchanted_book").ok()?)?;
+    let mut stack = ItemStack::new(key, 1)?;
+    let full = if id.contains(':') {
+        id.to_owned()
+    } else {
+        format!("eldrich-surge:{id}")
+    };
+    let mut stored = Compound::new();
+    stored.insert(full.as_str().into(), Tag::Int(level));
+    let mut patch = Compound::new();
+    patch.insert("minecraft:stored_enchantments".into(), Tag::Compound(stored));
+    stack.set_components(patch).ok()?;
+    Some(stack)
+}
+
 fn tag_to_i32(tag: &Tag) -> i32 {
     match tag {
         Tag::Byte(n) => i32::from(*n),

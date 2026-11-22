@@ -1,3 +1,4 @@
+mod anvil;
 mod combat;
 mod commands;
 mod config;
@@ -5,9 +6,9 @@ mod enchants;
 mod survival;
 
 use mod_api::{
-    AttackEntityEvent, Flow, Hooks, HostSide, LevelRandomHost, LivingDeathEvent, LivingDropsEvent,
-    LivingIncomingDamageEvent, PlayerBreakSpeedEvent, PlayerRespawnedEvent, RegisterCommandsEvent,
-    RunModCommandEvent, ServerHost, SweepAttackEvent, Text,
+    AnvilUpdateEvent, AttackEntityEvent, Flow, Hooks, HostSide, LevelRandomHost, LivingDeathEvent,
+    LivingDropsEvent, LivingIncomingDamageEvent, PlayerBreakSpeedEvent, PlayerRespawnedEvent,
+    RegisterCommandsEvent, RunModCommandEvent, ServerHost, SweepAttackEvent, Text,
 };
 
 #[derive(Default)]
@@ -75,5 +76,12 @@ impl Hooks for EldrichSurge {
             return Flow::Continue;
         };
         self.survival.on_break_speed(host, event)
+    }
+
+    fn anvil_update(&self, host: HostSide<'_>, event: &mut AnvilUpdateEvent<'_>) -> Flow {
+        let HostSide::Server(host) = host else {
+            return Flow::Continue;
+        };
+        anvil::on_anvil_update(host, event)
     }
 }
