@@ -1,7 +1,7 @@
 id = "eldrich_surge"
 name = "Eldrich Surge — Horizon"
-version = "1.9.1-alpha.1"
-description = "Horizon preview of Katana, Smithcrafts and Impaler Reach."
+version = "1.9.1-alpha.2"
+description = "Horizon native port of Eldrich Surge: 122 enchantments, /eldrich commands, and custom mechanics."
 authors = ["GoldenRose01"]
 license = "MIT"
 homepage = "https://github.com/GoldenRose01/Eldrich-Surge"
@@ -10,3 +10,8 @@ api = "0.2"
 side = "both"
 capabilities = ["registries"]
 namespaces = ["eldrich-surge"]
+
+[native]
+game = "26.3"
+horizon = "2b77287de099c9316278ba7ac4d83590fdb7ef30"
+mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"

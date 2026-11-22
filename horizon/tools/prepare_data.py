@@ -1,4 +1,4 @@
-"""Convert the supported Eldrich Surge definitions to Horizon data."""
+"""Convert all Eldrich Surge data definitions, tags, and translations to Horizon data."""
 
 import json
 import math
@@ -7,7 +7,6 @@ from pathlib import Path
 HORIZON = Path(__file__).resolve().parents[1]
 SOURCE = HORIZON.parent / "src/main/resources"
 NAMESPACE = "eldrich-surge"
-SUPPORTED = {"katana", "smithcrafts", "impaler_reach"}
 
 
 def lookup_effect(amount):
@@ -21,48 +20,47 @@ def lookup_effect(amount):
     return {"type": "minecraft:lookup", "values": values, "fallback": values[-1]}
 
 
-def read(path):
-    return json.loads((SOURCE / path).read_text(encoding="utf-8"))
+def convert_logarithmic(node):
+    if isinstance(node, dict):
+        if node.get("type") == "eldrich-surge:logarithmic_level":
+            return lookup_effect(node)
+        return {k: convert_logarithmic(v) for k, v in node.items()}
+    if isinstance(node, list):
+        return [convert_logarithmic(v) for v in node]
+    return node
 
 
 def write(path, data):
-    path = HORIZON / path
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    out = HORIZON / path
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
 def main():
-    tags = set()
-    for name in sorted(SUPPORTED):
-        path = f"data/{NAMESPACE}/enchantment/{name}.json"
-        definition = read(path)
-        for modifier in definition["effects"]["minecraft:attributes"]:
-            modifier["amount"] = lookup_effect(modifier["amount"])
-        if name == "impaler_reach":
+    ench_dir = SOURCE / f"data/{NAMESPACE}/enchantment"
+    count = 0
+    for src_file in sorted(ench_dir.glob("*.json")):
+        definition = json.loads(src_file.read_text(encoding="utf-8"))
+        definition = convert_logarithmic(definition)
+        if src_file.stem == "impaler_reach":
             definition["supported_items"] = "#minecraft:spears"
-        if name == "katana":
-            tags.add("additional_damage")
-        if name == "impaler_reach":
-            tags.add("weapon_utility")
-        write(path, definition)
+        write(f"data/{NAMESPACE}/enchantment/{src_file.name}", definition)
+        count += 1
 
-    for name in sorted(tags):
-        path = f"data/{NAMESPACE}/tags/enchantment/{name}.json"
-        data = read(path)
-        data["values"] = [
-            value for value in data["values"]
-            if not value.startswith(NAMESPACE + ":") or value.split(":", 1)[1] in SUPPORTED
-        ]
-        if name == "additional_damage":
-            data["values"].append("minecraft:sharpness")
-        write(path, data)
+    tags_dir = SOURCE / f"data/{NAMESPACE}/tags/enchantment"
+    for src_file in sorted(tags_dir.glob("*.json")):
+        data = json.loads(src_file.read_text(encoding="utf-8"))
+        if src_file.stem == "additional_damage" and "minecraft:sharpness" not in data.get("values", []):
+            data.setdefault("values", []).append("minecraft:sharpness")
+        write(f"data/{NAMESPACE}/tags/enchantment/{src_file.name}", data)
 
     for locale in ("en_us", "it_it"):
-        path = f"assets/{NAMESPACE}/lang/{locale}.json"
-        language = read(path)
-        prefixes = tuple(f"enchantment.{NAMESPACE}.{name}" for name in SUPPORTED)
-        write(path, {key: value for key, value in language.items()
-                     if key in prefixes or key.startswith(tuple(p + "." for p in prefixes))})
+        lang_file = SOURCE / f"assets/{NAMESPACE}/lang/{locale}.json"
+        if lang_file.exists():
+            language = json.loads(lang_file.read_text(encoding="utf-8"))
+            write(f"assets/{NAMESPACE}/lang/{locale}.json", language)
+
+    print(f"Exported {count} enchantments, tags, and translations.")
 
 
 if __name__ == "__main__":
