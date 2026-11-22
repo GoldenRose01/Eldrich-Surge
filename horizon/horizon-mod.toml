@@ -1,0 +1,10 @@
+id = "eldrich_surge"
+name = "Eldrich Surge — Horizon"
+version = "1.9.1-alpha.1"
+description = "Horizon preview of Katana, Smithcrafts and Impaler Reach."
+homepage = "https://github.com/GoldenRose01/Eldrich-Surge"
+issues = "https://github.com/GoldenRose01/Eldrich-Surge/issues"
+api = "0.2"
+side = "both"
+capabilities = ["registries"]
+namespaces = ["eldrich-surge"]
