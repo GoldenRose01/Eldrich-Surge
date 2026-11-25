@@ -1,6 +1,6 @@
 id = "eldrich_surge"
 name = "Eldrich Surge — Horizon"
-version = "1.9.1-alpha.2"
+version = "2.0.0"
 description = "Horizon native port of Eldrich Surge: 122 enchantments, /eldrich commands, and custom mechanics."
 authors = ["GoldenRose01"]
 license = "MIT"
