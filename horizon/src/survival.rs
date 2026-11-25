@@ -20,9 +20,23 @@ pub fn is_raw_meat(item_id: &str) -> bool {
 #[derive(Default)]
 pub struct SurvivalState {
     soulbound_saved: Mutex<HashMap<u128, Vec<(u32, ItemStack)>>>,
+    loyalty_tridents: Mutex<HashMap<u128, Vec<ItemStack>>>,
 }
 
 impl SurvivalState {
+    pub fn save_loyalty_trident(&self, owner: u128, stack: ItemStack) {
+        if let Ok(mut guard) = self.loyalty_tridents.lock() {
+            guard.entry(owner).or_default().push(stack);
+        }
+    }
+
+    pub fn take_loyalty_tridents(&self, owner: u128) -> Vec<ItemStack> {
+        self.loyalty_tridents
+            .lock()
+            .ok()
+            .and_then(|mut g| g.remove(&owner))
+            .unwrap_or_default()
+    }
     pub fn on_living_death(&self, host: &mut dyn ServerHost, event: &LivingDeathEvent<'_>) {
         // 1. Triumph heal/feed for killer
         if event.source.causing > 0

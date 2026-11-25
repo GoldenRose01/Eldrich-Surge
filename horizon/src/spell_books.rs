@@ -320,7 +320,41 @@ struct SpellBookPart;
 
 impl ItemPart for SpellBookPart {
     fn item_subscribed(&self) -> &'static [Option<mod_api::HookId>] {
-        &[Some(mod_api::HookId::UseItem)]
+        &[
+            Some(mod_api::HookId::UseItem),
+            Some(mod_api::HookId::OnEntityItemUpdate),
+        ]
+    }
+
+    fn on_entity_item_update(
+        &self,
+        host: &mut dyn ServerHost,
+        event: &mut mod_api::OnEntityItemUpdateEvent<'_>,
+    ) -> mod_api::Flow {
+        let Some((spell_id, lvl)) = active_spell_on_stack(&event.stack) else {
+            return mod_api::Flow::Continue;
+        };
+        let ent = event.item.entity();
+        let on_ground = ent.on_ground(host) == Some(true);
+        let eid = ent.id();
+        if !on_ground {
+            if let Ok(mut guard) = runtime().lock() {
+                guard.airborne_items.insert(eid);
+            }
+            return mod_api::Flow::Continue;
+        }
+        let was_airborne = runtime()
+            .lock()
+            .ok()
+            .is_some_and(|mut g| g.airborne_items.remove(&eid));
+        if !was_airborne {
+            return mod_api::Flow::Continue;
+        }
+        let origin = ent.position(host).unwrap_or([0.0, 64.0, 0.0]);
+        if execute_spell(host, &spell_id, lvl, "minecraft:overworld", origin, None) {
+            let _ = ent.discard(host);
+        }
+        mod_api::Flow::Continue
     }
 
     fn use_item(&self, host: HostSide<'_>, event: &mut UseItemEvent<'_>) -> Option<InteractionResult> {

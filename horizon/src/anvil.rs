@@ -101,6 +101,12 @@ pub fn on_anvil_update(host: &dyn ServerHost, event: &mut AnvilUpdateEvent<'_>) 
         }
     }
 
+    // Welding durability repair cost scaling
+    let welding_lvl = enchants::level_on_item(left, "welding");
+    if welding_lvl > 0 && event.update.xp_cost > 0 {
+        event.update.xp_cost = welding_durability_cost(event.update.xp_cost, welding_lvl);
+    }
+
     Flow::Continue
 }
 
