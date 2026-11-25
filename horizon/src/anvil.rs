@@ -127,6 +127,23 @@ fn matches_set(set: &BTreeSet<&str>, expected: &[&str]) -> bool {
     set.len() == expected.len() && expected.iter().all(|id| set.contains(id))
 }
 
+pub fn welding_repair_cost(welding_lvl: i32, fusions: i32) -> i32 {
+    if welding_lvl < 1 || fusions < 1 {
+        return 0;
+    }
+    let scale = 3.5 / (0.6 + 0.4 * f64::from(welding_lvl));
+    let raw = (scale * (f64::from(fusions) + 1.0).ln()).round() as i32;
+    raw.clamp(1, 49)
+}
+
+pub fn welding_durability_cost(original_cost: i32, welding_lvl: i32) -> i32 {
+    if original_cost < 1 || welding_lvl < 1 {
+        return original_cost.max(0);
+    }
+    let scaled = (f64::from(original_cost) / (4.0 * f64::from(welding_lvl))).ceil() as i32;
+    scaled.clamp(1, 49)
+}
+
 pub fn check_anvil_combination_allowed(
     is_book_output: bool,
     left_ids: &[&str],
@@ -193,5 +210,14 @@ mod tests {
             ],
             &["eldrich-surge:bane_of_end", "eldrich-surge:wrath_of_the_abyss"]
         ));
+    }
+
+    #[test]
+    fn welding_cost_formulas_match_java_spec() {
+        assert_eq!(welding_repair_cost(1, 0), 0);
+        assert!(welding_repair_cost(1, 1) >= 1 && welding_repair_cost(1, 1) <= 49);
+        assert!(welding_repair_cost(5, 10) < welding_repair_cost(1, 10));
+        assert_eq!(welding_durability_cost(20, 1), 5);
+        assert_eq!(welding_durability_cost(20, 5), 1);
     }
 }

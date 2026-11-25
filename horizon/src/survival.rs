@@ -1,10 +1,21 @@
-use crate::enchants;
+use crate::{enchants, enchlib_bridge::EnchLibState};
 use mod_api::{
     EquipmentSlot, Flow, ItemStack, LivingDeathEvent, LivingDropsEvent, PlayerBreakSpeedEvent,
     PlayerRespawnedEvent, ServerHost,
 };
 use std::collections::HashMap;
 use std::sync::Mutex;
+
+pub fn is_raw_meat(item_id: &str) -> bool {
+    matches!(
+        item_id,
+        "minecraft:beef"
+            | "minecraft:porkchop"
+            | "minecraft:chicken"
+            | "minecraft:mutton"
+            | "minecraft:rabbit"
+    )
+}
 
 #[derive(Default)]
 pub struct SurvivalState {
@@ -63,7 +74,26 @@ impl SurvivalState {
         }
     }
 
-    pub fn on_living_drops(&self, _host: &mut dyn ServerHost, event: &mut LivingDropsEvent<'_>) {
+    pub fn on_living_drops(&self, host: &mut dyn ServerHost, event: &mut LivingDropsEvent<'_>) {
+        // Butcher: double raw meat drops on "animals" mob category
+        if event.source.causing > 0
+            && EnchLibState::has_mob_category(Some(host), event.kind, "animals")
+            && let Some(killer_entity) = host.entity(event.source.causing as u32)
+            && let Some(killer_living) = host.living(killer_entity)
+            && let Some(weapon) = killer_living.equipment(host, EquipmentSlot::MainHand)
+            && enchants::level_on_item(&weapon, "butcher") > 0
+        {
+            for drop in event.drops.iter_mut() {
+                let item_id = drop.stack.item().id(host);
+                if is_raw_meat(&item_id) {
+                    let doubled = (drop.stack.count() * 2).min(64);
+                    if let Some(new_stack) = ItemStack::new(drop.stack.item(), doubled) {
+                        drop.stack = new_stack;
+                    }
+                }
+            }
+        }
+
         if event.kind != "minecraft:player" {
             return;
         }

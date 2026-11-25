@@ -41,12 +41,14 @@ impl Hooks for EldrichSurge {
             enchlib_loaded,
         );
         if let Some(ref w) = world_dir {
+            self.config.load_from_world(w);
             advanced_table::EnchantingReagentStorage::load_from_world(w);
         }
     }
 
     fn server_stopping(&self, host: &mut dyn ServerHost, _event: &mut ServerStoppingEvent) {
         if let Some(w) = host.world_dir() {
+            self.config.save_to_world(&w);
             advanced_table::EnchantingReagentStorage::save_to_world(&w);
         }
         spell_books::on_server_stopping();

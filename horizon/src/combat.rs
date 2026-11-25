@@ -190,13 +190,21 @@ impl CombatState {
         }
 
         let creeping = enchants::level_on_item(&weapon, "creeping_threat");
-        if creeping > 0
-            && let Some(key) = host.effect_key("minecraft:weakness")
-        {
-            let _ = victim_living.add_effect(
-                host,
-                &ActiveEffect::new(key, 80, (creeping - 1).min(2), false, true, true),
-            );
+        if creeping > 0 {
+            if let Some(key) = host.effect_key("minecraft:weakness") {
+                let _ = victim_living.add_effect(
+                    host,
+                    &ActiveEffect::new(key, 80, (creeping - 1).min(2), false, true, true),
+                );
+            }
+            if (is_creeper || EnchLibState::has_mob_category(Some(host), &victim_id, "arthropods"))
+                && let Some(key) = host.effect_key("minecraft:slowness")
+            {
+                let _ = victim_living.add_effect(
+                    host,
+                    &ActiveEffect::new(key, 20 + 15 * creeping, 3, false, true, true),
+                );
+            }
         }
 
         let backslash = enchants::level_on_item(&weapon, "backslash");
