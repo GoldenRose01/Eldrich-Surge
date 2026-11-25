@@ -433,7 +433,74 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
         }
     }
 
-    fn menu_button(&self, _host: &mut dyn ServerHost, _event: &mut MenuButtonEvent<'_>) {}
+    fn menu_button(&self, host: &mut dyn ServerHost, event: &mut MenuButtonEvent<'_>) {
+        let Some(player) = host.player(event.context.player) else {
+            return;
+        };
+        let button = event.context.id;
+        let is_creative = player.is_creative(host) == Some(true);
+        let Some(xp) = player.experience(host) else {
+            return;
+        };
+
+        // Read/update target level in data[3] (1=decrement, 2=increment, >=100=select row)
+        if button == 1 {
+            if let Some(cur) = event.entity.data.get_mut(3) {
+                *cur = (*cur - 1).max(1);
+            }
+            return;
+        }
+        if button == 2 {
+            if let Some(cur) = event.entity.data.get_mut(3) {
+                *cur = (*cur + 1).min(255);
+            }
+            return;
+        }
+        if button >= 100 {
+            if event.entity.data.len() < 6 {
+                event.entity.data.resize(6, 0);
+            }
+            event.entity.data[2] = button - 100 + 1;
+            event.entity.data[3] = 1;
+            return;
+        }
+
+        if button == 3 {
+            let xp_cost = event.entity.data.get(4).copied().unwrap_or(0);
+            let reagent_cost = event.entity.data.get(5).copied().unwrap_or(0);
+            if xp_cost < 1 {
+                return;
+            }
+            if !is_creative && xp.level < xp_cost {
+                return;
+            }
+            let Some(Some(slot0)) = event.entity.items.get(0).cloned() else {
+                return;
+            };
+            let reagent_ok = is_creative
+                || event
+                    .entity
+                    .items
+                    .get(1)
+                    .and_then(|s| s.as_ref())
+                    .is_some_and(|s| s.count() >= reagent_cost as u32);
+            if !reagent_ok {
+                return;
+            }
+
+            if !is_creative {
+                let _ = player.give_levels(host, -xp_cost);
+                if let Some(Some(reag)) = event.entity.items.get_mut(1) {
+                    if let Some(rem) = reag.clone().shrink(reagent_cost as u32) {
+                        *reag = rem;
+                    } else {
+                        event.entity.items[1] = None;
+                    }
+                }
+            }
+            event.entity.items[0] = Some(slot0);
+        }
+    }
 }
 
 pub fn register(r: &mut dyn Registrar) {
