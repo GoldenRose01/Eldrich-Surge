@@ -1,4 +1,8 @@
-use crate::{config::EldrichConfig, enchants};
+use crate::{
+    config::{EldrichConfig, LethalPoisonMode},
+    enchants,
+    enchlib_bridge::EnchLibState,
+};
 use mod_api::{
     ActiveEffect, AttackEntityEvent, EntityRef, EquipmentSlot, Flow, Host, LevelRandomHost,
     LivingIncomingDamageEvent, ServerHost, SweepAttackEvent,
@@ -22,6 +26,7 @@ impl CombatState {
         &self,
         _level: &mut dyn LevelRandomHost,
         event: &mut LivingIncomingDamageEvent<'_>,
+        config: &EldrichConfig,
     ) -> Flow {
         let original = event.container.new_damage();
         let cached = self
@@ -38,11 +43,6 @@ impl CombatState {
             if superweight > 0 {
                 damage *= 1.0 + superweight as f32 * 0.02;
                 damage += superweight as f32 * 2.0;
-            }
-
-            let blade = enchants::level_on_item(weapon, "blade_of_apocalypse");
-            if blade > 0 {
-                damage += blade as f32 * 2.5;
             }
 
             let gream = enchants::level_on_item(weapon, "gream_reaper");
@@ -65,7 +65,16 @@ impl CombatState {
             damage += c.extra_flat_bonus;
         }
 
-        // Apply armor reduction on non-melee hits too if needed
+        // Lethal poison mode check (allows poison damage to be lethal when configured)
+        let _poison_mode = config.lethal_poison_mode();
+        if matches!(
+            _poison_mode,
+            LethalPoisonMode::All | LethalPoisonMode::Player | LethalPoisonMode::Mob
+        ) && event.source.damage_type.contains("magic")
+        {
+            // Hook point ready for lethal poison tick scaling
+        }
+
         let _ = &mut multiplier;
 
         if (damage - original).abs() > f32::EPSILON {
@@ -125,6 +134,20 @@ impl CombatState {
             let missing = (1.0 - hp / max_hp).clamp(0.0, 1.0);
             extra_flat_bonus += payback as f32 * missing * missing * 6.0;
         }
+
+        let victim_id = victim_entity
+            .kind(host)
+            .map(|k| k.id(host))
+            .unwrap_or_default();
+        let is_creeper = victim_id == "minecraft:creeper";
+        let weapon_enchants = enchants::all_on_item(&weapon);
+        extra_flat_bonus += EnchLibState::mob_category_damage_bonus(
+            Some(host),
+            &victim_id,
+            is_creeper,
+            false,
+            &weapon_enchants,
+        );
 
         let is_hoe = weapon.item().id(host).ends_with("_hoe");
         self.pending_hits.lock().expect("combat lock").insert(

@@ -59,6 +59,20 @@ pub fn max_on_equipment(host: &dyn Host, living: LivingRef, id: &str) -> i32 {
     best
 }
 
+pub fn all_on_item(stack: &ItemStack) -> Vec<(String, i32)> {
+    let Some(components) = stack.components() else {
+        return Vec::new();
+    };
+    let patch = Compound::from(components);
+    let Some(Tag::Compound(ench_map)) = patch.get(&"minecraft:enchantments".into()) else {
+        return Vec::new();
+    };
+    ench_map
+        .iter()
+        .map(|(k, v)| (k.to_string_lossy(), tag_to_i32(v)))
+        .collect()
+}
+
 pub fn stored_enchantments(stack: &ItemStack) -> Vec<(String, i32)> {
     let Some(components) = stack.components() else {
         return Vec::new();

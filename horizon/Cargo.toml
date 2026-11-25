@@ -9,5 +9,7 @@ sdk = "2b77287de099c9316278ba7ac4d83590fdb7ef30"
 
 [dependencies]
 horizon-mod-api = { path = ".horizon/sdk/api/crates/horizon-mod-api" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
 
 [workspace]
