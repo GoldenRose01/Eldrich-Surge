@@ -1,0 +1,46 @@
+﻿{
+  "configVersion": 4,
+  "keepLoyaltyTridents": true,
+  "sweepingRequiresEnchantment": true,
+  "lethalPoison": "mob",
+  "enchantments": {
+    "eldrich-surge:bane_of_end": {
+      "enabled": true,
+      "anvilMaxLevel": 9,
+      "enchantingTableMaxLevel": 8,
+      "normalTable": true,
+      "advancedTable": true,
+      "loot": true,
+      "rarity": 60,
+      "rarityClass": "rare",
+      "normalTableChance": 60,
+      "advancedTableChance": 75,
+      "supportedItems": [
+        "#minecraft:enchantable/weapon"
+      ],
+      "incompatibleEnchantments": [
+        "eldrich-surge:katana"
+      ]
+    },
+    "minecraft:sharpness": {
+      "enabled": false,
+      "anvilMaxLevel": 10,
+      "enchantingTableMaxLevel": 10,
+      "normalTable": false,
+      "advancedTable": false,
+      "loot": false,
+      "rarity": 100,
+      "rarityClass": "common",
+      "normalTableChance": 100,
+      "advancedTableChance": 100,
+      "supportedItems": [
+        "sword",
+        "axe"
+      ],
+      "incompatibleEnchantments": [
+        "minecraft:smite",
+        "minecraft:bane_of_arthropods"
+      ]
+    }
+  }
+}

@@ -1,0 +1,21 @@
+﻿// EnchLib AviableEnch.json5 fixture (intentional upstream filename spelling)
+/* Multiline block comment:
+   verifies BOM + comment + trailing-comma stripping */
+[
+  {
+    "id": "eldrich-surge:bane_of_end",
+    "enabled": true, // inline trailing comma + comment
+  },
+  {
+    "id": "eldrich-surge:trench_spell",
+    "enabled": false,
+  },
+  {
+    "id": "minecraft:sharpness",
+    "enabled": false,
+  },
+  {
+    "id": "minecraft:mending",
+    "enabled": true,
+  }, // trailing comma on array element
+]

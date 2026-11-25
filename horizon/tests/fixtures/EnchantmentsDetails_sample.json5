@@ -1,0 +1,98 @@
+// Sample EnchantmentsDetails.json5 fixture for opaque-box EnchLib parsing
+{
+  "enchantments": [
+    {
+      "id": "eldrich-surge:bane_of_end",
+      /* Tests configured == 1 guard when definition max_level > 1 (7) */
+      "max_level": 1,
+      "enc_category": [
+        "#minecraft:enchantable/weapon",
+        "!wooden",
+      ],
+      "mob_category": [
+        "void",
+      ],
+      "rarity": "uncommon",
+      "incompatible_enchantments": [
+        "eldrich-surge:katana",
+      ],
+      "table_rules": {
+        "minecraft:enchanting_table": {
+          "enabled": true,
+          "chance": 80,
+        },
+        "eldrich-surge:advanced_enchanting_table": {
+          "enabled": true,
+          "chance": 100,
+        },
+      },
+      "preset_max_level": 7,
+      "preset_enc_category": [
+        "#minecraft:enchantable/weapon",
+      ],
+      "preset_rarity": "uncommon",
+      "villager_books": true,
+      "villager_items": false,
+    },
+    {
+      "id": "eldrich-surge:welding",
+      "max_level": 5,
+      "enc_category": [
+        "#minecraft:enchantable/durability",
+      ],
+      "mob_category": [],
+      "rarity": "very_rare",
+      "incompatible_enchantments": [],
+      "table_rules": {
+        "minecraft:enchanting_table": {
+          "enabled": false,
+          "chance": 0,
+        },
+        "eldrich-surge:advanced_enchanting_table": {
+          "enabled": true,
+          "chance": 25,
+        },
+      },
+      "preset_max_level": 5,
+      "preset_rarity": "very_rare",
+    },
+    {
+      "id": "eldrich-surge:trench_spell",
+      "max_level": 10,
+      "enc_category": [
+        "minecraft:book",
+      ],
+      "mob_category": [],
+      "rarity": "very_rare",
+      "incompatible_enchantments": [],
+      "table_rules": {
+        "minecraft:enchanting_table": {
+          "enabled": false,
+          "chance": 0,
+        },
+        "eldrich-surge:advanced_enchanting_table": {
+          "enabled": true,
+          "chance": 100,
+        },
+      },
+    },
+    {
+      "id": "minecraft:piercing",
+      "max_level": 10,
+      "enc_category": [
+        "crossbows",
+      ],
+      "mob_category": [],
+      "rarity": "rare",
+      "incompatible_enchantments": [
+        "minecraft:multishot",
+      ],
+      "table_rules": {
+        "minecraft:enchanting_table": {
+          "enabled": true,
+          "chance": 50,
+        },
+      },
+    },
+  ],
+}

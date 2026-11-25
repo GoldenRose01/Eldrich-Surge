@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "minecraftVersion": "26.3",
+  "mobs": [
+    {
+      "id": "dog",
+      "name": "Wolf (Legacy Alias Override)",
+      "type": "Neutral",
+      "tameable": true,
+      "rideable": false,
+      "breedable": true,
+      "categories": [
+        "animals",
+        "magik",
+        "cold"
+      ]
+    },
+    {
+      "id": "ghastling",
+      "name": "Happy Ghast",
+      "type": "Passive",
+      "tameable": false,
+      "rideable": true,
+      "breedable": false,
+      "categories": [
+        "animals",
+        "magik",
+        "hell",
+        "flying"
+      ]
+    },
+    {
+      "id": "ravanger",
+      "name": "Ravager (Legacy Typo Alias)",
+      "type": "Hostile",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "rebel",
+        "surface"
+      ]
+    },
+    {
+      "id": "wither boss",
+      "name": "Wither",
+      "type": "Hostile",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "undead",
+        "hell",
+        "flying",
+        "nether"
+      ]
+    },
+    {
+      "id": "zombified villager",
+      "name": "Zombie Villager",
+      "type": "Hostile",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "undead",
+        "surface"
+      ]
+    },
+    {
+      "id": "minecraft:creeper",
+      "name": "Creeper",
+      "type": "Hostile",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "fungi",
+        "arthropods",
+        "surface"
+      ]
+    },
+    {
+      "id": "testmod:void_beast",
+      "name": "Void Beast",
+      "type": "Hostile",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "void",
+        "end",
+        "nether"
+      ]
+    },
+    {
+      "id": "testmod:all_tag_probe",
+      "name": "All Wildcard Probe",
+      "type": "Passive",
+      "tameable": false,
+      "rideable": false,
+      "breedable": false,
+      "categories": [
+        "all"
+      ]
+    }
+  ]
+}

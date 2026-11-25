@@ -1,0 +1,11 @@
+// Deliberately malformed JSON5 fixture for negative error-handling verification
+{
+  "configVersion": 4,
+  "enchantments": {
+    "eldrich-surge:bane_of_end": {
+      "enabled": true,
+      "anvilMaxLevel": UNQUOTED_INVALID_NUMBER,
+      "table_rules": {
+        "minecraft:enchanting_table": {
+          "enabled": true
+    // intentionally unclosed braces and truncated stream
