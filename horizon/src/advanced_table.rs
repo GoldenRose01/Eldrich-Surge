@@ -4,10 +4,11 @@
 use crate::enchlib_bridge::{EnchLibState, RarityClass};
 use crate::spell_books;
 use mod_api::{
-    BlockDropsEvent, BlockEntityPart, BlockPart, ClientHost, EnchantmentLevelSetEvent, Flow,
-    HookId, Host, LevelHost, LevelRef, MenuButtonEvent, ModContainer, PlayerContainerCloseEvent,
-    PlayerContainerOpenEvent, PreRemoveSideEffectsEvent, PrepareItemEnchantEvent, Registrar,
-    Screen, ScreenClickEvent, ScreenDrawEvent, ScreenEvent, ScreenTooltipEvent, ServerHost,
+    BlockDropsEvent, BlockEntityPart, BlockPart, ClientHost, Compound, EnchantmentLevelSetEvent,
+    Flow, HookId, Host, Identifier, ItemStack, LevelHost, LevelRef, MenuButtonEvent, ModContainer,
+    PlayerContainerCloseEvent, PlayerContainerOpenEvent, PreRemoveSideEffectsEvent,
+    PrepareItemEnchantEvent, Registrar, Screen, ScreenClickEvent, ScreenDrawEvent, ScreenEvent,
+    ScreenTooltipEvent, ServerHost, Tag,
 };
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -407,6 +408,12 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
     fn screen_click(&self, _host: &dyn ClientHost, event: &mut ScreenClickEvent<'_>) -> Option<i32> {
         let [x, y] = event.at;
         if (112.0..=130.0).contains(&y) {
+            if (47.0..=67.0).contains(&x) {
+                return Some(4); // <
+            }
+            if (70.0..=90.0).contains(&x) {
+                return Some(5); // >
+            }
             if (96.0..=116.0).contains(&x) {
                 return Some(1); // -
             }
@@ -443,7 +450,21 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
             return;
         };
 
-        // Read/update target level in data[3] (1=decrement, 2=increment, >=100=select row)
+        // Read/update target level in data[3] (1=decrement, 2=increment, 4=prev page, 5=next page, >=100=select row)
+        if button == 4 {
+            if event.entity.data.len() < 7 {
+                event.entity.data.resize(7, 0);
+            }
+            event.entity.data[6] = (event.entity.data[6] - 4).max(0);
+            return;
+        }
+        if button == 5 {
+            if event.entity.data.len() < 7 {
+                event.entity.data.resize(7, 0);
+            }
+            event.entity.data[6] += 4;
+            return;
+        }
         if button == 1 {
             if let Some(cur) = event.entity.data.get_mut(3) {
                 *cur = (*cur - 1).max(1);
@@ -468,13 +489,14 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
         if button == 3 {
             let xp_cost = event.entity.data.get(4).copied().unwrap_or(0);
             let reagent_cost = event.entity.data.get(5).copied().unwrap_or(0);
+            let target_lvl = event.entity.data.get(3).copied().unwrap_or(1).max(1);
             if xp_cost < 1 {
                 return;
             }
             if !is_creative && xp.level < xp_cost {
                 return;
             }
-            let Some(Some(slot0)) = event.entity.items.get(0).cloned() else {
+            let Some(Some(mut slot0)) = event.entity.items.get(0).cloned() else {
                 return;
             };
             let reagent_ok = is_creative
@@ -487,6 +509,43 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
             if !reagent_ok {
                 return;
             }
+
+            let slot0_id = slot0.item().id(host);
+            let is_spell = event
+                .entity
+                .items
+                .get(1)
+                .and_then(|s| s.as_ref())
+                .is_some_and(|s| s.item().id(host) == "minecraft:echo_shard");
+
+            if slot0_id == "minecraft:book" {
+                let target_item = if is_spell {
+                    spell_books::SPELL_BOOK_ID
+                } else {
+                    "minecraft:enchanted_book"
+                };
+                if let Ok(ident) = Identifier::parse(target_item)
+                    && let Some(key) = host.item_key(&ident)
+                    && let Some(transmuted) = ItemStack::new(key, 1)
+                {
+                    slot0 = transmuted;
+                }
+            }
+
+            if is_spell {
+                spell_books::mark_spell_book_model(&mut slot0);
+            }
+
+            // Apply welding repair_cost = 0 if welding is present
+            let mut patch = slot0
+                .components()
+                .map(Compound::from)
+                .unwrap_or_else(Compound::new);
+            if crate::enchants::level_on_item(&slot0, "welding") > 0 {
+                patch.insert("minecraft:repair_cost".into(), Tag::Int(0));
+            }
+            let _ = target_lvl;
+            let _ = slot0.set_components(patch);
 
             if !is_creative {
                 let _ = player.give_levels(host, -xp_cost);
