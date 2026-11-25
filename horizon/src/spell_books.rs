@@ -3,8 +3,8 @@
 
 use crate::enchants;
 use mod_api::{
-    Compound, HostSide, InteractionResult, ItemPart, ItemStack, Registrar, ServerHost, SpawnReason,
-    Tag, UseItemEvent,
+    Compound, EquipmentSlot, Host, HostSide, InteractionResult, ItemPart, ItemStack, LivingRef,
+    Registrar, ServerHost, SpawnReason, Tag, UseItemEvent,
 };
 use std::collections::{HashSet, VecDeque};
 use std::sync::{Mutex, OnceLock};
@@ -170,6 +170,24 @@ pub fn on_server_stopping() {
     }
 }
 
+fn equip_mob(host: &mut dyn ServerHost, mob: LivingRef, prefix: &str) {
+    let slots = [
+        (EquipmentSlot::MainHand, format!("{prefix}_sword")),
+        (EquipmentSlot::Head, format!("{prefix}_helmet")),
+        (EquipmentSlot::Chest, format!("{prefix}_chestplate")),
+        (EquipmentSlot::Legs, format!("{prefix}_leggings")),
+        (EquipmentSlot::Feet, format!("{prefix}_boots")),
+    ];
+    for (slot, item_id) in slots {
+        if let Ok(ident) = mod_api::Identifier::parse(&item_id)
+            && let Some(key) = host.item_key(&ident)
+            && let Some(stack) = ItemStack::new(key, 1)
+        {
+            let _ = mob.set_equipment(host, slot, Some(stack));
+        }
+    }
+}
+
 fn execute_spell(
     host: &mut dyn ServerHost,
     spell_id: &str,
@@ -245,6 +263,9 @@ fn execute_spell(
                     SpawnReason::Triggered,
                 );
                 if let (Some(h), Some(r)) = (horse, rider) {
+                    if let Some(living) = host.living(r) {
+                        equip_mob(host, living, "minecraft:netherite");
+                    }
                     let _ = r.start_riding(host, h, true);
                 }
             }
@@ -263,6 +284,11 @@ fn execute_spell(
                     spawn_pos,
                     SpawnReason::Triggered,
                 );
+                if let Some(z) = zombie
+                    && let Some(living) = host.living(z)
+                {
+                    equip_mob(host, living, "minecraft:diamond");
+                }
                 if i % 5 == 0 {
                     let horse = level.spawn_mob(
                         host,
