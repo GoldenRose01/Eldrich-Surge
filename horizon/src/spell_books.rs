@@ -3,7 +3,7 @@
 
 use crate::enchants;
 use mod_api::{
-    Compound, EquipmentSlot, Host, HostSide, InteractionResult, ItemPart, ItemStack, LivingRef,
+    Compound, EquipmentSlot, HostSide, InteractionResult, ItemPart, ItemStack, LivingRef,
     Registrar, ServerHost, SpawnReason, Tag, UseItemEvent,
 };
 use std::collections::{HashSet, VecDeque};

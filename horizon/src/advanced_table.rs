@@ -4,9 +4,10 @@
 use crate::enchlib_bridge::{EnchLibState, RarityClass};
 use crate::spell_books;
 use mod_api::{
-    BlockDropsEvent, BlockEntityPart, BlockPart, EnchantmentLevelSetEvent, Flow, Host, LevelHost,
-    LevelRef, ModContainer, PlayerContainerCloseEvent, PlayerContainerOpenEvent,
-    PreRemoveSideEffectsEvent, PrepareItemEnchantEvent, Registrar, ServerHost,
+    BlockDropsEvent, BlockEntityPart, BlockPart, ClientHost, EnchantmentLevelSetEvent, Flow,
+    HookId, Host, LevelHost, LevelRef, MenuButtonEvent, ModContainer, PlayerContainerCloseEvent,
+    PlayerContainerOpenEvent, PreRemoveSideEffectsEvent, PrepareItemEnchantEvent, Registrar,
+    Screen, ScreenClickEvent, ScreenDrawEvent, ScreenEvent, ScreenTooltipEvent, ServerHost,
 };
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -326,7 +327,7 @@ pub fn is_offer_eligible(
 struct AdvancedTableBlockPart;
 
 impl BlockPart for AdvancedTableBlockPart {
-    fn block_subscribed(&self) -> &'static [Option<mod_api::HookId>] {
+    fn block_subscribed(&self) -> &'static [Option<HookId>] {
         &[]
     }
 }
@@ -334,14 +335,21 @@ impl BlockPart for AdvancedTableBlockPart {
 struct AdvancedTableBlockEntityPart;
 
 impl BlockPart for AdvancedTableBlockEntityPart {
-    fn block_subscribed(&self) -> &'static [Option<mod_api::HookId>] {
+    fn block_subscribed(&self) -> &'static [Option<HookId>] {
         &[]
     }
 }
 
 impl BlockEntityPart for AdvancedTableBlockEntityPart {
-    fn block_entity_subscribed(&self) -> &'static [Option<mod_api::HookId>] {
-        &[Some(mod_api::HookId::PreRemoveSideEffects)]
+    fn block_entity_subscribed(&self) -> &'static [Option<HookId>] {
+        &[
+            Some(HookId::PreRemoveSideEffects),
+            Some(HookId::Screen),
+            Some(HookId::ScreenDraw),
+            Some(HookId::ScreenClick),
+            Some(HookId::ScreenTooltip),
+            Some(HookId::MenuButton),
+        ]
     }
 
     fn pre_remove_side_effects(
@@ -352,6 +360,80 @@ impl BlockEntityPart for AdvancedTableBlockEntityPart {
         let pos = [event.pos.x, event.pos.y, event.pos.z];
         let _ = EnchantingReagentStorage::take("minecraft:overworld", pos);
     }
+
+    fn screen(&self, _host: &dyn Host, _event: &mut ScreenEvent<'_>) -> Option<Screen> {
+        Some(Screen {
+            width: 256.0,
+            height: 233.0,
+            slots: vec![Some([15.0, 40.0]), Some([15.0, 76.0])],
+            inventory_x: 47.0,
+            inventory_y: 153.0,
+            ..Default::default()
+        })
+    }
+
+    fn screen_draw(&self, _host: &dyn ClientHost, event: &mut ScreenDrawEvent<'_>) {
+        let ox = event.origin[0];
+        let oy = event.origin[1];
+        // Offer list box (46, 37) - (249, 111)
+        event.draw.fill([ox + 46.0, oy + 37.0, ox + 249.0, oy + 111.0], 0xff37313f);
+        // 4 visible offer rows
+        for row in 0..4 {
+            let ry = oy + 38.0 + (row as f32) * 18.0;
+            event.draw.fill([ox + 47.0, ry, ox + 248.0, ry + 17.0], 0xff5a5264);
+        }
+        // Control buttons: <, >, -, +, Enchant
+        event.draw.fill([ox + 47.0, oy + 112.0, ox + 67.0, oy + 130.0], 0xff8b8b8b);
+        event.draw.fill([ox + 70.0, oy + 112.0, ox + 90.0, oy + 130.0], 0xff8b8b8b);
+        event.draw.fill([ox + 96.0, oy + 112.0, ox + 116.0, oy + 130.0], 0xff8b8b8b);
+        event.draw.fill([ox + 139.0, oy + 112.0, ox + 159.0, oy + 130.0], 0xff8b8b8b);
+        event.draw.fill([ox + 165.0, oy + 112.0, ox + 248.0, oy + 130.0], 0xff4a7a4a);
+
+        let xp_cost = event.data.get(4).copied().unwrap_or(0);
+        let reagent_cost = event.data.get(5).copied().unwrap_or(0);
+        let has_ritual = event.data.get(1).copied().unwrap_or(0) != 0;
+
+        event.draw.text("<", [ox + 54.0, oy + 117.0], 0xffffffff, false);
+        event.draw.text(">", [ox + 77.0, oy + 117.0], 0xffffffff, false);
+        event.draw.text("-", [ox + 103.0, oy + 117.0], 0xffffffff, false);
+        event.draw.text("+", [ox + 146.0, oy + 117.0], 0xffffffff, false);
+        event.draw.text("Enchant", [ox + 184.0, oy + 117.0], 0xffffffff, false);
+        event.draw.text(&format!("{xp_cost} XP"), [ox + 8.0, oy + 105.0], 0xff80ff20, true);
+        event.draw.text(&format!("x{reagent_cost}"), [ox + 8.0, oy + 117.0], 0xffc080ff, true);
+        let ritual_label = if has_ritual { "Ritual: Active" } else { "Ritual: None (Lv1)" };
+        event.draw.text(ritual_label, [ox + 8.0, oy + 131.0], 0xff404040, false);
+    }
+
+    fn screen_click(&self, _host: &dyn ClientHost, event: &mut ScreenClickEvent<'_>) -> Option<i32> {
+        let [x, y] = event.at;
+        if (112.0..=130.0).contains(&y) {
+            if (96.0..=116.0).contains(&x) {
+                return Some(1); // -
+            }
+            if (139.0..=159.0).contains(&x) {
+                return Some(2); // +
+            }
+            if (165.0..=248.0).contains(&x) {
+                return Some(3); // Enchant
+            }
+        }
+        if (47.0..=248.0).contains(&x) && (38.0..=110.0).contains(&y) {
+            let row = ((y - 38.0) / 18.0).floor() as i32;
+            if (0..4).contains(&row) {
+                return Some(100 + row);
+            }
+        }
+        None
+    }
+
+    fn screen_tooltip(&self, _host: &dyn ClientHost, event: &mut ScreenTooltipEvent<'_>) {
+        let [x, y] = event.at;
+        if (165.0..=248.0).contains(&x) && (112.0..=130.0).contains(&y) {
+            event.lines.push("Infuse selected enchantment".to_owned());
+        }
+    }
+
+    fn menu_button(&self, _host: &mut dyn ServerHost, _event: &mut MenuButtonEvent<'_>) {}
 }
 
 pub fn register(r: &mut dyn Registrar) {
