@@ -2,7 +2,7 @@
 
 [Home](Home) · [Catalogo](Enchantments)
 
-Questa wiki documenta Eldrich Surge **1.8.0**, con JAR per **Minecraft 26.3 e 26.4 Snapshot 8**.
+Questa wiki documenta Eldritch Surge **2.0.0**, con JAR per **Minecraft 26.3 e 26.4 Snapshot 8**.
 
 ## Origine delle informazioni
 
@@ -16,7 +16,7 @@ Ogni scheda collega definizione Java e datapack. Le spiegazioni runtime integran
 
 ## Limiti noti
 
-I controlli completi sono passati su 26.3. Sullo snapshot 26.4 Snapshot 7 la compilazione è riuscita, ma manca la testa Bloody Mary per `minecraft:frostbite`. I nuovi pannelli dei dettagli richiedono ancora una verifica visiva in gioco.
+I controlli completi sono passati su 26.3. Sullo snapshot 26.4 Snapshot 8 la compilazione è riuscita. I pannelli dei dettagli sono stati verificati in gioco.
 
 Le pagine sono in italiano, con nomi e ID originali per facilitare ricerca e comandi. I collegamenti al sorgente puntano a `main` e possono evolvere dopo la pubblicazione.
 

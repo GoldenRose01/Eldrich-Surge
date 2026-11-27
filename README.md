@@ -2,61 +2,66 @@
 
 📚 **[Wiki completa](https://github.com/GoldenRose01/Eldrich-Surge/wiki)** — catalogo degli incantamenti, regole, tavolo avanzato, fusioni e configurazione.
 
+> **Prima release pubblica — 2.0.0**  
+> Eldritch Surge è stato sviluppato e testato internamente fino alla versione 1.9.1.1. Questa è la prima distribuzione ufficiale per la comunità.
+
 **A Fabric enchantment overhaul for Minecraft 26.3 & 26.4 Snapshot 8**
 
-Eldritch Surge expands enchantment progression and combat with **119 custom enchantments**, new enchantment groups, an Advanced Enchanting Table, Spell Books, special anvil recipes, persistent table reagent storage, and world-specific configuration.
+Eldritch Surge espande la progressione degli incantamenti e il combattimento con **119 incantamenti personalizzati**, nuovi gruppi di incantamento, un Tavolo degli Incantamenti Avanzato, Libri Magici per rituali, fusioni speciali all'incudine, persistenza dei reagenti e regole di mondo configurabili.
 
-## Features
+## Caratteristiche
 
-- 119 custom enchantments with defined levels, item categories, acquisition routes and rarity classes.
-- Enchantment effects for combat, mining, armor, movement, loot, curses, blessings and spell casting.
-- An Advanced Enchanting Table with separate progression, persistent reagent storage (safely dropped upon block break), XP costs scaling by rarity class, and a required block formation for higher tiers.
-- Spell Books as a distinct item type for cast-spell enchantments.
-- Special anvil transformations, including the component enchantment combinations for Blade of Apocalypse and Star Fate, plus Katana to Gream Reaper.
-- Full gamerule and command management via `/eldrich <setting> <on/off>` (and `/eldritch`) for `keepLoyaltyTridents`, `sweepingRequiresEnchantment`, and `lethalPoison` (`player`, `mob`, `all`, `off`).
-- Safe Soulbond retention across respawns when `keepInventory` is false.
-- Optional EnchLib integration for editable mob categories, enchantment metadata, rarity and compatibility rules. EnchLib remains a separate mod and is not bundled in the Eldritch Surge jar.
-- World-specific enchantment rules, with server-to-client synchronization. Operators with permission level 2 or higher can change these rules.
+- **119 incantamenti personalizzati** con livelli definiti, categorie di oggetti, percorsi di ottenimento e classi di rarità.
+- Effetti per combattimento, estrazione, armatura, movimento, bottino, maledizioni, benedizioni e lancio di incantesimi.
+- **Tavolo degli Incantamenti Avanzato** con progressione separata, persistenza dei reagenti su NBT (rilascio sicuro alla rottura), costi XP scalati per rarità e formazione 5×5 richiesta per i livelli superiori.
+- **Libri Magici** come tipo di oggetto distinto per incantamenti da lancio: Cocktail Spell, Ragnarok, Red Moon, Storm Spell e Trench Spell.
+- **Fusioni speciali all'incudine**: Blade of Apocalypse (5 componenti), Star Fate (5 componenti), Gream Reaper (Katana + Stella del Nether) e DeathBreak (Unbreaking III × 2).
+- Comandi e gamerule unificati tramite `/eldrich <setting> <on/off>` (alias `/eldritch`): `keepLoyaltyTridents`, `sweepingRequiresEnchantment`, `lethalPoison`.
+- Conservazione sicura degli oggetti con **Soulbond** al respawn anche con `keepInventory = false`.
+- Integrazione opzionale con **EnchLib** per categorie di mob, metadata degli incantamenti e regole di compatibilità. EnchLib è una mod separata e non è inclusa nel JAR.
+- **Configurazione per mondo**: ogni salvataggio mantiene le proprie regole. Il server sincronizza le impostazioni attive ai client. Modifiche richiedono livello operatore 2+.
 
-## Compatibility
+## Compatibilità
 
-| Component | Version / status |
+| Componente | Versione / stato |
 |---|---|
 | Minecraft | 26.3 · 26.4 Snapshot 8 |
-| Mod | 1.8.0 |
+| Mod | 2.0.0 |
 | Mod loader | Fabric |
-| Fabric API | Required (`0.161.0+26.3` / `0.166.2+26.4`) |
-| EnchLib | Optional; separate project and jar |
-| Mod Menu + Cloth Config or YACL | Optional; either library enables the in-game config screen; choose when both are installed |
+| Fabric API | Richiesta (`0.161.0+26.3` / `0.166.2+26.4`) |
+| Fabric Language Kotlin | Richiesta (`1.13.12+kotlin.2.4.0`) |
+| EnchLib | Opzionale; progetto e JAR separati |
+| Mod Menu + Cloth Config o YACL | Opzionale; almeno uno abilita la schermata di configurazione in gioco |
 
-## Install
+## Installazione
 
-1. Install Fabric Loader for Minecraft 26.3 or 26.4 Snapshot 8.
-2. Add Fabric API, Fabric Language Kotlin and the Eldritch Surge jar to the `mods` folder.
-3. Add EnchLib separately if you want its mob-category and enchantment configuration integration.
+1. Installa **Fabric Loader** per Minecraft 26.3 o 26.4 Snapshot 8 (Java 25 richiesto).
+2. Aggiungi **Fabric API**, **Fabric Language Kotlin** e il JAR di Eldritch Surge nella cartella `mods`.
+3. (Opzionale) Aggiungi **Mod Menu** + **Cloth Config** o **YACL** per la schermata di configurazione in gioco.
+4. (Opzionale) Installa **EnchLib** separatamente per le integrazioni estese.
 
-The release build jars are stored under [`Jar/`](Jar/):
-- `eldrich-surge-26.3+-1.8.0.jar`
-- `eldrich-surge-26.4-snapshot-8+-1.8.0.jar`
+I JAR di rilascio sono disponibili nella cartella [`Jar/`](Jar/) e sul repository GitHub:
+- `eldrich-surge-26.3+-2.0.0.jar`
+- `eldrich-surge-26.4-snapshot-8+-2.0.0.jar`
 
-## Enchantment list and compatibility
+## Catalogo e documentazione
 
-See the [enchantment index](docs/wiki/Enchantments.md) for every registered enchantment, its maximum level, rarity/classification, supported item category, default source and declared exclusive set. Special component recipes and vanilla replacements are listed there too.
+Il catalogo completo dei 119 incantamenti è disponibile nella [wiki](docs/wiki/Enchantments.md). Ogni incantamento ha una scheda dedicata con effetto, livello massimo, oggetti supportati, ottenimento e incompatibilità.
 
-The [wiki home](docs/wiki/Home.md) links to configuration and gameplay documentation.
+La [home della wiki](docs/wiki/Home.md) contiene guide alla configurazione, al tavolo avanzato, ai rituali e alle fusioni.
 
-## World configuration
+## Configurazione del mondo
 
-Global defaults are stored in `config/eldrich-surge/enchantment_caps.json`. Each save stores its overrides in `eldrich-surge/enchantment_caps.json` within the world directory. The server sends the active snapshot to clients and accepts changes only from operators at permission level 2 or above. See [World configuration](docs/wiki/Configuration.md).
+I preset globali sono in `config/eldrich-surge/enchantment_caps.json`. Ogni salvataggio mantiene le proprie override in `eldrich-surge/enchantment_caps.json` nella directory del mondo. Il server invia lo snapshot attivo ai client e accetta modifiche solo da operatori con livello 2+. Vedi [Configurazione](docs/wiki/Configuration.md).
 
-## Development
+## Sviluppo
 
-Project architecture and mechanics context are detailed in [`project_context/context.md`](project_context/context.md).
+L'architettura del progetto e il contesto delle meccaniche sono dettagliati in [`project_context/context.md`](project_context/context.md).
 
-Standalone regression checks are registered centrally in `gradle/verification.gradle.kts`; add a task name and entry point there to include a new check in `gradlew check`.
+Le verifiche standalone sono registrate centralmente in `gradle/verification.gradle.kts`; aggiungi un task name e un entry point per includere un nuovo controllo in `gradlew check`.
 
-Build with `gradlew build`. EnchLib is loaded as an optional separate runtime dependency when its jar is available in the configured sibling project; it is never shaded into Eldritch Surge.
+Build con `gradlew build`. EnchLib è caricato come dipendenza runtime separata opzionale quando il suo JAR è disponibile nel progetto sibling configurato; non è mai incorporato in Eldritch Surge.
 
-## License
+## Licenza
 
 MIT.

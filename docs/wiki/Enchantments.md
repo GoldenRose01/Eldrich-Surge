@@ -1,6 +1,6 @@
 # 📖 Catalogo degli incantamenti
 
-**122 incantamenti · valori del sorgente corrente · Minecraft 26.3**
+**119 incantamenti · valori del sorgente corrente · Minecraft 26.3 / 26.4 Snapshot 8**
 
 [Home](Home) · [Per oggetto](Per-oggetto) · [Compatibilità](Compatibilita) · [Ottenimento](Ottenimento)
 

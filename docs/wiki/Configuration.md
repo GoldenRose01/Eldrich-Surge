@@ -23,7 +23,7 @@ La configurazione globale prepara i predefiniti; il file del mondo conserva le s
 
 ## Permessi
 
-Le richieste di modifica delle impostazioni del mondo richiedono `COMMANDS_GAMEMASTER`, normalmente **operatore di livello 2 o superiore**. Il server controlla i permessi anche se il client invia direttamente una richiesta. Il comando `/surge` ha un registrar distinto: vedi la sua pagina per il comportamento attuale.
+Le richieste di modifica delle impostazioni del mondo richiedono `COMMANDS_GAMEMASTER`, normalmente **operatore di livello 2 o superiore**. Il server controlla i permessi anche se il client invia direttamente una richiesta. Il comando deprecato `/surge` è stato rimosso; usa `/eldrich` o `/eldritch`.
 
 ## Editor in gioco
 

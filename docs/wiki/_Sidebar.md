@@ -1,7 +1,8 @@
 ### Eldrich Surge
 
 - [🏠 Home](Home)
-- [🆕 Versione 1.8.0](Versione-1.8.0)
+- [🆕 Versione 2.0.0](Versione-2.0.0)
+- [Versione 1.8.0](Versione-1.8.0)
 - [Versione 1.7.1](Versione-1.7.1)
 - [Versione 1.7.0](Versione-1.7.0)
 - [📖 Catalogo](Enchantments)
