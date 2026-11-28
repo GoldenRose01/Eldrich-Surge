@@ -5,7 +5,7 @@
 > **Prima release pubblica — 2.0.0**  
 > Eldritch Surge è stato sviluppato e testato internamente fino alla versione 1.9.1.1. Questa è la prima distribuzione ufficiale per la comunità.
 
-**A Fabric enchantment overhaul for Minecraft 26.3 & 26.4 Snapshot 8**
+**A Fabric enchantment overhaul for Minecraft 26.3**
 
 Eldritch Surge espande la progressione degli incantamenti e il combattimento con **119 incantamenti personalizzati**, nuovi gruppi di incantamento, un Tavolo degli Incantamenti Avanzato, Libri Magici per rituali, fusioni speciali all'incudine, persistenza dei reagenti e regole di mondo configurabili.
 
@@ -25,7 +25,7 @@ Eldritch Surge espande la progressione degli incantamenti e il combattimento con
 
 | Componente | Versione / stato |
 |---|---|
-| Minecraft | 26.3 · 26.4 Snapshot 8 |
+| Minecraft | 26.3 |
 | Mod | 2.0.0 |
 | Mod loader | Fabric |
 | Fabric API | Richiesta (`0.161.0+26.3` / `0.166.2+26.4`) |
@@ -35,14 +35,13 @@ Eldritch Surge espande la progressione degli incantamenti e il combattimento con
 
 ## Installazione
 
-1. Installa **Fabric Loader** per Minecraft 26.3 o 26.4 Snapshot 8 (Java 25 richiesto).
+1. Installa **Fabric Loader** per Minecraft 26.3 (Java 25 richiesto).
 2. Aggiungi **Fabric API**, **Fabric Language Kotlin** e il JAR di Eldritch Surge nella cartella `mods`.
 3. (Opzionale) Aggiungi **Mod Menu** + **Cloth Config** o **YACL** per la schermata di configurazione in gioco.
 4. (Opzionale) Installa **EnchLib** separatamente per le integrazioni estese.
 
 I JAR di rilascio sono disponibili nella cartella [`Jar/`](Jar/) e sul repository GitHub:
 - `eldrich-surge-26.3+-2.0.0.jar`
-- `eldrich-surge-26.4-snapshot-8+-2.0.0.jar`
 
 ## Catalogo e documentazione
 
